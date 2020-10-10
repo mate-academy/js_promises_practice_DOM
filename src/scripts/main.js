@@ -39,10 +39,10 @@ const promise2 = secondPromise();
 promise2
   .then(result => console.log(result));
 
-function createEventPromise(handler) {
+function createEventPromise(eventName) {
   const resolver = (resolve, reject) => {
-    body.addEventListener(handler, () => {
-      resolve(handler);
+    body.addEventListener(eventName, () => {
+      resolve(eventName);
     });
   };
 
