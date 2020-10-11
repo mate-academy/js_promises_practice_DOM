@@ -39,18 +39,31 @@ const promise2 = secondPromise();
 promise2
   .then(result => console.log(result));
 
-function createEventPromise(eventName) {
+function thirdPromise() {
   const resolver = (resolve, reject) => {
-    body.addEventListener(eventName, () => {
-      resolve(eventName);
+    const eventChecking = [];
+
+    body.addEventListener('click', () => {
+      eventChecking.push('left');
+
+      if (eventChecking.length === 2) {
+        resolve('Left and Right was clicked');
+      }
+    });
+
+    body.addEventListener('contextmenu', () => {
+      eventChecking.push('right');
+
+      if (eventChecking.length === 2) {
+        resolve('Left and Right was clicked');
+      }
     });
   };
 
   return new Promise(resolver);
 }
 
-const promise3 = createEventPromise('click');
-const promise4 = createEventPromise('contextmenu');
+const promise3 = thirdPromise();
 
-Promise.all([promise3, promise4])
-  .then(() => console.log('Left and Right clicks'));
+promise3
+  .then(result => console.log(result));
