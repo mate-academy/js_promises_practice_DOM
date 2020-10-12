@@ -41,20 +41,28 @@ promise2
 
 function thirdPromise() {
   const resolver = (resolve, reject) => {
-    const eventChecking = [];
+    const eventChecking = ['click', 'contextmenu'];
 
     body.addEventListener('click', () => {
-      eventChecking.push('left');
+      const clickIndex = eventChecking.indexOf('click');
 
-      if (eventChecking.length === 2) {
+      clickIndex >= 0
+        ? eventChecking.splice(clickIndex, 1)
+        : eventChecking.splice(0, 0);
+
+      if (eventChecking.length === 0) {
         resolve('Left and Right was clicked');
       }
     });
 
     body.addEventListener('contextmenu', () => {
-      eventChecking.push('right');
+      const contextmenuIndex = eventChecking.indexOf('contextmenu');
 
-      if (eventChecking.length === 2) {
+      contextmenuIndex >= 0
+        ? eventChecking.splice(contextmenuIndex, 1)
+        : eventChecking.splice(0, 0);
+
+      if (eventChecking.length === 0) {
         resolve('Left and Right was clicked');
       }
     });
