@@ -1,4 +1,8 @@
+/* eslint-disable no-console */
 'use strict';
+
+const twoClicks = ['click', 'contextmenu'];
+let waitForClick;
 
 function createPromise1() {
   const resolver = (resolve, reject) => {
@@ -12,20 +16,20 @@ function createPromise1() {
 }
 
 createPromise1().then(result => {
-  // eslint-disable-next-line no-console
   console.log(result);
 }).catch(error => {
-  // eslint-disable-next-line no-console
   console.error(error);
 });
 
 function createPromise2() {
   const resolver = (resolve) => {
     document.addEventListener('click', () => {
+      waitForClick = 'click';
       resolve('the promise2 works');
     });
 
     document.addEventListener('contextmenu', () => {
+      waitForClick = 'contextmenu';
       resolve('the promise2 works');
     });
   };
@@ -34,24 +38,30 @@ function createPromise2() {
 }
 
 createPromise2().then(result => {
-  // eslint-disable-next-line no-console
   console.log(result);
 });
 
-function waitFor(button) {
-  return new Promise(resolve => {
-    document.addEventListener(button, () => {
-      resolve();
+function createPromise3() {
+  const resolver = (resolve) => {
+    document.addEventListener('mousedown', () => {
+      if (waitForClick === 'click') {
+        twoClicks.shift();
+      }
+
+      if (waitForClick === 'contextmenu') {
+        twoClicks.pop();
+      }
+
+      if (twoClicks.length === 1) {
+        resolve('Left and Right click occurred');
+      }
     });
-  });
+  };
+
+  return new Promise(resolver);
 }
 
-const leftClick = 'click';
-const rightClick = 'contextmenu';
-const promise3 = waitFor(leftClick);
-const forPromise3 = waitFor(rightClick);
-
-promise3
-  .then(() => forPromise3)
-  // eslint-disable-next-line no-console
-  .then(() => console.log('Left and Right click occurred'));
+createPromise3()
+  .then(result => {
+    console.log(result);
+  });
