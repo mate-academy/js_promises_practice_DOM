@@ -1,9 +1,6 @@
 /* eslint-disable no-console */
 'use strict';
 
-const twoClicks = ['click', 'contextmenu'];
-let waitForClick;
-
 function createPromise1() {
   const resolver = (resolve, reject) => {
     document.addEventListener('click', () => {
@@ -15,21 +12,20 @@ function createPromise1() {
   return new Promise(resolver);
 }
 
-createPromise1().then(result => {
-  console.log(result);
-}).catch(error => {
-  console.error(error);
-});
+createPromise1()
+  .then(result => {
+    console.log(result);
+  }).catch(error => {
+    console.error(error);
+  });
 
 function createPromise2() {
   const resolver = (resolve) => {
     document.addEventListener('click', () => {
-      waitForClick = 'click';
       resolve('the promise2 works');
     });
 
     document.addEventListener('contextmenu', () => {
-      waitForClick = 'contextmenu';
       resolve('the promise2 works');
     });
   };
@@ -37,22 +33,18 @@ function createPromise2() {
   return new Promise(resolver);
 }
 
-createPromise2().then(result => {
-  console.log(result);
-});
+createPromise2()
+  .then(result => {
+    console.log(result);
+  });
 
 function createPromise3() {
+  let twoClicks = [0, 2];
   const resolver = (resolve) => {
-    document.addEventListener('mousedown', () => {
-      if (waitForClick === 'click') {
-        twoClicks.shift();
-      }
+    document.addEventListener('mousedown', (event) => {
+      twoClicks = twoClicks.filter((click) => click !== event.button);
 
-      if (waitForClick === 'contextmenu') {
-        twoClicks.pop();
-      }
-
-      if (twoClicks.length === 1) {
+      if (twoClicks.length === 0) {
         resolve('Left and Right click occurred');
       }
     });
