@@ -55,7 +55,7 @@ const promise2 = new Promise((resolve, reject) => {
   document.addEventListener('mousedown', (event) => {
     checkedClik(event.which);
 
-    if (event.which === 1 || event.which === 3) {
+    if (event.which === LEFT_CLICK || event.which === RIGTH_CLICK) {
       resolve(successMessage('Second'));
     }
 
