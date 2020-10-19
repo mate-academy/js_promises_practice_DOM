@@ -3,7 +3,7 @@ body {
   font-family: Roboto, sans-serif;
   margin: 0;
 
-  display: flex;
+  display: grid;
   align-items: center;
   justify-content: center;
 
@@ -21,4 +21,23 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+div {
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.message {
+  display: grid;
+  color: #350808;
+  border-radius: 20px;
+  background: #9c446266;
+  box-shadow: 2px 3px rgb(78, 69, 69);
+  height: 50%;
+  width: 100%;
+  transform: translateY(-150px);
+  margin: 5px;
 }
