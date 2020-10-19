@@ -4,20 +4,17 @@
 const LEFT_CLICK = 1;
 const RIGTH_CLICK = 3;
 
-let leftMouseClicked = false;
-let rigthMouseClocked = false;
-
 const addMessage = (message) => {
   document.querySelector('.message').innerHTML += message;
 };
 
-const checkedClik = (which) => {
+const checkedClik = (which, click) => {
   switch (which) {
     case LEFT_CLICK:
-      leftMouseClicked = true;
+      click.left = true;
       break;
     case RIGTH_CLICK:
-      rigthMouseClocked = true;
+      click.rigth = true;
       break;
     default:
       break;
@@ -43,7 +40,6 @@ const successMessage = (name) => {
 const promise1 = new Promise((resolve, reject) => {
   document.addEventListener('mousedown', (event) => {
     resolve(successMessage('First'));
-    checkedClik(event.which);
   });
 
   setTimeout(() => {
@@ -53,8 +49,6 @@ const promise1 = new Promise((resolve, reject) => {
 
 const promise2 = new Promise((resolve, reject) => {
   document.addEventListener('mousedown', (event) => {
-    checkedClik(event.which);
-
     if (event.which === LEFT_CLICK || event.which === RIGTH_CLICK) {
       resolve(successMessage('Second'));
     }
@@ -66,8 +60,15 @@ const promise2 = new Promise((resolve, reject) => {
 });
 
 const promise3 = new Promise((resolve, reject) => {
-  document.addEventListener('mousedown', () => {
-    if (leftMouseClicked && rigthMouseClocked) {
+  const clickMouse = {
+    left: false,
+    rigth: false,
+  };
+
+  document.addEventListener('mousedown', (event) => {
+    checkedClik(event.which, clickMouse);
+
+    if (clickMouse.left && clickMouse.rigth) {
       resolve(successMessage('Thrid'));
     }
 
