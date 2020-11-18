@@ -1,7 +1,7 @@
 'use strict';
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.onclick = () => resolve('First resolved!');
+  document.addEventListener('click', () => resolve('First resolved!'));
   setTimeout(() => reject(new Error('First rejected!')), 5000);
 });
 
