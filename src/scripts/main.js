@@ -12,20 +12,25 @@ const secondPromise = new Promise((resolve, reject) => {
   document.addEventListener('contextmenu', () =>
     resolve('Second resolved!'));
 });
-const leftButtonPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', () => resolve());
-});
-
-const rightButtonPromise = new Promise((resolve, reject) => {
-  document.addEventListener('contextmenu', () => resolve());
-});
 
 const thirdPromise = new Promise((resolve, reject) => {
-  leftButtonPromise
-    .then(() => rightButtonPromise)
-    .then(() => {
-      resolve('Third promise resolved');
-    });
+  let events = ['click', 'contextmenu'];
+
+  document.addEventListener('contextmenu', (event) => {
+    events = events.filter((e) => e !== event.type);
+
+    if (events.length === 0) {
+      resolve('third resolved');
+    }
+  });
+
+  document.addEventListener('click', (event) => {
+    events = events.filter((e) => e !== event.type);
+
+    if (events.length === 0) {
+      resolve('Third resolved');
+    }
+  });
 });
 /* eslint-disable no-console */
 
@@ -35,4 +40,5 @@ firstPromise
 
 secondPromise
   .then(result => console.log(result));
+
 thirdPromise.then(result => console.log(result));
