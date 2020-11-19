@@ -53,12 +53,6 @@
       cy.get('.message').contains('Third promise was resolved').should('exist');
    });
 
-    it('resolve third promise', function () {
-      cy.get('body').click({force:true});
-      cy.get('body').rightclick({force:true});
-      cy.get('.message').contains('Third promise was resolved');
-   });
-
     it('resolve all promises', function () {
       cy.get('body').click({force:true});
       cy.get('body').rightclick({force:true});
