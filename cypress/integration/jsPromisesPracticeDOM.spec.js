@@ -1,8 +1,8 @@
 'use strict';
 
-  describe('Test', () => {
-    beforeEach(() => {
-      cy.visit('http://localhost:8080/')
+  describe('promises in DOM', () => {
+    beforeEach('open site',() => {
+      cy.visit('/')
     });
 
 
