@@ -6,15 +6,15 @@ Cypress.Commands.add('clickButton',
       .trigger('mouseup');
   });
 
-Cypress.Commands.add('checkPromise',
+Cypress.Commands.add('checkPromiseExists',
   (promise) => {
     cy.get('[data-qa="notification"]').contains(promise);
   });
 
-const fPromRes = 'First promise was resolved';
-const fPromRej = 'First promise was rejected';
-const sPromRes = 'Second promise was resolved';
-const thPromRes = 'Third promise was resolved';
+const firstResolvedMsg = 'First promise was resolved';
+const firstRejectedMsg = 'First promise was rejected';
+const secondResolvedMsg = 'Second promise was resolved';
+const thirdResolvedMsg = 'Third promise was resolved';
 
 describe('Promises in DOM', () => {
   beforeEach(() => {
@@ -23,58 +23,58 @@ describe('Promises in DOM', () => {
 
   it('should resolve first promise left click', function() {
     cy.clickButton({ button: 0 });
-    cy.checkPromise(fPromRes);
+    cy.checkPromiseExists(firstResolvedMsg);
     // NOTE: waiting for reject
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(3000);
-    cy.checkPromise(fPromRej).should('not.exist');
+    cy.checkPromiseExists(firstRejectedMsg).should('not.exist');
   });
 
   it('should resolve first promise right click', function() {
     cy.clickButton({ button: 2 });
-    cy.checkPromise(fPromRes);
+    cy.checkPromiseExists(firstResolvedMsg);
   });
 
   it('should resolve first promise middle button click', function() {
     cy.clickButton({ button: 1 });
-    cy.checkPromise(fPromRes);
+    cy.checkPromiseExists(firstResolvedMsg);
   });
 
   it('should ignore middle button click for the second promise', function() {
     cy.clickButton({ button: 1 });
     cy.clickButton({ button: 1 });
-    cy.checkPromise(sPromRes).should('not.exist');
+    cy.checkPromiseExists(secondResolvedMsg).should('not.exist');
   });
 
   it('should reject first promise after 3 seconds of inactivity', function() {
     // NOTE: waiting for reject
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(3000);
-    cy.checkPromise(fPromRej);
+    cy.checkPromiseExists(firstRejectedMsg);
   });
 
   it('should resolve second promise on right click', function() {
     cy.clickButton({ button: 2 });
-    cy.checkPromise(sPromRes);
+    cy.checkPromiseExists(secondResolvedMsg);
   });
 
   it('should resolve second promise on left click', function() {
     cy.clickButton({ button: 0 });
-    cy.checkPromise(sPromRes);
+    cy.checkPromiseExists(secondResolvedMsg);
   });
 
   it('should resolve third promise', function() {
     cy.clickButton({ button: 2 });
     cy.clickButton({ button: 0 });
-    cy.checkPromise(thPromRes);
+    cy.checkPromiseExists(thirdResolvedMsg);
   });
 
   it('should resolve all promises', function() {
     cy.clickButton({ button: 2 });
     cy.clickButton({ button: 0 });
-    cy.checkPromise(fPromRes);
-    cy.checkPromise(sPromRes);
-    cy.checkPromise(thPromRes);
+    cy.checkPromiseExists(firstResolvedMsg);
+    cy.checkPromiseExists(secondResolvedMsg);
+    cy.checkPromiseExists(thirdResolvedMsg);
   });
 
   it('should reject 1st promise, resolve 2nd and 3rd promises', function() {
@@ -83,8 +83,8 @@ describe('Promises in DOM', () => {
     cy.wait(3000);
     cy.clickButton({ button: 0 });
     cy.clickButton({ button: 2 });
-    cy.checkPromise(fPromRej);
-    cy.checkPromise(sPromRes);
-    cy.checkPromise(thPromRes);
+    cy.checkPromiseExists(firstRejectedMsg);
+    cy.checkPromiseExists(secondResolvedMsg);
+    cy.checkPromiseExists(thirdResolvedMsg);
   });
 });
