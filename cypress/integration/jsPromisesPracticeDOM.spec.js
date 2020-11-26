@@ -46,7 +46,7 @@ describe('Promises in DOM', () => {
     cy.checkPromise(sPromRes).should('not.exist');
   });
 
-  it('should reject first promise ', function() {
+  it('should reject first promise after 3 seconds of inactivity', function() {
     // NOTE: waiting for reject
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(3000);
