@@ -1,12 +1,12 @@
 'use strict';
 
-Cypress.Commands.add('buttonClick',
+Cypress.Commands.add('clickButton',
   (mouseButton) => {
     cy.get('body').trigger('mousedown', mouseButton)
       .trigger('mouseup');
   });
 
-Cypress.Commands.add('checkProm',
+Cypress.Commands.add('checkPromise',
   (promise) => {
     cy.get('[data-qa="notification"]').contains(promise);
   });
@@ -22,69 +22,69 @@ describe('promises in DOM', () => {
   });
 
   it('should resolve first promise left click', function() {
-    cy.buttonClick({ button: 0 });
-    cy.checkProm(fPromRes);
-    //NOTE: waiting for reject
+    cy.clickButton({ button: 0 });
+    cy.checkPromise(fPromRes);
+    // NOTE: waiting for reject
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(3000);
-    cy.checkProm(fPromRej).should('not.exist');
+    cy.checkPromise(fPromRej).should('not.exist');
   });
 
   it('should resolve first promise right click', function() {
-    cy.buttonClick({ button: 2 });
-    cy.checkProm(fPromRes);
+    cy.clickButton({ button: 2 });
+    cy.checkPromise(fPromRes);
   });
 
   it('should resolve first promise middle button click', function() {
-    cy.buttonClick({ button: 1 });
-    cy.checkProm(fPromRes);
+    cy.clickButton({ button: 1 });
+    cy.checkPromise(fPromRes);
   });
 
   it('should ignore middle button click for the second promise', function() {
-    cy.buttonClick({ button: 1 });
-    cy.buttonClick({ button: 1 });
-    cy.checkProm(sPromRes).should('not.exist');
+    cy.clickButton({ button: 1 });
+    cy.clickButton({ button: 1 });
+    cy.checkPromise(sPromRes).should('not.exist');
   });
 
   it('should reject first promise ', function() {
     // NOTE: waiting for reject
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(3000);
-    cy.checkProm(fPromRej);
+    cy.checkPromise(fPromRej);
   });
 
   it('should resolve second promise right click', function() {
-    cy.buttonClick({ button: 2 });
-    cy.checkProm(sPromRes);
+    cy.clickButton({ button: 2 });
+    cy.checkPromise(sPromRes);
   });
 
   it('should resolve second promise left click', function() {
-    cy.buttonClick({ button: 0 });
-    cy.checkProm(sPromRes);
+    cy.clickButton({ button: 0 });
+    cy.checkPromise(sPromRes);
   });
 
   it('should resolve third promise', function() {
-    cy.buttonClick({ button: 2 });
-    cy.buttonClick({ button: 0 });
-    cy.checkProm(thPromRes);
+    cy.clickButton({ button: 2 });
+    cy.clickButton({ button: 0 });
+    cy.checkPromise(thPromRes);
   });
 
   it('should resolve all promises', function() {
-    cy.buttonClick({ button: 2 });
-    cy.buttonClick({ button: 0 });
-    cy.checkProm(fPromRes);
-    cy.checkProm(sPromRes);
-    cy.checkProm(thPromRes);
+    cy.clickButton({ button: 2 });
+    cy.clickButton({ button: 0 });
+    cy.checkPromise(fPromRes);
+    cy.checkPromise(sPromRes);
+    cy.checkPromise(thPromRes);
   });
 
   it('should reject 1st promise, resolve 2nd and 3rd promises', function() {
     // NOTE: waiting for reject
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(3000);
-    cy.buttonClick({ button: 0 });
-    cy.buttonClick({ button: 2 });
-    cy.checkProm(fPromRej);
-    cy.checkProm(sPromRes);
-    cy.checkProm(thPromRes);
+    cy.clickButton({ button: 0 });
+    cy.clickButton({ button: 2 });
+    cy.checkPromise(fPromRej);
+    cy.checkPromise(sPromRes);
+    cy.checkPromise(thPromRes);
   });
 });
