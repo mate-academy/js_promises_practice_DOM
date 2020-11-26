@@ -58,7 +58,7 @@ describe('Promises in DOM', () => {
     cy.checkPromise(sPromRes);
   });
 
-  it('should resolve second promise left click', function() {
+  it('should resolve second promise on left click', function() {
     cy.clickButton({ button: 0 });
     cy.checkPromise(sPromRes);
   });
