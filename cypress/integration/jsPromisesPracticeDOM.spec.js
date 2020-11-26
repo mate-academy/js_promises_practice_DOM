@@ -16,8 +16,8 @@ const fPromRej = 'First promise was rejected';
 const sPromRes = 'Second promise was resolved';
 const thPromRes = 'Third promise was resolved';
 
-describe('promises in DOM', () => {
-  beforeEach('open site', () => {
+describe('Promises in DOM', () => {
+  beforeEach(() => {
     cy.visit('/');
   });
 
