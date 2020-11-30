@@ -1,15 +1,12 @@
 'use strict';
 
-Cypress.Commands.add('clickButton',
-  (mouseButton) => {
-    cy.get('body').trigger('mousedown', mouseButton)
-      .trigger('mouseup');
-  });
+Cypress.Commands.add('clickButton', (mouseButton) =>
+  cy.get('body').trigger('mousedown', mouseButton).trigger('mouseup')
+);
 
-Cypress.Commands.add('checkPromiseExists',
-  (promise) => {
-    cy.get('[data-qa="notification"]').contains(promise);
-  });
+Cypress.Commands.add('checkMessageDisplayed', (message) =>
+  cy.get('[data-qa="notification"]').contains(message)
+);
 
 const firstResolvedMsg = 'First promise was resolved';
 const firstRejectedMsg = 'First promise was rejected';
@@ -21,70 +18,70 @@ describe('Promises in DOM', () => {
     cy.visit('/');
   });
 
-  it('should resolve first promise left click', function() {
+  it('should resolve first promise on the left click', () => {
     cy.clickButton({ button: 0 });
-    cy.checkPromiseExists(firstResolvedMsg);
+    cy.checkMessageDisplayed(firstResolvedMsg);
     // NOTE: waiting for reject
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(3000);
-    cy.checkPromiseExists(firstRejectedMsg).should('not.exist');
+    cy.checkMessageDisplayed(firstRejectedMsg).should('not.exist');
   });
 
-  it('should resolve first promise right click', function() {
+  it('should resolve first promise on the right click', () => {
     cy.clickButton({ button: 2 });
-    cy.checkPromiseExists(firstResolvedMsg);
+    cy.checkMessageDisplayed(firstResolvedMsg);
   });
 
-  it('should resolve first promise middle button click', function() {
+  it('should resolve first promise middle button click', () => {
     cy.clickButton({ button: 1 });
-    cy.checkPromiseExists(firstResolvedMsg);
+    cy.checkMessageDisplayed(firstResolvedMsg);
   });
 
-  it('should ignore middle button click for the second promise', function() {
+  it('should ignore middle button click for the second promise', () => {
     cy.clickButton({ button: 1 });
     cy.clickButton({ button: 1 });
-    cy.checkPromiseExists(secondResolvedMsg).should('not.exist');
+    cy.checkMessageDisplayed(secondResolvedMsg).should('not.exist');
   });
 
-  it('should reject first promise after 3 seconds of inactivity', function() {
+  it('should reject first promise after 3 seconds of inactivity', () => {
     // NOTE: waiting for reject
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(3000);
-    cy.checkPromiseExists(firstRejectedMsg);
+    cy.checkMessageDisplayed(firstRejectedMsg);
   });
 
-  it('should resolve second promise on right click', function() {
+  it('should resolve second promise on right click', () => {
     cy.clickButton({ button: 2 });
-    cy.checkPromiseExists(secondResolvedMsg);
+    cy.checkMessageDisplayed(secondResolvedMsg);
   });
 
-  it('should resolve second promise on left click', function() {
+  it('should resolve second promise on left click', () => {
     cy.clickButton({ button: 0 });
-    cy.checkPromiseExists(secondResolvedMsg);
+    cy.checkMessageDisplayed(secondResolvedMsg);
   });
 
-  it('should resolve third promise', function() {
-    cy.clickButton({ button: 2 });
-    cy.clickButton({ button: 0 });
-    cy.checkPromiseExists(thirdResolvedMsg);
-  });
-
-  it('should resolve all promises', function() {
+  it('should resolve third promise', () => {
     cy.clickButton({ button: 2 });
     cy.clickButton({ button: 0 });
-    cy.checkPromiseExists(firstResolvedMsg);
-    cy.checkPromiseExists(secondResolvedMsg);
-    cy.checkPromiseExists(thirdResolvedMsg);
+    cy.checkMessageDisplayed(thirdResolvedMsg);
   });
 
-  it('should reject 1st promise, resolve 2nd and 3rd promises', function() {
+  it('should resolve all promises', () => {
+    cy.clickButton({ button: 2 });
+    cy.clickButton({ button: 0 });
+    cy.checkMessageDisplayed(firstResolvedMsg);
+    cy.checkMessageDisplayed(secondResolvedMsg);
+    cy.checkMessageDisplayed(thirdResolvedMsg);
+  });
+
+  it('should reject 1st promise, resolve 2nd and 3rd promises', () => {
     // NOTE: waiting for reject
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(3000);
     cy.clickButton({ button: 0 });
     cy.clickButton({ button: 2 });
-    cy.checkPromiseExists(firstRejectedMsg);
-    cy.checkPromiseExists(secondResolvedMsg);
-    cy.checkPromiseExists(thirdResolvedMsg);
+    cy.checkMessageDisplayed(firstRejectedMsg);
+    cy.checkMessageDisplayed(secondResolvedMsg);
+    cy.checkMessageDisplayed(thirdResolvedMsg);
   });
 });
