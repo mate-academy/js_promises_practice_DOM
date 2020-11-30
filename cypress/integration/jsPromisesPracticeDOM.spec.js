@@ -32,7 +32,7 @@ describe('Promises in DOM', () => {
     cy.checkMessageDisplayed(firstResolvedMsg);
   });
 
-  it('should resolve first promise middle button click', () => {
+  it('should resolve first promise on the middle button click', () => {
     cy.clickButton({ button: 1 });
     cy.checkMessageDisplayed(firstResolvedMsg);
   });
@@ -50,12 +50,12 @@ describe('Promises in DOM', () => {
     cy.checkMessageDisplayed(firstRejectedMsg);
   });
 
-  it('should resolve second promise on right click', () => {
+  it('should resolve second promise on the right click', () => {
     cy.clickButton({ button: 2 });
     cy.checkMessageDisplayed(secondResolvedMsg);
   });
 
-  it('should resolve second promise on left click', () => {
+  it('should resolve second promise on the left click', () => {
     cy.clickButton({ button: 0 });
     cy.checkMessageDisplayed(secondResolvedMsg);
   });
