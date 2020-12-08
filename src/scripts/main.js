@@ -4,12 +4,12 @@ const body = document.querySelector('body');
 
 const promise1 = new Promise((resolve, reject) => {
   body.addEventListener('click', () => {
-    resolve('Done');
+    resolve('First promise was resolved');
   });
 
   setTimeout(() => {
-    reject(new Error('Time is out'));
-  }, 5000);
+    reject(new Error('First promise was rejected'));
+  }, 3000);
 });
 
 const promise2 = new Promise((resolve) => {
@@ -23,10 +23,14 @@ const promise2 = new Promise((resolve) => {
 });
 
 const promise3 = new Promise((resolve) => {
-  body.addEventListener('click', () => {
-    body.addEventListener('contextmenu', () => {
-      resolve('Both buttons were click');
-    });
+  let mouseEvent = [0, 2];
+
+  body.addEventListener('mousedown', (e) => {
+    mouseEvent = mouseEvent.filter(click => click === e.button);
+
+    if (mouseEvent.length === 0) {
+      resolve('Both buttons were clicked');
+    }
   });
 });
 
