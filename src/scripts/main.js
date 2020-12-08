@@ -9,7 +9,7 @@ const promise1 = new Promise((resolve, reject) => {
 
   setTimeout(() => {
     reject(new Error('First promise was rejected'));
-  }, 3000);
+  }, 5000);
 });
 
 const promise2 = new Promise((resolve) => {
