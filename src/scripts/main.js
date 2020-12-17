@@ -76,6 +76,3 @@ mouseClickBothPromise
   .then(result => {
     showMessage('success', result);
   });
-// secondPromise
-//   // eslint-disable-next-line no-console
-//   .then(result => console.log('succes', result));
