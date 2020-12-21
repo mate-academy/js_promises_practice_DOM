@@ -12,16 +12,16 @@ alerts.style.right = '10px';
 document.body.append(alerts);
 
 const showMessage = (stateClass, msg) => {
-  const success = document.createElement('div');
+  const container = document.createElement('div');
 
-  success.className = stateClass;
-  success.innerText = msg;
-  success.dataset.qa = 'notification';
+  container.className = stateClass;
+  container.innerText = msg;
+  container.dataset.qa = 'notification';
 
-  document.getElementById('alerts').append(success);
+  document.getElementById('alerts').append(container);
 };
 
-const clickLogoPromise = new Promise((resolve, reject) => {
+const logoClicked = new Promise((resolve, reject) => {
   logo.addEventListener('mousedown', () => {
     resolve('First promise was resolved');
   });
@@ -59,7 +59,7 @@ const mouseClickBothPromise = new Promise(resolve => {
   });
 });
 
-clickLogoPromise
+logoClicked
   .then(result => {
     showMessage('success', result);
   })
