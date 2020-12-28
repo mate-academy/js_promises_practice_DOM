@@ -6,23 +6,17 @@ messageBlock.style.position = 'fixed';
 messageBlock.style.top = `10px`;
 messageBlock.style.right = `10px`;
 
-// document.body.prepend(messageBlock);
-
 const pushNotification = (description, type, id) => {
   const div = document.getElementById(id);
 
   div.classList.add(type, 'message');
-  // div.setAttribute('data-qa', 'notification');
   div.textContent = `${description}`;
-  // messageBlock.append(div);
 };
-
-const logo = document.querySelector('.logo');
 
 // #1
 
 const promise1 = new Promise((resolve, reject) => {
-  logo.addEventListener('click', () => {
+  document.addEventListener('mousedown', () => {
     resolve('Clicked');
   });
 
@@ -33,19 +27,17 @@ const promise1 = new Promise((resolve, reject) => {
 
 promise1
   .then(() => {
-    pushNotification('First promise was resolved!', 'success', 'promise1');
+    pushNotification('First promise was resolved', 'success', 'promise1');
   })
   .catch(() => {
-    pushNotification('First promise was rejected!', 'warning', 'promise1');
+    pushNotification('First promise was rejected', 'warning', 'promise1');
   });
 
 // #2
 
 const promise2 = new Promise((resolve) => {
-  logo.addEventListener('mousedown', (e) => {
-    e.preventDefault();
-
-    if (e.which === 1 || e.which === 3) {
+  document.addEventListener('mousedown', (e) => {
+    if (e.button === 0 || e.button === 2) {
       resolve('Clicked');
     }
   });
@@ -53,19 +45,19 @@ const promise2 = new Promise((resolve) => {
 
 promise2
   .then(() => {
-    pushNotification('Second promise was resolved!', 'success', 'promise2');
+    pushNotification('Second promise was resolved', 'success', 'promise2');
   });
 
 const promise3 = new Promise((resolve) => {
   let left = false;
   let right = false;
 
-  logo.addEventListener('mousedown', (e) => {
-    if (e.which === 1) {
+  document.addEventListener('mousedown', (e) => {
+    if (e.button === 0) {
       left = true;
     }
 
-    if (e.which === 3) {
+    if (e.button === 2) {
       right = true;
     }
 
@@ -77,5 +69,5 @@ const promise3 = new Promise((resolve) => {
 
 promise3
   .then(() => {
-    pushNotification('Third promise was resolved!', 'success', 'promise3');
+    pushNotification('Third promise was resolved', 'success', 'promise3');
   });
