@@ -1,11 +1,12 @@
 'use strict';
 
-function notificationMessage(type, description, customType) {
+function notificationMessage(type, description, topPosition) {
   const message = document.createElement(`div`);
 
   message.dataset.qa = `notification`;
   message.textContent = description;
-  message.classList.add(type, customType);
+  message.classList.add(type);
+  message.style.top = topPosition;
   document.body.append(message);
 }
 
@@ -21,10 +22,10 @@ const promise1 = new Promise((resolve, reject) => {
 
 promise1
   .then(() => {
-    notificationMessage(`success`, `First promise was resolved`, `success1`);
+    notificationMessage(`success`, `First promise was resolved`, `50px`);
   })
   .catch(() => {
-    notificationMessage(`warning`, `First promise was rejected`, `reject1`);
+    notificationMessage(`warning`, `First promise was rejected`);
   });
 
 const promise2 = new Promise((resolve) => {
@@ -38,7 +39,7 @@ const promise2 = new Promise((resolve) => {
 
 promise2
   .then(() => {
-    notificationMessage(`success`, `Second promise was resolved`, `success2`);
+    notificationMessage(`success`, `Second promise was resolved`, `150px`);
   });
 
 const promise3 = new Promise((resolve) => {
@@ -62,5 +63,5 @@ const promise3 = new Promise((resolve) => {
 
 promise3
   .then(() => {
-    notificationMessage(`success`, `Third promise was resolved`, `success3`);
+    notificationMessage(`success`, `Third promise was resolved`, `250px`);
   });
