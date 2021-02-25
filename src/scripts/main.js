@@ -1,15 +1,22 @@
 'use strict';
 
-const body = document.querySelector('body');
+const msg = document.createElement('div');
+
+msg.id = 'msg';
+msg.dataset.qa = 'notification';
+msg.style.top = '100px';
+msg.style.right = '100px';
+msg.style.position = 'absolute';
+
+document.body.append(msg);
 
 const showMessage = (type, description) => {
   const container = document.createElement('div');
 
-  // container.className = `${type}`;
   container.classList.add(type);
   container.setAttribute('data-qa', 'notification');
-  container.innerHTML = `${description + ' '}`;
-  body.append(container);
+  container.innerHTML = description;
+  document.getElementById('msg').append(container);
 };
 
 const promise1 = new Promise((resolve, reject) => {
@@ -56,12 +63,6 @@ const promise3 = new Promise((resolve, reject) => {
     if (leftButtonDown && rightButtonDown) {
       resolve('Third promise was resolved');
     };
-  });
-
-  document.addEventListener('mouseup', (e) => {
-    if (e.button === 0) {
-      leftButtonDown = false;
-    }
   });
 
   document.addEventListener('contextmenu', (e) => {
