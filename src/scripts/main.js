@@ -20,19 +20,28 @@ const secondResolver = function(resolve) {
     }
   });
 };
-const createThirdPromise = function(buttonType) {
-  return new Promise(resolve => {
-    root.addEventListener('mousedown', (e) => {
-      if (e.button === buttonType) {
-        resolve('Third promise was resolved');
-      }
-    });
+const thirdResolver = function(resolve) {
+  let leftClickHappened = false;
+  let rigthClickHappened = false;
+
+  root.addEventListener('mousedown', (e) => {
+    switch (e.button) {
+      case LEFT_BUTTON_ID:
+        leftClickHappened = true;
+        break;
+      case RIGHT_BUTTON_ID:
+        rigthClickHappened = true;
+        break;
+    }
+
+    if (leftClickHappened && rigthClickHappened) {
+      resolve('Third promise was resolved');
+    }
   });
 };
 const firstPromise = new Promise(firstResolver);
 const secondPromise = new Promise(secondResolver);
-const thirdPromise1 = createThirdPromise(LEFT_BUTTON_ID);
-const thirdPromise2 = createThirdPromise(RIGHT_BUTTON_ID);
+const thirdPromise = new Promise(thirdResolver);
 
 firstPromise
   .then(result => {
@@ -47,9 +56,9 @@ secondPromise
     pushNotification(result, 'success');
   });
 
-Promise.all([thirdPromise1, thirdPromise2])
+thirdPromise
   .then(result => {
-    pushNotification(result[0], 'success');
+    pushNotification(result, 'success');
   });
 
 function pushNotification(text, type) {
