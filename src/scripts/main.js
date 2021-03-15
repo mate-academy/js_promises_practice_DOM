@@ -14,14 +14,8 @@ const pushMessage = (description, type, positionTop) => {
 };
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('mousedown', (e) => {
-    const { button } = e;
-
-    if (button === 1
-      || button === 2
-      || button === 0) {
-      resolve('First promise was resolved');
-    }
+  document.addEventListener('mousedown', () => {
+    resolve('First promise was resolved');
   });
 
   setTimeout(() => reject(Error), 3000);
