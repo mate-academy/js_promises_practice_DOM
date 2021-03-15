@@ -22,3 +22,18 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.success {
+  color: green;
+  margin-right: 5px;
+
+  font-size: 20px;
+  font-weight: bold;
+  border: 6px #fc4b3b solid;
+}
+
+.warning {
+  font-size: 20px;
+  font-weight: bold;
+  border: 6px #fc4b3b solid;
+}
