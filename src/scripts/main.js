@@ -1,18 +1,16 @@
 'use strict';
 
-function createMessage(result, text) {
+function createMessage(type, text) {
   const message = document.createElement('div');
 
-  message.className = result;
+  message.className = type;
   message.dataset.qa = 'notification';
   message.innerText = text;
   document.body.append(message);
 }
 
-const firstPromise = new Promise((resolve, reject) => {
+const clickHandle = new Promise((resolve, reject) => {
   document.addEventListener('mousedown', (e) => {
-    e.preventDefault();
-
     if (e.button === 0 || e.button === 1 || e.button === 2) {
       resolve();
     }
@@ -23,23 +21,19 @@ const firstPromise = new Promise((resolve, reject) => {
   }, 3000);
 });
 
-const secondPromise = new Promise((resolve) => {
+const leftOrRightClickHandle = new Promise((resolve) => {
   document.addEventListener('mousedown', (e) => {
-    e.preventDefault();
-
     if (e.button === 0 || e.button === 2) {
       resolve();
     }
   });
 });
 
-const thirdPromise = new Promise((resolve) => {
+const leftAndRightClickHandle = new Promise((resolve) => {
   let pressedRight = false;
   let pressedLeft = false;
 
   document.addEventListener('mousedown', (e) => {
-    e.preventDefault();
-
     if (e.button === 0) {
       pressedLeft = true;
     }
@@ -54,16 +48,16 @@ const thirdPromise = new Promise((resolve) => {
   });
 });
 
-firstPromise.then(() => {
+clickHandle.then(() => {
   createMessage('success', 'First promise was resolved!');
 }).catch(() => {
   createMessage('warning', 'First promise was rejected!');
 });
 
-secondPromise.then(() => {
+leftOrRightClickHandle.then(() => {
   createMessage('success', 'Second promise was resolved!');
 });
 
-thirdPromise.then(() => {
+leftAndRightClickHandle.then(() => {
   createMessage('success', 'Third promise was resolved!');
 });
