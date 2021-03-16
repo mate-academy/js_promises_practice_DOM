@@ -22,3 +22,15 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.success {
+  padding: 20px;
+  margin: 20px;
+  background-color: greenyellow;
+  border-radius: 10px;
+}
+
+.warning {
+  padding: 10px;
+  background-color: rgb(196, 66, 15);
+}
