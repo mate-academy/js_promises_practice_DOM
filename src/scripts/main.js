@@ -22,7 +22,7 @@ thirdPromiseMessage.className = 'success';
 thirdPromiseMessage.dataset.qa = 'notification';
 
 new Promise((resolve, reject) => {
-  document.addEventListener('click', resolve);
+  document.addEventListener('mousedown', resolve);
 
   setTimeout(reject, 3000);
 }).then(
@@ -31,8 +31,11 @@ new Promise((resolve, reject) => {
 );
 
 new Promise((resolve) => {
-  document.addEventListener('click', resolve);
-  document.addEventListener('contextmenu', resolve);
+  document.addEventListener('mousedown', (e) => {
+    if (e.button === 0 || e.button === 2) {
+      resolve();
+    }
+  });
 }).then(
   () => document.body.append(secondPromiseMessage),
 );
