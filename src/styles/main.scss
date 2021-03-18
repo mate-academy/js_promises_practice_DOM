@@ -10,6 +10,10 @@ body {
   min-height: 100vh;
 }
 
+div {
+  margin: 20px;
+}
+
 .logo {
   text-transform: uppercase;
   background-color: #fc4b3b;
@@ -21,4 +25,25 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.success {
+  position: relative;
+  right: 10px;
+  top: 10px;
+  background-color: #20a10f;
+  width: 200px;
+  height: 70px;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.warning {
+  position: relative;
+  right: 10px;
+  width: 200px;
+  height: 70px;
+  background-color: gold;
+  border-radius: 20px;
+  padding: 10px;
 }
