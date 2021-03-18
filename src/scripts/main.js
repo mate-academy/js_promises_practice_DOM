@@ -20,9 +20,13 @@ const promiseMessageError = (message) => {
 
 const firstPromise = (successMessage, errorMessage) => {
   return new Promise((resolve, reject) => {
-    document.onclick = () => {
-      resolve(successMessage);
-    };
+    document.addEventListener('mousedown', e => {
+      e.preventDefault();
+
+      if (e.button >= 0 && e.button <= 2) {
+        resolve(successMessage);
+      }
+    });
 
     setTimeout(() => {
       reject(errorMessage);
@@ -39,13 +43,10 @@ promise.then(promiseMessageSuccess, promiseMessageError);
 
 const secondPromise = (successMessage) => {
   return new Promise((resolve) => {
-    document.addEventListener('click', e => {
-      resolve(successMessage);
-    });
-
-    document.addEventListener('contextmenu', e => {
-      e.preventDefault();
-      resolve(successMessage);
+    document.addEventListener('mousedown', e => {
+      if (e.button === 0 || e.button === 2) {
+        resolve(successMessage);
+      }
     });
   });
 };
@@ -54,24 +55,23 @@ const promiseClickOnce = secondPromise('Second promise was resolved');
 
 promiseClickOnce.then(promiseMessageSuccess);
 
-let leftClick = false;
-let rightClick = false;
+let leftButtonIsClicked = false;
+let rightButtonIsClicked = false;
 
 const thirdPromise = (successMessage) => {
   return new Promise((resolve) => {
-    document.addEventListener('click', e => {
-      leftClick = true;
-
-      if (leftClick && rightClick) {
-        resolve(successMessage);
-      }
-    });
-
-    document.addEventListener('contextmenu', e => {
+    document.addEventListener('mousedown', e => {
       e.preventDefault();
-      rightClick = true;
 
-      if (leftClick && rightClick) {
+      if (e.button === 0) {
+        leftButtonIsClicked = true;
+      }
+
+      if (e.button === 2) {
+        rightButtonIsClicked = true;
+      }
+
+      if (leftButtonIsClicked && rightButtonIsClicked) {
         resolve(successMessage);
       }
     });
