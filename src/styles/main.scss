@@ -22,3 +22,17 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.warning {
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
+  margin: 10px;
+}
+
+.success {
+  padding: 20px;
+  background-color: #32c45e;
+  color: white;
+  margin: 10px;
+}
