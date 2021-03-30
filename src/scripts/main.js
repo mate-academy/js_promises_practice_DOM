@@ -3,6 +3,16 @@
 const body = document.querySelector('body');
 const button = document.querySelector('.logo');
 
+function addMessage(className, promiseNumber, promiseStatus, datasetContent) {
+  const message = document.createElement('div');
+
+  message.classList.add(className);
+  message.textContent = `${promiseNumber} promise was ${promiseStatus}`;
+  message.dataset.qa = datasetContent;
+
+  body.append(message);
+}
+
 const promise1 = new Promise((resolve, reject) => {
   button.addEventListener('click', resolve);
 
@@ -14,22 +24,10 @@ const promise1 = new Promise((resolve, reject) => {
 promise1
   .then(
     () => {
-      const message = document.createElement('div');
-
-      message.classList.add('success');
-      message.textContent = 'First promise was resolved';
-      message.dataset.qa = 'notification';
-
-      body.append(message);
+      addMessage('success', 'First', 'resolved', 'notification');
     },
     () => {
-      const errorMessage = document.createElement('div');
-
-      errorMessage.classList.add('warning');
-      errorMessage.textContent = 'First promise was rejected';
-      errorMessage.dataset.qa = 'notification';
-
-      body.append(errorMessage);
+      addMessage('success', 'First', 'rejected', 'notification');
     }
   );
 
@@ -46,13 +44,7 @@ const promise2 = new Promise(resolve => {
 promise2
   .then(
     () => {
-      const message = document.createElement('div');
-
-      message.classList.add('success');
-      message.textContent = 'Second promise was resolved';
-      message.dataset.qa = 'notification';
-
-      body.append(message);
+      addMessage('success', 'Second', 'resolved', 'notification');
     }
   );
 
@@ -71,12 +63,6 @@ promise3First
   .then(() => promise3Second)
   .then(
     () => {
-      const message = document.createElement('div');
-
-      message.classList.add('success');
-      message.textContent = 'Third promise was resolved';
-      message.dataset.qa = 'notification';
-
-      body.append(message);
+      addMessage('success', 'Third', 'resolved', 'notification');
     }
   );
