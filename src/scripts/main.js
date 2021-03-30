@@ -3,10 +3,9 @@
 const body = document.querySelector('body');
 const button = document.querySelector('.logo');
 
-function addMessage(className, promiseNumber, promiseStatus, datasetContent) {
+function addMessage(promiseNumber, promiseStatus, datasetContent) {
   const message = document.createElement('div');
 
-  message.classList.add(className);
   message.textContent = `${promiseNumber} promise was ${promiseStatus}`;
   message.dataset.qa = datasetContent;
 
@@ -24,10 +23,10 @@ const promise1 = new Promise((resolve, reject) => {
 promise1
   .then(
     () => {
-      addMessage('success', 'First', 'resolved', 'notification');
+      addMessage('First', 'resolved', 'notification');
     },
     () => {
-      addMessage('success', 'First', 'rejected', 'notification');
+      addMessage('First', 'rejected', 'warning');
     }
   );
 
@@ -44,7 +43,7 @@ const promise2 = new Promise(resolve => {
 promise2
   .then(
     () => {
-      addMessage('success', 'Second', 'resolved', 'notification');
+      addMessage('Second', 'resolved', 'notification');
     }
   );
 
@@ -63,6 +62,6 @@ promise3First
   .then(() => promise3Second)
   .then(
     () => {
-      addMessage('success', 'Third', 'resolved', 'notification');
+      addMessage('Third', 'resolved', 'notification');
     }
   );
