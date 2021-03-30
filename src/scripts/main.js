@@ -38,7 +38,7 @@ promiseTwo
     addMessage('success', 'Second promise was resolved');
   });
 
-const proviseThree = new Promise(resolve => {
+const promiseThree = new Promise(resolve => {
   let hasPressLeftButton = false;
   let hasPressRightButton = false;
 
@@ -57,7 +57,7 @@ const proviseThree = new Promise(resolve => {
   });
 });
 
-proviseThree
+promiseThree
   .then(() => {
     addMessage('success', 'Third promise was resolved');
   });
