@@ -22,3 +22,19 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.error {
+  color: white;
+  background: rgb(235, 23, 23);
+  border-radius: 10px;
+
+  font-size: 25px;
+}
+
+.success {
+  color: white;
+  background: rgb(33, 214, 33);
+  border-radius: 10px;
+
+  font-size: 25px;
+}
