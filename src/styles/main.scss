@@ -3,6 +3,8 @@ body {
   font-family: Roboto, sans-serif;
   margin: 0;
 
+  position: relative;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,4 +23,29 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+}
+
+.inner {
+  position: absolute;
+  display: none;
+  top: 150px;
+  padding: 30px;
+  background-color: rgb(246, 255, 121);
+  font-size: 24px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
+  border-radius: 16px;
+}
+
+.success {
+  color: green;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.warning {
+  color: red;
 }
