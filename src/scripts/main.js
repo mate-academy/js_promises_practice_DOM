@@ -33,7 +33,7 @@ firstPromise
 const secondPromise = new Promise((resolve, reject) => {
   body.addEventListener('mousedown', (mouseEvent) => {
     if (mouseEvent.button === 0 || mouseEvent.button === 2) {
-      return resolve();
+      resolve();
     }
   });
 });
@@ -57,7 +57,7 @@ const thirdPromise = new Promise((resolve, reject) => {
     }
 
     if (isLeftMouseClick && isRightMouseClick) {
-      return resolve();
+      resolve();
     }
   });
 });
