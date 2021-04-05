@@ -2,20 +2,18 @@
 
 const body = document.querySelector('body');
 
-function createMessage(classOfMessage, textOfMessage) {
+function createMessage(className, text) {
   const message = document.createElement('div');
 
-  message.className = classOfMessage;
+  message.className = className;
   message.dataset.qa = 'notification';
-  message.textContent = textOfMessage;
+  message.textContent = text;
 
   body.append(message);
 }
 
 const firstPromise = new Promise((resolve, reject) => {
-  body.addEventListener('mousedown', () => {
-    resolve();
-  });
+  body.addEventListener('mousedown', resolve);
 
   setTimeout(() => {
     reject(new Error());
@@ -44,19 +42,19 @@ secondPromise
   });
 
 const thirdPromise = new Promise((resolve, reject) => {
-  let isLeftMouseClick = false;
-  let isRightMouseClick = false;
+  let isLeftButtonClicked = false;
+  let isRightButtonClicked = false;
 
   body.addEventListener('mousedown', (mouseEvent) => {
     if (mouseEvent.button === 0) {
-      isRightMouseClick = true;
+      isRightButtonClicked = true;
     }
 
     if (mouseEvent.button === 2) {
-      isLeftMouseClick = true;
+      isLeftButtonClicked = true;
     }
 
-    if (isLeftMouseClick && isRightMouseClick) {
+    if (isLeftButtonClicked && isRightButtonClicked) {
       resolve();
     }
   });
