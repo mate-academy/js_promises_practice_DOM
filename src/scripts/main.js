@@ -41,19 +41,19 @@ secondPromise
   );
 
 const thirdPromise = new Promise((resolve, reject) => {
-  let mouseLeft = false;
-  let mouseRight = false;
+  let wasmouseLeftpressed = false;
+  let wasmouseRightpressed = false;
 
   document.addEventListener('mousedown', (mouseEvent) => {
     if (mouseEvent.button === 0) {
-      mouseLeft = true;
+      wasmouseLeftpressed = true;
     }
 
     if (mouseEvent.button === 2) {
-      mouseRight = true;
+      wasmouseRightpressed = true;
     }
 
-    if (mouseRight && mouseLeft) {
+    if (wasmouseRightpressed && wasmouseLeftpressed) {
       resolve('Third promise was resolved');
     }
   });
