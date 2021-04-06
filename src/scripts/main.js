@@ -45,7 +45,7 @@ new Promise((resolve) => {
   createNotification(
     'Second promise was resolved', 'success success--second', { timeout: 4000 }
   );
-}).catch(() => {});
+});
 
 new Promise((resolve) => {
   let leftPress = false;
@@ -68,4 +68,4 @@ new Promise((resolve) => {
   createNotification(
     'Third promise was resolved', 'success', { timeout: 4000 }
   );
-}).catch(() => {});
+});
