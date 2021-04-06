@@ -1,24 +1,18 @@
 'use strict';
 
-function createMessage(className, propmiseNumber) {
+function createMessage(className, text) {
   const message = document.createElement('div');
 
-  message.setAttribute('data-qa', 'notification');
+  message.dataset.qa = 'notification';
   message.className = className;
+  message.textContent = text;
 
-  message.textContent = className === 'success'
-    ? `${propmiseNumber} promise was resolved`
-    : `${propmiseNumber} promise was rejected`;
   document.body.append(message);
 }
 
 const handleClick = new Promise((resolve, reject) => {
-  document.addEventListener('mousedown', (clickEvent) => {
-    const buttonNumber = clickEvent.button;
-
-    if (buttonNumber >= 0 && buttonNumber < 3) {
-      resolve();
-    }
+  document.addEventListener('mousedown', () => {
+    resolve();
   });
 
   setTimeout(() => {
@@ -34,28 +28,24 @@ const handleLeftOrRightClick = new Promise((resolve) => {
       resolve();
     }
   });
-
-  document.addEventListener('contextmenu', (clickEvent) => {
-    clickEvent.preventDefault();
-  });
 });
 
 const handleLeftAndRightClick = new Promise((resolve) => {
-  let rightClick = false;
-  let leftClick = false;
+  let isRightClick = false;
+  let isLeftClick = false;
 
   document.addEventListener('mousedown', (clickEvent) => {
     const mouseClick = clickEvent.button;
 
     if (mouseClick === 0) {
-      leftClick = true;
+      isLeftClick = true;
     }
 
     if (mouseClick === 2) {
-      rightClick = true;
+      isRightClick = true;
     }
 
-    if (rightClick && leftClick) {
+    if (isRightClick && isLeftClick) {
       resolve();
     }
   });
@@ -63,18 +53,18 @@ const handleLeftAndRightClick = new Promise((resolve) => {
 
 handleClick
   .then(() => {
-    createMessage('success', 'First');
+    createMessage('success', 'First promise was resolved');
   })
   .catch(() => {
-    createMessage('warning', 'First');
+    createMessage('warning', 'First promise was resolved');
   });
 
 handleLeftOrRightClick
   .then(() => {
-    createMessage('success', 'Second');
+    createMessage('success', 'Second promise was resolved');
   });
 
 handleLeftAndRightClick
   .then(() => {
-    createMessage('success', 'Third');
+    createMessage('success', 'Third promise was resolved');
   });
