@@ -22,3 +22,15 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.success,
+.warning {
+  background-color: rgba(12, 197, 43, 0.63);
+  padding: 20px;
+  margin: 20px;
+  border-radius: 16px;
+}
+
+.warning {
+  background-color: rgba(207, 221, 15, 0.63);
+}
