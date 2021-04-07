@@ -10,8 +10,12 @@ function addMessage(text, style) {
 }
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('mousedown', (e) => {
-    if (e.button === 0 || e.button === 1 || e.button === 2) {
+  document.addEventListener('mousedown', (mouseEvent) => {
+    if (
+      mouseEvent.button === 0
+      || mouseEvent.button === 1
+      || mouseEvent.button === 2
+    ) {
       resolve();
     }
   });
@@ -22,10 +26,8 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 const secondPromise = new Promise(resolve => {
-  document.addEventListener('mousedown', (e) => {
-    e.preventDefault();
-
-    if (e.button === 0 || e.button === 2) {
+  document.addEventListener('mousedown', (mouseEvent) => {
+    if (mouseEvent.button === 0 || mouseEvent.button === 2) {
       resolve();
     }
   });
@@ -35,12 +37,12 @@ const thirdPromise = new Promise(resolve => {
   let leftClicked = false;
   let rightClicked = false;
 
-  document.addEventListener('mousedown', (e) => {
-    if (e.button === 0) {
+  document.addEventListener('mousedown', (mouseEvent) => {
+    if (mouseEvent.button === 0) {
       leftClicked = true;
     }
 
-    if (e.button === 2) {
+    if (mouseEvent.button === 2) {
       rightClicked = true;
     }
 
