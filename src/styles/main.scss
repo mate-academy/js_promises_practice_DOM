@@ -22,3 +22,19 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.success {
+  background-color: green;
+  color: white;
+  margin: 5px;
+  padding: 5px;
+  border-radius: 7px;
+}
+
+.warning {
+  background-color: red;
+  color: white;
+  margin: 5px;
+  padding: 5px;
+  border-radius: 7px;
+}
