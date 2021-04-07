@@ -48,19 +48,19 @@ new Promise((resolve) => {
 });
 
 new Promise((resolve) => {
-  let leftPress = false;
-  let rightPress = false;
+  let isLeftPress = false;
+  let isRightPress = false;
 
   document.addEventListener('mousedown', (mousedownEvent) => {
     if (mousedownEvent.button === 0) {
-      leftPress = true;
+      isLeftPress = true;
     }
 
     if (mousedownEvent.button === 2) {
-      rightPress = true;
+      isRightPress = true;
     }
 
-    if (rightPress && leftPress) {
+    if (isRightPress && isLeftPress) {
       resolve();
     }
   });
