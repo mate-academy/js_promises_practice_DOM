@@ -21,7 +21,7 @@ const firstPromise = new Promise((resolve, reject) => {
   });
 
   setTimeout(() => {
-    reject(new Error());
+    reject(new Error('error: You haven`t pressed any mouse button'));
   }, 3000);
 });
 
@@ -34,19 +34,19 @@ const secondPromise = new Promise(resolve => {
 });
 
 const thirdPromise = new Promise(resolve => {
-  let leftClicked = false;
-  let rightClicked = false;
+  let isLeftClicked = false;
+  let isRightClicked = false;
 
   document.addEventListener('mousedown', (mouseEvent) => {
     if (mouseEvent.button === 0) {
-      leftClicked = true;
+      isLeftClicked = true;
     }
 
     if (mouseEvent.button === 2) {
-      rightClicked = true;
+      isRightClicked = true;
     }
 
-    if (leftClicked && rightClicked) {
+    if (isLeftClicked && isRightClicked) {
       resolve();
     }
   });
