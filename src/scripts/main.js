@@ -10,7 +10,7 @@ const printMessage = (className, text) => {
 };
 
 const promiseFirst = new Promise((resolve, reject) => {
-  document.addEventListener('click', () => {
+  document.addEventListener('mousedown', () => {
     resolve();
   });
 
