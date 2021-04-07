@@ -22,3 +22,25 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.success {
+  top: 0;
+  right: 0;
+
+  position: absolute;
+  width: 170px;
+  height: 70px;
+  padding: 10px;
+  background-color: orange;
+}
+
+.warning {
+  top: 0;
+  right: 0;
+
+  position: absolute;
+  width: 170px;
+  height: 70px;
+  padding: 10px;
+  background-color: red;
+}

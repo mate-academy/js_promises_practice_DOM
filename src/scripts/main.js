@@ -1,12 +1,17 @@
 'use strict';
 
-const doc = document;
+const doc = document.body;
+let indent = 0;
 
-function createMessage(className, text) {
-  const message = document.createElement('span');
+function createMessage(text, className) {
+  const message = document.createElement('div');
+
+  indent += 100;
 
   message.className = className;
   message.setAttribute('data-qa', 'notification');
+
+  message.style.top = indent + 'px';
   message.innerText = text;
 
   doc.append(message);
@@ -66,5 +71,5 @@ secondPromise.then((text) => {
 });
 
 thirdPromise.then((text) => {
-  createMessage('First promise was resolved', 'success');
+  createMessage('Third promise was resolved', 'success');
 });
