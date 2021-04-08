@@ -1,5 +1,3 @@
-const logo = document.querySelector('.logo');
-
 function showMessage(className, innerText) {
   const message = document.createElement('div');
 
@@ -11,7 +9,7 @@ function showMessage(className, innerText) {
 }
 
 const firstPromise = new Promise((resolve, reject) => {
-  logo.addEventListener('mousedown', resolve);
+  document.addEventListener('mousedown', resolve);
   setTimeout(() => reject(new Error()), 3000);
 });
 
@@ -24,7 +22,7 @@ firstPromise
   });
 
 const secondPromise = new Promise((resolve, reject) => {
-  logo.addEventListener('mousedown', (eventClick) => {
+  document.addEventListener('mousedown', (eventClick) => {
     if (eventClick.button === 0 || eventClick.button === 2) {
       resolve();
     }
@@ -40,7 +38,7 @@ const thirdPromise = new Promise((resolve, reject) => {
   let isLeftButtonClicked = false;
   let isRightButtonClicked = false;
 
-  logo.addEventListener('mousedown', (eventClick) => {
+  document.addEventListener('mousedown', (eventClick) => {
     if (eventClick.button === 0) {
       isLeftButtonClicked = true;
     }
