@@ -1,3 +1,5 @@
+'use strict';
+
 function showMessage(className, innerText) {
   const message = document.createElement('div');
 
