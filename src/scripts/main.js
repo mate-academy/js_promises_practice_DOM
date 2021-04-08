@@ -7,7 +7,7 @@ function showMessage(className, innerText, notificationMessage) {
 
   message.className = className;
   message.innerText = innerText;
-  message.setAttribute('data-qa', notificationMessage);
+  message.dataset.qa = 'notificationMessage';
 
   document.body.append(message);
 }
@@ -26,8 +26,11 @@ firstPromise
   });
 
 const secondPromise = new Promise((resolve, reject) => {
-  logo.addEventListener('click', resolve);
-  logo.addEventListener('contextmenu', resolve);
+  logo.addEventListener('mousedown', (eventClick) => {
+    if (eventClick.button === 0 || eventClick.button === 2) {
+      resolve();
+    }
+  });
 });
 
 secondPromise
@@ -38,34 +41,20 @@ secondPromise
     showMessage('error-message', 'Second promise was rejected', 'warning');
   });
 
-// another way second Promise
-// const secondPromise = new Promise((resolve, reject) => {
-//   logo.addEventListener('mousedown', (eventClick) => {
-//     if (eventClick.button === 0 || eventClick.button === 2) {
-//       resolve();
-//     }
-//   });
-// });
-
-// secondPromise
-//   .then(() => {
-//     showMessage('message', 'Second - resolved');
-//   });
-
 const thirdPromise = new Promise((resolve, reject) => {
-  let leftClickButton = false;
-  let rightClickButton = false;
+  let isLeftClickButton = false;
+  let isRightClickButton = false;
 
   logo.addEventListener('mousedown', (eventClick) => {
     if (eventClick.button === 0) {
-      leftClickButton = true;
+      isLeftClickButton = true;
     }
 
     if (eventClick.button === 2) {
-      rightClickButton = true;
+      isRightClickButton = true;
     }
 
-    if (leftClickButton && rightClickButton) {
+    if (isLeftClickButton && isRightClickButton) {
       resolve();
     }
   });
