@@ -13,16 +13,16 @@ function showMessage(className, innerText) {
 }
 
 const firstPromise = new Promise((resolve, reject) => {
-  logo.addEventListener('click', resolve);
+  logo.addEventListener('mousedown', resolve);
   setTimeout(() => reject(new Error()), 3000);
 });
 
 firstPromise
   .then(() => {
-    showMessage('message', 'First promise was resolved');
+    showMessage('success', 'First promise was resolved');
   })
   .catch(() => {
-    showMessage('error-message', 'First promise was rejected', 'warning');
+    showMessage('warning', 'First promise was rejected');
   });
 
 const secondPromise = new Promise((resolve, reject) => {
@@ -35,10 +35,10 @@ const secondPromise = new Promise((resolve, reject) => {
 
 secondPromise
   .then(() => {
-    showMessage('message', 'Second promise was resolved');
+    showMessage('success', 'Second promise was resolved');
   })
   .catch(() => {
-    showMessage('error-message', 'Second promise was rejected', 'warning');
+    showMessage('warning', 'Second promise was rejected');
   });
 
 const thirdPromise = new Promise((resolve, reject) => {
@@ -62,8 +62,8 @@ const thirdPromise = new Promise((resolve, reject) => {
 
 thirdPromise
   .then(() => {
-    showMessage('message', 'Third promise was resolved', 'success');
+    showMessage('success', 'Third promise was resolved');
   })
   .catch(() => {
-    showMessage('error-message', 'Third promise was rejected', 'warning');
+    showMessage('warning', 'Third promise was rejected');
   });

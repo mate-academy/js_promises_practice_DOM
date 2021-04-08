@@ -23,7 +23,7 @@ body {
   justify-content: center;
 }
 
-.message {
+.success {
   background: rgb(138, 230, 138);
   padding: 5px;
   border-radius: 5px;
@@ -35,7 +35,7 @@ body {
   }
 }
 
-.error-message {
+.warning {
   background: rgb(241, 135, 135);
   padding: 5px;
   border-radius: 5px;
