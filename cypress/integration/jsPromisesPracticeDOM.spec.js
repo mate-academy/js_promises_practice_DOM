@@ -1,3 +1,5 @@
+'use strict';
+
 Cypress.Commands.add('clickButton', (mouseButton) =>
   cy.get('body').trigger('mousedown', mouseButton).trigger('mouseup')
 );
