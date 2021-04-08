@@ -2,12 +2,12 @@
 
 const logo = document.querySelector('.logo');
 
-function showMessage(className, innerText, notificationMessage) {
+function showMessage(className, innerText) {
   const message = document.createElement('div');
 
   message.className = className;
   message.innerText = innerText;
-  message.dataset.qa = 'notificationMessage';
+  message.dataset.qa = 'notification';
 
   document.body.append(message);
 }
@@ -42,19 +42,19 @@ secondPromise
   });
 
 const thirdPromise = new Promise((resolve, reject) => {
-  let isLeftClickButton = false;
-  let isRightClickButton = false;
+  let isLeftButtonClicked = false;
+  let isRightButtonClicked = false;
 
   logo.addEventListener('mousedown', (eventClick) => {
     if (eventClick.button === 0) {
-      isLeftClickButton = true;
+      isLeftButtonClicked = true;
     }
 
     if (eventClick.button === 2) {
-      isRightClickButton = true;
+      isRightButtonClicked = true;
     }
 
-    if (isLeftClickButton && isRightClickButton) {
+    if (isLeftButtonClicked && isRightButtonClicked) {
       resolve();
     }
   });
