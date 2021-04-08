@@ -1,5 +1,3 @@
-'use strict';
-
 const logo = document.querySelector('.logo');
 
 function showMessage(className, innerText) {
@@ -36,9 +34,6 @@ const secondPromise = new Promise((resolve, reject) => {
 secondPromise
   .then(() => {
     showMessage('success', 'Second promise was resolved');
-  })
-  .catch(() => {
-    showMessage('warning', 'Second promise was rejected');
   });
 
 const thirdPromise = new Promise((resolve, reject) => {
@@ -63,7 +58,4 @@ const thirdPromise = new Promise((resolve, reject) => {
 thirdPromise
   .then(() => {
     showMessage('success', 'Third promise was resolved');
-  })
-  .catch(() => {
-    showMessage('warning', 'Third promise was rejected');
   });
