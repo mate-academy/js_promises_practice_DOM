@@ -4,7 +4,7 @@ const body = document.querySelector('body');
 
 function createFirstPromise() {
   const resolver = function(resolve, reject) {
-    document.onclick = () => resolve;
+    document.addEventListener('mousedown', () => resolve());
     setTimeout(() => reject(), 3000);
   };
 
@@ -12,40 +12,39 @@ function createFirstPromise() {
 }
 
 function createSecondPromise() {
-  const resolver = (resolve, reject) => {
-    document.addEventListener('click', resolve);
-    document.addEventListener('contextmenu', resolve);
-  };
+  const resolver = (resolve) => document.addEventListener('mousedown', (e) => {
+    if (e.button !== 1) {
+      resolve();
+    }
+  });
 
   return new Promise(resolver);
 }
 
 function createThirdPromise() {
-  const resolver = (resolve, reject) => {
+  const resolver = (resolve) => {
     let isRightClicked = false;
     let isLeftClicked = false;
 
-    document.addEventListener('click', () => {
-      if (isRightClicked) {
-        resolve();
+    document.addEventListener('mousedown', (e) => {
+      if (e.button === 0) {
+        isLeftClicked = true;
       }
 
-      isLeftClicked = true;
-    });
-
-    document.addEventListener('contextmenu', () => {
-      if (isLeftClicked) {
-        resolve();
+      if (e.button === 2) {
+        isRightClicked = true;
       }
 
-      isRightClicked = true;
+      if (isRightClicked && isLeftClicked) {
+        resolve();
+      }
     });
   };
 
   return new Promise(resolver);
 }
 
-createFirstPromise().then(() => document.insertAdjacentHTML('afterBegin',
+createFirstPromise().then(() => body.insertAdjacentHTML('afterBegin',
   `<div class="success" data-qa="notification">
     First promise was resolved
   </div>`))
