@@ -1,16 +1,17 @@
 'use strict';
 
+const promiseContainer = document.createElement('div');
+
+promiseContainer.className = 'container';
+document.body.append(promiseContainer);
+
 const createNotification = (message, classN) => {
   const element = document.createElement('div');
 
   element.textContent = message;
   element.className = classN;
   element.dataset.qa = 'notification';
-  document.body.append(element);
-
-  setTimeout(() => {
-    element.remove();
-  }, 3000);
+  promiseContainer.append(element);
 };
 
 const firstPromise = new Promise((resolve, reject) => {
@@ -28,8 +29,10 @@ firstPromise
   .catch(error => createNotification(error, 'warning'));
 
 const secondPromise = new Promise(resolve => {
-  document.addEventListener('mousedown', () => {
-    resolve('Second promise was resolved');
+  document.addEventListener('mousedown', (e) => {
+    if (e.button === 0 || e.button === 2) {
+      resolve('Second promise was resolved');
+    }
   });
 });
 

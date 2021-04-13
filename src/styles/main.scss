@@ -30,3 +30,10 @@ body {
 .success {
   color: green;
 }
+
+.container {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
