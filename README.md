@@ -1,5 +1,5 @@
 1. Replace `<your_account>` with your Github username in the link
-    - [DEMO LINK](https://<your_account>.github.io/js_promises_practice_DOM/)
+    - [DEMO LINK](https://IhorDrul.github.io/js_promises_practice_DOM/)
 2. Follow [this instructions](https://mate-academy.github.io/layout_task-guideline/)
     - Run `npm run test` command to test your code;
     - Run `npm run test:only -- -n` to run fast test ignoring linter;
@@ -15,4 +15,3 @@ In this task, you should create 3 promises.
 4. Notify users about resolved or rejected promises using DOM. For messages add QA attributes `data-qa="notification"`, and classes `success`/`warning` depending on the result.
 
 That's all.
-

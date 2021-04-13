@@ -22,3 +22,18 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.warning {
+  color: red;
+}
+
+.success {
+  color: green;
+}
+
+.container {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
