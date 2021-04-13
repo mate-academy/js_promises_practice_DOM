@@ -4,8 +4,10 @@ body {
   margin: 0;
 
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 100px;
 
   min-height: 100vh;
 }
@@ -21,4 +23,18 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0 auto;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.success {
+  color: green;
+}
+
+.warning {
+  color: red;
 }
