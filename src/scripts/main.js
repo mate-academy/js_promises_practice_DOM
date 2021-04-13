@@ -3,6 +3,14 @@
 const logo = document.querySelector('.logo');
 const info = document.querySelector('.info');
 
+const insert = (text, clas) => {
+  info.insertAdjacentHTML('beforeend', `
+  <div data-qa="notification" class=${clas}>
+    ${text}
+  </div>
+`);
+};
+
 new Promise((resolve, reject) => {
   logo.addEventListener('click', () => {
     resolve();
@@ -14,17 +22,9 @@ new Promise((resolve, reject) => {
     reject(reason);
   }, 3000);
 }).then(() => {
-  info.insertAdjacentHTML('beforeend', `
-  <div data-qa="notification" class="success">
-    First promise was resolved
-  </div>
-`);
+  insert('First promise was resolved', 'success');
 }).catch(() => {
-  info.insertAdjacentHTML('beforeend', `
-  <div data-qa="notification" class="warning">
-    First promise was rejected
-  </div>
-`);
+  insert('First promise was rejected', 'warning');
 });
 
 new Promise((resolve) => {
@@ -36,11 +36,7 @@ new Promise((resolve) => {
     resolve();
   });
 }).then(() => {
-  info.insertAdjacentHTML('beforeend', `
-    <div data-qa="notification" class="success">
-      Second promise was resolved
-    </div>
-  `);
+  insert('Second promise was resolved', 'success');
 });
 
 new Promise((resolve) => {
@@ -61,9 +57,5 @@ new Promise((resolve) => {
     }
   });
 }).then(() => {
-  info.insertAdjacentHTML('beforeend', `
-  <div data-qa="notification" class="success">
-    Third promise was resolved
-  </div>
-`);
+  insert('Third promise was resolved', 'success');
 });
