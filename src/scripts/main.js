@@ -44,16 +44,21 @@ new Promise((resolve) => {
 });
 
 new Promise((resolve) => {
-  document.body.addEventListener('click', () => {
-    document.body.addEventListener('contextmenu', () => {
-      resolve();
-    });
-  });
+  let leftClick = false;
+  let rightClick = false;
 
-  document.body.addEventListener('contextmenu', () => {
-    document.body.addEventListener('click', () => {
-      resolve();
-    });
+  document.addEventListener('mousedown', e => {
+    if (e.button === 0) {
+      leftClick = true;
+    }
+
+    if (e.button === 2) {
+      rightClick = true;
+    }
+
+    if (leftClick && rightClick) {
+      resolve('Third promise was resolved');
+    }
   });
 }).then(() => {
   info.insertAdjacentHTML('beforeend', `
