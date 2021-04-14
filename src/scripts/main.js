@@ -22,6 +22,15 @@ new Promise((resolve, reject) => {
     resolve();
   });
 
+  document.body.addEventListener('auxclick', (e) => {
+    resolve();
+  });
+
+  document.body.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    resolve();
+  });
+
   setTimeout(() => {
     reject(new Error());
   }, 3000);
