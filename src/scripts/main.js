@@ -2,6 +2,23 @@
 
 const body = document.querySelector('body');
 
+function addContainer() {
+  body.insertAdjacentHTML('afterbegin', `
+    <div class="messages">
+    </div>
+  `);
+};
+
+function addMessage(className, message) {
+  const block = document.querySelector('.messages');
+
+  block.insertAdjacentHTML('beforeend', `
+    <p data-qa="notification" class="${className}">
+      ${message}
+    </p>
+  `);
+}
+
 const promise1 = new Promise((resolve, reject) => {
   body.addEventListener('mouseup', () => {
     resolve();
@@ -14,22 +31,12 @@ const promise1 = new Promise((resolve, reject) => {
 
 promise1
   .then(() => {
-    body.insertAdjacentHTML('afterbegin', `
-      <div class="messages">
-        <p data-qa="notification" class="success">
-          First promise was resolved
-        </p>
-      </div>
-    `);
+    addContainer();
+    addMessage('success', 'First promise was resolved');
   })
   .catch(() => {
-    body.insertAdjacentHTML('afterbegin', `
-      <div class="messages">
-        <p data-qa="notification" class="warning">
-          First promise was rejected
-        </p>
-      </div>
-    `);
+    addContainer();
+    addMessage('warning', 'First promise was rejected');
   })
   .then(() => {
     const promise2 = new Promise(resolve => {
@@ -42,13 +49,7 @@ promise1
 
     promise2
       .then(() => {
-        const block = document.querySelector('.messages');
-
-        block.insertAdjacentHTML('beforeend', `
-          <p data-qa="notification" class="success">
-            Second promise was resolved
-          </p>
-      `);
+        addMessage('success', 'Second promise was resolved');
       })
       .then(() => {
         const promise3 = new Promise(resolve => {
@@ -68,13 +69,7 @@ promise1
         });
 
         Promise.all([promise3, promise4]).then(() => {
-          const block = document.querySelector('.messages');
-
-          block.insertAdjacentHTML('beforeend', `
-            <p data-qa="notification" class="success">
-              Third promise was resolved
-            </p>
-          `);
+          addMessage('success', 'Third promise was resolved');
         });
       });
   });
