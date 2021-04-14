@@ -18,17 +18,12 @@ const createMessage = (classname, description) => {
 };
 
 new Promise((resolve, reject) => {
-  document.body.addEventListener('click', (e) => {
-    resolve();
-  });
-
-  document.body.addEventListener('auxclick', (e) => {
+  document.body.addEventListener('mousedown', (e) => {
     resolve();
   });
 
   document.body.addEventListener('contextmenu', (e) => {
     e.preventDefault();
-    resolve();
   });
 
   setTimeout(() => {
@@ -43,32 +38,40 @@ new Promise((resolve, reject) => {
   });
 
 new Promise((resolve, reject) => {
-  document.body.addEventListener('click', (e) => {
-    resolve();
+  document.body.addEventListener('mousedown', (e) => {
+    if (e.button !== 1) {
+      resolve();
+    }
   });
 
   document.body.addEventListener('contextmenu', (e) => {
     e.preventDefault();
-    resolve();
   });
 })
   .then(() => {
     createMessage('success', 'Second promise was resolved');
   });
 
-function createPromise(forEvent) {
-  return new Promise((resolve, reject) => {
-    document.body.addEventListener(forEvent, (e) => {
+new Promise((resolve, reject) => {
+  let leftButtonClicked = false;
+  let rightButtonClicked = false;
+
+  document.body.addEventListener('mousedown', (e) => {
+    if (e.button === 0) {
+      leftButtonClicked = true;
+    } else if (e.button === 2) {
+      rightButtonClicked = true;
+    }
+
+    if (leftButtonClicked && rightButtonClicked) {
       resolve();
-    });
+    }
   });
-}
 
-const promise1 = createPromise('click');
-const promise2 = createPromise('contextmenu');
-
-promise1
-  .then(() => promise2)
+  document.body.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+  });
+})
   .then(() => {
     createMessage('success', 'Third promise was resolved');
   });
