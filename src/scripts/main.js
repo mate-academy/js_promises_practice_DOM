@@ -1,14 +1,12 @@
 'use strict';
 
 const addMessage = (message, className) => {
-  const logo = document.querySelector('.logo');
+  const h1 = document.querySelector('h1');
 
-  logo.insertAdjacentHTML('afterend',
+  h1.insertAdjacentHTML('afterend',
     `
-  <div class="${className}">
-  ${message}
-  </div>
-  `
+    <div data-qa="notification" class="${className}">${message}</div>
+    `
   );
 };
 
