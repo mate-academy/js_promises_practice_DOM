@@ -22,3 +22,16 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.message {
+  margin: 20px;
+  padding: 20px;
+  background-color: forestgreen;
+  color: white;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+.warning {
+  background-color: red;
+}
