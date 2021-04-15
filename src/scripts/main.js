@@ -37,39 +37,37 @@ promise1
   .catch(() => {
     addContainer();
     addMessage('warning', 'First promise was rejected');
-  })
-  .then(() => {
-    const promise2 = new Promise(resolve => {
-      body.addEventListener('mouseup', (e) => {
-        if (e.button !== 1) {
-          resolve();
-        };
-      });
-    });
-
-    promise2
-      .then(() => {
-        addMessage('success', 'Second promise was resolved');
-      })
-      .then(() => {
-        const promise3 = new Promise(resolve => {
-          body.addEventListener('mouseup', (e) => {
-            if (e.button === 0) {
-              resolve();
-            };
-          });
-        });
-
-        const promise4 = new Promise(resolve => {
-          body.addEventListener('mouseup', (e) => {
-            if (e.button === 2) {
-              resolve();
-            };
-          });
-        });
-
-        Promise.all([promise3, promise4]).then(() => {
-          addMessage('success', 'Third promise was resolved');
-        });
-      });
   });
+
+const promise2 = new Promise(resolve => {
+  body.addEventListener('mouseup', (e) => {
+    if (e.button !== 1) {
+      resolve();
+    };
+  });
+});
+
+promise2
+  .then(() => {
+    addMessage('success', 'Second promise was resolved');
+  });
+
+const promise3 = new Promise(resolve => {
+  body.addEventListener('mouseup', (e) => {
+    if (e.button === 0) {
+      resolve();
+    };
+  });
+});
+
+const promise4 = new Promise(resolve => {
+  body.addEventListener('mouseup', (e) => {
+    if (e.button === 2) {
+      resolve();
+    };
+  });
+});
+
+Promise.all([promise3, promise4]).then(() => {
+  addMessage('success', 'Third promise was resolved');
+});
