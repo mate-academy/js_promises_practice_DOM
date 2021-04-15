@@ -22,3 +22,17 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.messages {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+}
+
+.success {
+  background-color: green;
+}
+
+.warning {
+  background-color: red;
+}
