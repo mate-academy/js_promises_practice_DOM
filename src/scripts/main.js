@@ -8,6 +8,10 @@ const createMessage = (className, message) => {
   `);
 };
 
+document.addEventListener('contextmenu', e => {
+  e.preventDefault();
+});
+
 new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
     resolve();
