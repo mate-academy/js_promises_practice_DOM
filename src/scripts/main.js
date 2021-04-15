@@ -1,7 +1,11 @@
 'use strict';
 
+const messages = document.querySelector('.messages');
+
 const createMessage = (type, content) => {
   const message = document.createElement('div');
+
+  message.classList.add('message');
 
   switch (type) {
     case 'success':
@@ -16,7 +20,7 @@ const createMessage = (type, content) => {
 
   message.setAttribute('data-qa', 'notification');
 
-  document.body.append(message);
+  messages.append(message);
 };
 
 new Promise((resolve, reject) => {
