@@ -7,6 +7,10 @@ function createMessageBlock(classes, message) {
   </div>`);
 };
 
+document.addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+});
+
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('mousedown', () => {
     resolve();
@@ -26,10 +30,6 @@ firstPromise
   });
 
 const secondPromise = new Promise((resolve, reject) => {
-  document.body.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-  });
-
   document.addEventListener('mousedown', (e) => {
     if (e.which === 1 || e.which === 3) {
       resolve();
@@ -44,10 +44,6 @@ secondPromise
   });
 
 const thirdPromise = new Promise((resolve, reject) => {
-  document.body.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-  });
-
   let leftClick = false;
   let rightClick = false;
 
