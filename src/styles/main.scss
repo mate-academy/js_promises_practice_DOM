@@ -22,3 +22,35 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.promise {
+  position: absolute;
+  width: 250px;
+  height: 70px;
+  border: 3px solid rgb(241, 206, 4);
+  border-radius: 15px;
+  text-align: center;
+  font-weight: 700;
+  line-height: 70px;
+  color: rgb(65, 62, 233);
+}
+
+.first_resolve {
+  top: 50px;
+  background-color: #b2fc3b;
+}
+
+.first_reject {
+  bottom: 200px;
+  background-color: #fc4b3b;
+}
+
+.second_resolve {
+  top: 130px;
+  background-color: #78fc3b;
+}
+
+.third_resolve {
+  top: 210px;
+  background-color: #0bfa02;
+}
