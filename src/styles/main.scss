@@ -3,6 +3,8 @@ body {
   font-family: Roboto, sans-serif;
   margin: 0;
 
+  position: relative;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,4 +23,25 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: bisque;
+  border-radius: 5px;
+}
+
+.message {
+  margin: 10px 15px;
+  font-weight: bold;
+}
+
+.success {
+  color: green;
+}
+
+.warning {
+  color: red;
 }
