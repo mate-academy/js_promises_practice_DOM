@@ -19,7 +19,7 @@ function addMessage(className, message) {
   `);
 }
 
-const promise1 = new Promise((resolve, reject) => {
+const firstPromise = new Promise((resolve, reject) => {
   body.addEventListener('mouseup', () => {
     resolve();
   });
@@ -29,7 +29,7 @@ const promise1 = new Promise((resolve, reject) => {
   }, 3000);
 });
 
-promise1
+firstPromise
   .then(() => {
     addContainer();
     addMessage('success', 'First promise was resolved');
@@ -39,7 +39,7 @@ promise1
     addMessage('warning', 'First promise was rejected');
   });
 
-const promise2 = new Promise(resolve => {
+const secondPromise = new Promise(resolve => {
   body.addEventListener('mouseup', (e) => {
     if (e.button !== 1) {
       resolve();
@@ -47,12 +47,12 @@ const promise2 = new Promise(resolve => {
   });
 });
 
-promise2
+secondPromise
   .then(() => {
     addMessage('success', 'Second promise was resolved');
   });
 
-const promise3 = new Promise(resolve => {
+const thirdPromise = new Promise(resolve => {
   body.addEventListener('mouseup', (e) => {
     if (e.button === 0) {
       resolve();
@@ -60,7 +60,7 @@ const promise3 = new Promise(resolve => {
   });
 });
 
-const promise4 = new Promise(resolve => {
+const fourthPromise = new Promise(resolve => {
   body.addEventListener('mouseup', (e) => {
     if (e.button === 2) {
       resolve();
@@ -68,6 +68,6 @@ const promise4 = new Promise(resolve => {
   });
 });
 
-Promise.all([promise3, promise4]).then(() => {
+Promise.all([thirdPromise, fourthPromise]).then(() => {
   addMessage('success', 'Third promise was resolved');
 });
