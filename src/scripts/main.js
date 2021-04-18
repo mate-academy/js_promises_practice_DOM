@@ -25,7 +25,6 @@ function secondPromise() {
       e.preventDefault();
       resolve('success2');
     });
-    // body.querySelector('[notification]').remove();
   });
 }
 
@@ -71,27 +70,41 @@ function notification(style) {
 
 const first = firstPromise();
 
-first.then(notification, notification);
+first.then((firstNot) => {
+  notification(firstNot);
 
-const second = secondPromise();
+  const second = secondPromise();
 
-second.then(notification);
+  return second;
+})
+  .catch(error => {
+    notification(error);
 
-const third = thirdPromise();
+    const second = secondPromise();
 
-third.then(click => {
-  if (click === 'rclick') {
-    return new Promise((resolve) => {
-      document.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        resolve('success3');
+    return second;
+  })
+  .then(secondNot => {
+    notification(secondNot);
+
+    const third = thirdPromise();
+
+    return third;
+  })
+  .then(thirdNot => {
+    if (thirdNot === 'rclick') {
+      return new Promise((resolve) => {
+        document.addEventListener('contextmenu', (e) => {
+          e.preventDefault();
+          resolve('success3');
+        });
       });
-    });
-  } else if (click === 'lclick') {
-    return new Promise((resolve) => {
-      document.addEventListener('click', () => {
-        resolve('success3');
+    } else if (thirdNot === 'lclick') {
+      return new Promise((resolve) => {
+        document.addEventListener('click', () => {
+          resolve('success3');
+        });
       });
-    });
-  }
-}).then(notification);
+    }
+  })
+  .then(notification);
