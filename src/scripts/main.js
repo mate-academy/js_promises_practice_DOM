@@ -4,39 +4,45 @@ const body = document.querySelector('body');
 
 function firstPromise() {
   return new Promise((resolve, reject) => {
-    document.addEventListener('click', () => {
-      resolve('success1');
+    document.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      resolve('First promise was resolved');
     });
 
     setTimeout(() => {
       // eslint-disable-next-line prefer-promise-reject-errors
-      reject('warning1');
+      reject('First promise was rejected');
     }, 3000);
   });
 }
 
 function secondPromise() {
   return new Promise((resolve) => {
-    document.addEventListener('click', () => {
-      resolve('success2');
-    });
-
-    document.addEventListener('contextmenu', (e) => {
+    document.addEventListener('mousedown', (e) => {
       e.preventDefault();
-      resolve('success2');
+
+      if (e.button === 0 || e.button === 2) {
+        resolve('Second promise was resolved');
+      }
     });
   });
 }
 
 function thirdPromise() {
-  return new Promise((resolve) => {
-    document.addEventListener('click', () => {
-      resolve('rclick');
-    });
+  let rclick = false;
+  let lclick = false;
 
-    document.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-      resolve('lclick');
+  return new Promise((resolve) => {
+    document.addEventListener('mousedown', (e) => {
+      if (e.button === 0) {
+        rclick = true;
+      } else if (e.button === 2) {
+        lclick = true;
+      }
+
+      if (rclick === true && lclick === true) {
+        resolve('Third promise was resolved');
+      }
     });
   });
 }
@@ -45,66 +51,15 @@ function notification(style) {
   const div = document.createElement('div');
 
   div.dataset.qa = 'notification';
-
-  switch (style) {
-    case 'success1':
-      div.className = 'success';
-      div.textContent = 'First promise was resolved';
-      break;
-
-    case 'warning1':
-      div.className = 'warning';
-      div.textContent = 'First promise was rejected';
-      break;
-    case 'success2':
-      div.textContent = 'Second promise was resolved';
-      break;
-
-    case 'success3':
-      div.textContent = 'Third promise was resolved';
-      break;
-  }
+  div.textContent = style;
 
   body.append(div);
 }
 
 const first = firstPromise();
+const second = secondPromise();
+const third = thirdPromise();
 
-first.then((firstNot) => {
-  notification(firstNot);
-
-  const second = secondPromise();
-
-  return second;
-})
-  .catch(error => {
-    notification(error);
-
-    const second = secondPromise();
-
-    return second;
-  })
-  .then(secondNot => {
-    notification(secondNot);
-
-    const third = thirdPromise();
-
-    return third;
-  })
-  .then(thirdNot => {
-    if (thirdNot === 'rclick') {
-      return new Promise((resolve) => {
-        document.addEventListener('contextmenu', (e) => {
-          e.preventDefault();
-          resolve('success3');
-        });
-      });
-    } else if (thirdNot === 'lclick') {
-      return new Promise((resolve) => {
-        document.addEventListener('click', () => {
-          resolve('success3');
-        });
-      });
-    }
-  })
-  .then(notification);
+first.then(notification, notification);
+second.then(notification);
+third.then(notification);
