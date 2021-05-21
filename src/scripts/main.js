@@ -22,8 +22,7 @@ const timeoutPromise = new Promise((resolve, reject) => {
   }, 3000);
 });
 
-timeoutPromise.then((result) => printMessage(result))
-  .catch(error => printMessage(error));
+timeoutPromise.then(printMessage).catch(printMessage);
 
 const customMouseButtonPromise = new Promise((resolve) => {
   body.addEventListener('mousedown', (e) => {
@@ -33,7 +32,7 @@ const customMouseButtonPromise = new Promise((resolve) => {
   });
 });
 
-customMouseButtonPromise.then(result => printMessage(result));
+customMouseButtonPromise.then(printMessage);
 
 const bothButtonsPromise = new Promise((resolve) => {
   const flag = {
@@ -55,4 +54,4 @@ const bothButtonsPromise = new Promise((resolve) => {
   });
 });
 
-bothButtonsPromise.then(result => printMessage(result));
+bothButtonsPromise.then(printMessage);
