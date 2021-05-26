@@ -61,19 +61,16 @@ promise2.then((result) => {
 });
 
 const promise3 = new Promise((resolve) => {
-  let countClick = 0;
-  let sumWhich = 0;
+  const indicator = [1, 3];
 
   logo.addEventListener('mousedown', e => {
-    if (countClick > 2) {
-      countClick = 0;
-      sumWhich = 0;
+    const index = indicator.indexOf(e.which);
+
+    if (index !== -1) {
+      indicator.splice(index, 1);
     }
 
-    countClick++;
-    sumWhich += e.which;
-
-    if (sumWhich === 4) {
+    if (indicator.length === 0) {
       resolve(`Third promise was resolved`);
     }
   });
