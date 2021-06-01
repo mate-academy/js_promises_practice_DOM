@@ -22,3 +22,15 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+[data-qa="notification"] {
+  margin: 10px;
+}
+
+.warning {
+  background-color: #fc4b3b;
+}
+
+.success {
+  background-color: #3bfc6b;
+}
