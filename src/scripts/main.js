@@ -1,57 +1,57 @@
 'use strict';
 
 const body = document.querySelector('body');
+const checkout = {
+  LKM: false,
+  PKM: false,
+};
 
-function promise1() {
-  return new Promise((resolve, reject) => {
-    document.addEventListener('click', () => {
-      const message = getMessage('success', 'First promise was resolved');
+document.addEventListener('mousedown', (e) => {
+  if (e.button === 0) {
+    checkout.LKM = true;
+  } else if (e.button === 2) {
+    checkout.PKM = true;
+  }
+});
 
-      resolve(body.appendChild(message));
-    });
+const promise1 = new Promise((resolve, reject) => {
+  document.addEventListener('click', () => {
+    const message = getMessage('success', 'First promise was resolved');
 
-    setTimeout(() => {
-      const message = getMessage('warning', 'First promise was rejected');
-
-      reject(body.appendChild(message));
-    }, 3000);
+    resolve(message);
   });
-}
 
-promise1();
+  setTimeout(() => {
+    const message = getMessage('warning', 'First promise was rejected');
 
-function promise2() {
-  return new Promise((resolve) => {
-    const message = getMessage('success', 'Second promise was resolved');
+    reject(message);
+  }, 3000);
+});
 
-    document.addEventListener('click', () => {
-      resolve(body.appendChild(message));
-      promise2();
-    });
+const promise2 = new Promise((resolve) => {
+  const message = getMessage('success', 'Second promise was resolved');
 
-    document.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-      resolve(body.appendChild(message));
-      promise2();
-    });
+  document.addEventListener('click', () => {
+    resolve(body.appendChild(message));
   });
-}
 
-promise2();
-
-function promise3() {
-  return new Promise(resolve => {
-    const message = getMessage('success', 'Third promise was resolved');
-
-    document.addEventListener('mousedown', e => {
-      if (e.buttons === 3) {
-        resolve(body.appendChild(message));
-      }
-    });
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    resolve(body.appendChild(message));
   });
-}
+});
 
-promise3();
+const promise3 = new Promise(resolve => {
+  const message = getMessage('success', 'Third promise was resolved');
+
+  document.addEventListener('mousedown', () => {
+    if (checkout.LKM && checkout.PKM) {
+      checkout.LKM = false;
+      checkout.PKM = false;
+      resolve(message);
+    }
+  });
+});
 
 function getMessage(word, phrase) {
   const message = document.createElement('div');
@@ -62,3 +62,9 @@ function getMessage(word, phrase) {
 
   return message;
 }
+
+promise1
+  .then(result => body.appendChild(result))
+  .catch(error => body.appendChild(error));
+promise2.then(result => body.appendChild(result));
+promise3.then(result => body.appendChild(result));
