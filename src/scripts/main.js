@@ -1,18 +1,6 @@
 'use strict';
 
 const body = document.querySelector('body');
-const checkout = {
-  LKM: false,
-  PKM: false,
-};
-
-document.addEventListener('mousedown', (e) => {
-  if (e.button === 0) {
-    checkout.LKM = true;
-  } else if (e.button === 2) {
-    checkout.PKM = true;
-  }
-});
 
 const promise1 = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
@@ -31,23 +19,28 @@ const promise1 = new Promise((resolve, reject) => {
 const promise2 = new Promise((resolve) => {
   const message = getMessage('success', 'Second promise was resolved');
 
-  document.addEventListener('click', () => {
-    resolve(body.appendChild(message));
-  });
-
-  document.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-    resolve(body.appendChild(message));
+  document.addEventListener('mousedown', (e) => {
+    if (e.button === 0 || e.button === 2) {
+      resolve(message);
+    }
   });
 });
 
 const promise3 = new Promise(resolve => {
   const message = getMessage('success', 'Third promise was resolved');
+  const checkout = {
+    LKM: false,
+    PKM: false,
+  };
 
-  document.addEventListener('mousedown', () => {
+  document.addEventListener('mousedown', (e) => {
+    if (e.button === 0) {
+      checkout.LKM = true;
+    } else if (e.button === 2) {
+      checkout.PKM = true;
+    }
+
     if (checkout.LKM && checkout.PKM) {
-      checkout.LKM = false;
-      checkout.PKM = false;
       resolve(message);
     }
   });
