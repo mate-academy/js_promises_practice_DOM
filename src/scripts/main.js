@@ -15,11 +15,11 @@ let rightButton = 0;
 new Promise((resolve, reject) => {
   document.addEventListener('mouseup', (e) => {
     if (e.button === 0) {
-      leftButton = 1;
+      leftButton += 1;
     }
 
     if (e.button === 2) {
-      rightButton = 1;
+      rightButton += 1;
     }
 
     resolve('First promise was resolved');
@@ -31,13 +31,13 @@ new Promise((resolve, reject) => {
   .catch((value) => makeDivBlock('warning', value));
 
 new Promise((resolve, reject) => {
-  document.addEventListener('mouseup', (e) => {
+  document.addEventListener('mousedown', (e) => {
     if (e.button === 0) {
-      leftButton = 1;
+      leftButton += 1;
     }
 
     if (e.button === 2) {
-      rightButton = 1;
+      rightButton += 1;
     }
 
     if (e.button === 2 || e.button === 0) {
@@ -47,8 +47,8 @@ new Promise((resolve, reject) => {
 }).then((value) => makeDivBlock('success', value));
 
 new Promise((resolve, reject) => {
-  document.addEventListener('mouseup', () => {
-    if (leftButton > 0 && rightButton > 0) {
+  document.addEventListener('mousedown', () => {
+    if (leftButton && rightButton) {
       resolve('Third promise was resolved');
     }
   });
