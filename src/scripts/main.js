@@ -1,12 +1,12 @@
 'use strict';
 
 function makeDivBlock(className, text) {
-  const newDivBlock = document.createElement('div');
+  const createMessage = document.createElement('div');
 
-  newDivBlock.className = className;
-  newDivBlock.innerHTML = text;
-  newDivBlock.setAttribute('data-qa', 'notification');
-  document.body.appendChild(newDivBlock);
+  createMessage.className = className;
+  createMessage.innerHTML = text;
+  createMessage.setAttribute('data-qa', 'notification');
+  document.body.appendChild(createMessage);
 }
 
 let leftButton = 0;
