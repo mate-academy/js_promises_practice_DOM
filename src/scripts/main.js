@@ -1,6 +1,6 @@
 'use strict';
 
-function makeDivBlock(className, text) {
+function generateMessage(className, text) {
   const createMessage = document.createElement('div');
 
   createMessage.className = className;
@@ -9,47 +9,49 @@ function makeDivBlock(className, text) {
   document.body.appendChild(createMessage);
 }
 
-let leftButton = 0;
-let rightButton = 0;
-
 new Promise((resolve, reject) => {
-  document.addEventListener('mouseup', (e) => {
-    if (e.button === 0) {
-      leftButton += 1;
-    }
-
-    if (e.button === 2) {
-      rightButton += 1;
-    }
-
+  document.addEventListener('mousedown', (e) => {
     resolve('First promise was resolved');
   });
 
   setTimeout(() => reject(new Error('First promise was rejected')), 3000);
 })
-  .then((value) => makeDivBlock('success', value))
-  .catch((value) => makeDivBlock('warning', value));
+  .then((value) => generateMessage('success', value))
+  .catch((value) => generateMessage('warning', value));
 
 new Promise((resolve, reject) => {
   document.addEventListener('mousedown', (e) => {
-    if (e.button === 0) {
-      leftButton += 1;
-    }
-
-    if (e.button === 2) {
-      rightButton += 1;
-    }
-
     if (e.button === 2 || e.button === 0) {
       resolve('Second promise was resolved');
     }
   });
-}).then((value) => makeDivBlock('success', value));
+}).then((value) => generateMessage('success', value));
 
 new Promise((resolve, reject) => {
-  document.addEventListener('mousedown', () => {
+  let leftButton = false;
+  let rightButton = false;
+
+  document.addEventListener('mousedown', (e) => {
+    if (e.button === 0) {
+      leftButton = true;
+    }
+
+    if (e.button === 2) {
+      rightButton = true;
+    }
+
     if (leftButton && rightButton) {
       resolve('Third promise was resolved');
     }
   });
-}).then((value) => makeDivBlock('success', value));
+
+  document.addEventListener('mouseup', (e) => {
+    if (e.button === 0) {
+      leftButton = false;
+    }
+
+    if (e.button === 2) {
+      rightButton = false;
+    }
+  });
+}).then((value) => generateMessage('success', value));
