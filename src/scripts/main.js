@@ -1,14 +1,11 @@
 'use strict';
 
 const body = document.querySelector('body');
-const logo = document.querySelector('.logo');
-
-logo.style.cursor = 'pointer';
 
 new Promise((resolve, reject) => {
   const block = document.createElement('div');
 
-  logo.addEventListener('click', () => {
+  body.addEventListener('click', () => {
     block.innerText = 'First promise was resolved';
     resolve(block);
   });
@@ -22,7 +19,7 @@ new Promise((resolve, reject) => {
   .catch(el => body.append(el));
 
 new Promise(resolve => {
-  logo.addEventListener('click', () => {
+  body.addEventListener('click', () => {
     const block = document.createElement('div');
 
     block.innerText = 'Second promise was resolved';
@@ -34,8 +31,8 @@ new Promise(resolve => {
 new Promise(resolve => {
   const block = document.createElement('div');
 
-  logo.addEventListener('click', () => {
-    logo.addEventListener('contextmenu', (ev) => {
+  body.addEventListener('click', () => {
+    body.addEventListener('contextmenu', (ev) => {
       ev.preventDefault();
       block.innerText = 'Third promise was resolved';
       resolve(block);
