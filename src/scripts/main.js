@@ -13,25 +13,22 @@ const makeNotification = (text, notificationClass = 'success') => {
 };
 
 new Promise((resolve, reject) => {
-  body.addEventListener('click', () => {
+  body.addEventListener('mousedown', () => {
     resolve('First promise was resolved');
   });
 
   setTimeout(() => {
-    reject(new Error('First promise was resolved'));
+    reject(new Error('First promise was rejected'));
   }, 3000);
 })
   .then((value) => makeNotification(value))
   .catch((value) => makeNotification(value, 'warning'));
 
 new Promise(resolve => {
-  body.addEventListener('click', () => {
-    resolve('Second promise was resolved');
-  });
-
-  body.addEventListener('contextmenu', (ev) => {
-    ev.preventDefault();
-    resolve('Second promise was resolved');
+  body.addEventListener('mousedown', (ev) => {
+    if (ev.button === 2 || ev.button === 0) {
+      resolve('Second promise was resolved');
+    }
   });
 })
   .then((value) => makeNotification(value));
@@ -40,7 +37,7 @@ new Promise(resolve => {
   let leftButton = false;
   let rightButton = false;
 
-  document.addEventListener('mouseup', (ev) => {
+  body.addEventListener('mouseup', (ev) => {
     if (ev.button === 0) {
       leftButton = false;
     }
@@ -50,7 +47,7 @@ new Promise(resolve => {
     }
   });
 
-  document.addEventListener('mousedown', (ev) => {
+  body.addEventListener('mousedown', (ev) => {
     if (ev.button === 0) {
       leftButton = true;
     }
