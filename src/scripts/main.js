@@ -13,7 +13,7 @@ const makeNotification = (text, notificationClass = 'success') => {
 };
 
 new Promise((resolve, reject) => {
-  document.addEventListener('click', () => {
+  body.addEventListener('click', () => {
     resolve('First promise was resolved');
   });
 
