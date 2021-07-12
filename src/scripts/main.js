@@ -37,11 +37,31 @@ new Promise(resolve => {
   .then((value) => makeNotification(value));
 
 new Promise(resolve => {
-  body.addEventListener('click', () => {
-    body.addEventListener('contextmenu', (ev) => {
-      ev.preventDefault();
+  let leftButton = false;
+  let rightButton = false;
+
+  document.addEventListener('mouseup', (ev) => {
+    if (ev.button === 0) {
+      leftButton = false;
+    }
+
+    if (ev.button === 2) {
+      rightButton = false;
+    }
+  });
+
+  document.addEventListener('mousedown', (ev) => {
+    if (ev.button === 0) {
+      leftButton = true;
+    }
+
+    if (ev.button === 2) {
+      rightButton = true;
+    }
+
+    if (leftButton && rightButton) {
       resolve('Third promise was resolved');
-    });
+    }
   });
 })
   .then((value) => makeNotification(value));
