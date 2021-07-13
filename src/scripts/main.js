@@ -34,11 +34,23 @@ new Promise(resolve => {
   .then((value) => makeNotification(value));
 
 new Promise(resolve => {
-  body.addEventListener('click', () => {
-    body.addEventListener('contextmenu', (ev) => {
-      ev.preventDefault();
-      resolve('Third promise was resolved');
-    });
+  let leftClick = false;
+  let rightClick = false;
+
+  body.addEventListener('mousedown', (ev) => {
+    if (ev.button === 0) {
+      leftClick = true;
+    } else if (ev.button === 2) {
+      rightClick = true;
+    }
+
+    (function() {
+      if (leftClick && rightClick) {
+        resolve('Third promise was resolved');
+      }
+    })();
   });
 })
   .then((value) => makeNotification(value));
+
+body.addEventListener('contextmenu', (ev) => ev.preventDefault());
