@@ -31,16 +31,6 @@ new Promise((resolve, reject) => {
       resolve();
     }
   });
-
-  document.addEventListener('mouseup', e => {
-    if (e.button === 0) {
-      leftButton = false;
-    }
-
-    if (e.button === 2) {
-      rightButton = false;
-    }
-  });
 }).then(() => showMessage('Third promise was resolved'));
 
 function showMessage(message, className = 'success') {
