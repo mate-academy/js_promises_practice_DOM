@@ -22,3 +22,67 @@ body {
   align-items: center;
   justify-content: center;
 }
+body {
+  background: #eee;
+  font-family: Roboto, sans-serif;
+  margin: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 100vh;
+}
+
+.logo {
+  text-transform: uppercase;
+  background-color: #fc4b3b;
+  color: white;
+  border-radius: 16px;
+  user-select: none;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.success {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  padding: 25px;
+
+  width: 200px;
+
+  font-family: Verdana, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+
+  border-radius: 15px;
+
+  background-color: rgba(230, 230, 0, 0.5);
+}
+
+.warning {
+  background-color: rgba(204, 51, 0, 0.5);
+  right: 350px;
+  position: absolute;
+  top: 50px;
+  padding: 25px;
+
+  width: 200px;
+
+  font-family: Verdana, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+
+  border-radius: 15px;
+
+}
+
+.success-third {
+  top: 150px
+}
