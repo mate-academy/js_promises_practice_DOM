@@ -1,16 +1,6 @@
 'use strict';
 
-let leftClick = false;
-let rightClick = false;
-
-document.addEventListener('click', () => {
-  leftClick = true;
-});
-
-document.addEventListener('contextmenu', () => {
-  rightClick = true;
-});
-
+// #1
 new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
     resolve('First promise was resolved');
@@ -19,24 +9,29 @@ new Promise((resolve, reject) => {
 }).then(text => addNotification(text, 'success'))
   .catch(text => addNotification(text, 'warning'));
 
-new Promise((resolve, reject) => {
-  document.addEventListener('click', () => {
-    resolve('Second promise was resolved');
-  });
-
-  document.addEventListener('contextmenu', () => {
-    resolve('Second promise was resolved');
+// #2
+new Promise((resolve) => {
+  document.addEventListener('mouseup', () => {
+    if (event.button === 0 || event.button === 2) {
+      resolve('Second promise was resolved');
+    }
   });
 }).then(text => addNotification(text, 'success'));
 
+// #3
 new Promise(resolve => {
-  document.addEventListener('click', () => {
-    if (leftClick && rightClick) {
-      resolve('Third promise was resolved');
-    }
-  });
+  let leftClick = false;
+  let rightClick = false;
 
-  document.addEventListener('contextmenu', () => {
+  document.addEventListener('mouseup', () => {
+    if (event.button === 0) {
+      leftClick = true;
+    }
+
+    if (event.button === 2) {
+      rightClick = true;
+    }
+
     if (leftClick && rightClick) {
       resolve('Third promise was resolved');
     }
