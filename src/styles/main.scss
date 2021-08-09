@@ -2,8 +2,8 @@ body {
   background: #eee;
   font-family: Roboto, sans-serif;
   margin: 0;
-
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
@@ -21,4 +21,18 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.saccess {
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  background-color: rgb(49, 236, 49);
+  border-radius: 10px;
+}
+
+.warning {
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  background: rgb(221, 68, 68);
+  border-radius: 10px;
 }
