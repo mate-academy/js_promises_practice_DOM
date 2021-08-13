@@ -22,3 +22,17 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+div[data-qa="notification"] {
+  padding: 20px;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.success {
+  background-color: seagreen;
+}
+
+.warning {
+  background-color: tomato;
+}
