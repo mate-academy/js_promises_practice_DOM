@@ -1,66 +1,56 @@
 'use strict';
 
-const body = document.querySelector('body');
-
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
-    const msgComplite = document.createElement('div');
-
-    msgComplite.classList.add('success');
-    msgComplite.innerText = 'First promise was resolved';
-    msgComplite.dataset.qa = 'notification';
-
-    resolve(msgComplite);
+    resolve('First promise was resolved');
   });
 
-  const msgError = document.createElement('div');
-
-  msgError.classList.add('warning');
-  msgError.innerText = 'First promise was rejected';
-  msgError.dataset.qa = 'notification';
-  setTimeout(() => reject(msgError), 3000);
-}
-);
-
-const secondPrimise = new Promise((resolve) => {
-  const msgComplite = document.createElement('div');
-
-  msgComplite.classList.add('success');
-  msgComplite.innerText = 'Second promise was resolved';
-  msgComplite.dataset.qa = 'notification';
-
-  document.addEventListener('click', () => {
-    resolve(msgComplite);
-  });
-
-  document.addEventListener('contextmenu', () => {
-    resolve(msgComplite);
-  });
+  setTimeout(() => reject('First promise was rejected'), 3000);
 });
 
-const thirdPromise = new Promise((resolve) => {
-  const msgComplite = document.createElement('div');
-
-  msgComplite.classList.add('success');
-  msgComplite.innerText = 'Third promise was resolved';
-  msgComplite.dataset.qa = 'notification';
-
-  let counter = 0;
-
-  document.addEventListener('click', () => {
-    counter++;
-  });
-
-  document.addEventListener('contextmenu', () => {
-    if (counter >= 1) {
-      resolve(msgComplite);
+const secondPrimise = new Promise((resolve) => {
+  document.addEventListener('mousedown', (e) => {
+    if (e.buttons !== 4) {
+      resolve('Second promise was resolved');
     }
   });
 });
 
-firstPromise.then((msg) => body.prepend(msg))
-  .catch((msg) => body.prepend(msg));
+const thirdPromise = new Promise((resolve) => {
+  let leftClick = false;
+  let rightClick = false;
 
-secondPrimise.then((msg) => body.prepend(msg));
+  document.addEventListener('mousedown', (e) => {
+    if (e.buttons === 1) {
+      leftClick = true;
+    }
 
-thirdPromise.then((msg) => body.prepend(msg));
+    if (e.buttons === 2) {
+      rightClick = true;
+    }
+
+    if (leftClick && rightClick) {
+      resolve('Third promise was resolved');
+    }
+  });
+});
+
+function createMessage(statusMsg, text) {
+  const message = document.createElement('div');
+  const rootElement = document.querySelector('body');
+
+  message.classList.add(`${statusMsg}`);
+  message.innerText = text;
+  message.dataset.qa = 'notification';
+  rootElement.append(message);
+};
+
+firstPromise
+  .then((msg) => createMessage('success', msg))
+  .catch((msg) => createMessage('warning', msg));
+
+secondPrimise
+  .then((msg) => createMessage('success', msg));
+
+thirdPromise
+  .then((msg) => createMessage('success', msg));
