@@ -8,69 +8,59 @@ const createNotification = (messege, classList) => {
   document.body.append(element);
 };
 
-const firstPromise = () => {
-  const resolver = (resolve, reject) => {
-    document.addEventListener('click', () => {
-      resolve();
-    });
+const firstPromise = new Promise((resolve, reject) => {
+  document.addEventListener('click', () => {
+    resolve('First promise was resolved');
+  });
 
-    setTimeout(() => {
-      reject();
-    }, 3000);
-  };
+  setTimeout(() => {
+    const text = 'First promise was rejected';
 
-  return new Promise(resolver);
-};
+    reject(text);
+  }, 3000);
+});
 
-firstPromise()
-  .then(() => {
-    createNotification('First promise was resolved');
+firstPromise
+  .then(text => {
+    createNotification(text);
   })
-  .catch(() => {
-    createNotification('First promise was rejected', 'warning');
+  .catch(error => {
+    createNotification(error, 'warning');
   });
 
-const secondPromise = () => {
-  const resolver = (resolve) => {
-    document.addEventListener('mouseup', (e) => {
-      if (e.button === 0 || e.button === 2) {
-        resolve();
-      }
-    });
-  };
+const secondPromise = new Promise(resolve => {
+  document.addEventListener('mouseup', (e) => {
+    if (e.button === 0 || e.button === 2) {
+      resolve('Second promise was resolved');
+    }
+  });
+});
 
-  return new Promise(resolver);
-};
-
-secondPromise()
-  .then(() => {
-    createNotification('Second promise was resolved', 'second-message');
+secondPromise
+  .then(text => {
+    createNotification(text, 'second-message');
   });
 
-const thirdPromise = () => {
-  const resolver = (resolve) => {
-    let leftButton = false;
-    let rightButton = false;
+const thirdPromise = new Promise(resolve => {
+  let leftButton = false;
+  let rightButton = false;
 
-    document.addEventListener('mouseup', (e) => {
-      switch (e.button) {
-        case 0: leftButton = true;
-          break;
+  document.addEventListener('mouseup', (e) => {
+    switch (e.button) {
+      case 0: leftButton = true;
+        break;
 
-        case 2: rightButton = true;
-          break;
-      }
+      case 2: rightButton = true;
+        break;
+    }
 
-      if (leftButton && rightButton) {
-        resolve();
-      }
-    });
-  };
+    if (leftButton && rightButton) {
+      resolve('Third promise was resolved');
+    }
+  });
+});
 
-  return new Promise(resolver);
-};
-
-thirdPromise()
-  .then(() => {
-    createNotification('Third promise was resolved', 'third-message');
+thirdPromise
+  .then((text) => {
+    createNotification(text, 'third-message');
   });
