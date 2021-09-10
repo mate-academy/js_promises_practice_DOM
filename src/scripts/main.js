@@ -42,16 +42,20 @@ secondPromise
   });
 
 const thirdPromise = new Promise(resolve => {
-  let leftButton = false;
-  let rightButton = false;
+  let leftButton = 0;
+  let rightButton = 0;
 
-  document.addEventListener('mouseup', (e) => {
+  document.addEventListener('mousedown', (e) => {
     switch (e.button) {
-      case 0: leftButton = true;
+      case 0: {
+        leftButton = 1;
         break;
+      }
 
-      case 2: rightButton = true;
+      case 2: {
+        rightButton = 1;
         break;
+      }
     }
 
     if (leftButton && rightButton) {
