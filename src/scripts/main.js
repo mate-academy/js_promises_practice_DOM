@@ -1,5 +1,9 @@
 'use strict';
 
+document.addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+});
+
 function newMessage(messages, classElement) {
   const div = document.createElement('div');
 
@@ -30,7 +34,7 @@ new Promise((resolve, reject) => {
   let buttonLeft = false;
   let buttonRight = false;
 
-  document.addEventListener('mouseup', ev => {
+  document.addEventListener('mousedown', ev => {
     if (ev.button === 0) {
       buttonLeft = true;
     }
@@ -42,5 +46,7 @@ new Promise((resolve, reject) => {
     if (buttonLeft && buttonRight) {
       resolve('Third promise was resolved');
     }
+
+    ev.preventDefault();
   });
 }).then((message) => newMessage(message, 'success'));
