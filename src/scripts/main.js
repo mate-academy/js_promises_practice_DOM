@@ -10,6 +10,10 @@ function printMessage(message, messageclass) {
   document.body.append(messageElement);
 }
 
+document.addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+});
+
 const firstPromise = new Promise((resolve, reject) => {
   setTimeout(() => reject(new Error()), 3000);
 
@@ -48,15 +52,14 @@ const thirdPromise = new Promise((resolve, reject) => {
 firstPromise
   .then(() => {
     printMessage('First promise was resolved', 'success');
-
-    return secondPromise;
   })
-  .then(() => {
-    printMessage('Second promise was resolved', 'success');
-
-    return thirdPromise;
-  })
-  .then(() => printMessage('Third promise was resolved', 'success'))
   .catch(() => {
     printMessage('First promise was rejected', 'warning');
   });
+
+secondPromise.then(() => {
+  printMessage('Second promise was resolved', 'success');
+
+  return thirdPromise;
+})
+  .then(() => printMessage('Third promise was resolved', 'success'));
