@@ -59,7 +59,8 @@ firstPromise
 
 secondPromise.then(() => {
   printMessage('Second promise was resolved', 'success');
+});
 
-  return thirdPromise;
-})
-  .then(() => printMessage('Third promise was resolved', 'success'));
+thirdPromise.then(() => {
+  printMessage('Third promise was resolved', 'success');
+});
