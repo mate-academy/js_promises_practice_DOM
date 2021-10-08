@@ -37,10 +37,22 @@ function secondPromise() {
   return new Promise(resolve);
 }
 
-function thirdPromise(num) {
+function thirdPromise() {
+  let leftButtonClicked = false;
+  let rightButtonClicked = false;
+
   const resolve = (resolved) => {
-    document.addEventListener('mouseup', (e) => {
-      if (e.button === num) {
+    document.addEventListener('mousedown', e => {
+      switch (e.button) {
+        case 0:
+          leftButtonClicked = true;
+          break;
+        case 2:
+          rightButtonClicked = true;
+          break;
+      }
+
+      if (leftButtonClicked && rightButtonClicked) {
         resolved('Third promise was resolved');
       }
     });
@@ -49,37 +61,10 @@ function thirdPromise(num) {
   return new Promise(resolve);
 }
 
-thirdPromise(0)
-  .then(() => thirdPromise(2))
+thirdPromise()
   .then(result => {
     document.body.append(createNotification(result, 'success'));
   });
-
-// Почему такая реализация не работает?
-
-// function clicked(num, part) {
-//   const resolve = (resolved) => {
-//     document.addEventListener('mouseup', (e) => {
-//       if (e.button === num) {
-//         resolved(part);
-//       }
-//     });
-//   };
-
-//   return new Promise(resolve);
-// }
-
-// async function thirdPromise() {
-//   const result1 = await clicked(0, 'Third promise ');
-//   const result2 = await clicked(2, 'was resolved');
-
-//   return result1 + result2;
-// }
-
-// thirdPromise()
-//   .then(result => {
-//     document.body.append(createNotification(result, 'success'));
-//   });
 
 firstPromise()
   .then(result => {
