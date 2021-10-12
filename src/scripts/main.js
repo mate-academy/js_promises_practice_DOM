@@ -16,8 +16,8 @@ const printNotification = (text, classStatus) => {
       style="padding: 20px;" 
       class="${classStatus}" 
       data-qa="notification"
-      >
-        ${text}
+    >
+      ${text}
     </div>
   `;
 
@@ -48,9 +48,23 @@ const secondPromise = new Promise(resolve => {
 
 secondPromise.then(resolve => printNotification(resolve, 'success'));
 
+let left = false;
+let right = false;
+
 const thirdPromise = new Promise(resolve => {
-  document.addEventListener('contextmenu', () => {
-    resolve(message.second);
+  document.addEventListener('mousedown', (e) => {
+    switch (e.button) {
+      case 0:
+        left = true;
+        break;
+
+      case 2:
+        right = true;
+    }
+
+    if (left && right) {
+      resolve(message.third);
+    }
   });
 });
 
