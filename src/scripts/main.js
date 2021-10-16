@@ -1,6 +1,6 @@
 'use strict';
 
-const notify = (state = 'success', message = '123') => {
+const notify = (state, message) => {
   const div = document.createElement('div');
 
   div.dataset.qa = 'notification';
