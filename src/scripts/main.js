@@ -1,66 +1,58 @@
 'use strict';
 
 const notify = (state, message) => {
-  const div = document.createElement('div');
+  const notification = `
+    <div data-qa="notification" class=${state}>
+      ${message}
+    </div>
+  `;
 
-  div.dataset.qa = 'notification';
-  div.textContent = message;
-  div.classList.add(state);
-
-  document.body.append(div);
+  document.body.insertAdjacentHTML('beforeend', notification);
 };
 
-const onSuccess = (message) => {
-  notify('success', message);
-};
+const onSuccess = message => notify('success', message);
+const onError = error => notify('warning', error.message);
 
-const onError = (error) => {
-  notify('warning', error.message);
-};
-
-new Promise((resolve, reject) => {
+const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
     resolve('First promise was resolved');
   });
 
-  setTimeout(() => reject(Error('First promise was rejected')), 3000);
-})
-  .then(
-    onSuccess,
-    onError,
-  )
-  .then(() => new Promise(resolve => {
-    document.addEventListener('mouseup', ({ button }) => {
-      if (button === 0 || button === 2) {
-        resolve('Second promise was resolved');
-      }
-    });
-  }))
-  .then(success => {
-    onSuccess(success);
+  setTimeout(() => reject(new Error('First promise was rejected')), 3000);
+});
 
-    return new Promise(resolve => {
-      let leftClick = false;
-      let rightClick = false;
+const secondPromise = new Promise(resolve => {
+  document.addEventListener('mouseup', ({ button }) => {
+    if (button === 0 || button === 2) {
+      resolve('Second promise was resolved');
+    }
+  });
+});
 
-      document.addEventListener('mouseup', ({ button }) => {
-        switch (button) {
-          case 0:
-            leftClick = true;
-            break;
+const thirdPromise = new Promise(resolve => {
+  let leftClick = false;
+  let rightClick = false;
 
-          case 2:
-            rightClick = true;
-            break;
+  document.addEventListener('mouseup', ({ button }) => {
+    switch (button) {
+      case 0:
+        leftClick = true;
+        break;
 
-          default:
-            break;
-        }
+      case 2:
+        rightClick = true;
+        break;
 
-        if (leftClick && rightClick) {
-          resolve('Third promise was resolved');
-        }
-      });
-    });
-  })
-  .then(onSuccess);
+      default:
+        break;
+    }
+
+    if (leftClick && rightClick) {
+      resolve('Third promise was resolved');
+    }
+  });
+});
+
+firstPromise.then(onSuccess, onError);
+secondPromise.then(onSuccess);
+thirdPromise.then(onSuccess);
