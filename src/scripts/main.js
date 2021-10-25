@@ -2,8 +2,6 @@
 
 const body = document.querySelector('body');
 const fall = ['error', 'First promise was rejected'];
-let countLeft = 0;
-let countRight = 0;
 
 function getMessage(result) {
   body.insertAdjacentHTML('afterbegin', `
@@ -13,20 +11,13 @@ function getMessage(result) {
   `);
 }
 
-body.addEventListener('contextmenu', (e) => {
-  countRight = 1;
-});
-
 const firstPromise = new Promise((resolve, reject) => {
   body.addEventListener('click', () => {
-    countLeft = 1;
     resolve(['success', 'First promise was resolved']);
   });
 
   setTimeout(() => {
-    if (countLeft === 0) {
-      reject(fall);
-    }
+    reject(fall);
   }, 3000);
 });
 
@@ -37,12 +28,22 @@ const secondPromise = new Promise((resolve, reject) => {
 });
 
 const thirdPromise = new Promise((resolve, reject) => {
-  body.addEventListener('mouseup', (e) => {
-    const key = e.button;
+  let countLeft = false;
+  let countRight = false;
 
-    if ((key === 0 & countRight === 1) || (key === 2 & countLeft === 1)) {
+  document.addEventListener('mousedown', e => {
+    switch (e.button) {
+      case 0:
+        countLeft = true;
+        break;
+      case 2:
+        countRight = true;
+        break;
+    }
+
+    if (countLeft & countRight) {
       resolve(['success', 'Third promise was resolved']);
-    };
+    }
   });
 });
 
