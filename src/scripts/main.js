@@ -2,29 +2,41 @@
 
 const body = document.querySelector('body');
 
+document.addEventListener('contextmenu', ev => ev.preventDefault());
+
 const firstPromise = new Promise((resolve, reject) => {
-  body.addEventListener('click', () => {
-    resolve('First promise was resolved');
+  body.addEventListener('mousedown', (e) => {
+    if (e.button === 0) {
+      resolve('First promise was resolved');
+    }
   });
 
   setTimeout(reject, 3000, 'First promise was rejected');
 });
 
 const secondPromise = new Promise((resolve, reject) => {
-  body.addEventListener('click', (e) => {
-    if (e.button === 0) {
+  body.addEventListener('mousedown', (ev) => {
+    if (ev.button === 0 || ev.button === 2) {
       resolve('Second promise was resolved');
     }
   });
 });
 
 const thirdPromise = new Promise((resolve, reject) => {
-  body.addEventListener('click', (e) => {
+  let leftMouseClick = false;
+  let rightMouseClick = false;
+
+  body.addEventListener('mousedown', (e) => {
     if (e.button === 0) {
-      body.addEventListener('contextmenu', (ev) => {
-        ev.preventDefault();
-        resolve('Third promise was resolved');
-      });
+      leftMouseClick = true;
+    }
+
+    if (e.button === 2) {
+      rightMouseClick = true;
+    }
+
+    if (leftMouseClick && rightMouseClick) {
+      resolve('Third promise was resolved');
     }
   });
 });
