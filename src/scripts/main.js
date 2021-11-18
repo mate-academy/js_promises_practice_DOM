@@ -21,7 +21,7 @@ const handleRejection = (error) => {
 };
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('contextmenu', () => {
+  document.addEventListener('click', () => {
     resolve('First promise was resolved');
   });
 
