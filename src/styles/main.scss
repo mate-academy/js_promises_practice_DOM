@@ -4,6 +4,7 @@ body {
   margin: 0;
 
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
@@ -21,4 +22,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.success,
+.error {
+  margin-bottom: 16px;
+  padding: 20px;
+  border-radius: 16px;
+}
+
+.success {
+  background-color: lightgreen;
+}
+
+.error {
+  background-color: darksalmon;
 }
