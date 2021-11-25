@@ -22,3 +22,18 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.notification {
+  margin: 10px;
+  padding: 20px;
+  background-color: #fcfcfc;
+  border-radius: 16px;
+
+  &--success {
+    color: #73ba9b;
+  }
+  
+  &--warning {
+    color: #ea2d24;
+  }
+}
