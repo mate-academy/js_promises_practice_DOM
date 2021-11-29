@@ -4,8 +4,10 @@ body {
   margin: 0;
 
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 25px;
 
   min-height: 100vh;
 }
@@ -21,4 +23,26 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.success,
+.warning {
+  padding: 25px;
+
+  width: 200px;
+
+  font-family: Verdana, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+
+  border-radius: 15px;
+}
+
+.success {
+  background-color: rgba(135, 255, 66, 0.5);
+}
+
+.warning {
+  background-color: rgba(240, 56, 32, 0.5);
 }
