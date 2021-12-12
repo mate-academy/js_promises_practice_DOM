@@ -22,3 +22,27 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.success {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  width: 150px;
+  height: 150px;
+
+  background-color: green;
+  border-radius: 50%;
+}
+
+.warning {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  width: 150px;
+  height: 150px;
+
+  background-color: red;
+  border-radius: 50%;
+}
