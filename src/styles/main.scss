@@ -8,6 +8,7 @@ body {
   justify-content: center;
 
   min-height: 100vh;
+  flex-direction: column;
 }
 
 .logo {
@@ -21,4 +22,20 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.success,
+.warning {
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 20px;
+  display: flex;
+}
+
+.success {
+  background-color: rgb(187, 248, 182);
+}
+
+.warning {
+  background-color: rgb(240, 78, 57);
 }
