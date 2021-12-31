@@ -38,6 +38,8 @@ function waitOrClick(delay, message) {
 function leftOrRight(message) {
   return new Promise(resolve => {
     document.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+
       if (e.button === 0 || e.button === 2) {
         resolve(['success', message]);
       }
@@ -48,6 +50,8 @@ function leftOrRight(message) {
 function leftAndRight(message) {
   return new Promise(resolve => {
     document.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+
       if (e.buttons === 3) {
         resolve(['success', message]);
       }
