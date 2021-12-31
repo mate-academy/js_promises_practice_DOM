@@ -25,40 +25,58 @@ const onError = error => {
   formatElement(div, className, message);
 };
 
-function wait(delay, className, value) {
-  return new Promise((reject) => {
-    setTimeout(() => reject([className, value]), delay);
+function waitOrClick(delay, message) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => reject(['error', message + ' rejected']), delay);
+
+    document.addEventListener('click', () => {
+      resolve(['success', message + ' resolved']);
+    });
   });
 }
 
-function click(eventType, className, value) {
+function leftOrRight(message) {
   return new Promise(resolve => {
-    document.addEventListener(eventType, () => {
-      resolve([className, value]);
+    document.addEventListener('mousedown', (e) => {
+      if (e.button === 0 || e.button === 2) {
+        resolve(['success', message]);
+      }
     });
   });
 };
 
-const firstPromise = Promise.race([
-  wait(3000, 'error', 'First promise was rejected'),
-  click('click', 'success', 'First promise was resolved'),
-]);
+function leftAndRight(message) {
+  return new Promise(resolve => {
+    let left = false;
+    let right = false;
+
+    document.addEventListener('mousedown', (e) => {
+      if (e.button === 0) {
+        left = true;
+      }
+
+      if (e.button === 2) {
+        right = true;
+      }
+
+      if (left && right) {
+        resolve(['success', message]);
+      }
+    });
+  });
+};
+
+const firstPromise = waitOrClick(3000, 'First promise was');
 
 firstPromise
   .then(onSuccess, onError);
 
-const secondPromise = Promise.race([
-  click('click', 'success', 'Second promise was resolved'),
-  click('contextmenu', 'success', 'Second promise was resolved'),
-]);
+const secondPromise = leftOrRight('Second promise was resolved');
 
 secondPromise
   .then(onSuccess, onError);
 
-const thirdPromise = Promise.all([
-  click('click', 'success', 'Third promise was resolved'),
-  click('contextmenu', 'success', 'Third promise was resolved'),
-]);
+const thirdPromise = leftAndRight('Third promise was resolved');
 
 thirdPromise
-  .then(value => onSuccess(value[1]), error => onError(error[1]));
+  .then(onSuccess, onError);
