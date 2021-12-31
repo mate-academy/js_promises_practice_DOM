@@ -47,19 +47,8 @@ function leftOrRight(message) {
 
 function leftAndRight(message) {
   return new Promise(resolve => {
-    let left = false;
-    let right = false;
-
     document.addEventListener('mousedown', (e) => {
-      if (e.button === 0) {
-        left = true;
-      }
-
-      if (e.button === 2) {
-        right = true;
-      }
-
-      if (left && right) {
+      if (e.buttons === 3) {
         resolve(['success', message]);
       }
     });
