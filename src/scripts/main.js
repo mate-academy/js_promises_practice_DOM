@@ -60,22 +60,24 @@ const thirdSuccess = `
     class="success"
   >Third promise was resolved</div>`;
 
-const thirdPromise = Promise.all([
-  new Promise(resolve => {
-    document.addEventListener('mousedown', (e) => {
-      if (e.button === 0) {
-        resolve(thirdSuccess);
-      }
-    });
-  }),
-  new Promise(resolve => {
-    document.addEventListener('mousedown', (e) => {
-      if (e.button === 2) {
-        resolve(thirdSuccess);
-      }
-    });
-  }),
-]);
+const thirdPromise = new Promise(resolve => {
+  let leftBtn = false;
+  let rightBtn = false;
+
+  document.addEventListener('mousedown', (e) => {
+    if (e.button === 0) {
+      leftBtn = true;
+    }
+
+    if (e.button === 2) {
+      rightBtn = true;
+    }
+
+    if (leftBtn === true && rightBtn === true) {
+      resolve(thirdSuccess);
+    }
+  });
+});
 
 thirdPromise.then(result => root
-  .insertAdjacentHTML('beforeend', result[0]));
+  .insertAdjacentHTML('beforeend', result));
