@@ -56,35 +56,17 @@ const promise2 = createPromis2();
 const promise3 = createPromis3();
 
 promise1
-  .then(onSuccess1)
-  .catch(onError1);
+  .then(() => showMessage('First promise was resolved'))
+  .catch(() => showMessage('First promise was rejected', 'warning'));
 
 promise2
-  .then(onSuccess2);
+  .then(() => showMessage('Second promise was resolved'));
 
 promise3
-  .then(onSuccess3);
+  .then(() => showMessage('Third promise was resolved'));
 
-function onSuccess1() {
+function showMessage(text, cls = 'success') {
   body.insertAdjacentHTML('beforeend',
-    `<div data-qa="notification" class="message success">
-    First promise was resolved</div>`);
-};
-
-function onError1() {
-  body.insertAdjacentHTML('beforeend',
-    `<div data-qa="notification" class="message warning">
-    First promise was rejected</div>`);
-};
-
-function onSuccess2() {
-  body.insertAdjacentHTML('beforeend',
-    `<div data-qa="notification" class="message success">
-    Second promise was resolved</div>`);
-};
-
-function onSuccess3() {
-  body.insertAdjacentHTML('beforeend',
-    `<div data-qa="notification" class="message success">
-    Third promise was resolved</div>`);
+    `<div data-qa="notification" class="message ${cls}">
+    ${text}</div>`);
 };
