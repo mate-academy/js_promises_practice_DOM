@@ -3,9 +3,11 @@
 const body = document.querySelector('body');
 const div = document.createElement('div');
 
-function addElement() {
+function addElement(classDIV, messageDIV) {
   body.append(div);
   div.dataset.qa = 'notification';
+  div.classList.add(classDIV);
+  div.textContent = messageDIV;
 }
 
 function firstPromise() {
@@ -28,14 +30,10 @@ const first = firstPromise();
 
 first
   .then(() => {
-    addElement();
-    div.classList.add('success');
-    div.textContent = 'First promise was resolved';
+    addElement('success', 'First promise was resolved');
   })
   .catch(() => {
-    addElement();
-    div.classList.add('warning');
-    div.textContent = 'First promise was rejected';
+    addElement('warning', 'First promise was rejected');
   });
 
 function secondPromise() {
@@ -54,30 +52,33 @@ const second = secondPromise();
 
 second
   .then(() => {
-    addElement();
-    div.classList.add('success');
-    div.textContent = 'Second promise was resolved';
+    addElement('success', 'Second promise was resolved');
   });
 
-function thirdPromise(value) {
+function thirdPromise() {
+  let leftButton = false;
+  let rightButton = false;
+
   return new Promise(resolve => {
     body.addEventListener('mousedown', (e) => {
-      if (e.which === value) {
+      if (e.which === 1) {
+        leftButton = true;
+      }
+
+      if (e.which === 3) {
+        rightButton = true;
+      }
+
+      if (leftButton && rightButton) {
         resolve();
       }
     });
   });
 }
 
-const thirdPromiseLeft = thirdPromise(1);
-const thirdPromiseRight = thirdPromise(3);
+const thirdPromiseLR = thirdPromise();
 
-thirdPromiseLeft
+thirdPromiseLR
   .then(() => {
-    return thirdPromiseRight;
-  })
-  .then(() => {
-    addElement();
-    div.classList.add('success');
-    div.textContent = 'Third promise was resolved';
+    addElement('success', 'Third promise was resolved');
   });
