@@ -37,21 +37,20 @@ const secondPromise = new Promise((resolve) => {
 });
 
 const thirdPromise = new Promise((resolve, reject) => {
+  let leftButton = false;
+  let rightButton = false;
+
   body.addEventListener('mousedown', (e) => {
     if (e.button === 0) {
-      body.addEventListener('mousedown', (ev) => {
-        if (ev.button === 2) {
-          resolve('Third promise was resolved');
-        }
-      });
+      leftButton = true;
     }
 
     if (e.button === 2) {
-      body.addEventListener('mousedown', (ev) => {
-        if (ev.button === 0) {
-          resolve('Third promise was resolved');
-        }
-      });
+      rightButton = true;
+    }
+
+    if (leftButton && rightButton) {
+      resolve(`Third promise was resolved`);
     }
   });
 });
