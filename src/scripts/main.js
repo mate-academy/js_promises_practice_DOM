@@ -11,7 +11,7 @@ function addElement(classDIV, messageDIV) {
 }
 
 function firstPromise() {
-  const resolver1 = (complete, error) => {
+  const resolver = (complete, error) => {
     setTimeout(() => {
       error();
     }, 3000);
@@ -23,7 +23,7 @@ function firstPromise() {
     });
   };
 
-  return new Promise(resolver1);
+  return new Promise(resolver);
 }
 
 const first = firstPromise();
@@ -37,7 +37,7 @@ first
   });
 
 function secondPromise() {
-  const resolver2 = (complete) => {
+  const resolver = (complete) => {
     body.addEventListener('mousedown', (e) => {
       if (e.which === 1 || e.which === 3) {
         complete();
@@ -45,7 +45,7 @@ function secondPromise() {
     });
   };
 
-  return new Promise(resolver2);
+  return new Promise(resolver);
 }
 
 const second = secondPromise();
