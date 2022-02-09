@@ -46,6 +46,4 @@ firstPromise()
   .then(addElement)
   .catch(addElement)
   .then(() => secondPromise().then(addElement))
-  .then()
-  .then(() => thirdPromise().then(addElement))
-  .then();
+  .then(() => thirdPromise().then(addElement));
