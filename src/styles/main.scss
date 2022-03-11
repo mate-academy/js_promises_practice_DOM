@@ -4,6 +4,7 @@ body {
   margin: 0;
 
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
@@ -21,4 +22,22 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.notification {
+  font-weight: bold;
+  font-size: 20px;
+  margin: 15px;
+  padding: 25px;
+  border-radius: 15px;
+
+  &__success {
+    background-color: #11d921;
+    color: #000;
+  }
+
+  &__warning {
+    color: #fff;
+    background-color: #d3170e;
+  }
 }
