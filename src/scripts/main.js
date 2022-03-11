@@ -27,21 +27,13 @@ const secondPromise = new Promise(resolve => {
   });
 });
 
-const leftClickPromise = new Promise(resolve => {
-  body.addEventListener('click', () => {
-    resolve();
+const thirdPromise = new Promise(resolve => {
+  document.addEventListener('click', () => {
+    document.addEventListener('contextmenu', () => {
+      resolve('Third promise was resolved');
+    });
   });
 });
-
-const rightClickPromise = new Promise(resolve => {
-  body.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-    resolve();
-  });
-});
-
-const thirdPromise = Promise.all([leftClickPromise, rightClickPromise])
-  .then(() => 'Third promise was resolved');
 
 const successHandler = (message) => {
   const messageBlock = document.createElement('div');
