@@ -1,7 +1,7 @@
 'use strict';
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.body.addEventListener('click', (e) => {
+  document.addEventListener('click', (e) => {
     resolve('First promise was resolved');
   });
 
@@ -11,53 +11,86 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 const secondPromise = new Promise((resolve, reject) => {
-  document.body.addEventListener('click', (e) => {
+  document.addEventListener('click', () => {
     resolve('Second promise was resolved');
   });
 
-  document.body.addEventListener('contextmenu', (e) => {
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
     resolve('Second promise was resolved');
   });
 });
 
 const thirdPromise = new Promise((resolve, reject) => {
-  resolve('Third promise was resolved left right');
+  document.addEventListener('click', () => {
+    document.addEventListener('contextmenu', () => {
+      resolve('Third promise was resolved');
+    });
+  });
 });
-
-
 
 firstPromise
   .then(success => {
     const div = document.createElement('div');
+
     div.dataset.qa = 'notification';
     div.textContent = success;
-    div.className = 'success'
+    div.className = 'success';
     document.body.append(div);
   })
   .catch(error => {
     const div = document.createElement('div');
+
     div.dataset.qa = 'notification';
     div.textContent = error;
-    div.className = 'error'
+    div.className = 'error';
     document.body.append(div);
   });
 
 secondPromise
   .then(success => {
     const div = document.createElement('div');
+
     div.dataset.qa = 'notification';
     div.textContent = success;
-    div.className = 'success'
+    div.className = 'success';
+    document.body.append(div);
+  })
+  .catch(error => {
+    const div = document.createElement('div');
+
+    div.dataset.qa = 'notification';
+    div.textContent = error;
+    div.className = 'error';
     document.body.append(div);
   });
 
-firstPromise
-  .then(() => secondPromise)
-  .then(() => thirdPromise)
+thirdPromise
   .then(success => {
     const div = document.createElement('div');
+
     div.dataset.qa = 'notification';
     div.textContent = success;
-    div.className = 'success'
+    div.className = 'success';
+    document.body.append(div);
+  })
+  .catch(error => {
+    const div = document.createElement('div');
+
+    div.dataset.qa = 'notification';
+    div.textContent = error;
+    div.className = 'error';
     document.body.append(div);
   });
+
+// firstPromise
+//   .then(() => secondPromise)
+//   .then(() => thirdPromise)
+//   .then(success => {
+//     const div = document.createElement('div');
+
+//     div.dataset.qa = 'notification';
+//     div.textContent = success;
+//     div.className = 'success';
+//     document.body.append(div);
+//   });
