@@ -11,7 +11,7 @@ const resolver1 = (resolve, reject) => {
 };
 
 const resolver2 = (resolve) => {
-  // we could use mouseup event instead of click here 
+  // we could use mouseup event instead of click here
   // and add only one addEventListener
   // but it would appear before promise1 in such case
 
@@ -57,7 +57,9 @@ const resolver3 = (resolve) => {
 
 function makeDom(eventType, textContent) {
   const notification = document.createElement('div');
+
   notification.setAttribute('data-qa', 'notification');
+
   const pageBody = document.querySelector('body');
 
   switch (eventType) {
