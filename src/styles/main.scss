@@ -22,3 +22,38 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+@keyframes shooh {
+  from {
+    top: -20px;
+  }
+}
+
+.success1,
+.success2,
+.success3,
+.warning {
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  color: white;
+  background-color: green;
+  padding: 25px;
+  display: block;
+  margin: 10px;
+  border-radius: 5px;
+  animation-name: shooh;
+  animation-duration: 100ms;
+}
+
+.warning {
+  background-color: red;
+}
+
+.success2 {
+  left: 50%;
+}
+
+.success3 {
+  left: 70%;
+}
