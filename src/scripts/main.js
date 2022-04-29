@@ -3,11 +3,21 @@
 const page = document.querySelector('html');
 const body = document.querySelector('body');
 let clicked = 0;
+let clickedR = 0;
+
+function addMessage(result, className) {
+  const div = document.createElement('div');
+
+  div.className = `message ${className}`;
+  div.setAttribute('data-qa', 'notification');
+  div.textContent = result;
+  body.append(div);
+};
 
 function firstPromise() {
   const resolver = (resolve, reject) => {
     page.addEventListener('click', () => {
-      clicked = clicked + 1;
+      clicked = 1;
       resolve('First promise was resolved');
     });
 
@@ -23,20 +33,10 @@ function firstPromise() {
 
 firstPromise()
   .then(result => {
-    const div = document.createElement('div');
-
-    div.className = 'message success';
-    div.setAttribute('data-qa', 'notification');
-    div.textContent = result;
-    body.append(div);
+    addMessage(result, 'success');
   })
   .catch(error => {
-    const div = document.createElement('div');
-
-    div.className = 'message warning';
-    div.setAttribute('data-qa', 'notification');
-    div.textContent = error;
-    body.append(div);
+    addMessage(error, 'warning');
   });
 
 function secondPromise() {
@@ -47,7 +47,7 @@ function secondPromise() {
 
     page.addEventListener('contextmenu', (e) => {
       e.preventDefault();
-      clicked = clicked + 1;
+      clickedR = 1;
       resolve('Second promise was resolved');
     });
   };
@@ -57,24 +57,19 @@ function secondPromise() {
 
 secondPromise()
   .then(result => {
-    const div = document.createElement('div');
-
-    div.className = 'message message--second success';
-    div.setAttribute('data-qa', 'notification');
-    div.textContent = result;
-    body.append(div);
+    addMessage(result, 'message--second success');
   });
 
 function thirdPromise() {
   const resolver = (resolve, reject) => {
     page.addEventListener('click', () => {
-      if (clicked === 2) {
+      if (clicked === 1 && clickedR === 1) {
         resolve('Third promise was resolved');
       };
     });
 
     page.addEventListener('contextmenu', (e) => {
-      if (clicked === 2) {
+      if (clicked === 1 && clickedR === 1) {
         resolve('Third promise was resolved');
       };
     });
@@ -85,10 +80,5 @@ function thirdPromise() {
 
 thirdPromise()
   .then(result => {
-    const div = document.createElement('div');
-
-    div.className = 'message message--third success';
-    div.setAttribute('data-qa', 'notification');
-    div.textContent = result;
-    body.append(div);
+    addMessage(result, 'message--third success');
   });
