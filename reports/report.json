@@ -1,0 +1,313 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 10,
+    "passes": 1,
+    "pending": 0,
+    "failures": 9,
+    "start": "2022-05-22T14:19:41.452Z",
+    "end": "2022-05-22T14:20:53.149Z",
+    "duration": 71520,
+    "testsRegistered": 10,
+    "passPercent": 10,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "a3b3bbbf-09a5-45de-9e4e-70dd55ffde25",
+      "title": "",
+      "fullFile": "cypress\\integration\\jsPromisesPracticeDOM.spec.js",
+      "file": "cypress\\integration\\jsPromisesPracticeDOM.spec.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "e8b121b8-87d1-4bf0-a019-69b6cbab6de7",
+          "title": "Promises in DOM",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should resolve first promise on the left click",
+              "fullTitle": "Promises in DOM should resolve first promise on the left click",
+              "timedOut": null,
+              "duration": 7433,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.clickButton({\n  button: 0\n});\ncy.checkMessageDisplayed(firstResolvedMsg); // NOTE: waiting for reject\n// eslint-disable-next-line cypress/no-unnecessary-waiting\ncy.wait(3000);\ncy.checkMessageDisplayed(firstRejectedMsg).should('not.exist');",
+              "err": {
+                "message": "AssertionError: Timed out retrying: Expected to find content: 'First promise was resolved' within the element: <div.warning> but never did.",
+                "estack": "AssertionError: Timed out retrying: Expected to find content: 'First promise was resolved' within the element: <div.warning> but never did.\n    at Context.eval (http://localhost:8080/__cypress/tests?p=cypress\\integration\\jsPromisesPracticeDOM.spec.js:103:45)",
+                "diff": null
+              },
+              "uuid": "1528a2ce-744a-411e-a235-e56e9e6e1355",
+              "parentUUID": "e8b121b8-87d1-4bf0-a019-69b6cbab6de7",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should resolve first promise on the right click",
+              "fullTitle": "Promises in DOM should resolve first promise on the right click",
+              "timedOut": null,
+              "duration": 7674,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.clickButton({\n  button: 2\n});\ncy.checkMessageDisplayed(firstResolvedMsg);",
+              "err": {
+                "message": "AssertionError: Timed out retrying: Expected to find content: 'First promise was resolved' within the element: <div.warning> but never did.",
+                "estack": "AssertionError: Timed out retrying: Expected to find content: 'First promise was resolved' within the element: <div.warning> but never did.\n    at Context.eval (http://localhost:8080/__cypress/tests?p=cypress\\integration\\jsPromisesPracticeDOM.spec.js:103:45)",
+                "diff": null
+              },
+              "uuid": "054ebb34-3a0f-47b9-af87-57d2e42de2dd",
+              "parentUUID": "e8b121b8-87d1-4bf0-a019-69b6cbab6de7",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should resolve first promise on the middle button click",
+              "fullTitle": "Promises in DOM should resolve first promise on the middle button click",
+              "timedOut": null,
+              "duration": 7389,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.clickButton({\n  button: 1\n});\ncy.checkMessageDisplayed(firstResolvedMsg);",
+              "err": {
+                "message": "AssertionError: Timed out retrying: Expected to find content: 'First promise was resolved' within the element: <div.warning> but never did.",
+                "estack": "AssertionError: Timed out retrying: Expected to find content: 'First promise was resolved' within the element: <div.warning> but never did.\n    at Context.eval (http://localhost:8080/__cypress/tests?p=cypress\\integration\\jsPromisesPracticeDOM.spec.js:103:45)",
+                "diff": null
+              },
+              "uuid": "7371585f-a5ba-4280-a5a7-794b9ae78556",
+              "parentUUID": "e8b121b8-87d1-4bf0-a019-69b6cbab6de7",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should ignore middle button click for the second promise",
+              "fullTitle": "Promises in DOM should ignore middle button click for the second promise",
+              "timedOut": null,
+              "duration": 3427,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.clickButton({\n  button: 1\n});\ncy.clickButton({\n  button: 1\n});\ncy.checkMessageDisplayed(secondResolvedMsg).should('not.exist');",
+              "err": {},
+              "uuid": "56a241af-6fd1-4100-8553-09a98e9c020c",
+              "parentUUID": "e8b121b8-87d1-4bf0-a019-69b6cbab6de7",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should reject first promise after 3 seconds of inactivity",
+              "fullTitle": "Promises in DOM should reject first promise after 3 seconds of inactivity",
+              "timedOut": null,
+              "duration": 7373,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// NOTE: waiting for reject\n// eslint-disable-next-line cypress/no-unnecessary-waiting\ncy.wait(3000);\ncy.checkMessageDisplayed(firstRejectedMsg);",
+              "err": {
+                "message": "AssertionError: Timed out retrying: Expected to find content: 'First promise was rejected' within the element: <div.warning> but never did.",
+                "estack": "AssertionError: Timed out retrying: Expected to find content: 'First promise was rejected' within the element: <div.warning> but never did.\n    at Context.eval (http://localhost:8080/__cypress/tests?p=cypress\\integration\\jsPromisesPracticeDOM.spec.js:103:45)",
+                "diff": null
+              },
+              "uuid": "d2462f36-de04-4834-9936-7134fc8c9b5f",
+              "parentUUID": "e8b121b8-87d1-4bf0-a019-69b6cbab6de7",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should resolve second promise on the right click",
+              "fullTitle": "Promises in DOM should resolve second promise on the right click",
+              "timedOut": null,
+              "duration": 7686,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.clickButton({\n  button: 2\n});\ncy.checkMessageDisplayed(secondResolvedMsg);",
+              "err": {
+                "message": "AssertionError: Timed out retrying: Expected to find content: 'Second promise was resolved' within the element: <div.warning> but never did.",
+                "estack": "AssertionError: Timed out retrying: Expected to find content: 'Second promise was resolved' within the element: <div.warning> but never did.\n    at Context.eval (http://localhost:8080/__cypress/tests?p=cypress\\integration\\jsPromisesPracticeDOM.spec.js:103:45)",
+                "diff": null
+              },
+              "uuid": "8d65f6e5-b1c6-4a43-8ade-1ee38253d466",
+              "parentUUID": "e8b121b8-87d1-4bf0-a019-69b6cbab6de7",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should resolve second promise on the left click",
+              "fullTitle": "Promises in DOM should resolve second promise on the left click",
+              "timedOut": null,
+              "duration": 7354,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.clickButton({\n  button: 0\n});\ncy.checkMessageDisplayed(secondResolvedMsg);",
+              "err": {
+                "message": "AssertionError: Timed out retrying: Expected to find content: 'Second promise was resolved' within the element: <div.warning> but never did.",
+                "estack": "AssertionError: Timed out retrying: Expected to find content: 'Second promise was resolved' within the element: <div.warning> but never did.\n    at Context.eval (http://localhost:8080/__cypress/tests?p=cypress\\integration\\jsPromisesPracticeDOM.spec.js:103:45)",
+                "diff": null
+              },
+              "uuid": "cf85c10e-ffcb-4111-9a53-545e64955221",
+              "parentUUID": "e8b121b8-87d1-4bf0-a019-69b6cbab6de7",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should resolve third promise",
+              "fullTitle": "Promises in DOM should resolve third promise",
+              "timedOut": null,
+              "duration": 7691,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.clickButton({\n  button: 2\n});\ncy.clickButton({\n  button: 0\n});\ncy.checkMessageDisplayed(thirdResolvedMsg);",
+              "err": {
+                "message": "AssertionError: Timed out retrying: Expected to find content: 'Third promise was resolved' within the element: <div.warning> but never did.",
+                "estack": "AssertionError: Timed out retrying: Expected to find content: 'Third promise was resolved' within the element: <div.warning> but never did.\n    at Context.eval (http://localhost:8080/__cypress/tests?p=cypress\\integration\\jsPromisesPracticeDOM.spec.js:103:45)",
+                "diff": null
+              },
+              "uuid": "e9c90312-cf99-4a65-90c5-7c5ac0874e0b",
+              "parentUUID": "e8b121b8-87d1-4bf0-a019-69b6cbab6de7",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should resolve all promises",
+              "fullTitle": "Promises in DOM should resolve all promises",
+              "timedOut": null,
+              "duration": 7374,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.clickButton({\n  button: 2\n});\ncy.clickButton({\n  button: 0\n});\ncy.checkMessageDisplayed(firstResolvedMsg);\ncy.checkMessageDisplayed(secondResolvedMsg);\ncy.checkMessageDisplayed(thirdResolvedMsg);",
+              "err": {
+                "message": "AssertionError: Timed out retrying: Expected to find content: 'First promise was resolved' within the element: <div.warning> but never did.",
+                "estack": "AssertionError: Timed out retrying: Expected to find content: 'First promise was resolved' within the element: <div.warning> but never did.\n    at Context.eval (http://localhost:8080/__cypress/tests?p=cypress\\integration\\jsPromisesPracticeDOM.spec.js:103:45)",
+                "diff": null
+              },
+              "uuid": "324ee671-9025-468c-a41d-e8a81e59d508",
+              "parentUUID": "e8b121b8-87d1-4bf0-a019-69b6cbab6de7",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should reject 1st promise, resolve 2nd and 3rd promises",
+              "fullTitle": "Promises in DOM should reject 1st promise, resolve 2nd and 3rd promises",
+              "timedOut": null,
+              "duration": 8119,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// NOTE: waiting for reject\n// eslint-disable-next-line cypress/no-unnecessary-waiting\ncy.wait(3000);\ncy.clickButton({\n  button: 0\n});\ncy.clickButton({\n  button: 2\n});\ncy.checkMessageDisplayed(firstRejectedMsg);\ncy.checkMessageDisplayed(secondResolvedMsg);\ncy.checkMessageDisplayed(thirdResolvedMsg);",
+              "err": {
+                "message": "AssertionError: Timed out retrying: Expected to find content: 'First promise was rejected' within the element: <div.warning> but never did.",
+                "estack": "AssertionError: Timed out retrying: Expected to find content: 'First promise was rejected' within the element: <div.warning> but never did.\n    at Context.eval (http://localhost:8080/__cypress/tests?p=cypress\\integration\\jsPromisesPracticeDOM.spec.js:103:45)",
+                "diff": null
+              },
+              "uuid": "d7427125-4d5e-4185-9841-b947d767c99e",
+              "parentUUID": "e8b121b8-87d1-4bf0-a019-69b6cbab6de7",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "56a241af-6fd1-4100-8553-09a98e9c020c"
+          ],
+          "failures": [
+            "1528a2ce-744a-411e-a235-e56e9e6e1355",
+            "054ebb34-3a0f-47b9-af87-57d2e42de2dd",
+            "7371585f-a5ba-4280-a5a7-794b9ae78556",
+            "d2462f36-de04-4834-9936-7134fc8c9b5f",
+            "8d65f6e5-b1c6-4a43-8ade-1ee38253d466",
+            "cf85c10e-ffcb-4111-9a53-545e64955221",
+            "e9c90312-cf99-4a65-90c5-7c5ac0874e0b",
+            "324ee671-9025-468c-a41d-e8a81e59d508",
+            "d7427125-4d5e-4185-9841-b947d767c99e"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 71520,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.2.1"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "raw_reports",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "5.1.0"
+    }
+  }
+}
