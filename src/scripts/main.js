@@ -20,13 +20,20 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 const secondPromise = new Promise((resolve) => {
-  document.addEventListener('contextmenu', (e) => {
+  const text = 'Second promise was resolved';
+
+  document.addEventListener(('contextmenu'), (e) => {
     e.preventDefault();
-    resolve('Second promise was resolved');
+    resolve(text);
+  });
+
+  document.addEventListener(('click'), (e) => {
+    e.preventDefault();
+    resolve(text);
   });
 });
 
-const thirdPromise = new Promise((resolve, reject) => {
+const thirdPromise = new Promise((resolve) => {
   const message = 'Third promise was resolved';
   let leftClick;
   let rightClick;
