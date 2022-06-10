@@ -16,30 +16,31 @@ const firstPromise = new Promise((resolve, reject) => {
 const secondPromise = new Promise((resolve) => {
   const message = 'Second promise was resolved';
 
-  body.addEventListener('click', () => resolve(message));
-  body.addEventListener('contextmenu', () => resolve(message));
+  body.addEventListener('mousedown', () => resolve(message));
 });
 
 const thirdPromise = new Promise((resolve) => {
   const message = 'Third promise was resolved';
-  let onClick = false;
-  let onContextmenuClick = false;
 
-  body.addEventListener('click', () => {
-    onClick = true;
+  let leftClick = false;
+  let rightClick = false;
 
-    if (onContextmenuClick) {
-      resolve(message);
+  body.addEventListener('mousedown', (e) => {
+    if (e.button === 0) {
+      leftClick = true;
+      // check if the right mouse button has been pressed
+      // if the right was pressed earlier, and now the left is executed resolve
+      rightClick && resolve(message);
     }
-  });
 
-  body.addEventListener('contextmenu', () => {
-    onContextmenuClick = true;
-
-    if (onClick) {
-      resolve(message);
+    if (e.button === 2) {
+      rightClick = true;
+      // check if the left mouse button has been pressed
+      // if before the left was pressed, and now the right is executed resolve
+      leftClick && resolve(message);
     }
-  });
+  }
+  );
 });
 
 const messageOutput = (message, className) => {
