@@ -4,6 +4,7 @@ body {
   margin: 0;
 
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
@@ -21,4 +22,21 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+div {
+  margin: 10px;
+  padding: 20px;
+  border-radius: 50px;
+  border: 2px solid rgb(13, 49, 38);
+}
+
+.warning {
+  background-color: red;
+  color: white;
+}
+
+.success {
+  color: white;
+  background-color: green;
 }
