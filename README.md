@@ -2,7 +2,7 @@
 Create 3 promises:
 - The `firstPromise` should be
   - **resolved** with a message `First promise was resolved` on a left `click` in the `document`
-  - **rejecp;o[;[pted** with a message `First promise was rejected` in 3 seconds if not clicked
+  - **rejected** with a message `First promise was rejected` in 3 seconds if not clicked
 - The `secondPromise` should be:
   - **resolved** only on `left` or `right` click in the `document` with a message `Second promise was resolved`
   - never **rejected**
