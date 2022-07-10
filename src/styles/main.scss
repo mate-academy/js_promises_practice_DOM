@@ -22,3 +22,33 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.success {
+  position: absolute;
+  right: 100px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+  width: 200px;
+  height: 100px;
+  border: 1px solid black;
+  border-radius: 20px;
+  font-size: 24px;
+  background-color: #fff;
+}
+
+.warning {
+  color: red;
+  font-weight: bold;
+  animation: move 0.6s linear infinite alternate;
+}
+
+@keyframes move {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
