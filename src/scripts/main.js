@@ -11,26 +11,27 @@ const notification = (className, msg) => {
   );
 };
 
+const successHandler = (number) => (
+  notification('message', `${number} promise was resolved!`)
+);
+const errorHandler = (number) => (
+  notification('error-message', `${number} promise was rejected!`)
+);
+
 const firstPromise = new Promise((resolve, reject) => {
   body.addEventListener('click', resolve);
   setTimeout(() => reject(new Error()), 3000);
 });
-
-firstPromise
-  .then(() => notification(`success`, 'First promise was resolved'))
-  .catch(() => notification(`warning`, 'First promise was rejected'));
 
 const secondPromise = new Promise((resolve) => {
   body.addEventListener('mousedown', (clickEvent) => {
     const button = clickEvent.button;
 
     if (button === 0 || button === 2) {
-      resolve('Second promise was resolved');
+      resolve('Second');
     }
   });
 });
-
-secondPromise.then(result => notification('success', result));
 
 const thirdPromise = new Promise((resolve) => {
   let left;
@@ -48,9 +49,15 @@ const thirdPromise = new Promise((resolve) => {
     };
 
     if (left && right) {
-      resolve('Third promise was resolved');
+      resolve('Third');
     };
   });
 });
 
-thirdPromise.then(result => notification(`success`, result));
+firstPromise
+  .then(() => successHandler('First'))
+  .catch(() => errorHandler('First'));
+
+secondPromise.then(result => successHandler(result));
+
+thirdPromise.then(result => successHandler(result));
