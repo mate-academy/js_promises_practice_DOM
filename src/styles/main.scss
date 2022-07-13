@@ -22,3 +22,48 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.success {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 25px;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+
+  border-radius: 15px;
+
+  background-color: rgba(230, 230, 0, 0.5);
+}
+
+.success2 {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 25px;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+
+  border-radius: 15px;
+
+  background-color: rgba(230, 230, 0, 0.5);
+}
+
+.warning {
+  position: absolute;
+  bottom: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 25px;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+
+  border-radius: 15px;
+
+  background-color: rgba(230, 35, 0, 0.5);
+}
