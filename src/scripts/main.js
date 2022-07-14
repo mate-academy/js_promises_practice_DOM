@@ -35,28 +35,21 @@ const secondPromise = new Promise(resolve => {
     }
   });
 });
-const leftClickPromise = new Promise(resolve => {
-  document.addEventListener('mousedown', e => {
-    e.preventDefault();
-
-    if (e.button === 0) {
-      resolve();
-    }
-  });
-});
-const rightClickPromise = new Promise(resolve => {
-  document.addEventListener('mousedown', e => {
-    e.preventDefault();
-
-    if (e.button === 2) {
-      resolve();
-    }
-  });
-});
 const thirdPromise = new Promise(resolve => {
-  leftClickPromise
-    .then(() => rightClickPromise)
-    .then(() => resolve('Third promise was resolved'));
+  let leftClick = false;
+  let rightClick = false;
+
+  document.addEventListener('mousedown', e => {
+    if (e.button === 0) {
+      leftClick = true;
+    } else if (e.button === 2) {
+      rightClick = true;
+    }
+
+    if (leftClick && rightClick) {
+      resolve('Third promise was resolved');
+    }
+  });
 });
 
 firstPromise.then(successHandler).catch(errorHandler);
