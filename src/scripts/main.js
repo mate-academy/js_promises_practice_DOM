@@ -16,10 +16,10 @@ const errorHandler = message => {
   `);
 };
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('mousedown', e => {
-    e.preventDefault();
+  document.addEventListener('mousedown', clickEvent => {
+    clickEvent.preventDefault();
 
-    if (e.button === 0) {
+    if (clickEvent.button === 0) {
       resolve('First promise was resolved');
     }
   });
@@ -27,10 +27,10 @@ const firstPromise = new Promise((resolve, reject) => {
   setTimeout(reject, 3000, 'First promise was rejected');
 });
 const secondPromise = new Promise(resolve => {
-  document.addEventListener('mousedown', e => {
-    e.preventDefault();
+  document.addEventListener('mousedown', clickEvent => {
+    clickEvent.preventDefault();
 
-    if (e.button === 0 || e.button === 2) {
+    if (clickEvent.button === 0 || clickEvent.button === 2) {
       resolve('Second promise was resolved');
     }
   });
@@ -39,10 +39,10 @@ const thirdPromise = new Promise(resolve => {
   let leftClick = false;
   let rightClick = false;
 
-  document.addEventListener('mousedown', e => {
-    if (e.button === 0) {
+  document.addEventListener('mousedown', clickEvent => {
+    if (clickEvent.button === 0) {
       leftClick = true;
-    } else if (e.button === 2) {
+    } else if (clickEvent.button === 2) {
       rightClick = true;
     }
 
