@@ -1,6 +1,6 @@
 'use strict';
 
-// const body = document.querySelector('body');
+const body = document.querySelector('body');
 
 function generateMessage(textOfMessage, type) {
   const message = document.createElement('div');
@@ -8,7 +8,7 @@ function generateMessage(textOfMessage, type) {
   message.dataset.qa = 'notification';
   message.className = type;
   message.innerText = textOfMessage;
-  // body.append(message);
+  body.append(message);
 }
 
 const firstPromise = new Promise((resolve, reject) => {
