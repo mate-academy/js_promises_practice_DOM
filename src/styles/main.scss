@@ -22,3 +22,28 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.notification {
+  box-sizing: border-box;
+
+  font-size: 18px;
+  font-weight: 600;
+
+  height: 70px;
+  margin-left: 20px;
+  padding: 20px;
+
+  border: solid 2px rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  box-shadow: 10px 5px 10px rgba(132, 132, 132, 0.3);
+
+  &--success {
+    background: linear-gradient(
+      70deg, rgba(10, 189, 0, 0.3), rgba(20, 253, 195, 0.6));
+  }
+
+  &--warning {
+    background: linear-gradient(
+      70deg,rgba(252, 75, 59, 0.6), rgba(236, 20, 85, 0.6));
+  }
+}
