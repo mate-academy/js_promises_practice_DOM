@@ -22,3 +22,27 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.success {
+  background: rgb(138, 230, 138);
+  padding: 5px;
+  border-radius: 5px;
+  margin: 10px;
+
+  &:hover {
+    background: rgb(93, 230, 59);
+    color: white;
+  }
+}
+
+.warning {
+  background: rgb(241, 135, 135);
+  padding: 5px;
+  border-radius: 5px;
+  margin: 10px;
+
+  &:hover {
+    background: rgb(238, 82, 82);
+    color: white;
+  }
+}
