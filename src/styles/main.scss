@@ -25,23 +25,34 @@ body {
 
 .message {
   position: absolute;
-  top: 50px;
-  right: 50px;
+  box-sizing: border-box;
   padding: 25px;
-
   width: 200px;
-
   font-family: Verdana, sans-serif;
   font-size: 18px;
   font-weight: 500;
   text-align: center;
-
   border-radius: 15px;
+  background-color: rgba(230, 230, 0, 1);
+}
 
-  background-color: rgba(230, 230, 0, 0.5);
+.success-first {
+  top: 50px;
+  right: 470px;
+}
+
+.success-second {
+  top: 50px;
+  right: 260px;
+}
+
+.success-third {
+  top: 50px;
+  right: 50px;
 }
 
 .warning {
   background-color: rgba(204, 51, 0, 0.5);
-  right: 350px;
+  top: 50px;
+  right: 680px;
 }

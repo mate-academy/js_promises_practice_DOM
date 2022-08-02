@@ -1,54 +1,30 @@
 'use strict';
 
 const body = document.querySelector('body');
-const messageResolved = 'Promise was resolved!';
-const messageRejected = 'Promise was rejected!';
 
-function insertSuccesMessage() {
-  return body.insertAdjacentHTML('beforeend', `<div data-qa="notification"
-  class="message succes">
-    ${messageResolved}
-  </div>`);
-};
-
-function insertWarningMessage() {
-  return body.insertAdjacentHTML('beforeend', `<div data-qa="notification"
-  class="message warning">
-    ${messageRejected}
-  </div>`);
-};
+function createMessage(type, text) {
+  body.insertAdjacentHTML('beforeend', `<div data-qa="notification"
+      class="message ${type}">
+      ${text}
+    </div>`);
+}
 
 const firstPromise = new Promise((resolve, reject) => {
   document.body.addEventListener('click', () => {
-    resolve();
+    resolve('First promise was resolved');
   });
 
   setTimeout(() => {
-    reject(Error);
+    reject(new Error('First promise was rejected'));
   }, 3000);
 });
 
-firstPromise
-  .then(() => {
-    insertSuccesMessage();
-  })
-
-  .catch(() => {
-    insertWarningMessage();
-  });
-
 const secondPromise = new Promise((resolve, reject) => {
-  document.body.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-
+  document.body.addEventListener('mousedown', (e) => {
     if (e.button === 0 || e.button === 2) {
-      resolve();
+      resolve('Second promise was resolved');
     }
   });
-});
-
-secondPromise.then(() => {
-  insertSuccesMessage();
 });
 
 const thirdPromise = new Promise((resolve, reject) => {
@@ -69,11 +45,25 @@ const thirdPromise = new Promise((resolve, reject) => {
     }
 
     if (leftButton && rightButton) {
-      resolve();
+      resolve('Third promise was resolved');
     }
   });
 });
 
-thirdPromise.then(() => {
-  insertSuccesMessage();
-});
+firstPromise
+  .then(result => {
+    createMessage('success-first', result);
+  })
+  .catch(error => {
+    createMessage('warning', error);
+  });
+
+secondPromise
+  .then(result => {
+    createMessage('success-second', result);
+  });
+
+thirdPromise
+  .then(result => {
+    createMessage('success-third', result);
+  });
