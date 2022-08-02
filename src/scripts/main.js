@@ -10,7 +10,7 @@ function createMessage(type, text) {
 }
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.body.addEventListener('click', () => {
+  document.body.addEventListener('mousedown', () => {
     resolve('First promise was resolved');
   });
 
@@ -21,7 +21,7 @@ const firstPromise = new Promise((resolve, reject) => {
 
 const secondPromise = new Promise((resolve, reject) => {
   document.body.addEventListener('mousedown', (e) => {
-    if (e.button === 0 || e.button === 2) {
+    if (e.button !== 1) {
       resolve('Second promise was resolved');
     }
   });
