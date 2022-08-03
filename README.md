@@ -10,6 +10,17 @@ Create 3 promises:
 
 Add `success` and `error` handlers to each promise to show `<div data-qa="notification">` with `success` or `warning` class and a promise message.
 
+Создайте 3 promise:
+- `firstPromise` должен быть
+  - **resolved** с сообщением `First promise was resolved` при щелчке левой кнопкой мыши в `document`
+  - **rejected** с сообщением `First promise was rejected` через 3 секунды, если не было нажато
+- `SecondPromise` должен быть:
+  - **resolved** только при щелчке левой или правой кнопкой мыши в `document` с сообщением `Second promise was resolved`
+  - никогда не **rejected**
+- `thirdPromise` должно быть **resolved** с сообщением `Third promise was resolved` только после того, как были выполнены левый и правый клики.
+
+Добавьте обработчики `success` и `error` к каждому промису, чтобы показать `<div data-qa="notification">` с классом `success` или `warning` и сообщением промиса.
+
 ## Instructions
 1. Replace `<your_account>` with your Github username in the link
     - [DEMO LINK](https://<your_account>.github.io/js_promises_practice_DOM/)
