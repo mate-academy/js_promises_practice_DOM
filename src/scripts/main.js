@@ -35,8 +35,8 @@ const thirdPromise = new Promise((resolve, reject) => {
       return;
     }
 
-    leftClicked = event.which === 1 || leftClicked;
-    rightClicked = event.which === 3 || rightClicked;
+    leftClicked = event.button === 0 || leftClicked;
+    rightClicked = event.button === 2 || rightClicked;
 
     if (!leftClicked || !rightClicked) {
       return;
