@@ -2,7 +2,6 @@
 
 const MOUSE_BUTTONS = {
   0: 'left',
-  1: 'wheel',
   2: 'right',
 };
 
@@ -12,22 +11,13 @@ const promiseOne = new Promise((resolve, reject) => {
   body.addEventListener('mousedown', (clickEvent) => {
     const { button } = clickEvent;
 
-    if (MOUSE_BUTTONS[button] === 'left'
-        || MOUSE_BUTTONS[button] === 'wheel'
-        || MOUSE_BUTTONS[button] === 'right'
-    ) {
+    if (MOUSE_BUTTONS[button] === 'left') {
       resolve();
     }
   });
 
   setTimeout(() => reject(new Error()), 3000);
 });
-
-promiseOne
-  .then(() =>
-    createNotification('success', 'First promise was resolved'))
-  .catch(() =>
-    createNotification('warning', 'First promise was rejected'));
 
 const promiseTwo = new Promise((resolve) => {
   body.addEventListener('mousedown', (clickEvent) => {
@@ -39,10 +29,6 @@ const promiseTwo = new Promise((resolve) => {
     }
   });
 });
-
-promiseTwo
-  .then(() =>
-    createNotification('success', 'Second promise was resolved'));
 
 const promiseThree = new Promise((resolve) => {
   const buttonsClicked = {
@@ -67,16 +53,23 @@ const promiseThree = new Promise((resolve) => {
   });
 });
 
+promiseOne
+  .then(() => createNotification('success', 'First promise was resolved'))
+  .catch(() => createNotification('warning', 'First promise was rejected'));
+
+promiseTwo
+  .then(() => createNotification('success', 'Second promise was resolved'));
+
 promiseThree
-  .then(() =>
-    createNotification('success', 'Third promise was resolved'));
+  .then(() => createNotification('success', 'Third promise was resolved'));
 
 function createNotification(type, message) {
-  const notification = document.createElement('div');
-
-  notification.textContent = message;
-  notification.classList.add('notification', type);
-  notification.dataset.qa = 'notification';
-
-  body.insertAdjacentElement('beforeend', notification);
+  body.insertAdjacentHTML('beforeend', `
+    <div
+      class = "notification ${type}"
+      data-qa = "notification"
+    >
+      ${message}
+    </div>
+  `);
 }
