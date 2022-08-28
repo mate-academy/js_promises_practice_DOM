@@ -3,13 +3,11 @@
 const doc = document.querySelector('body');
 
 const promise1 = new Promise((resolve, reject) => {
-  const click = doc.addEventListener('click', (e) =>
+  doc.addEventListener('click', (e) =>
     resolve('First promise was resolved'));
 
   setTimeout(() => {
-    if (!click) {
-      reject(new Error('First promise was rejected'));
-    }
+    reject(new Error('First promise was rejected'));
   }, 3000);
 });
 
@@ -28,10 +26,10 @@ promise1
 
 const promise2 = new Promise((resolve) => {
   doc.addEventListener('click', () =>
-    resolve('First promise was resolved'));
+    resolve('Second promise was resolved'));
 
   doc.addEventListener('contextmenu', () =>
-    resolve('First promise was resolved'));
+    resolve('Second promise was resolved'));
 });
 
 promise2
