@@ -14,8 +14,12 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 const secondPromise = new Promise((resolve) => {
-  document.addEventListener('contextmenu', (eventt) => {
-    eventt.preventDefault();
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    resolve();
+  });
+
+  document.addEventListener('click', (e) => {
     resolve();
   });
 });
