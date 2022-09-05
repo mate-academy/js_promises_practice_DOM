@@ -1,26 +1,34 @@
 'use strict';
 
+function showMessage(NameClass, message) {
+  document.body.insertAdjacentHTML('beforeend', `
+  <div data-qa="notification" class="${NameClass}">
+    ${message}
+    </div>
+  `);
+}
+
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', (e) => {
     if (e.button !== 0) {
       return;
     }
-    resolve();
+    resolve('First promise was resolved');
   });
 
   setTimeout(() => {
-    reject(new Error());
+    reject(new Error('First promise was rejected'));
   }, 3000);
 });
 
 const secondPromise = new Promise((resolve) => {
   document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
-    resolve();
+    resolve('Second promise was resolved');
   });
 
   document.addEventListener('click', (e) => {
-    resolve();
+    resolve('Second promise was resolved');
   });
 });
 
@@ -39,43 +47,28 @@ const thirdPromise = new Promise((resolve) => {
       rightClick = true;
 
       if (leftClick && rightClick) {
-        resolve();
+        resolve('Third promise was resolved');
       }
     });
   });
 });
 
-const successMessage1 = () => {
-  document.body.insertAdjacentHTML('beforeend', `
-    <div data-qa="notification" class="success">
-      First promise was resolved
-    </div>
-  `);
-};
+firstPromise
+  .then(message => {
+    showMessage('success', message);
+  })
+  .catch(message => {
+    showMessage('warning', message);
+  });
 
-const errorMessage1 = () => {
-  document.body.insertAdjacentHTML('beforeend', `
-    <div data-qa="notification" class="warning">
-      First promise was rejected
-    </div>
-  `);
-};
+secondPromise
+  .then(message => {
+    showMessage('success', message);
+  })
+  .catch();
 
-const successMessage2 = () => {
-  document.body.insertAdjacentHTML('beforeend', `
-    <div data-qa="notification" class="success">
-      Second promise was resolved
-    </div>
-  `);
-};
-const successMessage3 = () => {
-  document.body.insertAdjacentHTML('beforeend', `
-    <div data-qa="notification" class="success">
-      Third promise was resolved
-    </div>
-  `);
-};
-
-firstPromise.then(successMessage1).catch(errorMessage1);
-secondPromise.then(successMessage2).catch();
-thirdPromise.then(successMessage3).catch();
+thirdPromise
+  .then(message => {
+    showMessage('success', message);
+  })
+  .catch();
