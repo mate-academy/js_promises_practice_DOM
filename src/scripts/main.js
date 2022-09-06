@@ -57,7 +57,7 @@ const thirdPromise = new Promise((resolve) => {
 
 function success(result) {
   document.body.insertAdjacentHTML('beforeend', `
-    <div data-qa="notification" class="warning">${result}</div>
+    <div data-qa="notification" class="success">${result}</div>
   `);
 };
 
