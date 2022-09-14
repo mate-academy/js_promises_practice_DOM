@@ -8,13 +8,7 @@ function notification(position, state) {
   message.classList.add(state);
   message.dataset.qa = 'notification';
 
-  let result;
-
-  if (state === 'success') {
-    result = 'resolved';
-  } else if (state === 'warning') {
-    result = 'rejected';
-  }
+  const result = state === 'success' ? 'resolved' : 'rejected';
 
   message.textContent = `${position} promise was ${result}`;
 
@@ -58,15 +52,24 @@ secondPromise.then(() => {
   notification('Second', 'success');
 });
 
-const thirdPromise = new Promise((resolve, reject) => {
-  window.addEventListener('click', (e) => {
-    window.addEventListener('contextmenu', (ev) => {
-      ev.preventDefault();
+const thirdPromise = new Promise((resolve) => {
+  let leftClick;
+  let rightClick;
 
-      if (e.button === 0 && ev.button === 2) {
-        resolve();
-      }
-    });
+  window.addEventListener('click', (e) => {
+    leftClick = true;
+
+    if (leftClick && rightClick) {
+      resolve('Third promise was resolved');
+    }
+  });
+
+  window.addEventListener('contextmenu', (e) => {
+    rightClick = true;
+
+    if (leftClick && rightClick) {
+      resolve('Third promise was resolved');
+    }
   });
 });
 
