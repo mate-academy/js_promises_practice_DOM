@@ -1,14 +1,17 @@
 'use strict';
 
-function createPromise1(button) {
+function createPromise1(button, message) {
   return new Promise((resolve, reject) => {
     button.addEventListener('click', () => {
       resolve();
+
+      button.removeEventListener('click', () => {
+        resolve();
+      });
     });
 
     setTimeout(() => {
-      // eslint-disable-next-line prefer-promise-reject-errors
-      reject();
+      reject(message);
     }, 3000);
   });
 }
@@ -31,75 +34,46 @@ function createPromise3(button) {
     button.addEventListener('click', first);
 
     function first(e) {
-      e.stopImmediatePropagation();
-      this.removeEventListener('click', first);
-      button.oncontextmenu = second;
-    }
+      button.removeEventListener('click', first);
 
-    function second() {
-      resolve();
+      button.addEventListener('contextmenu', () => {
+        resolve();
+      });
     }
   });
 }
 
 const doc = document.querySelector('body');
 
-/*    First Promise    */
+function createMessage(className, text) {
+  const element = document.createElement('div');
 
-const firstPromise = createPromise1(doc);
+  element.setAttribute('data-qa', 'notification');
+  element.className = className;
+  element.innerHTML = text;
+  document.body.append(element);
+}
+
+const firstPromise = createPromise1(doc, 'Hello');
 
 firstPromise.then(() => {
-  const element = document.createElement('div');
-
-  element.setAttribute('data-qa', 'notification');
-  element.className = 'success';
-  element.innerHTML = 'First promise was resolved';
-  document.body.append(element);
+  createMessage('success', 'First promise was resolved');
 }).catch(() => {
-  const element = document.createElement('div');
-
-  element.setAttribute('data-qa', 'notification');
-  element.className = 'warning';
-  element.innerHTML = 'First promise was rejected';
-  document.body.append(element);
+  createMessage('warning', 'First promise was rejected');
 });
-
-/*    Second Promise    */
 
 const secondPromise = createPromise2(doc);
 
 secondPromise.then(() => {
-  const element = document.createElement('div');
-
-  element.setAttribute('data-qa', 'notification');
-  element.className = 'success';
-  element.innerHTML = 'Second promise was resolved';
-  document.body.append(element);
+  createMessage('success', 'Second promise was resolved');
 }).catch(() => {
-  const element = document.createElement('div');
-
-  element.setAttribute('data-qa', 'notification');
-  element.className = 'warning';
-  element.innerHTML = 'Second promise was rejected';
-  document.body.append(element);
+  createMessage('warning', 'Second promise was rejected');
 });
-
-/*    Third Promise    */
 
 const thirdPromise = createPromise3(doc);
 
 thirdPromise.then(() => {
-  const element = document.createElement('div');
-
-  element.setAttribute('data-qa', 'notification');
-  element.className = 'success';
-  element.innerHTML = 'Third promise was resolved';
-  document.body.append(element);
+  createMessage('success', 'Third promise was resolved');
 }).catch(() => {
-  const element = document.createElement('div');
-
-  element.setAttribute('data-qa', 'notification');
-  element.className = 'warning';
-  element.innerHTML = 'Third promise was rejected';
-  document.body.append(element);
+  createMessage('warning', 'Third promise was rejected');
 });
