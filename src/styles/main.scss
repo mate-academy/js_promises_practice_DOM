@@ -2,6 +2,7 @@ body {
   background: #eee;
   font-family: Roboto, sans-serif;
   margin: 0;
+  position: relative;
 
   display: flex;
   align-items: center;
@@ -21,4 +22,44 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.message-container {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  width: 500px;
+  max-width: calc(100% - 30px);
+}
+
+.message {
+  margin: 20px;
+  padding: 25px;
+  width: 200px;
+  font-family: Verdana, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+  border-radius: 15px;
+  background-color: yellowgreen;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  animation: grow 0.5s ease-in forwards;
+}
+
+@keyframes grow {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shrink {
+  to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
 }
