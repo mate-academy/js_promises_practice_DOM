@@ -1,27 +1,29 @@
 'use strict';
+
 function createPromise1() {
-  return new Promise((resolved, reject) => {
+  return new Promise((resolve, reject) => {
     document.body.addEventListener('mousedown', (e) => {
-      resolved('First promise was resolved');
-    })
+      resolve('First promise was resolved');
+    });
+
     setTimeout(() => {
-      reject('First promise was rejected');
-    }, 3000)
-  })
+      reject(new Error('First promise was rejected'));
+    }, 3000);
+  });
 }
 
 function createPromise2() {
-  return new Promise((resolved) => {
+  return new Promise((resolve) => {
     document.body.addEventListener('mousedown', (e) => {
       if (e.button === 0 || e.button === 2) {
-        resolved('Second promise was resolved');
+        resolve('Second promise was resolved');
       }
-    })
-  })
+    });
+  });
 }
 
 function createPromise3() {
-  return new Promise((resolved) => {
+  return new Promise((resolve) => {
     let leftClick = false;
     let rightClick = false;
 
@@ -33,15 +35,15 @@ function createPromise3() {
       }
 
       if (leftClick && rightClick) {
-        resolved('Third promise was resolved');
+        resolve('Third promise was resolved');
       }
-    })
-  })
+    });
+  });
 }
 
-const promise1 = createPromise1()
-const promise2 = createPromise2()
-const promise3 = createPromise3()
+const promise1 = createPromise1();
+const promise2 = createPromise2();
+const promise3 = createPromise3();
 
 promise1.then((resolve) => {
   const newDiv1Resolve = document.createElement('div');
