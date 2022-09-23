@@ -22,3 +22,22 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 70px;
+  text-align: center;
+  border: 1px solid #000;
+  border-radius: 16px;
+}
+
+.success {
+  background-color: #0f0;
+}
+
+.warning {
+  background-color: #f60;
+}
