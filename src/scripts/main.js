@@ -1,21 +1,26 @@
 'use strict';
 
 const leftClick = new Promise((resolve) => {
-  document.addEventListener('click', () => (
-    resolve('Left click was resolved')
-  ));
+  document.addEventListener('mousedown', ({ button }) => {
+    if (button === 0) {
+      resolve('Left click was resolved');
+    }
+  });
 });
 
 const rightClick = new Promise((resolve) => {
-  document.addEventListener('contextmenu', (contextmenu) => {
-    contextmenu.preventDefault();
-    resolve('Right click was resolved');
+  document.addEventListener('mousedown', ({ button }) => {
+    if (button === 2) {
+      resolve('Right click was resolved');
+    }
   });
 });
 
 const middleClick = new Promise((resolve) => {
-  document.addEventListener('auxclick', () => {
-    resolve('Right click was resolved');
+  document.addEventListener('mousedown', ({ button }) => {
+    if (button === 1) {
+      resolve('Middle click was resolved');
+    }
   });
 });
 
@@ -30,6 +35,9 @@ const resolver1 = (resolve, reject) => {
     .then(() => (resolve('First promise was resolved')));
 
   middleClick
+    .then(() => resolve('First promise was resolved'));
+
+  rightClick
     .then(() => resolve('First promise was resolved'));
 
   timeout
