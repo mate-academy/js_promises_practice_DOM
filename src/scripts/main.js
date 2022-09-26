@@ -2,13 +2,12 @@
 
 function createPromise1(button, message) {
   return new Promise((resolve, reject) => {
-    button.addEventListener('click', () => {
-      resolve();
+    button.addEventListener('click', first);
 
-      button.removeEventListener('click', () => {
-        resolve();
-      });
-    });
+    function first() {
+      resolve();
+      button.removeEventListener('click', first);
+    }
 
     setTimeout(() => {
       reject(message);
@@ -18,14 +17,20 @@ function createPromise1(button, message) {
 
 function createPromise2(button) {
   return new Promise((resolve, reject) => {
-    button.addEventListener('click', () => {
-      resolve();
-    });
+    button.addEventListener('click', first);
 
-    button.addEventListener('contextmenu', (evt) => {
-      evt.preventDefault();
+    function first() {
       resolve();
-    });
+      button.removeEventListener('click', first);
+    }
+
+    button.addEventListener('contextmenu', second);
+
+    function second(e) {
+      e.preventDefault();
+      resolve();
+      button.removeEventListener('click', second);
+    }
   });
 }
 
@@ -33,12 +38,15 @@ function createPromise3(button) {
   return new Promise((resolve, reject) => {
     button.addEventListener('click', first);
 
-    function first(e) {
+    function first() {
       button.removeEventListener('click', first);
 
-      button.addEventListener('contextmenu', () => {
+      button.addEventListener('contextmenu', second);
+
+      function second() {
         resolve();
-      });
+        button.removeEventListener('click', second);
+      }
     }
   });
 }
@@ -54,12 +62,12 @@ function createMessage(className, text) {
   document.body.append(element);
 }
 
-const firstPromise = createPromise1(doc, 'Hello');
+const firstPromise = createPromise1(doc, 'First promise was rejected');
 
 firstPromise.then(() => {
   createMessage('success', 'First promise was resolved');
-}).catch(() => {
-  createMessage('warning', 'First promise was rejected');
+}).catch((msg) => {
+  createMessage('warning', msg);
 });
 
 const secondPromise = createPromise2(doc);
