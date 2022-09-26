@@ -20,11 +20,7 @@ const promise1 = new Promise((resolve, reject) => {
 
 const promise2 = new Promise((resolve) => {
   document.body.addEventListener('mousedown', (e) => {
-    if (e.button === 0) {
-      resolve('Second promise was resolved');
-    }
-
-    if (e.button === 2) {
+    if (e.button === 0 || e.button === 2) {
       e.preventDefault();
 
       resolve('Second promise was resolved');
