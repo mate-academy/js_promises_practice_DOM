@@ -28,9 +28,7 @@ const firstPromise = new Promise((resolve, reject) => {
   });
 
   setTimeout(() => {
-    if (leftClick !== true) {
-      reject(new Error('First promise was rejected'));
-    }
+    reject(new Error('First promise was rejected'));
   }, 3000);
 });
 
@@ -61,17 +59,12 @@ const thirdPromise = new Promise((resolve, reject) => {
   });
 });
 
-firstPromise.then(
-  () => resolveMessage('First promise was resolved')
-)
-  .catch(
-    () => rejectedMessage('First promise was rejected')
-  );
+firstPromise
+  .then(() => resolveMessage('First promise was resolved'))
+  .catch(() => rejectedMessage('First promise was rejected'));
 
-secondPromise.then(
-  () => resolveMessage('Second promise was resolved')
-);
+secondPromise
+  .then(() => resolveMessage('Second promise was resolved'));
 
-thirdPromise.then(
-  () => resolveMessage('Third promise was resolved')
-);
+thirdPromise
+  .then(() => resolveMessage('Third promise was resolved'));
