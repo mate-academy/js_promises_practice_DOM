@@ -2,35 +2,27 @@
 
 const body = document.querySelector('body');
 
-function error(message) {
+function message(className,text) {
   body.insertAdjacentHTML('beforeend', `
-  <div data-qa="notification" class="warning">
-    ${message}
-  </div>
-  `);
-}
-
-function success(message) {
-  body.insertAdjacentHTML('beforeend', `
-  <div data-qa="notification" class="success">
-    ${message}
+  <div data-qa="notification" class= '${className}'>
+    ${text}
   </div>
   `);
 }
 
 const firstPromise = new Promise(function(resolve, reject) {
   document.addEventListener('mousedown', () => {
-    resolve(`First promise was resolved`);
+    resolve(' First promise was resolved ');
   });
 
   setTimeout(() =>
-    reject(new Error(`First promise was rejected`)), 3000);
+    reject(new Error(' First promise was rejected ')), 3000);
 });
 
 const secondPromise = new Promise(function(resolve) {
   document.addEventListener('mousedown', (e) => {
     if (e.button === 0 || e.button === 2) {
-      resolve(`Second promise was resolved`);
+      resolve(' Second promise was resolved ');
     }
   });
 });
@@ -49,23 +41,18 @@ const thirdPromise = new Promise(function(resolve, reject) {
     }
 
     if (leftClick && rightClick) {
-      resolve(`Third promise was resolved`);
+      resolve(' Third promise was resolved ');
     }
   });
 });
 
-firstPromise.then(() => {
-  success('succes', `First promise was resolved`);
-});
+firstPromise
+.then(text => message('succes', text))
+.catch(error => message('warning', error));
 
-firstPromise.catch(() => {
-  error('warning', `First promise was rejected`);
-});
 
-secondPromise.then(() => {
-  success('succes', `Second promise was resolved`);
-});
+secondPromise
+.then(text => message('succes', text));
 
-thirdPromise.then(() => {
-  success('succes', `Third promise was resolved`);
-});
+thirdPromise
+.then(text => message('succes', text));
