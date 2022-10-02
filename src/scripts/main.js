@@ -34,13 +34,19 @@ promise2.then(res => {
 
 const promise3 = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
-    resolve('Left click!');
+    resolve('left click');
+  });
+
+  document.addEventListener('contextmenu', () => {
+    resolve('right click');
   });
 });
 
 promise3.then(res => {
+  const listener = res === 'left click' ? 'contextmenu' : 'click';
+
   return new Promise(resolve => {
-    document.addEventListener('contextmenu', (e) => {
+    document.addEventListener(listener, (e) => {
       e.preventDefault();
       resolve('Third promise was resolved!');
     });
