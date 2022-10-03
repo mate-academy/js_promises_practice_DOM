@@ -28,7 +28,7 @@ function createPromise(number) {
         complete(`Second promise was resolved`);
       });
 
-      document.addEventListener('contexmenu', () => {
+      document.addEventListener('contextmenu', () => {
         complete(`Second promise was resolved`);
       });
     };
