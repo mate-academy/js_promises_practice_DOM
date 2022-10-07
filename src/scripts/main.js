@@ -1,10 +1,10 @@
 'use strict';
 
 const body = document.querySelector('body');
-const logo = document.querySelector('.logo');
+const doc = document.querySelector('html');
 
 const promise1 = new Promise((resolve, reject) => {
-  logo.addEventListener('click', () => {
+  doc.addEventListener('click', () => {
     resolve('success');
   });
 
@@ -12,25 +12,25 @@ const promise1 = new Promise((resolve, reject) => {
 });
 
 const promise2 = new Promise((resolve, reject) => {
-  logo.addEventListener('click', () => {
+  doc.addEventListener('click', () => {
     resolve('success');
   });
 
-  logo.addEventListener('contextmenu', () => {
+  doc.addEventListener('contextmenu', () => {
     event.preventDefault();
     resolve('success');
   });
 });
 
 const promise3 = new Promise((resolve, reject) => {
-  logo.addEventListener('click', () => {
-    logo.addEventListener('contextmenu', () => {
+  doc.addEventListener('click', () => {
+    doc.addEventListener('contextmenu', () => {
       resolve('success');
     });
   });
 
-  logo.addEventListener('contextmenu', () => {
-    logo.addEventListener('click', () => {
+  doc.addEventListener('contextmenu', () => {
+    doc.addEventListener('click', () => {
       resolve('success');
     });
   });
