@@ -3,45 +3,32 @@
 const body = document.querySelector('body');
 
 const firstPromise = new Promise((resolve, reject) => {
-  body.addEventListener('click', () => {
-    resolve('First promise was resolved');
-  });
+  const leftClick = waitFor('click');
+
+  leftClick
+    .then(() => resolve('First promise was resolved'));
 
   setTimeout(reject, 3000, 'First promise was rejected');
 });
 
 const secondPromise = new Promise((resolve) => {
-  body.addEventListener('click', () => {
-    resolve('Second promise was resolved');
-  });
+  const leftClick = waitFor('click');
+  const rightClick = waitFor('contextmenu');
 
-  body.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-    resolve('Second promise was resolved');
-  });
-});
+  leftClick
+    .then(() => resolve('Second promise was resolved'));
 
-const rightClickPromise = new Promise(resolve => {
-  body.addEventListener('click', () => {
-    resolve();
-  });
-});
-
-const leftClickPromise = new Promise(resolve => {
-  body.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-    resolve();
-  });
+  rightClick
+    .then(() => resolve('Second promise was resolved'));
 });
 
 const thirdPromise = new Promise(resolve => {
-  rightClickPromise
-    .then(() => {
-      return leftClickPromise;
-    })
-    .then(() => {
-      resolve('Third promise was resolved');
-    });
+  const leftClick = waitFor('click');
+  const rightClick = waitFor('contextmenu');
+
+  leftClick
+    .then(() => rightClick)
+    .then(() => resolve('Third promise was resolved'));
 });
 
 firstPromise
@@ -69,3 +56,15 @@ function addMessage(result) {
     </div>
   `);
 };
+
+function waitFor(click) {
+  return new Promise(resolve => {
+    body.addEventListener(click, (e) => {
+      if (click === 'contextmenu') {
+        e.preventDefault();
+      }
+
+      resolve();
+    });
+  });
+}
