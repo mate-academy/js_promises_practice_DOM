@@ -22,3 +22,18 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.message {
+  margin-left: 10px;
+  padding: 10px;
+  color: #fff;
+  border-radius: 18px;
+}
+
+.success {
+  background-color: #37ad1f;
+}
+
+.warning {
+  background-color: #c92d0a;
+}
