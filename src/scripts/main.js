@@ -1,6 +1,8 @@
 'use strict';
 
 const body = document.body;
+let leftClick = false;
+let rightClick = false;
 
 const firstPromise = new Promise((resolve, reject) => {
   body.addEventListener('click', () => {
@@ -26,9 +28,19 @@ const secondPromise = new Promise((resolve, reject) => {
 
 const thirdPromise = new Promise((resolve, reject) => {
   body.addEventListener('click', () => {
-    body.addEventListener('contextmenu', () => {
+    leftClick = true;
+
+    if (leftClick && rightClick) {
       resolve('Third promise was resolved');
-    });
+    }
+  });
+
+  body.addEventListener('contextmenu', () => {
+    rightClick = true;
+
+    if (leftClick && rightClick) {
+      resolve('Third promise was resolved');
+    }
   });
 });
 
