@@ -1,6 +1,6 @@
 'use strict';
 
-const body = document.querySelector('body');
+const body = document.body;
 
 const firstPromise = new Promise((resolve, reject) => {
   const successMessage = 'First promise was resolved';
