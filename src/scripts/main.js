@@ -5,77 +5,45 @@ function appendDiv(res, type) {
   <div data-qa="notification" class="${type}">
     ${res}
   </div>
-    `)
+    `);
 }
 
-//—————————————————FIRST PROMISE—————————————————
-
-let isFirstPromiseResolved = false;
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
     resolve(`First promise was resolved`);
-    isFirstPromiseResolved = true;
-  })
+  });
 
   setTimeout(() => {
-    if (!isFirstPromiseResolved) {
-      reject('First promise was rejected')
-      console.log(firstPromise);
-    }
-  }, 3000)
+    reject(new Error('First promise was rejected'));
+  }, 3000);
 })
   .then((res) => {
-    appendDiv(res, 'success')
+    appendDiv(res, 'success');
   })
   .catch(res => {
-    appendDiv(res, 'warning')
-  })
-
-//—————————————————SECOND PROMISE—————————————————
+    appendDiv(res, 'warning');
+  });
 
 const secondPromise = new Promise((resolve) => {
   document.addEventListener('click', () => {
     resolve('Second promise was resolved');
-  })
+  });
 
-  document.addEventListener('contextmenu', () => {
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
     resolve('Second promise was resolved');
-  })
+  });
 })
   .then(res => {
-    appendDiv(res, 'success')
+    appendDiv(res, 'success');
   })
   .catch(res => {
-    appendDiv(res, 'warning')
-  })
+    appendDiv(res, 'warning');
+  });
 
-//—————————————————THIRD PROMISE—————————————————
+const thirdPromise = Promise.all([firstPromise, secondPromise]);
 
-let isLeftClicked = false;
-let isRightClicked = false;
-
-const thirdPromise = new Promise((resolve) => {
-  document.addEventListener('click', () => {
-    if (isRightClicked) {
-      resolve('Third promise was resolved');
-    }
-
-    isLeftClicked = true;
-  })
-
-  document.addEventListener('contextmenu', () => {
-    if (isLeftClicked) {
-      resolve('Third promise was resolved');
-    }
-
-    isRightClicked = true;
-  })
-
-  
-})
+thirdPromise
   .then(res => {
-    appendDiv(res, 'success')
-  })
-  .catch(res => {
-    appendDiv(res, 'warning')
-  })
+    appendDiv('Third promise was resolved', 'success');
+  });
