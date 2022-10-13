@@ -1,7 +1,9 @@
 'use strict';
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', () => resolve(`First promise was resolved`));
+  document.addEventListener('click', () => {
+    resolve(`First promise was resolved`);
+  });
 
   setTimeout(() => {
     reject(new Error(`First promise was rejected`));
@@ -39,28 +41,26 @@ const thirdPromise = new Promise((resolve, reject) => {
 
 const body = document.querySelector('body');
 
+function AddElemBody(elem) {
+  body.insertAdjacentHTML('afterbegin', `
+  <div data-qa="notification">${elem}</div>
+  `);
+}
+
 firstPromise
   .then(data => {
-    body.insertAdjacentHTML('afterbegin', `
-      <div data-qa="notification">${data}</div>
-      `);
+    AddElemBody(data);
   })
   .catch(data => {
-    body.insertAdjacentHTML('afterbegin', `
-      <div data-qa="notification">${data}</div>
-      `);
+    AddElemBody(data);
   });
 
 secondPromise
   .then(data => {
-    body.insertAdjacentHTML('afterbegin', `
-      <div data-qa="notification">${data}</div>
-      `);
+    AddElemBody(data);
   });
 
 thirdPromise
   .then(data => {
-    body.insertAdjacentHTML('afterbegin', `
-      <div data-qa="notification">${data}</div>
-      `);
+    AddElemBody(data);
   });
