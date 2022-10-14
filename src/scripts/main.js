@@ -34,10 +34,21 @@ promise2
   .then(result => notification(result, 'success'));
 
 const promise3 = new Promise((resolve) => {
-  document.addEventListener('mousedown', e => {
-    if (e.button === 0 || e.button === 2) {
+  let rightClick = false;
+  let leftClick = false;
+
+  document.addEventListener('mousedown', (e) => {
+    if (e.button === 0) {
+      leftClick = true;
+    }
+
+    if (e.button === 2) {
+      rightClick = true;
+    }
+
+    if (rightClick && leftClick) {
       resolve('Third promise was resolved');
-    };
+    }
   });
 });
 
