@@ -11,12 +11,12 @@ function notification(className, text) {
 const promise1 = new Promise((resolve, reject) => {
   document.addEventListener('mousedown', (ev) => {
     if (ev.button === 0 || ev.button === 1 || ev.button === 2) {
-      resolve(`First promise was resolved`);
+      resolve(`First promise was resolved `);
     }
   });
 
   setTimeout(() => {
-    reject(new Error('First promise was rejected'));
+    reject(new Error('First promise was rejected '));
   }, 3000);
 });
 
@@ -27,7 +27,7 @@ promise1
 const promise2 = new Promise((resolve) => {
   document.addEventListener('mousedown', e => {
     if (e.button === 0 || e.button === 2) {
-      resolve('Second promise was resolved');
+      resolve('Second promise was resolved ');
     };
   });
 });
@@ -49,7 +49,7 @@ const promise3 = new Promise((resolve) => {
     };
 
     if (lclick && rclick) {
-      resolve('Third promise was resolved');
+      resolve('Third promise was resolved ');
     }
   });
 });
