@@ -3,8 +3,8 @@
 function notification(className, text) {
   document.body.insertAdjacentHTML('afterbegin', `
   <div class="${className}" data-qa="notification">
-  ${text}
-</div>
+    ${text}
+  </div>
   `);
 }
 
@@ -36,20 +36,24 @@ promise2
   .then(result => notification('success', result));
 
 const promise3 = new Promise((resolve) => {
-  let lclick = false;
-  let rclick = false;
+  let rightClick = false;
+  let leftClick = false;
 
-  document.addEventListener('mousedown', e => {
+  document.addEventListener('mousedown', (e) => {
     if (e.button === 0) {
-      lclick = true;
-    };
+      leftClick = true;
+    }
 
     if (e.button === 2) {
-      rclick = true;
-    };
+      rightClick = true;
+    }
 
-    if (lclick && rclick) {
+    if (leftClick && rightClick) {
       resolve('Third promise was resolved ');
+    }
+
+    if (rightClick && leftClick) {
+      resolve('Third promise was resolved');
     }
   });
 });
