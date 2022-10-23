@@ -9,8 +9,10 @@ function notification(className, text) {
 }
 
 const promise1 = new Promise((resolve, reject) => {
-  document.addEventListener('mousedown', () => {
-    resolve('First promise was resolved');
+  document.addEventListener('mousedown', (ev) => {
+    if (ev.button === 0 || ev.button === 1 || ev.button === 2) {
+      resolve(`First promise was resolved`);
+    }
   });
 
   setTimeout(() => {
@@ -19,8 +21,8 @@ const promise1 = new Promise((resolve, reject) => {
 });
 
 promise1
-  .then(result => notification(result, 'success'))
-  .catch(error => notification(error, 'warning'));
+  .then(result => notification('success', result))
+  .catch(error => notification(`warning`, error.message));
 
 const promise2 = new Promise((resolve) => {
   document.addEventListener('mousedown', e => {
@@ -31,7 +33,7 @@ const promise2 = new Promise((resolve) => {
 });
 
 promise2
-  .then(result => notification(result, 'success'));
+  .then(result => notification('success', result));
 
 const promise3 = new Promise((resolve) => {
   let lclick = false;
@@ -53,4 +55,4 @@ const promise3 = new Promise((resolve) => {
 });
 
 promise3
-  .then(result => notification(result, 'success'));
+  .then(result => notification('success', result));
