@@ -8,16 +8,16 @@ container.style.position = 'absolute';
 container.style.top = '20px';
 container.style.gap = '10px';
 
-const successOne = ['success', 'First promise was resolved'];
-const errorOne = ['warning', 'First promise was rejected'];
-const successTwo = ['success', 'Second promise was resolved'];
-const successThree = ['success', 'Third promise was resolved'];
+const successOne = 'First promise was resolved';
+const errorOne = 'First promise was rejected';
+const successTwo = 'Second promise was resolved';
+const successThree = 'Third promise was resolved';
 let leftAlreadyClicked = false;
 let rightAlreadyClicked = false;
 
-function addAlert(set) {
+function addAlert(message) {
   const div = `<div data-qa="notification" class="warning">\
-    ${set[1]}\
+    ${message}\
   </div>`;
 
   container.insertAdjacentHTML('afterbegin', div);
