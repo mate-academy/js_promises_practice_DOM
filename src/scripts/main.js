@@ -2,7 +2,7 @@
 
 function innerMessage(message, innerClass) {
   document.body.insertAdjacentHTML('beforeend',
-   `<div class="${innerClass}" data-qa="notification">${message}</div>`
+    `<div class="${innerClass}" data-qa="notification">${message}</div>`
   );
 }
 
@@ -19,8 +19,7 @@ promise1
 
   .catch(() => innerMessage('First promise was rejected', 'warning'));
 
-
-const promise2 = new Promise(function(resolve, reject) {
+const promise2 = new Promise(function(resolve) {
   document.body.addEventListener('click', () => resolve());
 
   document.body.addEventListener('contextmenu', () => resolve());
@@ -28,8 +27,7 @@ const promise2 = new Promise(function(resolve, reject) {
 
 promise2.then(() => innerMessage('Second promise was resolved', 'success'));
 
-
-const promise3 = new Promise(function(resolve, reject) {
+const promise3 = new Promise(function(resolve) {
   let leftButtonClick = false;
   let rightButtonClick = false;
 
