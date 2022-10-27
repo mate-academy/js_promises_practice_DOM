@@ -1,6 +1,11 @@
 'use strict';
 
-/* First promise with it's methods */
+function innerMessage(message, innerClass) {
+  document.body.insertAdjacentHTML('beforeend',
+   `<div class="${innerClass}" data-qa="notification">${message}</div>`
+  );
+}
+
 const promise1 = new Promise(function(resolve, reject) {
   document.body.addEventListener('click', () => resolve());
 
@@ -10,42 +15,20 @@ const promise1 = new Promise(function(resolve, reject) {
 });
 
 promise1
-  .then(() => {
-    document.body.insertAdjacentHTML('beforeend',
-      `<div class="success" data-qa="notification">
-      First promise was resolved</div>`
-    );
-  })
+  .then(() => innerMessage('First promise was resolved', 'success'))
 
-  .catch(() => {
-    document.body.insertAdjacentHTML('beforeend',
-      `<div class="warning" data-qa="notification">
-      First promise was rejected</div>`
-    );
-  });
+  .catch(() => innerMessage('First promise was rejected', 'warning'));
 
-/* Second promise with it's methods */
+
 const promise2 = new Promise(function(resolve, reject) {
   document.body.addEventListener('click', () => resolve());
 
   document.body.addEventListener('contextmenu', () => resolve());
 });
 
-promise2
-  .then(() => {
-    document.body.insertAdjacentHTML('beforeend',
-      `<div class="success" data-qa="notification">
-      Second promise was resolved</div>`
-    );
-  })
+promise2.then(() => innerMessage('Second promise was resolved', 'success'));
 
-  .catch(() => {
-    document.body.insertAdjacentHTML('beforeend',
-      '<div class = "warning" data-qa="notification"></div>'
-    );
-  });
 
-/* Third promise with it's methods */
 const promise3 = new Promise(function(resolve, reject) {
   let leftButtonClick = false;
   let rightButtonClick = false;
@@ -53,7 +36,7 @@ const promise3 = new Promise(function(resolve, reject) {
   document.body.addEventListener('click', () => {
     leftButtonClick = true;
 
-    if (leftButtonClick === true && rightButtonClick === true) {
+    if (leftButtonClick && rightButtonClick) {
       resolve();
     }
   });
@@ -67,16 +50,4 @@ const promise3 = new Promise(function(resolve, reject) {
   });
 });
 
-promise3
-  .then(() => {
-    document.body.insertAdjacentHTML('beforeend',
-      `<div class="success" data-qa="notification">
-      Third promise was resolved</div>`
-    );
-  })
-
-  .catch(() => {
-    document.body.insertAdjacentHTML('beforeend',
-      '<div class = "warning" data-qa="notification"></div>'
-    );
-  });
+promise3.then(() => innerMessage('Third promise was resolved', 'success'));
