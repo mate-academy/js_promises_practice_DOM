@@ -11,15 +11,16 @@ const promise1 = new Promise((resolve, reject) => {
 });
 
 const promise2 = new Promise((resolve) => {
-  document.addEventListener('mousedown', () => {
+  document.addEventListener('contextmenu', () => {
     resolve('Second promise was resolved');
   });
 });
 
 const promise3 = new Promise((resolve) => {
-  document.addEventListener('click' && 'contextmenu', () => {
-    resolve('Third promise was resolved');
-  });
+  Promise.all([promise1, promise2])
+    .then(() => {
+      resolve('Third promise was resolved');
+    });
 });
 
 function appendDiv(res, type) {
