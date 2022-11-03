@@ -6,7 +6,7 @@ document.addEventListener('contextmenu', (e) => {
 
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('mousedown', (e) => {
-    if (e.button >= 0) {
+    if (e.button === 0) {
       resolve('First promise was resolved');
     }
   });
@@ -14,7 +14,7 @@ const firstPromise = new Promise((resolve, reject) => {
   setTimeout(() => reject(new Error('First promise was rejected')), 3000);
 });
 
-const secondPromise = new Promise((resolve, reject) => {
+const secondPromise = new Promise(resolve => {
   document.addEventListener('mousedown', (e) => {
     if (e.button === 0 || e.button === 2) {
       resolve('Second promise was resolved');
@@ -22,7 +22,7 @@ const secondPromise = new Promise((resolve, reject) => {
   });
 });
 
-const thirdPromise = new Promise((resolve, reject) => {
+const thirdPromise = new Promise(resolve => {
   let rightClick;
   let leftClick;
 
