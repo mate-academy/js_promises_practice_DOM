@@ -22,3 +22,26 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.success {
+  position: absolute;
+
+  &--1 {
+    top: 20px;
+    left: 20px;
+  }
+  &--2 {
+    top: 40px;
+    left: 20px;
+  }
+  &--3 {
+    top: 60px;
+    left: 20px;
+  }
+}
+
+.warning {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
