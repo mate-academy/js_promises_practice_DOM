@@ -17,10 +17,22 @@ const promise2 = new Promise((resolve) => {
 });
 
 const promise3 = new Promise((resolve) => {
-  Promise.all([promise1, promise2])
-    .then(() => {
+  let isLeftButtonClicked = false;
+  let isRightButtonClicked = false;
+
+  document.addEventListener('mouseup', (e) => {
+    if (e.button === 0) {
+      isLeftButtonClicked = true;
+    }
+
+    if (e.button === 2) {
+      isRightButtonClicked = true;
+    }
+
+    if (isLeftButtonClicked && isRightButtonClicked) {
       resolve('Third promise was resolved');
-    });
+    }
+  });
 });
 
 function appendDiv(res, type) {

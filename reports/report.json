@@ -5,9 +5,9 @@
     "passes": 2,
     "pending": 0,
     "failures": 8,
-    "start": "2022-11-02T14:39:48.250Z",
-    "end": "2022-11-02T14:40:55.798Z",
-    "duration": 67280,
+    "start": "2022-11-04T12:48:04.340Z",
+    "end": "2022-11-04T12:49:11.874Z",
+    "duration": 67276,
     "testsRegistered": 10,
     "passPercent": 20,
     "pendingPercent": 0,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "37dbe331-a13a-477e-b4bf-55ce3a4c376d",
+      "uuid": "92334c79-0eed-4478-ba65-78a102788826",
       "title": "",
       "fullFile": "cypress\\integration\\jsPromisesPracticeDOM.spec.js",
       "file": "cypress\\integration\\jsPromisesPracticeDOM.spec.js",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "c91e6f49-0d8d-484b-ba4e-cd52668256f8",
+          "uuid": "238b98d5-dc42-4cbb-a2e3-8d7eb074ba3f",
           "title": "Promises in DOM",
           "fullFile": "",
           "file": "",
@@ -38,7 +38,7 @@
               "title": "should resolve first promise on the left click",
               "fullTitle": "Promises in DOM should resolve first promise on the left click",
               "timedOut": null,
-              "duration": 7673,
+              "duration": 7724,
               "state": "failed",
               "speed": null,
               "pass": false,
@@ -51,8 +51,8 @@
                 "estack": "AssertionError: Timed out retrying: Expected to find content: 'First promise was resolved' within the element: <div.warning> but never did.\n    at Context.eval (http://localhost:8080/__cypress/tests?p=cypress\\integration\\jsPromisesPracticeDOM.spec.js:103:45)",
                 "diff": null
               },
-              "uuid": "32b7c9e5-c642-455a-8477-03b4789fd80e",
-              "parentUUID": "c91e6f49-0d8d-484b-ba4e-cd52668256f8",
+              "uuid": "4a756453-4fbb-4e45-985e-fdd8552f6343",
+              "parentUUID": "238b98d5-dc42-4cbb-a2e3-8d7eb074ba3f",
               "isHook": false,
               "skipped": false
             },
@@ -60,7 +60,7 @@
               "title": "should resolve first promise on the right click",
               "fullTitle": "Promises in DOM should resolve first promise on the right click",
               "timedOut": null,
-              "duration": 7443,
+              "duration": 7437,
               "state": "failed",
               "speed": null,
               "pass": false,
@@ -73,8 +73,8 @@
                 "estack": "AssertionError: Timed out retrying: Expected to find content: 'First promise was resolved' within the element: <div.warning> but never did.\n    at Context.eval (http://localhost:8080/__cypress/tests?p=cypress\\integration\\jsPromisesPracticeDOM.spec.js:103:45)",
                 "diff": null
               },
-              "uuid": "ef30b663-3703-4297-a790-cc2d1dbb769d",
-              "parentUUID": "c91e6f49-0d8d-484b-ba4e-cd52668256f8",
+              "uuid": "630528b5-2c7d-4424-a670-108f66526808",
+              "parentUUID": "238b98d5-dc42-4cbb-a2e3-8d7eb074ba3f",
               "isHook": false,
               "skipped": false
             },
@@ -82,7 +82,7 @@
               "title": "should resolve first promise on the middle button click",
               "fullTitle": "Promises in DOM should resolve first promise on the middle button click",
               "timedOut": null,
-              "duration": 7478,
+              "duration": 7423,
               "state": "failed",
               "speed": null,
               "pass": false,
@@ -95,8 +95,8 @@
                 "estack": "AssertionError: Timed out retrying: Expected to find content: 'First promise was resolved' within the element: <div.warning> but never did.\n    at Context.eval (http://localhost:8080/__cypress/tests?p=cypress\\integration\\jsPromisesPracticeDOM.spec.js:103:45)",
                 "diff": null
               },
-              "uuid": "35efa02c-7372-43d0-be4e-00c23effb941",
-              "parentUUID": "c91e6f49-0d8d-484b-ba4e-cd52668256f8",
+              "uuid": "9c18a9a4-82d4-4d8e-8fb5-df4737a85aa9",
+              "parentUUID": "238b98d5-dc42-4cbb-a2e3-8d7eb074ba3f",
               "isHook": false,
               "skipped": false
             },
@@ -104,7 +104,7 @@
               "title": "should ignore middle button click for the second promise",
               "fullTitle": "Promises in DOM should ignore middle button click for the second promise",
               "timedOut": null,
-              "duration": 3128,
+              "duration": 3134,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -113,8 +113,8 @@
               "context": null,
               "code": "cy.clickButton({\n  button: 1\n});\ncy.clickButton({\n  button: 1\n});\ncy.checkMessageDisplayed(secondResolvedMsg).should('not.exist');",
               "err": {},
-              "uuid": "14274e88-1582-4197-9bcc-666602e9d07f",
-              "parentUUID": "c91e6f49-0d8d-484b-ba4e-cd52668256f8",
+              "uuid": "e07d3b79-2b0f-4940-80f1-536128d16433",
+              "parentUUID": "238b98d5-dc42-4cbb-a2e3-8d7eb074ba3f",
               "isHook": false,
               "skipped": false
             },
@@ -122,7 +122,7 @@
               "title": "should reject first promise after 3 seconds of inactivity",
               "fullTitle": "Promises in DOM should reject first promise after 3 seconds of inactivity",
               "timedOut": null,
-              "duration": 3128,
+              "duration": 3123,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -131,8 +131,8 @@
               "context": null,
               "code": "// NOTE: waiting for reject\n// eslint-disable-next-line cypress/no-unnecessary-waiting\ncy.wait(3000);\ncy.checkMessageDisplayed(firstRejectedMsg);",
               "err": {},
-              "uuid": "9c2a199f-9b83-4fe3-8573-a4567cd2e728",
-              "parentUUID": "c91e6f49-0d8d-484b-ba4e-cd52668256f8",
+              "uuid": "8dc45f4e-175b-40c8-b4ae-05a87091bff0",
+              "parentUUID": "238b98d5-dc42-4cbb-a2e3-8d7eb074ba3f",
               "isHook": false,
               "skipped": false
             },
@@ -140,7 +140,7 @@
               "title": "should resolve second promise on the right click",
               "fullTitle": "Promises in DOM should resolve second promise on the right click",
               "timedOut": null,
-              "duration": 7483,
+              "duration": 7683,
               "state": "failed",
               "speed": null,
               "pass": false,
@@ -153,8 +153,8 @@
                 "estack": "AssertionError: Timed out retrying: Expected to find content: 'Second promise was resolved' within the element: <div.warning> but never did.\n    at Context.eval (http://localhost:8080/__cypress/tests?p=cypress\\integration\\jsPromisesPracticeDOM.spec.js:103:45)",
                 "diff": null
               },
-              "uuid": "967dba3d-eecf-4c1f-aea1-ad24124ed5a0",
-              "parentUUID": "c91e6f49-0d8d-484b-ba4e-cd52668256f8",
+              "uuid": "498cd979-56c4-4dfb-83cb-788515fb2aaf",
+              "parentUUID": "238b98d5-dc42-4cbb-a2e3-8d7eb074ba3f",
               "isHook": false,
               "skipped": false
             },
@@ -162,7 +162,7 @@
               "title": "should resolve second promise on the left click",
               "fullTitle": "Promises in DOM should resolve second promise on the left click",
               "timedOut": null,
-              "duration": 7821,
+              "duration": 7759,
               "state": "failed",
               "speed": null,
               "pass": false,
@@ -175,8 +175,8 @@
                 "estack": "AssertionError: Timed out retrying: Expected to find content: 'Second promise was resolved' within the element: <div.warning> but never did.\n    at Context.eval (http://localhost:8080/__cypress/tests?p=cypress\\integration\\jsPromisesPracticeDOM.spec.js:103:45)",
                 "diff": null
               },
-              "uuid": "c148cf85-5997-44e4-86a1-6b1a621b2307",
-              "parentUUID": "c91e6f49-0d8d-484b-ba4e-cd52668256f8",
+              "uuid": "e2b76b32-eab5-4a6c-adf5-2eb0f931a215",
+              "parentUUID": "238b98d5-dc42-4cbb-a2e3-8d7eb074ba3f",
               "isHook": false,
               "skipped": false
             },
@@ -184,7 +184,7 @@
               "title": "should resolve third promise",
               "fullTitle": "Promises in DOM should resolve third promise",
               "timedOut": null,
-              "duration": 7466,
+              "duration": 7441,
               "state": "failed",
               "speed": null,
               "pass": false,
@@ -197,8 +197,8 @@
                 "estack": "AssertionError: Timed out retrying: Expected to find content: 'Third promise was resolved' within the element: <div.warning> but never did.\n    at Context.eval (http://localhost:8080/__cypress/tests?p=cypress\\integration\\jsPromisesPracticeDOM.spec.js:103:45)",
                 "diff": null
               },
-              "uuid": "60b37d35-f0b7-45cd-89bf-5f5bd53265e0",
-              "parentUUID": "c91e6f49-0d8d-484b-ba4e-cd52668256f8",
+              "uuid": "3da7dfa5-0ba6-42b4-b5f9-b7effde55b14",
+              "parentUUID": "238b98d5-dc42-4cbb-a2e3-8d7eb074ba3f",
               "isHook": false,
               "skipped": false
             },
@@ -206,7 +206,7 @@
               "title": "should resolve all promises",
               "fullTitle": "Promises in DOM should resolve all promises",
               "timedOut": null,
-              "duration": 7804,
+              "duration": 7767,
               "state": "failed",
               "speed": null,
               "pass": false,
@@ -219,8 +219,8 @@
                 "estack": "AssertionError: Timed out retrying: Expected to find content: 'First promise was resolved' within the element: <div.warning> but never did.\n    at Context.eval (http://localhost:8080/__cypress/tests?p=cypress\\integration\\jsPromisesPracticeDOM.spec.js:103:45)",
                 "diff": null
               },
-              "uuid": "543dacac-6e5b-4ddf-8140-ec3d9bdfee34",
-              "parentUUID": "c91e6f49-0d8d-484b-ba4e-cd52668256f8",
+              "uuid": "bfc39dc6-f397-49cc-a984-7c7fc648a3a0",
+              "parentUUID": "238b98d5-dc42-4cbb-a2e3-8d7eb074ba3f",
               "isHook": false,
               "skipped": false
             },
@@ -228,7 +228,7 @@
               "title": "should reject 1st promise, resolve 2nd and 3rd promises",
               "fullTitle": "Promises in DOM should reject 1st promise, resolve 2nd and 3rd promises",
               "timedOut": null,
-              "duration": 7856,
+              "duration": 7785,
               "state": "failed",
               "speed": null,
               "pass": false,
@@ -241,30 +241,30 @@
                 "estack": "AssertionError: Timed out retrying: Expected to find content: 'Second promise was resolved' within the element: <div.warning> but never did.\n    at Context.eval (http://localhost:8080/__cypress/tests?p=cypress\\integration\\jsPromisesPracticeDOM.spec.js:103:45)",
                 "diff": null
               },
-              "uuid": "99ad744e-a298-4126-a0ac-093aab563dda",
-              "parentUUID": "c91e6f49-0d8d-484b-ba4e-cd52668256f8",
+              "uuid": "53b4141f-6270-4189-8c88-f98564de5a86",
+              "parentUUID": "238b98d5-dc42-4cbb-a2e3-8d7eb074ba3f",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "14274e88-1582-4197-9bcc-666602e9d07f",
-            "9c2a199f-9b83-4fe3-8573-a4567cd2e728"
+            "e07d3b79-2b0f-4940-80f1-536128d16433",
+            "8dc45f4e-175b-40c8-b4ae-05a87091bff0"
           ],
           "failures": [
-            "32b7c9e5-c642-455a-8477-03b4789fd80e",
-            "ef30b663-3703-4297-a790-cc2d1dbb769d",
-            "35efa02c-7372-43d0-be4e-00c23effb941",
-            "967dba3d-eecf-4c1f-aea1-ad24124ed5a0",
-            "c148cf85-5997-44e4-86a1-6b1a621b2307",
-            "60b37d35-f0b7-45cd-89bf-5f5bd53265e0",
-            "543dacac-6e5b-4ddf-8140-ec3d9bdfee34",
-            "99ad744e-a298-4126-a0ac-093aab563dda"
+            "4a756453-4fbb-4e45-985e-fdd8552f6343",
+            "630528b5-2c7d-4424-a670-108f66526808",
+            "9c18a9a4-82d4-4d8e-8fb5-df4737a85aa9",
+            "498cd979-56c4-4dfb-83cb-788515fb2aaf",
+            "e2b76b32-eab5-4a6c-adf5-2eb0f931a215",
+            "3da7dfa5-0ba6-42b4-b5f9-b7effde55b14",
+            "bfc39dc6-f397-49cc-a984-7c7fc648a3a0",
+            "53b4141f-6270-4189-8c88-f98564de5a86"
           ],
           "pending": [],
           "skipped": [],
-          "duration": 67280,
+          "duration": 67276,
           "root": false,
           "rootEmpty": false,
           "_timeout": 2000
