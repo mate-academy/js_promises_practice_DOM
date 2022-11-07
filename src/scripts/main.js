@@ -2,9 +2,12 @@
 
 const body = document.querySelector('body');
 
-const resolver1 = (resolv, reject) => {
+let rightClick = false;
+let leftClick = false;
+
+const resolver1 = (resolve, reject) => {
   document.addEventListener('click', () => {
-    resolv();
+    resolve();
   });
 
   setTimeout(() => {
@@ -12,19 +15,37 @@ const resolver1 = (resolv, reject) => {
   }, 3000);
 };
 
-const resolver2 = (resolv) => {
+const resolver2 = (resolve) => {
   document.addEventListener('click', () => {
-    resolv();
+    resolve();
   });
 
   document.addEventListener('contextmenu', () => {
-    resolv();
+    resolve();
+  });
+};
+
+const resolver3 = (resolve) => {
+  document.addEventListener('click', () => {
+    leftClick = true;
+
+    if (leftClick && rightClick) {
+      resolve();
+    }
+  });
+
+  document.addEventListener('contextmenu', () => {
+    rightClick = true;
+
+    if (leftClick && rightClick) {
+      resolve();
+    }
   });
 };
 
 const promise1 = new Promise(resolver1);
 const promise2 = new Promise(resolver2);
-const promise3 = Promise.all([promise1, promise2]);
+const promise3 = new Promise(resolver3);
 
 promise1
   .then(result => {
