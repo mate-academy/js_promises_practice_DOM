@@ -1,12 +1,19 @@
 'use strict';
 
+const errorDiv = document.createElement('div');
+
+errorDiv.classList.add('errors');
+document.body.appendChild(errorDiv);
+errorDiv.style.flexDirection = 'row';
+
 const appendDivToPage = (type, message) => {
   const div = document.createElement('div');
 
   div.classList.add(`${type}`);
   div.setAttribute('data-qa', 'notification');
   div.innerText = message;
-  document.body.appendChild(div);
+  div.style.width = '100%';
+  errorDiv.appendChild(div);
 };
 
 const promise1 = new Promise((resolve, reject) => {
