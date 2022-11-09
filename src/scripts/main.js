@@ -8,20 +8,21 @@ const promise1 = new Promise((resolve, reject) => {
   setTimeout(() => {
     reject(new Error('First promise was rejected'));
   }, 3000);
+});
+
+promise1.then(data => {
+  document.body.insertAdjacentHTML('beforeend', `
+  <div data-qa="notification" class="success">
+    ${data}
+  </div>
+  `);
 })
-  .then(data => {
-    document.body.insertAdjacentHTML('beforeend', `
-    <div data-qa="notification" class="success">
-      ${data}
-    </div>
-    `);
-  })
   .catch(err => {
-    document.body.innerHTML += `
+    document.body.insertAdjacentHTML('beforeend', `
     <div data-qa="notification" class="warning">
       ${err}
     </div>
-    `;
+    `);
   });
 
 const promise2 = new Promise((resolve) => {
@@ -30,14 +31,15 @@ const promise2 = new Promise((resolve) => {
       resolve('Second promise was resolved');
     });
   });
-})
-  .then(data => {
-    document.body.innerHTML += `
-    <div data-qa="notification" class="success">
-      ${data}
-    </div>
-    `;
-  });
+});
+
+promise2.then(data => {
+  document.body.insertAdjacentHTML('beforeend', `
+  <div data-qa="notification" class="success">
+    ${data}
+  </div>
+  `);
+});
 
 const promise3 = Promise.all([
   new Promise((resolve) => {
@@ -49,11 +51,12 @@ const promise3 = Promise.all([
     document.addEventListener('contextmenu', () => {
       resolve();
     });
-  })])
-  .then(data => {
-    document.body.innerHTML += `
-    <div data-qa="notification" class="success">
-      ${data}
-    </div>
-    `;
-  });
+  })]);
+
+promise3.then(data => {
+  document.body.insertAdjacentHTML('beforeend', `
+  <div data-qa="notification" class="success">
+    ${data}
+  </div>
+  `);
+});
