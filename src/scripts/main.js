@@ -26,56 +26,51 @@ const secondPromise = new Promise((resolve, reject) => {
 });
 
 const thirdPromise = new Promise((resolve, reject) => {
-  const clickRight = 'contextmenu';
-  const click = 'click';
-
-  // body.onclick = (e) => {
-  //   console.log(onclick);
-
-  //   if (!oncontextmenu) {
-  //     return;
-  //   }
-  //   resolve('Third promise was resolved');
-  // };
-
   body.addEventListener('contextmenu', (e) => {
     e.preventDefault();
   });
 
-  body.addEventListener('mousedown', () => {
-    let x = false;
-    let y = false;
+  let clickLeft = false;
+  let clickRight = false;
 
-    if (click) {
-      x = true;
+  body.addEventListener('mousedown', (e) => {
+    if (e.button === 0) {
+      clickLeft = true;
     }
 
-    if (clickRight) {
-      y = true;
+    if (e.button === 2) {
+      clickRight = true;
     }
 
-    if (!x === true && !y === true) {
-      return;
+    if (clickLeft === true && clickRight === true) {
+      resolve('Third promise was resolved');
     }
-    resolve('Third promise was resolved');
   });
 });
 
-function massagePromise(message, x) {
+function massagePromise(message, claasMessage) {
   const massege = document.createElement('div');
 
-  massege.classList = x;
+  massege.classList = claasMessage;
   massege.setAttribute('data-qa', 'notification');
   massege.textContent = message;
   body.append(massege);
 }
 
 firstPromise
-  .then(massagePromise, success)
-  .catch(massagePromise, warning);
+  .then((text) => {
+    massagePromise(text, success);
+  })
+  .catch((text) => {
+    massagePromise(text, warning);
+  });
 
 secondPromise
-  .then(massagePromise, success);
+  .then((text) => {
+    massagePromise(text, success);
+  });
 
 thirdPromise
-  .then(massagePromise, success);
+  .then((text) => {
+    massagePromise(text, success);
+  });
