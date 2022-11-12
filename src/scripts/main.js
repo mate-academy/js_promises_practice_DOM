@@ -38,7 +38,7 @@ const secondPromise = new Promise(resolve => {
   ));
 
   document.addEventListener('contextmenu', () => (
-    resolve('First promise was resolved')
+    resolve('Second promise was resolved')
   ));
 });
 
