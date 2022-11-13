@@ -28,15 +28,15 @@ const promise3 = new Promise((resolve, reject) => {
 });
 
 function onSuccess(value) {
-  document.body.innerHTML = `
+  document.body.insertAdjacentHTML('beforeend', `
     <div data-qa="notification" class="success">${value}</div>
-  `;
+  `);
 }
 
 function onError(value) {
-  document.body.innerHTML = `
+  document.body.insertAdjacentHTML('beforeend', `
     <div data-qa="notification" class="warning">${value}</div>
-  `;
+  `);
 }
 
 promise1
