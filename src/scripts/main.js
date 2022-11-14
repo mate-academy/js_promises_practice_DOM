@@ -38,7 +38,7 @@ const showMessage = (message, promiseStatus) => {
 
   div.classList.add(className);
   div.dataset.qa = 'notification';
-  div.innerHTML = message;
+  div.textContent = message;
   document.body.append(div);
 };
 
