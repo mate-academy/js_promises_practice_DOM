@@ -1,7 +1,20 @@
 'use strict';
 
+const leftClickPromise = new Promise((resolve) => {
+  document.addEventListener('click', () => {
+    resolve();
+  });
+});
+
+const rightClickPromise = new Promise((resolve) => {
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    resolve();
+  });
+});
+
 const firstPromise = new Promise((resolve, reject) => {
-  click('First promise was resolved', resolve);
+  leftClickPromise.then(() => resolve('First promise was resolved'));
 
   setTimeout(() => {
     reject(new Error('First promise was rejected'));
@@ -9,38 +22,18 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 const secondPromise = new Promise((resolve) => {
-  click('Second promise was resolved', resolve);
-
-  document.oncontextmenu = (e) => {
-    e.preventDefault();
-    resolve('Second promise was resolved');
-  };
+  Promise.race([leftClickPromise, rightClickPromise])
+    .then(() => resolve('Second promise was resolved'));
 });
 
 const thirdPromise = new Promise((resolve) => {
-  let leftClick = false;
-  let rightClick = false;
-
-  document.addEventListener('mousedown', (e) => {
-    if (e.button === 0) {
-      leftClick = true;
-    }
-
-    if (e.button === 2) {
-      rightClick = true;
-    }
-
-    if (leftClick && rightClick) {
-      resolve('Third promise was resolved');
-    }
-  });
+  Promise.all([leftClickPromise, rightClickPromise])
+    .then(() => resolve('Third promise was resolved'));
 });
 
 firstPromise
   .then(showSuccessMessage)
-  .catch((message) => {
-    createMessage('warning', message);
-  });
+  .catch(showWarningMessage);
 
 secondPromise.then(showSuccessMessage);
 
@@ -50,11 +43,9 @@ function showSuccessMessage(message) {
   createMessage('success', message);
 };
 
-function click(text, resolver) {
-  document.addEventListener('click', () => {
-    resolver(text);
-  });
-}
+function showWarningMessage(message) {
+  createMessage('warning', message);
+};
 
 function createMessage(type, description) {
   document.body.insertAdjacentHTML('beforeend', `
