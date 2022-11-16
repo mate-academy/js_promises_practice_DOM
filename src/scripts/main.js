@@ -1,7 +1,5 @@
 'use strict';
 
-const logo = document.querySelector('.logo');
-
 function block(className, text) {
   const div = document.createElement('div');
 
@@ -15,7 +13,7 @@ function block(className, text) {
 }
 
 const firstPromise = new Promise((resolve, reject) => {
-  logo.addEventListener('click', () => {
+  document.addEventListener('click', () => {
     resolve('First promise was resolved');
   });
 
@@ -25,11 +23,11 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 const secondPromise = new Promise((resolve) => {
-  logo.addEventListener('contextmenu', () => {
+  document.addEventListener('contextmenu', () => {
     resolve('Second promise was resolved');
   });
 
-  logo.addEventListener('click', () => {
+  document.addEventListener('click', () => {
     resolve('Second promise was resolved');
   });
 });
@@ -37,11 +35,11 @@ const secondPromise = new Promise((resolve) => {
 const thirdPromise = new Promise((resolve) => {
   let leftClick, rightClick;
 
-  logo.addEventListener('click', () => {
+  document.addEventListener('click', () => {
     leftClick = true;
   });
 
-  logo.addEventListener('contextmenu', (e) => {
+  document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     rightClick = true;
 
