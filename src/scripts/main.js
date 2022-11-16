@@ -29,7 +29,7 @@ const thirdPromise = new Promise((resolve) => {
       left = true;
     }
 
-    if (ev.button === 2) {
+    if (ev.button === 2 || ev.button === 1) {
       right = true;
     }
 
