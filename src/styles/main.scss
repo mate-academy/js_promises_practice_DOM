@@ -22,3 +22,45 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.msg {
+  position: absolute;
+
+  padding: 25px;
+  width: 200px;
+
+  text-align: center;
+  font-family: Verdana, sans-serif;
+  font-size: 16px;
+
+  border-radius: 16px;
+
+  background-color: yellowgreen;
+
+  &--success1 {
+    top: 10%;
+    left: 8%;
+  }
+
+  &--warning1 {
+    background-color: orange;
+    top: 10%;
+    right: 8%;
+  }
+
+  &--success2 {
+    top: calc(50% - 47px);
+    left: 8%;
+  }
+
+  &--success3 {
+    bottom: 10%;
+    left: 8%;
+  }
+
+  &--warning3 {
+    background-color: orange;
+    bottom: 10%;
+    right: 8%;
+  }
+}
