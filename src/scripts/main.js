@@ -2,30 +2,26 @@
 
 const body = document.querySelector('body');
 
+function getSuccessMessage(message) {
+  return body.insertAdjacentHTML(
+    'beforeend',
+    `<div data-q="notification" class="message">${message}</div>`
+  );
+}
+
+function getErrorMessage(message) {
+  return body.insertAdjacentHTML(
+    'beforeend',
+    `<div data-q="notification" class="
+     message message--warning">${message.message}</div>`
+  );
+}
+
 const firstPromise = new Promise((resolve, reject) => {
   body.addEventListener('click', () => resolve('First promise was resolved'));
 
   setTimeout(() => reject(new Error('First promise was rejected')), 3000);
 });
-
-firstPromise
-  .then((message) => {
-    body.insertAdjacentHTML(
-      'beforeend',
-      `<div data-q="notification" class="msg msg--success1">${message}</div`
-    );
-  })
-  .catch((error) => {
-    body.insertAdjacentHTML(
-      'beforeend',
-      `<div
-         data-q="notification"
-         class="msg msg--warning1"
-       >
-       ${error.message}
-       </div`
-    );
-  });
 
 const secondPromise = new Promise((resolve) => {
   body.addEventListener('contextmenu', () =>
@@ -33,13 +29,6 @@ const secondPromise = new Promise((resolve) => {
   );
 
   body.addEventListener('click', () => resolve('Second promise was resolved'));
-});
-
-secondPromise.then((message) => {
-  body.insertAdjacentHTML(
-    'beforeend',
-    `<div data-q="notification" class="msg msg--success2">${message}</div`
-  );
 });
 
 const thirdPromise = new Promise((resolve) => {
@@ -64,9 +53,6 @@ const thirdPromise = new Promise((resolve) => {
   });
 });
 
-thirdPromise.then((message) => {
-  body.insertAdjacentHTML(
-    'beforeend',
-    `<div data-q="notification" class="msg msg--success3">${message}</div`
-  );
-});
+firstPromise.then(getSuccessMessage).catch(getErrorMessage);
+secondPromise.then(getSuccessMessage).catch(getErrorMessage);
+thirdPromise.then(getSuccessMessage).catch(getErrorMessage);
