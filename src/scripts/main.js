@@ -25,7 +25,8 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 const secondPromise = new Promise((resolve) => {
-  let leftClick, rightClick;
+  let leftClick = false;
+  let rightClick = false;
 
   document.addEventListener('mousedown', (e) => {
     if (e.button === 0) {
@@ -43,7 +44,8 @@ const secondPromise = new Promise((resolve) => {
 });
 
 const thirdPromise = new Promise((resolve) => {
-  let leftClick, rightClick;
+  let leftClick = false;
+  let rightClick = false;
 
   document.addEventListener('mousedown', (e) => {
     if (e.button === 0) {
