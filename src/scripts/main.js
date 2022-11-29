@@ -1,9 +1,18 @@
 'use strict';
 
+function createMessages(type, promiseNum) {
+  return type === 'success'
+    ? root.insertAdjacentHTML('beforeend', `
+        <div data-qa="success">${promiseNum} promise was resolved</div>
+      `)
+    : root.insertAdjacentHTML('beforeend', `
+        <div data-qa="error">${promiseNum} promise was rejected</div>
+      `);
+}
+
 const root = document.body;
 
-// firstPromise
-new Promise((resolve, reject) => {
+const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
     resolve();
   });
@@ -11,18 +20,9 @@ new Promise((resolve, reject) => {
   setTimeout(() => {
     reject(new Error());
   }, 3000);
-}).then(() => {
-  root.insertAdjacentHTML('beforeend', `
-    <div data-qa="success">First promise was resolved</div>
-  `);
-}).catch(() => {
-  root.insertAdjacentHTML('beforeend', `
-    <div data-qa="error">First promise was rejected</div>
-  `);
 });
 
-// secondPromise
-new Promise((resolve, reject) => {
+const secondPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
     resolve();
   });
@@ -31,14 +31,9 @@ new Promise((resolve, reject) => {
     e.preventDefault();
     resolve();
   });
-}).then(() => {
-  root.insertAdjacentHTML('beforeend', `
-    <div data-qa="success">Second promise was resolved</div>
-  `);
 });
 
-// thirdPromise
-new Promise((resolve, reject) => {
+const thirdPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
     document.addEventListener('contextmenu', () => {
       resolve();
@@ -50,8 +45,21 @@ new Promise((resolve, reject) => {
       resolve();
     });
   });
-}).then(() => {
-  root.insertAdjacentHTML('beforeend', `
-    <div data-qa="success">Third promise was resolved</div>
-  `);
 });
+
+firstPromise
+  .then(() => {
+    createMessages('success', 'First');
+  }).catch(() => {
+    createMessages('error', 'First');
+  });
+
+secondPromise
+  .then(() => {
+    createMessages('success', 'Second');
+  });
+
+thirdPromise
+  .then(() => {
+    createMessages('success', 'Third');
+  });
