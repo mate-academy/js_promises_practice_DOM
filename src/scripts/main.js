@@ -2,18 +2,12 @@
 
 const body = document.querySelector('body');
 
-function getSuccessMessage(message) {
-  return body.insertAdjacentHTML(
-    'beforeend',
-    `<div data-q="notification" class="message">${message}</div>`
-  );
-}
+function getMessage(message, typeOfMessage) {
+  const insertClass = typeOfMessage === 'warning' ? ' message--warning' : '';
 
-function getErrorMessage(message) {
   return body.insertAdjacentHTML(
     'beforeend',
-    `<div data-q="notification" class="
-     message message--warning">${message.message}</div>`
+    `<div data-q="notification" class="message${insertClass}">${message}</div>`
   );
 }
 
@@ -44,7 +38,7 @@ const thirdPromise = new Promise((resolve) => {
   });
 
   document.addEventListener('contextmenu', (e) => {
-    e.preventDefault(); // prevent right-click popup menu
+    e.preventDefault();
     rightClick = true;
 
     if (leftClick && rightClick) {
@@ -53,6 +47,14 @@ const thirdPromise = new Promise((resolve) => {
   });
 });
 
-firstPromise.then(getSuccessMessage).catch(getErrorMessage);
-secondPromise.then(getSuccessMessage).catch(getErrorMessage);
-thirdPromise.then(getSuccessMessage).catch(getErrorMessage);
+firstPromise
+  .then((message) => getMessage(message))
+  .catch((error) => getMessage(error, 'warning'));
+
+secondPromise
+  .then((message) => getMessage(message))
+  .catch((error) => getMessage(error, 'warning'));
+
+thirdPromise
+  .then((message) => getMessage(message))
+  .catch((error) => getMessage(error, 'warning'));
