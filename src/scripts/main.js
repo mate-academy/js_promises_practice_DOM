@@ -2,7 +2,7 @@
 
 const leftClickB4TimeoutPromise = new Promise((resolve, reject) => {
   document.body.addEventListener('click', e => {
-    resolve('!');
+    resolve();
   }, { once: true });
 
   setTimeout(() => {
@@ -12,13 +12,13 @@ const leftClickB4TimeoutPromise = new Promise((resolve, reject) => {
 
 const leftClickPromise = new Promise(resolve => {
   document.body.addEventListener('click', e => {
-    resolve('!');
+    resolve();
   }, { once: true });
 });
 
 const rightClickPromise = new Promise(resolve => {
   document.body.addEventListener('contextmenu', (e) => {
-    resolve('!');
+    resolve();
   }, { once: true });
 });
 
