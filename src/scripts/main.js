@@ -1,8 +1,10 @@
 'use strict';
 
 const leftClickB4TimeoutPromise = new Promise((resolve, reject) => {
-  document.body.addEventListener('click', e => {
-    resolve();
+  document.body.addEventListener('mousedown', e => {
+    if (e.button === 0 || e.button === 1 || e.button === 2) {
+      resolve();
+    }
   }, { once: true });
 
   setTimeout(() => {
@@ -11,15 +13,19 @@ const leftClickB4TimeoutPromise = new Promise((resolve, reject) => {
 });
 
 const leftClickPromise = new Promise(resolve => {
-  document.body.addEventListener('click', e => {
-    resolve();
-  }, { once: true });
+  document.body.addEventListener('mousedown', e => {
+    if (e.button === 0) {
+      resolve();
+    }
+  });
 });
 
 const rightClickPromise = new Promise(resolve => {
-  document.body.addEventListener('contextmenu', (e) => {
-    resolve();
-  }, { once: true });
+  document.body.addEventListener('mousedown', e => {
+    if (e.button === 2) {
+      resolve();
+    }
+  });
 });
 
 leftClickB4TimeoutPromise
@@ -30,14 +36,14 @@ leftClickB4TimeoutPromise
     renderResult(err.message, false);
   });
 
-Promise.any([leftClickPromise, rightClickPromise])
-  .then(() => {
-    renderResult('Second promise was resolved', true);
-  });
-
 Promise.all([leftClickPromise, rightClickPromise])
   .then(() => {
     renderResult('Third promise was resolved', true);
+  });
+
+Promise.any([leftClickPromise, rightClickPromise])
+  .then(() => {
+    renderResult('Second promise was resolved', true);
   });
 
 const renderResult = (result, success) => {
