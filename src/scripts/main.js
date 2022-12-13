@@ -1,8 +1,10 @@
 'use strict';
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.documentElement.addEventListener('click', () => {
-    resolve('First promise was resolved');
+  document.documentElement.addEventListener('mousedown', (e) => {
+    if (e.button === 0 || e.button === 1 || e.button === 2) {
+      resolve('First promise was resolved');
+    }
   });
 
   setTimeout(() => {
@@ -15,12 +17,10 @@ firstPromise
   .catch(onError);
 
 const secondPromise = new Promise((resolve, reject) => {
-  document.documentElement.addEventListener('click', () => {
-    resolve('Second promise was resolved');
-  });
-
-  document.documentElement.addEventListener('contextmenu', () => {
-    resolve('Second promise was resolved');
+  document.documentElement.addEventListener('mousedown', (e) => {
+    if (e.button === 0 || e.button === 2) {
+      resolve('Second promise was resolved');
+    }
   });
 });
 
@@ -31,19 +31,23 @@ const thirdPromise = new Promise((resolve) => {
   let leftButtonClick = false;
   let rightButtonClick = false;
 
-  document.documentElement.addEventListener('click', () => {
-    leftButtonClick = true;
+  document.documentElement.addEventListener('mousedown', (e) => {
+    if (e.button === 0) {
+      leftButtonClick = true;
 
-    if (rightButtonClick) {
-      resolve('Third promise was resolved');
+      if (rightButtonClick) {
+        resolve('Third promise was resolved');
+      }
     }
   });
 
-  document.documentElement.addEventListener('contextmenu', () => {
-    rightButtonClick = true;
+  document.documentElement.addEventListener('mousedown', (e) => {
+    if (e.button === 2) {
+      rightButtonClick = true;
 
-    if (leftButtonClick) {
-      resolve('Third promise was resolved');
+      if (leftButtonClick) {
+        resolve('Third promise was resolved');
+      }
     }
   });
 });
@@ -59,8 +63,6 @@ function onSuccess(text) {
   message.dataset.qa = 'notification';
   message.textContent = text;
   document.body.append(message);
-
-  return text;
 }
 
 function onError(text) {
@@ -68,8 +70,6 @@ function onError(text) {
 
   message.classList.add('warning');
   message.dataset.qa = 'notification';
-  message.textContent = text;
+  message.textContent = text.message;
   document.body.append(message);
-
-  return text;
 }
