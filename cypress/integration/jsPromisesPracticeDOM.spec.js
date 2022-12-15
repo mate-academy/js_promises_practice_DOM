@@ -27,18 +27,17 @@ describe('Promises in DOM', () => {
     cy.checkMessageDisplayed(firstRejectedMsg).should('not.exist');
   });
 
-  it('should resolve first promise on the right click', () => {
-    cy.clickButton({ button: 2 });
-    cy.checkMessageDisplayed(firstResolvedMsg);
+  it('should ignore middle button click for the first promise', () => {
+    cy.clickButton({ button: 1 });
+    cy.checkMessageDisplayed(firstResolvedMsg).should('not.exist');
   });
 
-  it('should resolve first promise on the middle button click', () => {
-    cy.clickButton({ button: 1 });
-    cy.checkMessageDisplayed(firstResolvedMsg);
+  it('should ignore rignt button click for the first promise', () => {
+    cy.clickButton({ button: 2 });
+    cy.checkMessageDisplayed(firstResolvedMsg).should('not.exist');
   });
 
   it('should ignore middle button click for the second promise', () => {
-    cy.clickButton({ button: 1 });
     cy.clickButton({ button: 1 });
     cy.checkMessageDisplayed(secondResolvedMsg).should('not.exist');
   });
