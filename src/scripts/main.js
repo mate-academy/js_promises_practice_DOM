@@ -56,5 +56,4 @@ secondPromise
   .then(result => createMessage(result, 'success'));
 
 thirdPromise
-  .then(result => createMessage(result, 'success'))
-  .then(error => createMessage(error, 'warning'));
+  .then(result => createMessage(result, 'success'));
