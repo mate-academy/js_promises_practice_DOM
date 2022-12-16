@@ -14,31 +14,31 @@ function createFirstPrommise() {
   });
 }
 
-function f() {
-  const p1 = new Promise((resolve,) => {
+function arrayWithPromises() {
+  const resolverLeftClick = new Promise((resolve,) => {
     logo.addEventListener('click', () => {
       resolve();
     });
   });
 
-  const p2 = new Promise((resolve) => {
+  const resolverRightClick = new Promise((resolve) => {
     logo.addEventListener('contextmenu', (ev) => {
       ev.preventDefault();
       resolve();
     });
   });
 
-  return [p1, p2];
+  return [resolverLeftClick, resolverRightClick];
 }
 
 function createSecondtPrommise() {
-  const result = f();
+  const result = arrayWithPromises();
 
   return Promise.race(result);
 }
 
 function createThirdPrommise() {
-  const result = f();
+  const result = arrayWithPromises();
 
   return Promise.all(result);
 };
