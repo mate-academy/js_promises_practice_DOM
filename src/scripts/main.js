@@ -14,7 +14,7 @@ function createFirstPrommise() {
   });
 }
 
-function arrayWithPromises() {
+function createArrayWithPromises() {
   const resolverLeftClick = new Promise((resolve,) => {
     logo.addEventListener('click', () => {
       resolve();
@@ -32,13 +32,13 @@ function arrayWithPromises() {
 }
 
 function createSecondtPrommise() {
-  const result = arrayWithPromises();
+  const result = createArrayWithPromises();
 
   return Promise.race(result);
 }
 
 function createThirdPrommise() {
-  const result = arrayWithPromises();
+  const result = createArrayWithPromises();
 
   return Promise.all(result);
 };
