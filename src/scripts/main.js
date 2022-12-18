@@ -1,14 +1,21 @@
 'use strict';
 
-const createMessage = function(message, statusClass) {
-  const div = document.createElement('div');
-
-  div.dataset.qa = 'notification';
-  div.className = statusClass;
-  div.textContent = message;
-
-  document.body.append(div);
+const createMessageBlock = (message, statusClass) => {
+  document.body.insertAdjacentHTML('beforeend',
+    `<div class="${statusClass}" data-qa="notification">${message}</div>`);
 };
+
+const onSuccess = (message) => {
+  createMessageBlock(message, 'success');
+};
+
+const onError = (message) => {
+  createMessageBlock(message, 'warning');
+};
+
+document.addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+});
 
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('mousedown', (e) => {
@@ -43,7 +50,7 @@ const thirdPromise = new Promise((resolve, reject) => {
         break;
       case 2:
         rightClick = true;
-        break
+        break;
     }
 
     if (leftClick && rightClick) {
@@ -53,13 +60,13 @@ const thirdPromise = new Promise((resolve, reject) => {
 });
 
 firstPromise
-  .then(result => createMessage(result, `success`))
-  .catch(error => createMessage(error, 'warning'));
+  .then(onSuccess)
+  .catch(onError);
 
 secondPromise
-  .then(result => createMessage(result, 'success'))
-  .catch(error => createMessage(error, 'warning'));
+  .then(onSuccess)
+  .catch(onError);
 
 thirdPromise
-  .then(result => createMessage(result, 'success'))
-  .catch(error => createMessage(error, 'warning'));
+  .then(onSuccess)
+  .catch(onError);
