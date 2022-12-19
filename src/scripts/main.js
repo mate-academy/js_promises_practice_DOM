@@ -2,6 +2,7 @@
 
 const body = document.querySelector('body');
 let firstPromiceResult = false;
+let secondPromiseResult = '';
 
 function showMessage(type, text, topIndent) {
   const message = document.createElement('div');
@@ -67,36 +68,36 @@ function thirdPromise() {
   return new Promise(resolver);
 }
 
-function promiseChain() {
-  const promise2 = secondPromise();
-
-  promise2
-    .then((result) => {
-      showMessage('success'
-        , `Second promise was resolved (${result} click)`, 115);
-
-      if (result === 'right' && firstPromiceResult === true) {
-        const promise3 = thirdPromise();
-
-        promise3.then(() => {
-          showMessage('success', 'Third promise was resolved', 220);
-        });
-      }
-    }
-    );
-}
-
 const promise1 = firstPromise();
 
-promise1.then(() => {
-  showMessage('success', 'First promise was resolved (left click)', 10);
-  firstPromiceResult = true;
+promise1
+  .then(() => {
+    showMessage('success', 'First promise was resolved (left click)', 10);
+    firstPromiceResult = true;
 
-  promiseChain();
-},
-() => {
-  showMessage('warning', 'First promise was rejected!', 10);
+    const promise2 = secondPromise();
 
-  promiseChain();
-}
-);
+    return promise2;
+  },
+  () => {
+    showMessage('warning', 'First promise was rejected!', 10);
+
+    const promise2 = secondPromise();
+
+    return promise2;
+  }
+  )
+  .then((result) => {
+    showMessage('success'
+      , `Second promise was resolved (${result} click)`, 115);
+    secondPromiseResult = result;
+
+    const promise3 = thirdPromise();
+
+    return promise3;
+  })
+  .then(() => {
+    if (secondPromiseResult === 'right' && firstPromiceResult === true) {
+      showMessage('success', 'Third promise was resolved', 220);
+    }
+  });
