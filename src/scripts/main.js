@@ -18,10 +18,8 @@ document.addEventListener('contextmenu', (e) => {
 });
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('mousedown', (e) => {
-    if (e.button === 0) {
-      resolve('First promise was resolved');
-    }
+  document.addEventListener('click', () => {
+    resolve('First promise was resolved');
   });
 
   setTimeout(() => {
@@ -29,7 +27,7 @@ const firstPromise = new Promise((resolve, reject) => {
   }, 3000);
 });
 
-const secondPromise = new Promise((resolve, reject) => {
+const secondPromise = new Promise((resolve) => {
   document.addEventListener('mousedown', (e) => {
     const mouseButton = e.button;
 
@@ -39,7 +37,7 @@ const secondPromise = new Promise((resolve, reject) => {
   });
 });
 
-const thirdPromise = new Promise((resolve, reject) => {
+const thirdPromise = new Promise((resolve) => {
   let leftClick = false;
   let rightClick = false;
 
