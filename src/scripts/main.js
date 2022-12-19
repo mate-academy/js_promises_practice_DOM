@@ -68,23 +68,17 @@ function thirdPromise() {
   return new Promise(resolver);
 }
 
-const promise1 = firstPromise();
-
-promise1
-  .then(() => {
+firstPromise()
+  .then((result) => {
     showMessage('success', 'First promise was resolved (left click)', 10);
-    firstPromiceResult = true;
+    firstPromiceResult = result;
 
-    const promise2 = secondPromise();
-
-    return promise2;
+    return secondPromise();
   },
   () => {
     showMessage('warning', 'First promise was rejected!', 10);
 
-    const promise2 = secondPromise();
-
-    return promise2;
+    return secondPromise();
   }
   )
   .then((result) => {
@@ -92,9 +86,7 @@ promise1
       , `Second promise was resolved (${result} click)`, 115);
     secondPromiseResult = result;
 
-    const promise3 = thirdPromise();
-
-    return promise3;
+    return thirdPromise();
   })
   .then(() => {
     if (secondPromiseResult === 'right' && firstPromiceResult === true) {
