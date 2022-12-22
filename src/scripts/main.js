@@ -2,7 +2,7 @@
 
 const logo = document.querySelector('.logo');
 
-function createFirstPrommise() {
+const createFirstPromise = function() {
   return new Promise((resolve, reject) => {
     logo.addEventListener('click', () => {
       resolve();
@@ -12,53 +12,44 @@ function createFirstPrommise() {
       reject(error);
     }, 3000);
   });
-}
+};
 
-function createArrayWithPromises() {
-  const resolverLeftClick = new Promise((resolve,) => {
+function createleftClick() {
+  return new Promise((resolve) => {
     logo.addEventListener('click', () => {
       resolve();
     });
   });
+};
 
-  const resolverRightClick = new Promise((resolve) => {
+function createrightClick() {
+  return new Promise((resolve) => {
     logo.addEventListener('contextmenu', (ev) => {
       ev.preventDefault();
       resolve();
     });
   });
-
-  return [resolverLeftClick, resolverRightClick];
-}
-
-function createSecondtPrommise() {
-  const result = createArrayWithPromises();
-
-  return Promise.race(result);
-}
-
-function createThirdPrommise() {
-  const result = createArrayWithPromises();
-
-  return Promise.all(result);
 };
 
-const firstPromise = createFirstPrommise();
+const firstPromise = createFirstPromise();
+let arrayWirhPromises;
 
 firstPromise.then(() => {
   success('First promise was resolved');
 
-  return createSecondtPrommise();
-})
-  .then(() => {
-    success('Second promise was resolved');
+  const leftClick = createleftClick();
+  const rightClick = createrightClick();
 
-    return createThirdPrommise();
-  })
-  .then(() => {
-    success('Third promise was resolved');
-  })
-  .catch(error);
+  arrayWirhPromises = [leftClick, rightClick];
+
+  return Promise.race(arrayWirhPromises);
+}).then(() => {
+  success('Second promise was resolved');
+
+  return Promise.all(arrayWirhPromises);
+}).then(() => {
+  success('Third promise was resolved');
+}).catch(error);
 
 function success(message) {
   document.body.insertAdjacentHTML('beforeend', `
