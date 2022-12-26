@@ -1,7 +1,5 @@
 'use strict';
 
-const body = document.querySelector('body');
-
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('mousedown', () => {
     resolve('First promise was resolved');
@@ -44,14 +42,20 @@ const thirdPromise = new Promise((resolve) => {
 });
 
 function success(promiseMessage) {
-  body.insertAdjacentHTML('beforeend', `
-  <div class="success" data-qa="notification">${promiseMessage}</div>
+  const messageContainer = document.querySelector('.messageContainer');
+
+  messageContainer.insertAdjacentHTML('beforeend', `
+   <div class="notification notification_success"
+        data-qa="notification">${promiseMessage}</div>
   `);
 }
 
 function error(promiseMessage) {
-  body.insertAdjacentHTML('beforeend', `
-  <div class="warning" data-qa="notification">${promiseMessage.message}</div>
+  const messageContainer = document.querySelector('.messageContainer');
+
+  messageContainer.insertAdjacentHTML('beforeend', `
+  <div class="notification notification_warning"
+        data-qa="notification">${promiseMessage.message}</div>
   `);
 }
 

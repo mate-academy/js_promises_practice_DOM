@@ -2,12 +2,39 @@ body {
   background: #eee;
   font-family: Roboto, sans-serif;
   margin: 0;
+  position: relative;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   min-height: 100vh;
+}
+
+.messageContainer {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  display: grid;
+  gap: 10px;
+}
+
+.notification {
+  top: 50px;
+  border-radius: 15px;
+  height: 30px;
+  width: 220px;
+  text-align: center;
+  padding: 10px;
+  left: 10px;
+
+  &_success {
+    background-color: rgb(140, 233, 170);
+  }
+
+  &_warning {
+    background-color: rgb(233, 170, 140);
+  }
 }
 
 .logo {
