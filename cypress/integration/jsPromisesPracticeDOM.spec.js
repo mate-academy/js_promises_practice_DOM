@@ -18,69 +18,53 @@ describe('Promises in DOM', () => {
     cy.visit('/');
   });
 
-  it('should resolve first promise on the left click', () => {
-    cy.clickButton({ button: 0 });
-    cy.checkMessageDisplayed(firstResolvedMsg);
-    // NOTE: waiting for reject
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(3000);
-    cy.checkMessageDisplayed(firstRejectedMsg).should('not.exist');
+  describe('firstPromise', () => {
+    it('should be resolved on the left click', () => {
+      cy.clickButton({ button: 0 });
+      cy.checkMessageDisplayed(firstResolvedMsg);
+
+      // NOTE: waiting for reject
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(3000);
+      cy.checkMessageDisplayed(firstRejectedMsg).should('not.exist');
+    });
+
+    it('should be rejected after 3 seconds of inactivity', () => {
+      // NOTE: waiting for reject
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(3000);
+      cy.checkMessageDisplayed(firstRejectedMsg);
+      cy.checkMessageDisplayed(firstResolvedMsg).should('not.exist');
+    });
   });
 
-  it('should ignore middle button click for the first promise', () => {
-    cy.clickButton({ button: 1 });
-    cy.checkMessageDisplayed(firstResolvedMsg).should('not.exist');
+  describe('secondPromise', () => {
+    it('should be resolved on the left click', () => {
+      cy.clickButton({ button: 0 });
+      cy.checkMessageDisplayed(firstResolvedMsg);
+    });
+
+    it('should be resolved on the right click', () => {
+      cy.clickButton({ button: 2 });
+      cy.checkMessageDisplayed(secondResolvedMsg);
+    });
   });
 
-  it('should ignore rignt button click for the first promise', () => {
-    cy.clickButton({ button: 2 });
-    cy.checkMessageDisplayed(firstResolvedMsg).should('not.exist');
-  });
+  describe('thirdPromise', () => {
+    it('should be resolved on the left and right click', () => {
+      cy.clickButton({ button: 2 });
+      cy.clickButton({ button: 0 });
+      cy.checkMessageDisplayed(thirdResolvedMsg);
+    });
 
-  it('should ignore middle button click for the second promise', () => {
-    cy.clickButton({ button: 1 });
-    cy.checkMessageDisplayed(secondResolvedMsg).should('not.exist');
-  });
+    it('should not be resolved only on the left click', () => {
+      cy.clickButton({ button: 0 });
+      cy.checkMessageDisplayed(thirdResolvedMsg).should('not.exist');
+    });
 
-  it('should reject first promise after 3 seconds of inactivity', () => {
-    // NOTE: waiting for reject
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(3000);
-    cy.checkMessageDisplayed(firstRejectedMsg);
-  });
-
-  it('should resolve second promise on the right click', () => {
-    cy.clickButton({ button: 2 });
-    cy.checkMessageDisplayed(secondResolvedMsg);
-  });
-
-  it('should resolve second promise on the left click', () => {
-    cy.clickButton({ button: 0 });
-    cy.checkMessageDisplayed(secondResolvedMsg);
-  });
-
-  it('should resolve third promise', () => {
-    cy.clickButton({ button: 2 });
-    cy.clickButton({ button: 0 });
-    cy.checkMessageDisplayed(thirdResolvedMsg);
-  });
-
-  it('should resolve all promises', () => {
-    cy.clickButton({ button: 2 });
-    cy.clickButton({ button: 0 });
-    cy.checkMessageDisplayed(firstResolvedMsg);
-    cy.checkMessageDisplayed(secondResolvedMsg);
-    cy.checkMessageDisplayed(thirdResolvedMsg);
-  });
-
-  it('should reject 1st promise, resolve 2nd and 3rd promises', () => {
-    // NOTE: waiting for reject
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(3000);
-    cy.clickButton({ button: 0 });
-    cy.clickButton({ button: 2 });
-    cy.checkMessageDisplayed(firstRejectedMsg);
-    cy.checkMessageDisplayed(secondResolvedMsg);
-    cy.checkMessageDisplayed(thirdResolvedMsg);
+    it('should not be resolved only on the right click', () => {
+      cy.clickButton({ button: 2 });
+      cy.checkMessageDisplayed(thirdResolvedMsg).should('not.exist');
+    });
   });
 });
