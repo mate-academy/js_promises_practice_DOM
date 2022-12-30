@@ -3,17 +3,17 @@
 const body = document.querySelector('body');
 
 const firstPromise = new Promise((resolve, reject) => {
-  body.addEventListener('mousedown', () => {
+  body.addEventListener('click', () => {
     resolve('First promise was resolved');
   });
 
   setTimeout(() => {
-    reject(new Error('First promise was rejected'));
+    reject(new Error());
   }, 3000);
 });
 
 const secondPromise = new Promise(resolve => {
-  body.addEventListener('mousedown', ev => {
+  body.addEventListener('click', ev => {
     if (ev.button === 0 || ev.button === 2) {
       ev.preventDefault();
 
@@ -27,12 +27,13 @@ const thirdPromise = new Promise(resolve => {
   let rightClick;
 
   body.addEventListener('mousedown', ev => {
-    if (ev.button === 0) {
-      leftClick = true;
-    }
-
-    if (ev.button === 2) {
-      rightClick = true;
+    switch (ev.button) {
+      case 0:
+        leftClick = true;
+        break;
+      case 2:
+        rightClick = true;
+        break;
     }
 
     if (leftClick && rightClick) {
@@ -50,8 +51,8 @@ firstPromise
   .then(message => {
     createElement('success', message);
   })
-  .catch(message => {
-    createElement('warning', message);
+  .catch(() => {
+    createElement('warning', 'First promise was rejected');
   });
 
 secondPromise
