@@ -2,24 +2,25 @@
 
 const doc = document.querySelector('html');
 const body = document.querySelector('body');
-let count = 0;
+let leftClick;
+let rightClick;
 
-function creatPromis() {
-  const resolver = (success, warning) => {
+function creatPromise() {
+  const resolver = (resolve, reject) => {
     doc.addEventListener('click', () => {
-      success();
-      count++;
+      resolve();
+      leftClick = 1;
     });
 
     setTimeout(() => {
-      warning();
+      reject();
     }, 3000);
   };
 
   return new Promise(resolver);
 }
 
-const firstPromise = creatPromis();
+const firstPromise = creatPromise();
 
 firstPromise
   .then(() => {
@@ -35,23 +36,23 @@ firstPromise
     `);
   });
 
-function creatPromis2() {
-  const resolver = (success) => {
+function creatPromise2() {
+  const resolver = (resolve) => {
     doc.addEventListener('click', () => {
-      success();
+      resolve();
     });
 
     doc.addEventListener('contextmenu', (e) => {
       e.preventDefault();
-      success();
-      count++;
+      resolve();
+      rightClick = 1;
     });
   };
 
   return new Promise(resolver);
 }
 
-const secondPromise = creatPromis2();
+const secondPromise = creatPromise2();
 
 secondPromise
   .then(() => {
@@ -62,19 +63,19 @@ secondPromise
     `);
   });
 
-function creatPromis3() {
-  const resolver = (success) => {
+function creatPromise3() {
+  const resolver = (resolve) => {
     doc.addEventListener('click', () => {
-      if (count === 2) {
-        success();
+      if (leftClick && rightClick) {
+        resolve();
       }
     });
 
     doc.addEventListener('contextmenu', (e) => {
       e.preventDefault();
 
-      if (count === 2) {
-        success();
+      if (leftClick && rightClick) {
+        resolve();
       }
     });
   };
@@ -82,7 +83,7 @@ function creatPromis3() {
   return new Promise(resolver);
 }
 
-const thirdPromise = creatPromis3();
+const thirdPromise = creatPromise3();
 
 thirdPromise
   .then(() => {
