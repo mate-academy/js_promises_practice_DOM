@@ -22,3 +22,19 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.message {
+  padding: 8px;
+  margin: 5px;
+  width: 200px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 14px;
+  background-color: rgba(87, 81, 187, 0.8);
+}
+
+.message-warning {
+  background-color: rgba(221, 4, 4, 0.5);
+}
