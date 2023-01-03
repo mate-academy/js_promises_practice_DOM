@@ -32,7 +32,6 @@ describe('Promises in DOM', () => {
       cy.tick(3000);
 
       page.notification().should('include.text', firstRejectedMsg);
-      page.notification().should('not.include.text', firstResolvedMsg);
     });
 
     it('should not show reject message if it was already resolved', () => {
@@ -57,14 +56,17 @@ describe('Promises in DOM', () => {
 
     it('should not show resolve message if it was already rejected', () => {
       cy.tick(3000);
-      page.notification().should('include.text', firstRejectedMsg);
-
       page.body().click();
+
       page.notification().should('not.include.text', firstResolvedMsg);
     });
   });
 
   describe('secondPromise', () => {
+    it('should not be resolved on page render', () => {
+      page.notification().should('not.include.text', secondResolvedMsg);
+    });
+
     it('should be resolved after the left click', () => {
       page.body().click();
 
@@ -77,10 +79,6 @@ describe('Promises in DOM', () => {
       page.notification().should('include.text', secondResolvedMsg);
     });
 
-    it('should not be resolved on page render', () => {
-      page.notification().should('not.include.text', secondResolvedMsg);
-    });
-
     it('should not be resolved without clicks after delay', () => {
       cy.tick(100000);
 
@@ -89,12 +87,34 @@ describe('Promises in DOM', () => {
   });
 
   describe('thirdPromise', () => {
+    it('should not be resolved on page render', () => {
+      page.notification().should('not.include.text', thirdResolvedMsg);
+    });
+
     it('should be resolved after the left and right click', () => {
       page.body().click();
       page.body().rightclick();
 
       page.notification().should('include.text', thirdResolvedMsg);
     });
+
+    it('should be resolved after the right and left click', () => {
+      page.body().rightclick();
+      page.body().click();
+
+      page.notification().should('include.text', thirdResolvedMsg);
+    });
+
+    it(
+      'should be resolved despite the delay between the left and right click',
+      () => {
+        page.body().click();
+        cy.tick(100000);
+        page.body().rightclick();
+
+        page.notification().should('include.text', thirdResolvedMsg);
+      },
+    );
 
     it('should not be resolved after the left click only', () => {
       page.body().click();
@@ -108,18 +128,16 @@ describe('Promises in DOM', () => {
       page.notification().should('not.include.text', thirdResolvedMsg);
     });
 
-    it('should not be resolved on page render', () => {
-      page.notification().should('not.include.text', thirdResolvedMsg);
-    });
-
     it('should not be resolved without clicks after delay', () => {
       cy.tick(100000);
 
       page.notification().should('not.include.text', thirdResolvedMsg);
     });
 
-    it('should not be resolved after the double click', () => {
-      page.body().dblclick();
+    it('should not be resolved after several left clicks', () => {
+      page.body().click();
+      page.body().click();
+      page.body().click();
 
       page.notification().should('not.include.text', thirdResolvedMsg);
     });
