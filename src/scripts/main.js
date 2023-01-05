@@ -34,9 +34,17 @@ secondPromise
   .then(() => notification('Second promise was resolved', 'success'));
 
 const thirdPromises = new Promise((resolve, reject) => {
+  let rightButton = false;
+  let leftButton = false;
+
   body.addEventListener('click', (events) => {
-    const leftButton = events.button === 0;
-    const rightButton = events.button === 2;
+    if (events.button === 0) {
+      leftButton = true;
+    }
+
+    if (events.button === 2) {
+      rightButton = true;
+    }
 
     if (leftButton && rightButton) {
       resolve();
