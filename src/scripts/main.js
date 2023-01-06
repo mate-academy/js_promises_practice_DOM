@@ -9,7 +9,7 @@ function notification(message, classes) {
 };
 
 const firstPromise = new Promise((resolve, reject) => {
-  body.addEventListener('click', () => {
+  body.addEventListener('mousedown', () => {
     resolve();
   });
 
@@ -23,7 +23,7 @@ firstPromise
   .catch(() => notification('First promise was rejected', 'warning'));
 
 const secondPromise = new Promise((resolve, reject) => {
-  body.addEventListener('click', (events) => {
+  body.addEventListener('mousedown', (events) => {
     if (events.button === 0 || events.button === 2) {
       resolve();
     }
@@ -37,7 +37,7 @@ const thirdPromises = new Promise((resolve, reject) => {
   let rightButton = false;
   let leftButton = false;
 
-  body.addEventListener('click', (events) => {
+  body.addEventListener('mousedown', (events) => {
     if (events.button === 0) {
       leftButton = true;
     }
