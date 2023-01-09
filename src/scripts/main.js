@@ -1,7 +1,7 @@
 'use strict';
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.querySelector('.logo').addEventListener('click', function() {
+  document.querySelector('body').addEventListener('click', function() {
     resolve();
   });
 
