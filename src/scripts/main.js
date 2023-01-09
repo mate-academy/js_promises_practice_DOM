@@ -1,78 +1,59 @@
 'use strict';
 
 const logo = document.querySelector('.logo');
-const div1 = document.createElement('div');
-const div2 = document.createElement('div');
-const div3 = document.createElement('div');
 
-div1.setAttribute('data-qa', 'notification');
-div2.setAttribute('data-qa', 'notification');
-div3.setAttribute('data-qa', 'notification');
-
-const successMessage = 'First promise was resolved';
-const errorMessage = 'First promise was rejected';
-const successMessage2 = 'Second promise was resolved';
-const successMessage3 = 'Third promise was resolved';
+function addElement(message, className = 'success') {
+  document.body.insertAdjacentHTML('beforeend', `
+  <div class="${className}" data-qa="notification">${message}</div>
+  `);
+};
 
 const promise1 = new Promise((resolve, reject) => {
   logo.addEventListener('click', () => {
-    resolve(successMessage);
+    resolve('First promise was resolved');
   });
 
   setTimeout(() => {
-    reject(new Error(errorMessage));
+    reject(new Error('First promise was rejected'));
   }, 3000);
 });
 
 const promise2 = new Promise((resolve) => {
   logo.addEventListener('click', () => {
-    resolve(successMessage2);
+    resolve('Second promise was resolved');
   });
 
   logo.addEventListener('contextmenu', (ev) => {
     ev.preventDefault();
-    resolve(successMessage2);
+    resolve('Second promise was resolved');
   });
 });
 
 const promise3 = new Promise((resolve) => {
-  logo.addEventListener('click', () => {
-    logo.addEventListener('contextmenu', (ev) => {
-      ev.preventDefault();
-      resolve(successMessage3);
-    });
-  });
-
-  logo.addEventListener('contextmenu', (ev) => {
-    logo.addEventListener('click', () => {
-      ev.preventDefault();
-      resolve(successMessage3);
+  logo.addEventListener('mousedown', firstEv => {
+    logo.addEventListener('mousedown', secondEv => {
+      if ((firstEv.button === 0 && secondEv.button === 2)
+      || (secondEv.button === 0 && firstEv.button === 2)) {
+        resolve('Third promise was resolved');
+      }
     });
   });
 });
 
 promise1
-  .then(() => {
-    div1.innerHTML = successMessage;
-    div1.className = 'success';
-    document.body.append(div1);
+  .then((result) => {
+    addElement(result);
   })
-  .catch(() => {
-    div1.innerHTML = errorMessage;
-    div1.className = 'warning';
-    document.body.append(div1);
+  .catch((result) => {
+    addElement(result, 'warning');
   });
 
 promise2
-  .then(() => {
-    div2.innerHTML = successMessage2;
-    div2.className = 'success';
-    document.body.append(div2);
+  .then((result) => {
+    addElement(result);
   });
 
 promise3
-  .then(() => {
-    div3.innerHTML = successMessage3;
-    div3.className = 'success';
-    document.body.append(div3);
+  .then((result) => {
+    addElement(result);
   });
