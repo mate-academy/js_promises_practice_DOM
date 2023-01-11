@@ -8,23 +8,14 @@ const firstPromise = new Promise((resolve, reject) => {
   setTimeout(() => reject(new Error('promise was rejected')), 3000);
 });
 
-firstPromise.then(() => {
-  const div = document.createElement('div');
+firstPromise
+  .then(() => {
+    printMessage('First promise was resolved', 'success');
+  })
 
-  div.setAttribute('data-qa', 'notification');
-  div.className = 'success';
-  div.innerText = 'First promise was resolved';
-  document.body.append(div);
-});
-
-firstPromise.catch(() => {
-  const div = document.createElement('div');
-
-  div.setAttribute('data-qa', 'notification');
-  div.className = 'warning';
-  div.innerText = 'First promise was rejected';
-  document.body.append(div);
-});
+  .catch(() => {
+    printMessage('First promise was rejected', 'warning');
+  });
 
 const secondPromise = new Promise((resolve, reject) => {
   document.querySelector('body').addEventListener('click', function() {
@@ -36,14 +27,10 @@ const secondPromise = new Promise((resolve, reject) => {
   });
 });
 
-secondPromise.then(() => {
-  const div = document.createElement('div');
-
-  div.setAttribute('data-qa', 'notification');
-  div.className = 'success';
-  div.innerText = 'Second promise was resolved';
-  document.body.append(div);
-});
+secondPromise
+  .then(() => {
+    printMessage('Second promise was resolved', 'success');
+  });
 
 const thirdPromise = new Promise((resolve, reject) => {
   document.querySelector('body').addEventListener('click', function() {
@@ -60,10 +47,16 @@ const thirdPromise = new Promise((resolve, reject) => {
 });
 
 thirdPromise.then(() => {
+  printMessage('Third promise was resolved', 'success');
+});
+
+const printMessage = (message, type) => {
   const div = document.createElement('div');
 
   div.setAttribute('data-qa', 'notification');
-  div.className = 'success';
-  div.innerText = 'Third promise was resolved';
+
+  div.className = type;
+
+  div.innerText = message;
   document.body.append(div);
-});
+};
