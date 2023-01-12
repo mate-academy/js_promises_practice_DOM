@@ -25,11 +25,11 @@ error.style.display = 'none';
 
 const firstPromise = new Promise((resolve, reject) => {
   body.addEventListener('click', (e) => {
-    if (!e.button) {
-      return;
-    }
-
     resolve(success.style.display = '');
+
+    if (e.button === 0) {
+      reject(new Error(error.style.display = 'none'));
+    }
   });
 
   setTimeout(() => {
