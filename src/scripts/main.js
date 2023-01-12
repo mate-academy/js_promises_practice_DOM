@@ -25,6 +25,10 @@ error.style.display = 'none';
 
 const firstPromise = new Promise((resolve, reject) => {
   body.addEventListener('click', (e) => {
+    if (!e.button) {
+      return;
+    }
+
     resolve(success.style.display = '');
   });
 
@@ -65,6 +69,6 @@ const thirdPromise = new Promise((resolve) => {
   });
 });
 
-firstPromise.then(result => result).catch(mistake => mistake);
-secondPromise.then(res => res);
-thirdPromise.then(thirds => thirds);
+Promise.all([firstPromise, secondPromise, thirdPromise])
+  .then(data => data)
+  .catch(rec => rec);
