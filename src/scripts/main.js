@@ -25,11 +25,10 @@ error.style.display = 'none';
 
 const firstPromise = new Promise((resolve, reject) => {
   body.addEventListener('click', (e) => {
-    resolve(success.style.display = '');
-
     if (e.button === 0) {
+      resolve(success.style.display = '');
       reject(new Error(error.style.display = 'none'));
-    }
+    };
   });
 
   setTimeout(() => {
@@ -37,7 +36,7 @@ const firstPromise = new Promise((resolve, reject) => {
   }, 3000);
 });
 
-const secondPromise = new Promise((resolve) => {
+const secondPromise = new Promise((resolve, reject) => {
   body.addEventListener('mousedown', (e) => {
     switch (e.button) {
       case 0:
@@ -46,6 +45,10 @@ const secondPromise = new Promise((resolve) => {
       case 2:
         resolve(second.style.display = '');
         break;
+    }
+
+    if (e.button === 2) {
+      reject(new Error(error.style.display = 'none'));
     }
   });
 });
