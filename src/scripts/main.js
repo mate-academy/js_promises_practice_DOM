@@ -31,17 +31,10 @@ const promise3 = new Promise((resolve, reject) => {
   document.addEventListener('mousedown', (e) => {
     if (e.button === 0) {
       arrayClicks.push('leftClick');
-
-      clicksChecker();
-    }
-  });
-
-  document.addEventListener('mousedown', (e) => {
-    if (e.button === 2) {
+    } else if (e.button === 2) {
       arrayClicks.push('rightClick');
-
-      clicksChecker();
     }
+    clicksChecker();
   });
 });
 
