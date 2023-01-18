@@ -1,6 +1,8 @@
 'use strict';
 
 const body = document.querySelector('body');
+let rightClick = false;
+let leftClick = false;
 
 body.addEventListener('contextmenu', (e) => {
   e.preventDefault();
@@ -9,6 +11,7 @@ body.addEventListener('contextmenu', (e) => {
 const promise1 = new Promise((resolve, reject) => {
   body.addEventListener('mousedown', ev => {
     if (ev.button === 0) {
+      leftClick = true;
       resolve();
     };
   });
@@ -19,6 +22,7 @@ const promise1 = new Promise((resolve, reject) => {
 const promise2 = new Promise((resolve) => {
   body.addEventListener('mousedown', ev => {
     if (ev.button === 0 || ev.button === 2) {
+      rightClick = true;
       resolve();
     };
   });
@@ -27,29 +31,29 @@ const promise2 = new Promise((resolve) => {
 const promise3 = new Promise((resolve) => {
   body.addEventListener('mousedown', ev1 => {
     body.addEventListener('mousedown', ev2 => {
-      if ((ev1.button === 0 && ev2.button === 2)
-      || (ev1.button === 2 && ev2.button === 0)) {
+      if (rightClick === true && leftClick === true) {
         resolve();
       };
     });
   });
 });
 
-promise1.then(() => {
+const handler = (number, outcome) => {
   body.insertAdjacentHTML('beforeend',
-    '<div data-qa="notification">First promise was resolved</div>');
+    `<div data-qa="notification">${number} promise was ${outcome}</div>`);
+};
+
+promise1.then(() => {
+  handler('First', 'resolved');
 })
   .catch(() => {
-    body.insertAdjacentHTML('beforeend',
-      '<div data-qa="notification">First promise was rejected</div>');
+    handler('First', 'rejected'); ;
   });
 
 promise2.then(() => {
-  body.insertAdjacentHTML('beforeend',
-    '<div data-qa="notification">Second promise was resolved</div>');
+  handler('Second', 'resolved'); ;
 });
 
 promise3.then(() => {
-  body.insertAdjacentHTML('beforeend',
-    '<div data-qa="notification">Third promise was resolved</div>');
+  handler('Third', 'resolved'); ;
 });
