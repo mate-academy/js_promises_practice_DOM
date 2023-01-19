@@ -14,12 +14,22 @@ function createDiv(type, message) {
   document.body.append(div);
 };
 
+function waitForClick(action) {
+  return new Promise((resolve) => {
+    document.addEventListener(action, () => {
+      resolve();
+    });
+  });
+}
+
 function createPromise2() {
   const resolver = (resolve) => {
-    document.addEventListener('mouseup', (e) => {
-      if (e.button === 0 || e.button === 2) {
-        resolve(textResolved2);
-      }
+    document.addEventListener('click', (e) => {
+      resolve(textResolved2);
+    });
+
+    document.addEventListener('contextmenu', (e) => {
+      resolve(textResolved2);
     });
   };
 
@@ -28,10 +38,8 @@ function createPromise2() {
 
 function createPromise1() {
   const resolver = (resolve, reject) => {
-    document.addEventListener('mouseup', (e) => {
-      if (e.button === 0) {
-        resolve(textResolved1);
-      }
+    document.addEventListener('click', () => {
+      resolve(textResolved1);
     });
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -42,14 +50,6 @@ function createPromise1() {
   };
 
   return new Promise(resolver);
-}
-
-function waitForClick(action) {
-  return new Promise((resolve) => {
-    document.addEventListener(action, () => {
-      resolve();
-    });
-  });
 }
 
 const leftClick = waitForClick('click');
