@@ -1,13 +1,12 @@
 'use strict';
 
 const body = document.querySelector('body');
-
-document.addEventListener('contextmenu', (e) => {
-  e.preventDefault();
-});
-
 let rightClick = false;
 let leftClick = false;
+
+body.addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+});
 
 const showMessage = (className, text) => {
   body.insertAdjacentHTML('beforeend',
@@ -18,9 +17,10 @@ const showMessage = (className, text) => {
 };
 
 const firstPromise = new Promise((resolve, reject) => {
-  body.addEventListener('click', () => {
-    leftClick = true;
-    resolve('First promise was resolved');
+  body.addEventListener('click', (e) => {
+    if (e.button === 0) {
+      resolve('First promise was resolved');
+    }
   });
 
   setTimeout(() => {
@@ -28,16 +28,25 @@ const firstPromise = new Promise((resolve, reject) => {
   }, 3000);
 });
 
-const secondPromise = new Promise((resolve, reject) => {
-  body.addEventListener('mousedown', () => {
-    rightClick = true;
-    resolve('Second promise was resolved');
+const secondPromise = new Promise((resolve) => {
+  body.addEventListener('mousedown', (e) => {
+    if (e.button === 2) {
+      rightClick = true;
+    }
+
+    if (e.button === 0) {
+      leftClick = true;
+    }
+
+    if (e.button === 0 || e.button === 2) {
+      resolve('Second promise was resolved');
+    }
   });
 });
 
 const thirdPromise = new Promise((resolve, reject) => {
   body.addEventListener('mouseup', () => {
-    if (rightClick === true && leftClick === true) {
+    if (rightClick && leftClick) {
       resolve('Third promise was resolved');
     }
   });
@@ -46,7 +55,7 @@ const thirdPromise = new Promise((resolve, reject) => {
 const promiseResult = (promise) => {
   promise
     .then(result => showMessage('success', result))
-    .catch(error => showMessage('warning', error));
+    .catch(error => showMessage('error', error));
 };
 
 promiseResult(firstPromise);
