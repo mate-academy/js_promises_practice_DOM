@@ -2,22 +2,22 @@
 
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
-    resolve();
+    resolve('first');
   });
 
   setTimeout(() => {
-    reject(new Error());
+    reject(new Error('first'));
   }, 3000);
 });
 
 const secondPromise = new Promise(resolve => {
   document.addEventListener('click', () => {
-    resolve();
+    resolve('second');
   });
 
   document.addEventListener('contextmenu', (ev) => {
     ev.preventDefault();
-    resolve();
+    resolve('second');
   });
 });
 
@@ -25,38 +25,34 @@ const thirdPromise = new Promise(resolve => {
   let rightClick = false;
   let leftClick = false;
 
-  document.addEventListener('mouseup', (ev) => {
-    if (ev.button === 0) {
-      leftClick = true;
-    }
-
-    if (ev.button === 2) {
-      rightClick = true;
-    }
-
-    if (leftClick && rightClick) {
-      resolve();
-    }
+  document.addEventListener('click', () => {
+    leftClick = true;
+    checkClicks();
   });
+
+  document.addEventListener('contextmenu', () => {
+    rightClick = true;
+    checkClicks();
+  });
+
+  function checkClicks() {
+    if (leftClick && rightClick) {
+      resolve('third');
+    }
+  }
 });
 
-firstPromise
-  .then(() => {
-    showMessage('first', 'success');
-  })
-  .catch(() => {
-    showMessage('first', 'error');
-  });
+firstPromise.then(onSuccess).catch(onError);
+secondPromise.then(onSuccess);
+thirdPromise.then(onSuccess);
 
-secondPromise
-  .then(() => {
-    showMessage('second', 'success');
-  });
+function onSuccess(data) {
+  showMessage(data, 'success');
+}
 
-thirdPromise
-  .then(() => {
-    showMessage('third', 'success');
-  });
+function onError(data) {
+  showMessage(data.message, 'error');
+}
 
 function showMessage(index, result) {
   const message = createMessageHTML(index, result);
