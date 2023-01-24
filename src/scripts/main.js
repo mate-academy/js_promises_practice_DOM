@@ -4,7 +4,7 @@ const body = document.querySelector('body');
 
 const promise1 = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
-    resolve('First promise was resolved');
+    resolve();
   });
 
   setTimeout(() => reject(new Error('First promise was rejected')), 3000);
@@ -21,7 +21,7 @@ const promise2 = new Promise((resolve, reject) => {
 const promise3 = Promise.all([
   new Promise(resolve => {
     document.addEventListener('click', () => {
-      resolve('Third promise was resolved');
+      resolve();
     });
   }),
 
