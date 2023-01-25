@@ -2,7 +2,13 @@
 
 const body = document.querySelector('body');
 
-const firstPromise = new Promise(function(resolve, reject) {
+function printMessage(stat, message) {
+  body.insertAdjacentHTML('beforeend', `
+    <div data-qa="notification ${stat}">${message}</div>
+  `);
+}
+
+const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('mouseup', e => {
     e.button === 0
       ? resolve('First promise was resolved')
@@ -12,17 +18,13 @@ const firstPromise = new Promise(function(resolve, reject) {
 
 firstPromise
   .then(() => {
-    body.insertAdjacentHTML('beforeend', `
-      <div data-qa="notification success">First promise was resolved</div>
-    `);
+    printMessage('success', 'First promise was resolved');
   })
   .catch(() => {
-    body.insertAdjacentHTML('beforeend', `
-      <div data-qa="notification warning">Promise was rejected!</div>
-    `);
+    printMessage('warning', 'Promise was rejected!');
   });
 
-const secondPromise = new Promise(function(resolve, reject) {
+const secondPromise = new Promise((resolve, reject) => {
   document.addEventListener('mouseup', e => {
     if (e.button === 0 || e.button === 2) {
       resolve('Second promise was resolved');
@@ -32,12 +34,10 @@ const secondPromise = new Promise(function(resolve, reject) {
 
 secondPromise
   .then(() => {
-    body.insertAdjacentHTML('beforeend', `
-      <div data-qa="notification success">Second promise was resolved</div>
-    `);
+    printMessage('success', 'Second promise was resolved');
   });
 
-const thirdPromise1 = new Promise(function(resolve, reject) {
+const thirdPromise1 = new Promise((resolve, reject) => {
   document.addEventListener('mouseup', e => {
     if (e.button === 0) {
       resolve('Third promise was resolved');
@@ -56,7 +56,5 @@ const thirdPromise2 = new Promise(function(resolve, reject) {
 thirdPromise1
   .then(() => thirdPromise2)
   .then(() => {
-    body.insertAdjacentHTML('beforeend', `
-      <div data-qa="notification success">Third promise was resolved</div>
-    `);
+    printMessage('success', 'Third promise was resolved');
   });
