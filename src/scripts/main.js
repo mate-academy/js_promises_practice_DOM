@@ -9,10 +9,12 @@ function printMessage(stat, message) {
 }
 
 const firstPromise = new Promise((resolve, reject) => {
+  setTimeout(() => reject(new Error('Promise was rejected!')), 3000);
+
   document.addEventListener('mouseup', e => {
-    e.button === 0
-      ? resolve('First promise was resolved')
-      : setTimeout(() => reject(new Error('Promise was rejected!')), 3000);
+    if (e.button === 0) {
+      resolve('First promise was resolved');
+    }
   });
 });
 
