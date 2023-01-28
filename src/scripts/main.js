@@ -17,13 +17,13 @@ function createNotification(state, content) {
 }
 
 function createFirstPromise() {
-  const resolver = (success, error) => {
+  const resolver = (resolve, reject) => {
     body.addEventListener('click', () => {
-      success(`First promise was resolved`);
+      resolve(`First promise was resolved`);
     });
 
     setTimeout(() => {
-      error(`First promise was rejected`);
+      reject(`First promise was rejected`);
     }, 3000);
   };
 
@@ -31,13 +31,13 @@ function createFirstPromise() {
 };
 
 function createSecondPromise() {
-  const resolver = (success) => {
+  const resolver = (resolve) => {
     body.addEventListener('click', () => {
-      success(`Second promise was resolved`);
+      resolve(`Second promise was resolved`);
     });
 
     body.addEventListener('contextmenu', () => {
-      success(`Second promise was resolved`);
+      resolve(`Second promise was resolved`);
     });
   };
 
@@ -45,17 +45,24 @@ function createSecondPromise() {
 }
 
 function createThirdPromise() {
-  const resolver = (success) => {
-    body.addEventListener('click', e => {
-      e.target.addEventListener('contextmenu', () => {
-        success(`Third promise was resolved`);
-      });
+  const resolver = (resolve) => {
+    let leftClick = false;
+    let rightClick = false;
+
+    body.addEventListener('mousedown', e => {
+      if (e.button === 0) {
+        leftClick = true;
+      }
+
+      if (e.button === 2) {
+        rightClick = true;
+      }
     });
 
-    body.addEventListener('contextmenu', e => {
-      e.target.addEventListener('click', () => {
-        success(`Third promise was resolved`);
-      });
+    body.addEventListener('mousedown', () => {
+      if (leftClick && rightClick) {
+        resolve(`Third promise was resolved`);
+      }
     });
   };
 
