@@ -36,36 +36,26 @@ const thirdPromise = new Promise((resolve) => {
 
 firstPromise
   .then(() => {
-    const div = document.createElement('div');
-
-    div.classList.add('success');
-    div.dataset.qa = 'notification';
-    div.textContent = 'First promise was resolved';
-    document.querySelector('body').append(div);
+    displayNotification('First promise was resolved', 'success');
   })
   .catch(() => {
-    const div = document.createElement('div');
-
-    div.classList.add('warning');
-    div.dataset.qa = 'notification';
-    div.textContent = 'First promise was rejected';
-    document.querySelector('body').append(div);
+    displayNotification('First promise was rejected', 'warning');
   });
 
 secondPromise.then(() => {
-  const div = document.createElement('div');
-
-  div.classList.add('success');
-  div.dataset.qa = 'notification';
-  div.textContent = 'Second promise was resolved';
-  document.querySelector('body').append(div);
+  displayNotification('Second promise was resolved', 'success');
 });
 
 thirdPromise.then(() => {
+  displayNotification('Third promise was resolved', 'success');
+});
+
+function displayNotification(message, type) {
   const div = document.createElement('div');
 
-  div.classList.add('success');
+  div.classList.add(type);
+  div.textContent = message;
   div.dataset.qa = 'notification';
-  div.textContent = 'Third promise was resolved';
+
   document.querySelector('body').append(div);
-});
+}
