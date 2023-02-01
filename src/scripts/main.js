@@ -12,7 +12,7 @@ function checkClick(resolve) {
   document.addEventListener('click', resolve);
 }
 
-function checkContextmenu(resolve) {
+function checkContextMenu(resolve) {
   document.addEventListener('contextmenu', e => {
     e.preventDefault();
 
@@ -25,7 +25,7 @@ const leftMouseClick = new Promise(resolve => {
 });
 
 const rightMouseClick = new Promise(resolve => {
-  checkContextmenu(resolve);
+  checkContextMenu(resolve);
 });
 
 const promise1 = new Promise((resolve, reject) => {
@@ -44,7 +44,7 @@ promise1
 
 const promise2 = new Promise(resolve => {
   checkClick(resolve);
-  checkContextmenu(resolve);
+  checkContextMenu(resolve);
 });
 
 promise2
