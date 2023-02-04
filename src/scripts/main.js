@@ -43,21 +43,28 @@ const thirdPromise = new Promise((resolve, reject) => {
   });
 });
 
-firstPromise.then(resolve => {
-  firstDiv.classList.add('succes');
-  firstDiv.innerText = resolve;
-}).catch(reject => {
-  firstDiv.classList.add('warning');
-  firstDiv.textContent = reject.message;
-});
+function handleSuccess(promise) {
+  if (promise === firstPromise) {
+    promise.then(resolve => {
+      firstDiv.classList.add('succes');
+      firstDiv.textContent = resolve;
+    });
+  } else {
+    promise.then(resolve => {
+      secondDiv.classList.add('succes');
+      secondDiv.textContent = resolve;
+    });
+  }
+};
 
-secondPromise.then(resolve => {
-  secondDiv.classList.add('succes');
-  secondDiv.textContent = resolve;
-});
+function handleReject(promise) {
+  promise.catch(reject => {
+    firstDiv.classList.add('warning');
+    firstDiv.textContent = reject.message;
+  });
+};
 
-thirdPromise.then(resolve => {
-  firstDiv.innerText = '';
-  secondDiv.classList.add('succes');
-  secondDiv.textContent = resolve;
-});
+handleSuccess(firstPromise);
+handleReject(firstPromise);
+handleSuccess(secondPromise);
+handleSuccess(thirdPromise);
