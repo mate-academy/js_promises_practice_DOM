@@ -1,13 +1,5 @@
 'use strict';
 
-const firstDiv = document.createElement('div');
-const secondDiv = document.createElement('div');
-
-firstDiv.setAttribute('data-qa', 'notification');
-secondDiv.setAttribute('data-qa', 'notification');
-document.querySelector('body').appendChild(firstDiv);
-document.querySelector('body').appendChild(secondDiv);
-
 const firstPromise = new Promise(function(resolve, reject) {
   document.addEventListener('click', () => {
     resolve('First promise was resolved!');
@@ -52,17 +44,20 @@ firstPromise.then(handleSuccess).catch(handleReject);
 secondPromise.then(handleSuccess);
 thirdPromise.then(handleSuccess);
 
+function createMessgeDiv(text, messageClass) {
+  const messageDiv = document.createElement('div');
+
+  messageDiv.setAttribute('data-qa', 'notification');
+
+  document.querySelector('body').appendChild(messageDiv);
+  messageDiv.classList.add(messageClass);
+  messageDiv.innerText = text;
+}
+
 function handleSuccess(text) {
-  if (text[0] === 'F') {
-    firstDiv.classList.add('succes');
-    firstDiv.innerText = text;
-  } else {
-    secondDiv.classList.add('succes');
-    secondDiv.textContent = text;
-  }
+  createMessgeDiv(text, 'succes');
 };
 
 function handleReject(text) {
-  firstDiv.classList.add('warning');
-  firstDiv.textContent = text.message;
+  createMessgeDiv(text, 'warning');
 };
