@@ -48,7 +48,6 @@ function createMessgeDiv(text, messageClass) {
   const messageDiv = document.createElement('div');
 
   messageDiv.setAttribute('data-qa', 'notification');
-
   document.querySelector('body').appendChild(messageDiv);
   messageDiv.classList.add(messageClass);
   messageDiv.innerText = text;
