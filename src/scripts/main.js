@@ -6,7 +6,7 @@ const firstPromise = new Promise((resolve, reject) => {
   });
 
   setTimeout(() => {
-    reject(new Error(`First promise was rejected`))
+    reject(new Error(`First promise was rejected`));
   }, 3000);
 });
 
@@ -17,8 +17,10 @@ const leftMouseButton = new Promise((resolve, reject) => {
 });
 
 const rightMouseButton = new Promise((resolve, reject) => {
-  document.addEventListener('contextmenu', () => {
-    resolve();
+  document.addEventListener('mousedown', e => {
+    if (e.button === 2) {
+      resolve();
+    };
   });
 });
 
