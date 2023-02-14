@@ -1,29 +1,23 @@
 'use strict';
 
-const BODY = document.body;
+const body = document.body;
+let leftClick = false;
+let rightClick = false;
 
-function showSuccess(result) {
-  const MESSAGE = document.createElement('div');
+function showMessage(message, className) {
+  const div = document.createElement('div');
 
-  MESSAGE.dataset.qa = 'notification';
-  MESSAGE.innerText = result;
-  MESSAGE.classList.add('success');
+  div.dataset.qa = 'notification';
+  div.innerText = message;
+  div.classList.add(className);
 
-  BODY.append(MESSAGE);
+  body.append(div);
 }
 
-function showWarning(error) {
-  const MESSAGE = document.createElement('div');
+const promise1 = new Promise((resolve, reject) => {
+  body.addEventListener('click', () => {
+    leftClick = true;
 
-  MESSAGE.dataset.qa = 'notification';
-  MESSAGE.innerText = error;
-  MESSAGE.classList.add('warning');
-
-  BODY.append(MESSAGE);
-}
-
-const PROMISE1 = new Promise((resolve, reject) => {
-  BODY.addEventListener('click', () => {
     resolve('First promise was resolved');
   });
 
@@ -32,41 +26,49 @@ const PROMISE1 = new Promise((resolve, reject) => {
   }, 3000);
 });
 
-const PROMISE2 = new Promise((resolve, reject) => {
-  BODY.addEventListener('click', () => {
+const promise2 = new Promise((resolve, reject) => {
+  body.addEventListener('click', () => {
+    leftClick = true;
     resolve('Second promise was resolved');
   });
 
-  BODY.addEventListener('contextmenu', () => {
+  body.addEventListener('contextmenu', () => {
+    rightClick = true;
     resolve('Second promise was resolved');
   });
 });
 
-const PROMISE3 = new Promise((resolve, reject) => {
-  let checker = '';
+const promise3 = new Promise((resolve, reject) => {
+  body.addEventListener('click', () => {
+    leftClick = true;
 
-  BODY.addEventListener('click', () => {
-    checker += 1;
-
-    if (checker.includes('1') && checker.includes('2')) {
+    if (leftClick && rightClick) {
       resolve('Third promise was resolved');
     }
   });
 
-  BODY.addEventListener('contextmenu', () => {
-    checker += 2;
+  body.addEventListener('contextmenu', () => {
+    rightClick = true;
 
-    if (checker.includes('1') && checker.includes('2')) {
+    if (leftClick && rightClick) {
       resolve('Third promise was resolved');
     }
   });
 });
 
-PROMISE1
-  .then(showSuccess, showWarning);
+promise1
+  .then((result) => {
+    showMessage(result, 'success');
+  }, (error) => {
+    showMessage(error, 'warning');
+  });
 
-PROMISE2
-  .then(showSuccess);
+promise2
+  .then((result) => {
+    showMessage(result, 'success');
+  });
 
-PROMISE3
-  .then(showSuccess);
+promise3
+  .then((result) => {
+    showMessage(result, 'success');
+  });
