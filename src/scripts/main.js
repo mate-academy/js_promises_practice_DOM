@@ -18,7 +18,7 @@ function createMessage(textMessage, className) {
 }
 
 const firstPromise = new Promise((resolve, reject) => {
-  body.addEventListener('click', () => {
+  body.addEventListener('mousedown', () => {
     resolve('First promise was resolved');
   });
 
@@ -28,12 +28,10 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 const secondPromise = new Promise((resolve) => {
-  body.addEventListener('click', () => {
-    resolve('Second promise was resolved');
-  });
-
-  body.addEventListener('contextmenu', () => {
-    resolve('Second promise was resolved');
+  body.addEventListener('mousedown', (e) => {
+    if (e.button === 0 || e.button === 2) {
+      resolve('Second promise was resolved');
+    }
   });
 });
 
@@ -41,16 +39,14 @@ const thirdPromise = new Promise((resolve) => {
   let leftMouseButtonClicked = false;
   let rightMouseButtonClicked = false;
 
-  body.addEventListener('click', () => {
-    leftMouseButtonClicked = true;
-
-    if (leftMouseButtonClicked && rightMouseButtonClicked) {
-      resolve('Third promise was resolved');
+  body.addEventListener('mousedown', (e) => {
+    if (e.button === 0) {
+      leftMouseButtonClicked = true;
     }
-  });
 
-  body.addEventListener('contextmenu', () => {
-    rightMouseButtonClicked = true;
+    if (e.button === 2) {
+      rightMouseButtonClicked = true;
+    }
 
     if (leftMouseButtonClicked && rightMouseButtonClicked) {
       resolve('Third promise was resolved');
