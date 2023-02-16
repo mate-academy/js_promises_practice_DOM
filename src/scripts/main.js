@@ -17,11 +17,7 @@ new Promise((resolve, reject) => {
 });
 
 new Promise((resolve, reject) => {
-  body.addEventListener('click', () => {
-    resolve('Second promise was resolved');
-  });
-
-  body.addEventListener('contextmenu', () => {
+  body.addEventListener('mousedown', e => {
     resolve('Second promise was resolved');
   });
 }).then(data => successHandler(data));
@@ -29,15 +25,19 @@ new Promise((resolve, reject) => {
 new Promise((resolve, reject) => {
   // eslint-disable-next-line no-shadow
   const p1 = new Promise((resolve, reject) => {
-    body.addEventListener('click', () => {
-      resolve('left click');
+    body.addEventListener('mousedown', (e) => {
+      if (e.which === 1) {
+        resolve('left click');
+      }
     });
   });
 
   // eslint-disable-next-line no-shadow
   const p2 = new Promise((resolve, reject) => {
-    body.addEventListener('contextmenu', () => {
-      resolve('right click');
+    body.addEventListener('mousedown', (e) => {
+      if (e.which === 3) {
+        resolve('right click');
+      }
     });
   });
 
