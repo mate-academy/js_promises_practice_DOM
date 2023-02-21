@@ -6,32 +6,32 @@ const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
     click = true;
 
-    resolve();
+    resolve('First promise was resolved');
   });
 
   setTimeout(() => {
     if (!click) {
-      reject(new Error());
+      reject(new Error('First promise was rejected'));
     }
   }, 3000);
 });
 
 firstPromise
-  .then(() => addData('First promise was resolved', 'success'))
-  .catch(() => addData('First promise was rejected', 'warning'));
+  .then((res) => addNewElem(res, 'success'))
+  .catch((er) => addNewElem(er, 'warning'));
 
 const secondPromise = new Promise((resolve) => {
   document.addEventListener('click', () => {
-    resolve();
+    resolve('Second promise was resolved');
   });
 
   document.addEventListener('contextmenu', () => {
-    resolve();
+    resolve('Second promise was resolved');
   });
 });
 
 secondPromise
-  .then(() => addData('Second promise was resolved', 'success'));
+  .then((res) => addNewElem(res, 'success'));
 
 const thirdPromise = new Promise((resolve) => {
   let click = false;
@@ -41,7 +41,7 @@ const thirdPromise = new Promise((resolve) => {
     click = true;
 
     if (contextmenu) {
-      resolve();
+      resolve('Third promise was resolved');
     }
   });
 
@@ -49,15 +49,15 @@ const thirdPromise = new Promise((resolve) => {
     contextmenu = true;
 
     if (click) {
-      resolve();
+      resolve('Third promise was resolved');
     }
   });
 });
 
 thirdPromise
-  .then(() => addData('Third promise was resolved', 'success'));
+  .then((res) => addNewElem(res, 'success'));
 
-function addData(message, classValue) {
+function addNewElem(message, classValue) {
   const elem = document.createElement('div');
 
   elem.setAttribute('data-qa', 'notification');
