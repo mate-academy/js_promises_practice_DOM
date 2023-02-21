@@ -1,18 +1,18 @@
 'use strict';
 
 const firstPromise = new Promise((resolve, reject) => {
-  let flag = false;
+  let isClicked = false;
 
   document.documentElement.addEventListener('click', () => {
-    flag = true;
+    isClicked = true;
     resolve('First promise was resolved');
   });
 
-  if (!flag) {
-    setTimeout(() => {
+  setTimeout(() => {
+    if (!isClicked) {
       reject(new Error('First promise was rejected'));
-    }, 3000);
-  }
+    }
+  }, 3000);
 });
 
 const secondPromise = new Promise(resolve => {
@@ -27,19 +27,21 @@ const secondPromise = new Promise(resolve => {
 });
 
 const thirdPromise = new Promise(resolve => {
-  let leftClick = false;
-  let rightClick = false;
+  const LEFT_MOUSE_BUTTON = 0;
+  const RIGHT_MOUSE_BUTTON = 2;
+  let isLeftClicked = false;
+  let isRightClicked = false;
 
   document.documentElement.addEventListener('mousedown', (e) => {
-    if (e.button === 0) {
-      leftClick = true;
+    if (e.button === LEFT_MOUSE_BUTTON) {
+      isLeftClicked = true;
     }
 
-    if (e.button === 2) {
-      rightClick = true;
+    if (e.button === RIGHT_MOUSE_BUTTON) {
+      isRightClicked = true;
     }
 
-    if (leftClick && rightClick) {
+    if (isLeftClicked && isRightClicked) {
       resolve('Third promise was resolved');
     }
   });
