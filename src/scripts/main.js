@@ -22,6 +22,7 @@ const firstPromise = new Promise((resolve, reject) => {
 
   document.addEventListener('click', () => {
     clearInterval(timeoutId);
+
     resolve('First promise was resolved');
   });
 });

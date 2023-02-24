@@ -8,6 +8,7 @@ Create 3 promises:
   - never **rejected**
 - The `thirdPromise` should be **resolved** with a message `Third promise was resolved` only after both `left` and `right` clicks happened
 
+
 Add `success` and `error` handlers to each promise to show `<div data-qa="notification">` with `success` or `warning` class and a promise message.
 
 ## Instructions
