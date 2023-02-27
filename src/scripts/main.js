@@ -27,47 +27,49 @@ const promise3 = new Promise((resolve, reject) => {
   let leftClick = false;
   let rightClick = false;
 
-  document.addEventListener('click', () => {
-    leftClick = true;
+  document.addEventListener('mousedown', e => {
+    if (e.button === 0) {
+      leftClick = true;
+    }
 
-    if (leftClick === true && rightClick === true) {
+    if (e.button === 2) {
+      rightClick = true;
+    }
+
+    if (rightClick && leftClick) {
       resolve('Third promise was resolved');
-    };
-  });
-
-  document.addEventListener('contextmenu', (e) => {
-    rightClick = true;
-
-    if (leftClick === true && rightClick === true) {
-      resolve('Third promise was resolved');
-    };
+    }
   });
 });
 
-const successHandler = data => {
+function printMessage(className, text) {
   body.insertAdjacentHTML('beforeend', `
-    <div class="success" data-qa="notification">
-      ${data}
+    <div class="${className}" data-qa="notification">
+      ${text}
     </div>
   `);
-};
-
-const errorHandler = data => {
-  body.insertAdjacentHTML('beforeend', `
-    <div class="warning" data-qa="notification">
-      ${data}
-    </div>
-  `);
-};
+}
 
 promise1
-  .then(successHandler)
-  .catch(errorHandler);
+  .then(result => {
+    printMessage('succes', result);
+  })
+  .catch(result => {
+    printMessage('warning', result);
+  });
 
 promise2
-  .then(successHandler)
-  .catch(errorHandler);
+  .then(result => {
+    printMessage('succes', result);
+  })
+  .catch(result => {
+    printMessage('warning', result);
+  });
 
 promise3
-  .then(successHandler)
-  .catch(errorHandler);
+  .then(result => {
+    printMessage('succes', result);
+  })
+  .catch(result => {
+    printMessage('warning', result);
+  });
