@@ -2,7 +2,7 @@
 
 const body = document.querySelector('body');
 
-const resolver1 = (resolve, reject) => {
+const firstPromise = (resolve, reject) => {
   document.addEventListener('mousedown', (e) => {
     if (e.button === 0) {
       resolve();
@@ -14,7 +14,7 @@ const resolver1 = (resolve, reject) => {
   }, 3000);
 };
 
-const resolver2 = (resolve) => {
+const secondPromise = (resolve) => {
   document.addEventListener('mousedown', (e) => {
     if (e.button === 0 || e.button === 2) {
       resolve();
@@ -22,20 +22,28 @@ const resolver2 = (resolve) => {
   });
 };
 
-const resolver3 = (resolve) => {
-  document.addEventListener('mousedown', (e1) => {
-    document.addEventListener('mousedown', (e2) => {
-      if ((e1.button === 0 && e2.button === 2)
-      || (e2.button === 0 && e1.button === 2)) {
-        resolve();
-      }
-    });
+const thirdPromise = (resolve, reject) => {
+  let leftClick = false;
+  let rightClick = false;
+
+  document.addEventListener('mousedown', (e) => {
+    if (e.button === 0) {
+      leftClick = true;
+    }
+
+    if (e.button === 2) {
+      rightClick = true;
+    }
+
+    if (rightClick && leftClick) {
+      resolve();
+    }
   });
 };
 
-const promise1 = new Promise(resolver1);
-const promise2 = new Promise(resolver2);
-const promise3 = new Promise(resolver3);
+const promise1 = new Promise(firstPromise);
+const promise2 = new Promise(secondPromise);
+const promise3 = new Promise(thirdPromise);
 
 promise1
   .then(result => {
