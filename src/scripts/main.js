@@ -1,17 +1,22 @@
 'use strict';
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.body.addEventListener('click', (e) => {
+  let clicked = false;
+
+  document.addEventListener('click', () => {
+    clicked = true;
     resolve('First promise was resolved');
   });
 
   setTimeout(() => {
-    reject(new Error('First promise was rejected'));
+    if (!clicked) {
+      reject(new Error('First promise was rejected'));
+    }
   }, 3000);
 });
 
 const secondPromise = new Promise((resolve) => {
-  document.body.addEventListener('mousedown', (e) => {
+  document.addEventListener('click', (e) => {
     if (e.button === 0 || e.button === 2) {
       resolve('Second promise was resolved');
     }
@@ -19,36 +24,49 @@ const secondPromise = new Promise((resolve) => {
 });
 
 const thirdPromise = new Promise((resolve) => {
-  const leftClick = false;
-  const rightClick = false;
+  let leftClicked = false;
+  let rightClicked = false;
 
-  if (leftClick && rightClick) {
-    resolve('Third promise was resolved');
+  function checkClicks() {
+    if (leftClicked && rightClicked) {
+      resolve('Third promise was resolved');
+    }
   }
+
+  document.addEventListener('click', (e) => {
+    if (e.button === 0) {
+      leftClicked = true;
+    } else if (e.button === 2) {
+      rightClicked = true;
+    }
+    checkClicks();
+  });
+
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    rightClicked = true;
+    checkClicks();
+  });
 });
 
 function success(message) {
-  document.body.insertAdjacentHTML('beforeend', `
-      <div data-qa="notification" class="success">
-        ${message}
-      </div>
-      `);
+  const notification = document.createElement('div');
+
+  notification.dataset.qa = 'notification';
+  notification.classList.add('success');
+  notification.textContent = message;
+  document.body.appendChild(notification);
 }
 
-function error(message) {
-  document.body.insertAdjacentHTML('beforeend', `
-      <div data-qa="notification" class="warning">
-        ${message}
-      </div>
-      `);
+function error(er) {
+  const notification = document.createElement('div');
+
+  notification.dataset.qa = 'notification';
+  notification.classList.add('warning');
+  notification.textContent = er.message;
+  document.body.appendChild(notification);
 }
 
-firstPromise
-  .then(success)
-  .catch(error);
-
-secondPromise
-  .then(success);
-
-thirdPromise
-  .then(success);
+firstPromise.then(success).catch(error);
+secondPromise.then(success);
+thirdPromise.then(success);
