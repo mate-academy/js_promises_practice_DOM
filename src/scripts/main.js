@@ -21,8 +21,8 @@ const promise1 = new Promise((resolve, reject) => {
 });
 
 promise1
-  .then(createNotification('First promise was resolved', 'success'))
-  .catch(createNotification('First promise was rejected', 'warning'));
+  .then(() => createNotification('First promise was resolved', 'success'))
+  .catch(() => createNotification('First promise was rejected', 'warning'));
 
 const promise2 = new Promise((resolve) => {
   body.addEventListener('click', () => {
@@ -35,7 +35,7 @@ const promise2 = new Promise((resolve) => {
 });
 
 promise2
-  .then(createNotification('Second promise was resolved', 'success'));
+  .then(() => createNotification('Second promise was resolved', 'success'));
 
 const promise3 = new Promise((resolve) => {
   let left = 0;
@@ -52,4 +52,4 @@ const promise3 = new Promise((resolve) => {
 });
 
 promise3
-  .then(createNotification('Third promise was resolved', 'success'));
+  .then(() => createNotification('Third promise was resolved', 'success'));
