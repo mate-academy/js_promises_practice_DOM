@@ -2,7 +2,7 @@
 
 const body = document.querySelector('body');
 
-const notification = (message, type) => {
+const createNotification = (message, type) => {
   const div = document.createElement('div');
 
   div.classList.add('notification', type);
@@ -12,33 +12,17 @@ const notification = (message, type) => {
   body.append(div);
 };
 
-const messageS1 = () => {
-  notification('First promise was resolved', 'success');
-};
-
-const messageS2 = () => {
-  notification('Second promise was resolved', 'success');
-};
-
-const messageS3 = () => {
-  notification('Third promise was resolved', 'success');
-};
-
-const messageE1 = () => {
-  notification('First promise was rejected', 'warning');
-};
-
 const promise1 = new Promise((resolve, reject) => {
   body.addEventListener('click', () => {
     resolve();
   });
 
-  setTimeout(() => reject(messageE1), 3000);
+  setTimeout(() => reject(Error), 3000);
 });
 
 promise1
-  .then(messageS1)
-  .catch(messageE1);
+  .then(createNotification('First promise was resolved', 'success'))
+  .catch(createNotification('First promise was rejected', 'warning'));
 
 const promise2 = new Promise((resolve) => {
   body.addEventListener('click', () => {
@@ -51,7 +35,7 @@ const promise2 = new Promise((resolve) => {
 });
 
 promise2
-  .then(messageS2);
+  .then(createNotification('Second promise was resolved', 'success'));
 
 const promise3 = new Promise((resolve) => {
   let left = 0;
@@ -68,4 +52,4 @@ const promise3 = new Promise((resolve) => {
 });
 
 promise3
-  .then(messageS3);
+  .then(createNotification('Third promise was resolved', 'success'));
