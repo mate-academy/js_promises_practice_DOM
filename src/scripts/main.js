@@ -1,12 +1,15 @@
 'use strict';
 
 const body = document.querySelector('body');
-body.addEventListener('contextmenu', (event) => {
-  event.preventDefault();
+
+body.style.flexDirection = 'column';
+
+body.addEventListener('contextmenu', (eventt) => {
+  eventt.preventDefault();
 });
 
 function showMessage(className, text) {
-  body.insertAdjacentHTML("beforeend",`
+  body.insertAdjacentHTML('beforeend', `
   <div data-qa="notification" class="${className}">
     ${text}
   </div>
@@ -15,35 +18,34 @@ function showMessage(className, text) {
 };
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', e => {
-    if (e.button === 0) {
-      resolve('First promise was resolved');
-    }
-  })
+  document.addEventListener('click', () => {
+    resolve('First promise was resolved');
+  });
 
   setTimeout(() => {
     reject(new Error('First promise was rejected'));
-  }, 3000)
+  },
+  3000);
 });
 
 const secondPromise = new Promise((resolve, reject) => {
   document.addEventListener('contextmenu', (e) => {
-    resolve('Second promise was resolved')
+    resolve('Second promise was resolved');
   });
 
   document.addEventListener('click', (e) => {
-    resolve('Second promise was resolved')
+    resolve('Second promise was resolved');
   });
 });
 
 const thirdPromise = new Promise((resolve, reject) => {
   let leftClick = false;
   let rightClick = false;
-  
+
   document.addEventListener('click', (e) => {
     leftClick = true;
 
-    document.addEventListener('contextmenu', (e) => {
+    document.addEventListener('contextmenu', () => {
       rightClick = true;
 
       if (leftClick && rightClick) {
@@ -55,7 +57,7 @@ const thirdPromise = new Promise((resolve, reject) => {
   document.addEventListener('contextmenu', (e) => {
     rightClick = true;
 
-    document.addEventListener('click', (e) => {
+    document.addEventListener('click', () => {
       leftClick = true;
 
       if (leftClick && rightClick) {
