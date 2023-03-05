@@ -4,10 +4,10 @@ const body = document.querySelector('body');
 
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
-    resolve('First promise was resolved');
+    resolve('First promise was resolved', 'success');
   });
 
-  setTimeout(reject, 3000, 'First promise was rejected');
+  setTimeout(reject, 3000, 'First promise was rejected', 'warning');
 });
 
 function createDiv(data, typeOfClass) {
@@ -22,11 +22,11 @@ function createDiv(data, typeOfClass) {
   body.append(div);
 }
 
-const firstSuccesHandler = (dataFromResolve) => {
-  createDiv(dataFromResolve, 'succes');
+const firstSuccesHandler = (dataFromResolve, message) => {
+  createDiv(dataFromResolve, message);
 };
-const firstRejectedHandler = (dataFromReject) => {
-  createDiv(dataFromReject, 'warning');
+const firstRejectedHandler = (dataFromReject, message) => {
+  createDiv(dataFromReject, message);
 };
 
 firstPromise.then(firstSuccesHandler).catch(firstRejectedHandler);
@@ -36,7 +36,7 @@ const secondsPromise = new Promise((resolve) => {
     resolve('Second promise was resolved');
   });
 
-  document.addEventListener('auxclick', () => {
+  document.addEventListener('contextmenu', () => {
     resolve('Second promise was resolved');
   });
 });
@@ -49,7 +49,7 @@ secondsPromise.then(secondSuccesHandler);
 
 const thirdPromise = new Promise((resolve) => {
   document.addEventListener('click', () => {
-    document.addEventListener('auxclick', () => {
+    document.addEventListener('contextmenu', () => {
       resolve('Third promise was resolved');
     });
   });
