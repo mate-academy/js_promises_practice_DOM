@@ -42,41 +42,21 @@ const secondsPromise = new Promise((resolve) => {
 });
 
 const secondSuccesHandler = (dataFromResolve) => {
-  const div = document.createElement('div');
-
-  div.dataset.qa = 'notification';
-
-  div.classList.add('success');
-
-  div.innerHTML = dataFromResolve;
-
-  body.append(div);
+  createDiv(dataFromResolve, 'success');
 };
 
 secondsPromise.then(secondSuccesHandler);
 
 const thirdPromise = new Promise((resolve) => {
   document.addEventListener('click', () => {
-    resolve('Third promise was resolved');
+    document.addEventListener('auxclick', () => {
+      resolve('Third promise was resolved');
+    });
   });
 });
 
 const thirdSuccesHandler = (dataFromResolve) => {
-  document.addEventListener('auxclick', () => {
-    const div = document.createElement('div');
-
-    div.dataset.qa = 'notification';
-
-    div.classList.add('success');
-
-    div.innerHTML = dataFromResolve;
-
-    body.append(div);
-  });
+  createDiv(dataFromResolve, 'success');
 };
 
-const thirdRejectedHandler = (dataFromReject) => {
-  return dataFromReject;
-};
-
-thirdPromise.then(thirdSuccesHandler, thirdRejectedHandler);
+thirdPromise.then(thirdSuccesHandler);
