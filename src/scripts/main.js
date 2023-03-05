@@ -32,6 +32,10 @@ const secondPromise = new Promise((resolve) => {
   document.addEventListener('contextmenu', e => {
     resolve('Second promise was resolved');
   });
+
+  document.addEventListener('click', e => {
+    resolve('Second promise was resolved');
+  });
 });
 
 const thirdPromise = new Promise((resolve) => {
