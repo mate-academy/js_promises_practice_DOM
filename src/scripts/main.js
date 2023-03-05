@@ -10,30 +10,26 @@ const firstPromise = new Promise((resolve, reject) => {
   setTimeout(reject, 3000, 'First promise was rejected');
 });
 
-const firstSuccesHandler = (dataFromResolve) => {
+function createDiv(data, typeOfClass) {
   const div = document.createElement('div');
 
   div.dataset.qa = 'notification';
 
-  div.classList.add('success');
+  div.classList.add(`${typeOfClass}`);
 
-  div.innerHTML = dataFromResolve;
+  div.innerHTML = data;
 
   body.append(div);
+}
+
+const firstSuccesHandler = (dataFromResolve) => {
+  createDiv(dataFromResolve, 'succes');
 };
 const firstRejectedHandler = (dataFromReject) => {
-  const div = document.createElement('div');
-
-  div.dataset.qa = 'notification';
-
-  div.classList.add('warning');
-
-  div.innerHTML = dataFromReject;
-
-  body.append(div);
+  createDiv(dataFromReject, 'warning');
 };
 
-firstPromise.then(firstSuccesHandler, firstRejectedHandler);
+firstPromise.then(firstSuccesHandler).catch(firstRejectedHandler);
 
 const secondsPromise = new Promise((resolve) => {
   document.addEventListener('click', () => {
@@ -57,11 +53,7 @@ const secondSuccesHandler = (dataFromResolve) => {
   body.append(div);
 };
 
-const secondRejectedHandler = (dataFromReject) => {
-  return dataFromReject;
-};
-
-secondsPromise.then(secondSuccesHandler, secondRejectedHandler);
+secondsPromise.then(secondSuccesHandler);
 
 const thirdPromise = new Promise((resolve) => {
   document.addEventListener('click', () => {
