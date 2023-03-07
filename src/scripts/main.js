@@ -1,50 +1,37 @@
 'use strict';
 
-const firstPromiseResolvedMessage = 'First promise was resolved';
-const secondPromiseResolvedMessage = 'Second promise was resolved';
-const thirdPromiseResolvedMessage = 'Third promise was resolved';
-const firstPromiseRejectMessage = 'First promise was rejected';
-
 function createElement(message, className) {
-  const divElement = document.createElement('div');
+  const notification = document.createElement('div');
 
-  divElement.dataset.qa = 'notification';
-  divElement.classList.add(className);
-  divElement.textContent = message;
-  document.body.append(divElement);
+  notification.classList.add(className);
+  notification.dataset.qa = 'notification';
+  notification.textContent = message;
+  document.body.append(notification);
 }
 
-function firstSuccess() {
-  createElement(firstPromiseResolvedMessage, 'success');
+function success(text) {
+  createElement(text, 'success');
 }
 
-function secondSuccess() {
-  createElement(secondPromiseResolvedMessage, 'success');
-}
-
-function thirdSuccess() {
-  createElement(thirdPromiseResolvedMessage, 'success');
-}
-
-function firstError() {
-  createElement(firstPromiseRejectMessage, 'warning');
+function error(text) {
+  createElement(text, 'warning');
 }
 
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
-    resolve(firstPromiseResolvedMessage);
+    resolve('First promise was resolved');
   });
 
-  setTimeout(() => reject(new Error(firstPromiseRejectMessage)), 3000);
+  setTimeout(() => reject(new Error('First promise was rejected')), 3000);
 });
 
-const secondPromise = new Promise((resolve) => {
+const secondPromise = new Promise(resolve => {
   document.addEventListener('click', () => {
-    resolve(secondPromiseResolvedMessage);
+    resolve('Second promise was resolved');
   });
 
   document.addEventListener('contextmenu', () => {
-    resolve(secondPromiseResolvedMessage);
+    resolve('Second promise was resolved');
   });
 });
 
@@ -59,12 +46,15 @@ const rightClick = new Promise(resolve => {
     resolve();
   });
 });
+
 const thirdPromise = new Promise(resolve => {
   Promise.all([leftClick, rightClick]).then(() => {
-    resolve(thirdPromiseResolvedMessage);
+    resolve('Third promise was resolved');
   });
 });
 
-firstPromise.then(firstSuccess, firstError);
-secondPromise.then(secondSuccess);
-thirdPromise.then(thirdSuccess);
+firstPromise.then(success).catch(error);
+
+secondPromise.then(success);
+
+thirdPromise.then(success);
