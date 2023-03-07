@@ -42,12 +42,14 @@ const secondPromise = new Promise(resolve => {
 
 const thirdPromise = new Promise(resolve => {
 
+  // eslint-disable-next-line no-shadow
   const leftClick = new Promise(resolve => {
     document.addEventListener('click', () => {
       resolve();
     });
   });
 
+  // eslint-disable-next-line no-shadow
   const rightClick = new Promise(resolve =>
     document.addEventListener('contextmenu', () => {
       resolve();
