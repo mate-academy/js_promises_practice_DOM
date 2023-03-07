@@ -1,5 +1,10 @@
 'use strict';
 
+const firstResolveMessage = 'First promise was resolved';
+const secondResolveMessage = 'Second promise was resolved';
+const thirdResolveMessage = 'Third promise was resolved';
+const rejectMessage = 'First promise was rejected';
+
 function createElement(message, className) {
   const notification = document.createElement('div');
 
@@ -19,19 +24,19 @@ function error(text) {
 
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
-    resolve('First promise was resolved');
+    resolve(firstResolveMessage);
   });
 
-  setTimeout(() => reject(new Error('First promise was rejected')), 3000);
+  setTimeout(() => reject(new Error(rejectMessage)), 3000);
 });
 
 const secondPromise = new Promise(resolve => {
   document.addEventListener('click', () => {
-    resolve('Second promise was resolved');
+    resolve(secondResolveMessage);
   });
 
   document.addEventListener('contextmenu', () => {
-    resolve('Second promise was resolved');
+    resolve(secondResolveMessage);
   });
 });
 
@@ -49,12 +54,10 @@ const rightClick = new Promise(resolve => {
 
 const thirdPromise = new Promise(resolve => {
   Promise.all([leftClick, rightClick]).then(() => {
-    resolve('Third promise was resolved');
+    resolve(thirdResolveMessage);
   });
 });
 
 firstPromise.then(success).catch(error);
-
 secondPromise.then(success);
-
 thirdPromise.then(success);
