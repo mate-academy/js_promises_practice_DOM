@@ -48,44 +48,30 @@ const thirdPromise = new Promise((resolve, reject) => {
   });
 });
 
-firstPromise.then((result) => {
-  document.body.insertAdjacentHTML('afterbegin', `
-    <div data-qa="notification" class="success">
-      ${result}
-    </div>
-  `);
-}).catch((error) => {
-  document.body.insertAdjacentHTML('beforeend', `
-    <div data-qa="notification" class="warning">
-      ${error.message}
-    </div>
-  `);
-});
+firstPromise
+  .then(onSuccess)
+  .catch(onError);
 
-secondPromise.then((result) => {
-  document.body.insertAdjacentHTML('afterbegin', `
-    <div data-qa="notification" class="success">
-      ${result}
-    </div>
-  `);
-}).catch((error) => {
-  document.body.insertAdjacentHTML('afterbegin', `
-    <div data-qa="notification" class="warning">
-      ${error.message}
-    </div>
-  `);
-});
+secondPromise
+  .then(onSuccess)
+  .catch(onError);
 
-thirdPromise.then((result) => {
+thirdPromise
+  .then(onSuccess)
+  .catch(onError);
+
+function onSuccess(result) {
   document.body.insertAdjacentHTML('afterbegin', `
     <div data-qa="notification" class="success">
       ${result}
     </div>
   `);
-}).catch((error) => {
+}
+
+function onError(error) {
   document.body.insertAdjacentHTML('afterbegin', `
     <div data-qa="notification" class="warning">
       ${error.message}
     </div>
   `);
-});
+}
