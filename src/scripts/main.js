@@ -14,12 +14,12 @@ function createElement(message, className) {
   document.body.append(notification);
 }
 
-function successHandler(text) {
-  createElement(text, 'success');
+function successHandler(message) {
+  createElement(message, 'success');
 }
 
-function errorHandler(text) {
-  createElement(text, 'warning');
+function errorHandler(message) {
+  createElement(message, 'success');
 }
 
 const firstPromise = new Promise((resolve, reject) => {
@@ -40,21 +40,19 @@ const secondPromise = new Promise(resolve => {
   });
 });
 
-const leftClick = new Promise(resolve => {
-  document.addEventListener('click', () => {
-    resolve();
-  });
-});
+const thirdPromise = new Promise((resolve) => {
+  let leftClickCount = 0;
+  let rightClickCount = 0;
 
-const rightClick = new Promise(resolve =>
-  document.addEventListener('contextmenu', () => {
-    resolve();
-  }));
+  document.querySelector('body')
+    .addEventListener('mousedown', (eventFunc) => {
+      leftClickCount += eventFunc.button === 0 ? 1 : 0;
+      rightClickCount += eventFunc.button === 2 ? 1 : 0;
 
-const thirdPromise = new Promise(resolve => {
-  Promise.all([leftClick, rightClick]).then(() => {
-    resolve(thirdResolveMessage);
-  });
+      if (leftClickCount >= 1 && rightClickCount >= 1) {
+        resolve(thirdResolveMessage);
+      }
+    });
 });
 
 firstPromise.then(successHandler).catch(errorHandler);
