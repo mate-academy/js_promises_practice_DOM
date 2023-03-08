@@ -19,7 +19,7 @@ function successHandler(message) {
 }
 
 function errorHandler(message) {
-  createElement(message, 'success');
+  createElement(message, 'warning');
 }
 
 const firstPromise = new Promise((resolve, reject) => {
