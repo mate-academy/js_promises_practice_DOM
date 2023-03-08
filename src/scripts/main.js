@@ -14,11 +14,11 @@ function createElement(message, className) {
   document.body.append(notification);
 }
 
-function success(text) {
+function successHandler(text) {
   createElement(text, 'success');
 }
 
-function error(text) {
+function errorHandler(text) {
   createElement(text, 'warning');
 }
 
@@ -57,6 +57,6 @@ const thirdPromise = new Promise(resolve => {
   });
 });
 
-firstPromise.then(success).catch(error);
-secondPromise.then(success);
-thirdPromise.then(success);
+firstPromise.then(successHandler).catch(errorHandler);
+secondPromise.then(successHandler);
+thirdPromise.then(successHandler);
