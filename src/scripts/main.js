@@ -3,25 +3,14 @@
 
 const body = document.body;
 
-function createMessage(promiseNum, type) {
-  let textHtml;
+function createMessage(message) {
   const lastElem = document.body.lastElementChild;
 
-  if (type === 'resolve') {
-    textHtml = `
-      <div data-qa="notification" class="success">
-        ${promiseNum} promise was resolved
-      </div>
-    `;
-  }
-
-  if (type === 'reject') {
-    textHtml = `
-      <div data-qa="notification" class="success">
-        ${promiseNum} promise was rejected
-      </div>
-    `;
-  }
+  const textHtml = `
+    <div data-qa="notification" class="success">
+      ${message}
+    </div>
+  `;
 
   lastElem.insertAdjacentHTML('beforebegin', textHtml);
 }
@@ -51,10 +40,10 @@ const supportPromise = new Promise(resolve => {
   });
 });
 
-promise1.then(() => createMessage('First', 'resolve'),
-  () => createMessage('First', 'reject'));
+promise1.then(() => createMessage('First promise was resolved'),
+  () => createMessage('First promise was rejected'));
 
-promise2.then(() => createMessage('Second', 'resolve'));
+promise2.then(() => createMessage('Second promise was resolved'));
 
 promise3.then(() => supportPromise)
-  .then(() => createMessage('Third', 'resolve'));
+  .then(() => createMessage('Third promise was resolved'));
