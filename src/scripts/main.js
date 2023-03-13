@@ -46,8 +46,10 @@ const promise3 = new Promise((resolve) => {
   let leftClick = false;
   let rightClick = false;
 
-  document.addEventListener('mousedown', () => {
-    leftClick = true;
+  document.addEventListener('mousedown', (ev) => {
+    if (ev.button === 0) {
+      leftClick = true;
+    }
 
     if (rightClick) {
       resolve('Third promise was resolved');
