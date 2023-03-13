@@ -21,28 +21,14 @@ function firstPromise() {
 const promise1 = firstPromise();
 
 promise1
-  .then(clicked)
-  .catch(notClicked);
-
-function clicked() {
-  const newElement = document.createElement('div');
-
-  selectDocument.append(newElement);
-  newElement.classList.add('success');
-  newElement.setAttribute('data-qa', 'notification');
-  newElement.innerHTML += 'First promise was resolved';
-}
-
-function notClicked(result) {
-  if (result === false) {
-    const newElement = document.createElement('div');
-
-    selectDocument.append(newElement);
-    newElement.classList.add('error');
-    newElement.setAttribute('data-qa', 'notification');
-    newElement.innerHTML += 'First promise was rejected';
-  }
-}
+  .then(() => {
+    createElem('success', 'First promise was resolved');
+  })
+  .catch((result) => {
+    if (result === false) {
+      createElem('error', 'First promise was rejected');
+    }
+  });
 
 function secondPromise() {
   const resolver = (resolve) => {
@@ -61,12 +47,7 @@ function secondPromise() {
 const promise2 = secondPromise();
 
 promise2.then(() => {
-  const newElement = document.createElement('div');
-
-  selectDocument.append(newElement);
-  newElement.classList.add('success');
-  newElement.setAttribute('data-qa', 'notification');
-  newElement.innerHTML += 'Second promise was resolved';
+  createElem('success', 'Second promise was resolved');
 });
 
 function thirdPromise(clickEvent) {
@@ -80,17 +61,18 @@ function thirdPromise(clickEvent) {
 }
 
 const promise3 = thirdPromise('click');
-const promise4 = thirdPromise('contextmenu');
 
 promise3
-  .then(() => promise4)
-  .then(display);
+  .then(() => thirdPromise('contextmenu'))
+  .then(() => {
+    createElem('success', 'Third promise was resolved');
+  });
 
-function display() {
+function createElem(res, text) {
   const newElement = document.createElement('div');
 
   selectDocument.append(newElement);
-  newElement.classList.add('success');
+  newElement.classList.add(res);
   newElement.setAttribute('data-qa', 'notification');
-  newElement.innerHTML += 'Third promise was resolved';
+  newElement.innerHTML += text;
 }
