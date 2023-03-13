@@ -26,8 +26,10 @@ promise1
   });
 
 const promise2 = new Promise((resolve) => {
-  document.addEventListener('click', () => {
-    resolve('Second promise was resolved');
+  document.addEventListener('mousedown', (ev) => {
+    if (ev.button === 0) {
+      resolve('Second promise was resolved');
+    }
   });
 
   document.addEventListener('contextmenu', (ev) => {
@@ -44,10 +46,10 @@ const promise3 = new Promise((resolve) => {
   let leftClick = false;
   let rightClick = false;
 
-  document.addEventListener('click', () => {
+  document.addEventListener('mousedown', () => {
     leftClick = true;
 
-    if (rightClick === true) {
+    if (rightClick) {
       resolve('Third promise was resolved');
     }
   });
@@ -55,7 +57,7 @@ const promise3 = new Promise((resolve) => {
   document.addEventListener('contextmenu', () => {
     rightClick = true;
 
-    if (leftClick === true) {
+    if (leftClick) {
       resolve('Third promise was resolved');
     }
   });
