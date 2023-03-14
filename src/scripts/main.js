@@ -2,29 +2,35 @@
 
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
-    resolve('First promise was resolved');
+    resolve();
   });
 
   setTimeout(reject, 3000);
 });
 
 firstPromise
-  .then(handleResolve)
-  .catch(handleReject);
+  .then(() => {
+    showMessage('First promise was resolved', 'success');
+  })
+  .catch(() => {
+    showMessage('First promise was rejected', 'error');
+  });
 
 const secondPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
-    resolve('Second promise was resolved');
+    resolve();
   });
 
-  document.addEventListener('contextmenu', () => {
-    event.preventDefault();
-    resolve('Second promise was resolved');
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    resolve();
   });
 });
 
 secondPromise
-  .then(handleResolve);
+  .then(() => {
+    showMessage('Second promise was resolved', 'success');
+  });
 
 const thirdPromise = new Promise((resolve, reject) => {
   let leftClick = false;
@@ -34,7 +40,7 @@ const thirdPromise = new Promise((resolve, reject) => {
     leftClick = true;
 
     if (leftClick && rigthClick) {
-      resolve('Third promise was resolved');
+      resolve();
     }
   });
 
@@ -43,28 +49,21 @@ const thirdPromise = new Promise((resolve, reject) => {
 
     if (leftClick && rigthClick) {
       e.preventDefault();
-      resolve('Third promise was resolved');
+      resolve();
     }
   });
 });
 
 thirdPromise
-  .then(handleResolve);
+  .then(() => {
+    showMessage('Third promise was resolved', 'success');
+  });
 
-function handleResolve(result) {
-  const success = document.createElement('div');
+function showMessage(result, type) {
+  const div = document.createElement('div');
 
-  success.setAttribute('data-qa', 'notification');
-  success.classList.add('success');
-  success.textContent = result;
-  document.body.append(success);
-}
-
-function handleReject() {
-  const error = document.createElement('div');
-
-  error.setAttribute('data-qa', 'notification');
-  error.classList.add('warning');
-  error.textContent = 'First promise was rejected';
-  document.body.append(error);
+  div.setAttribute('data-qa', 'notification');
+  div.classList.add(type);
+  div.textContent = result;
+  document.body.append(div);
 }
