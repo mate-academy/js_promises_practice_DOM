@@ -27,7 +27,6 @@ const pushNotification = (posTop, posRight, title, description, type) => {
 
   body.append(notifification);
 
-  setTimeout(() => notifification.remove(), 8000);
 };
 
 const firstPromise = new Promise((resolve, reject) => {
@@ -43,7 +42,7 @@ const firstPromise = new Promise((resolve, reject) => {
     if (doc.isClicked === false) {
       return reject(new Error('First promise was rejected'));
     }
-  }, 6000);
+  }, 3000);
 });
 
 firstPromise.then((res) => pushNotification(30, 20, res,
