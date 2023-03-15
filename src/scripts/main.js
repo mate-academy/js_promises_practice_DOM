@@ -15,14 +15,10 @@ const firstPromise = new Promise((resolve, reject) => {
 
 firstPromise
   .then(result => {
-    div.textContent = result;
-    div.className = 'success';
-    body.append(div.cloneNode(true));
+    createDiv(result, 'success');
   })
   .catch(result => {
-    div.textContent = result;
-    div.className = 'warning';
-    body.append(div.cloneNode(true));
+    createDiv(result, 'warning');
   });
 
 const secondPromise = new Promise((resolve) => {
@@ -38,9 +34,7 @@ const secondPromise = new Promise((resolve) => {
 
 secondPromise
   .then(result => {
-    div.textContent = result;
-    div.className = 'success';
-    body.append(div.cloneNode(true));
+    createDiv(result, 'success');
   });
 
 const thirdPromise = new Promise((resolve) => {
@@ -62,7 +56,11 @@ const thirdPromise = new Promise((resolve) => {
 
 thirdPromise
   .then(result => {
-    div.textContent = result;
-    div.className = 'success';
-    body.append(div.cloneNode(true));
+    createDiv(result, 'success');
   });
+
+function createDiv(text, resultOfAction) {
+  div.textContent = text;
+  div.className = resultOfAction;
+  body.append(div.cloneNode(true));
+}
