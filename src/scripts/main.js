@@ -10,14 +10,14 @@ function display(order) {
   box1.textContent = `${order}`;
 
   order.split(' ').includes('resolved')
-    ? box1.className += 'succes'
+    ? box1.className += 'success'
     : box1.className += 'warning';
 }
 
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('mousedown', (click) => {
     if (click.button === 0) {
-      resolve();
+      resolve('First promise was resolved');
       left = true;
     }
   });
@@ -27,39 +27,39 @@ const firstPromise = new Promise((resolve, reject) => {
   }, 3000);
 });
 
-firstPromise.then(() => {
-  display('First promise was resolved');
+firstPromise.then((message) => {
+  display(message);
 });
 
-firstPromise.catch(() => {
-  display('First promise was rejected');
+firstPromise.catch((message) => {
+  display(message);
 });
 
 const secondPromise = new Promise((resolve, reject) => {
   document.addEventListener('mousedown', (click) => {
     if (click.button === 0) {
-      resolve();
+      resolve('Second promise was resolved');
     }
 
     if (click.button === 2) {
-      resolve();
+      resolve('Second promise was resolved');
       right = true;
     }
   });
 });
 
-secondPromise.then(() => {
-  display('Second promise was resolved');
+secondPromise.then((message) => {
+  display(message);
 });
 
 const thirdPromise = new Promise((resolve, reject) => {
   document.addEventListener('mousedown', (click) => {
     if (left === true && right === true) {
-      resolve();
+      resolve('Third promise was resolved');
     }
   });
 });
 
-thirdPromise.then(() => {
-  display('Third promise was resolved');
+thirdPromise.then((message) => {
+  display(message);
 });
