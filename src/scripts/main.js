@@ -3,18 +3,15 @@
 let right;
 let left;
 
-function display1(order) {
+function display(order) {
   const box1 = document.createElement('div');
 
   document.body.appendChild(box1);
-  box1.textContent = `${order} promise was resolved`;
-}
+  box1.textContent = `${order}`;
 
-function display2(order) {
-  const box2 = document.createElement('div');
-
-  document.body.appendChild(box2);
-  box2.textContent = `${order} promise was rejected`;
+  order.split(' ').includes('resolved')
+    ? box1.className += 'succes'
+    : box1.className += 'warning';
 }
 
 const firstPromise = new Promise((resolve, reject) => {
@@ -31,11 +28,11 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 firstPromise.then(() => {
-  display1('First');
+  display('First promise was resolved');
 });
 
 firstPromise.catch(() => {
-  display2('First');
+  display('First promise was rejected');
 });
 
 const secondPromise = new Promise((resolve, reject) => {
@@ -52,7 +49,7 @@ const secondPromise = new Promise((resolve, reject) => {
 });
 
 secondPromise.then(() => {
-  display1('Second');
+  display('Second promise was resolved');
 });
 
 const thirdPromise = new Promise((resolve, reject) => {
@@ -64,5 +61,5 @@ const thirdPromise = new Promise((resolve, reject) => {
 });
 
 thirdPromise.then(() => {
-  display1('Third');
+  display('Third promise was resolved');
 });
