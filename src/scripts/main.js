@@ -16,10 +16,6 @@ const secondPromise = new Promise((resolve, reject) => {
   document.addEventListener('contextmenu', () => {
     resolve('Second promise was resolved');
   });
-
-  if (reject) {
-
-  }
 });
 
 const thirdPromise = new Promise((resolve) => {
