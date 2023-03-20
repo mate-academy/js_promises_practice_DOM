@@ -5,7 +5,9 @@ const firstPromise = new Promise((resolve, reject) => {
     resolve('First promise was resolved');
   });
 
-  setTimeout(reject, 3000);
+  setTimeout(() => {
+    reject(Error('First promise was rejected'));
+  }, 3000);
 });
 
 const secondPromise = new Promise((resolve, reject) => {
@@ -22,20 +24,22 @@ const thirdPromise = new Promise((resolve) => {
   let leftClick = false;
   let rightClick = false;
 
-  document.addEventListener('click', () => {
-    leftClick = true;
-
+  const resolving = () => {
     if (leftClick && rightClick) {
       resolve('Third promise was resolved');
     }
+  }
+
+  document.addEventListener('click', () => {
+    leftClick = true;
+
+    resolving();
   });
 
   document.addEventListener('contextmenu', () => {
     rightClick = true;
 
-    if (leftClick && rightClick) {
-      resolve(`Third promise was resolved`);
-    }
+    resolving();
   });
 });
 
@@ -49,16 +53,18 @@ secondPromise
 thirdPromise
   .then(onSuccess);
 
-function onSuccess(result) {
+function onSuccess(resolve) {
   document.body.insertAdjacentHTML('beforeend', `
-    <div data-qa="notification">
-      ${result}
+    <div data-qa="notification" class="success">
+      ${resolve}
     </div>
   `);
 };
 
-function onError() {
+function onError(reject) {
   document.body.insertAdjacentHTML('beforeend', `
-    <div data-qa="notification"></div>
+    <div data-qa="notification" class="warning">
+      ${reject}
+    </div>
   `);
 };
