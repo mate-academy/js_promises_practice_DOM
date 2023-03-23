@@ -21,11 +21,11 @@ const promise2 = new Promise((resolve, reject) => {
   });
 });
 
-const promise3 = new Promise((resolve, reject) => {
-  let left = false;
-  let right = false;
+let left = false;
+let right = false;
 
-  document.addEventListener('mousedown', (e) => {
+const promise3 = new Promise((resolve) => {
+  document.addEventListener('mousedown', e => {
     if (e.button === 0) {
       left = true;
     }
@@ -34,7 +34,7 @@ const promise3 = new Promise((resolve, reject) => {
       right = true;
     }
 
-    if (left === true && right === true) {
+    if (left && right) {
       resolve('Third promise was resolved');
     }
   });
