@@ -25,21 +25,18 @@ const promise3 = new Promise((resolve, reject) => {
   let left = false;
   let right = false;
 
-  document.addEventListener('click', () => {
-    left = true;
+  document.addEventListener('click', (e) => {
+    if (e.button === 0) {
+      left = true;
+    }
 
-    if (left === true && right === true) {
+    if (e.button === 2) {
+      right = true;
+    }
+
+    if (left && right) {
       resolve('Third promise was resolved');
-    };
-  });
-
-  document.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-    right = true;
-
-    if (left === true && right === true) {
-      resolve('Third promise was resolved');
-    };
+    }
   });
 });
 
