@@ -34,7 +34,7 @@ const promise3 = new Promise((resolve) => {
       right = true;
     }
 
-    if (left && right) {
+    if (left === true && right === true) {
       resolve('Third promise was resolved');
     }
   });
