@@ -1,7 +1,7 @@
 'use strict';
 
-function handlePromiseResult(message, isResolved = true) {
-  const notificationClass = isResolved
+function handlePromiseResult(message, isReject = false) {
+  const notificationClass = isReject
     ? 'success'
     : 'warning';
 
@@ -15,49 +15,54 @@ function handlePromiseResult(message, isResolved = true) {
   );
 }
 
-const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', () => (
-    resolve('First promise was resolved')
-  ));
+const createTimer3000msPromise = (fulfillMessage) => (
+  new Promise((resolve, reject) => (
+    setTimeout(() => reject(Error(fulfillMessage)), 3000)
+  ))
+);
 
-  setTimeout(() => reject(Error('First promise was rejected')), 3000);
-});
+const createLeftMouseClickPromise = (fulfillMessage) => (
+  new Promise((resolve, reject) => {
+    document.addEventListener('click', () => (
+      resolve(fulfillMessage)
+    ));
+  })
+);
 
-const secondPromise = new Promise((resolve, reject) => {
-  document.addEventListener('mousedown', ({ button }) => {
-    if (button === 0 || button === 2) {
-      resolve('Second promise was resolved');
-    }
-  });
-});
+const createRightMouseClickPromise = (fulfillMessage) => (
+  new Promise((resolve, reject) => {
+    document.addEventListener('contextmenu', (rightMouseClickEvent) => {
+      rightMouseClickEvent.preventDefault();
+      resolve(fulfillMessage);
+    });
+  })
+);
 
-const thirdPromise = new Promise((resolve, reject) => {
-  let isRightMouseButtonPressed = false;
-  let isLeftMouseButtonPressed = false;
-
-  document.addEventListener('mousedown', ({ button }) => {
-    if (button === 0) {
-      if (isRightMouseButtonPressed) {
-        resolve('Third promise was resolved');
-      } else {
-        isLeftMouseButtonPressed = true;
-      }
-    } else if (button === 2) {
-      if (isLeftMouseButtonPressed) {
-        resolve('Third promise was resolved');
-      } else {
-        isRightMouseButtonPressed = true;
-      }
-    }
-  });
-});
+const firstPromise = Promise.race(
+  [
+    createLeftMouseClickPromise('First promise was resolved'),
+    createTimer3000msPromise('First promise was rejected'),
+  ]
+);
+const secondPromise = Promise.race(
+  [
+    createLeftMouseClickPromise('Second promise was resolved'),
+    createRightMouseClickPromise('Second promise was resolved'),
+  ]
+);
+const thirdPromise = Promise.all(
+  [
+    createLeftMouseClickPromise('Third promise was resolved'),
+    createRightMouseClickPromise('Third promise was resolved'),
+  ]
+);
 
 firstPromise
   .then((result) => handlePromiseResult(result))
-  .catch((error) => handlePromiseResult(error.message, false));
+  .catch((error) => handlePromiseResult(error.message, true));
 
 secondPromise
   .then((result) => handlePromiseResult(result));
 
 thirdPromise
-  .then((result) => handlePromiseResult(result));
+  .then(([firstResult]) => handlePromiseResult(firstResult));
