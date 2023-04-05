@@ -31,23 +31,23 @@ const promise2 = new Promise((resolve, reject) => {
 });
 
 const promise3 = new Promise((resolve, reject) => {
-  const clicks = {
+  const hasClicks = {
     left: false,
     right: false,
   };
 
   document.addEventListener('click', () => {
-    clicks.left = true;
+    hasClicks.left = true;
 
-    if (clicks.right) {
+    if (hasClicks.right) {
       resolve();
     }
   });
 
   document.addEventListener('contextmenu', () => {
-    clicks.right = true;
+    hasClicks.right = true;
 
-    if (clicks.left) {
+    if (hasClicks.left) {
       resolve();
     }
   });
