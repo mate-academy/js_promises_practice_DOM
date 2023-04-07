@@ -1,13 +1,29 @@
 'use strict';
 
-const body = document.body;
+const { body } = document;
 
-function addDiv(className, message) {
+function createDiv() {
   const div = document.createElement('div');
 
   div.dataset.qa = 'notification';
+
+  return div;
+}
+
+function successHandler(message) {
+  const div = createDiv();
+
   div.textContent = message;
-  div.className = className;
+  div.className = 'success';
+
+  body.appendChild(div);
+}
+
+function errorHandler(message) {
+  const div = createDiv();
+
+  div.textContent = message;
+  div.className = 'error';
 
   body.appendChild(div);
 }
@@ -16,16 +32,16 @@ const firstPromise = new Promise((resolve, reject) => {
   setTimeout(() => reject(new Error('First promise was rejected')), 3000);
 
   body.addEventListener(
-    'mousedown',
+    'click',
     () => resolve('First promise was resolved')
   );
 });
 
 firstPromise
-  .then(result => addDiv('success', result))
-  .catch(error => addDiv('error', error));
+  .then(successHandler)
+  .catch(errorHandler);
 
-const secondPromise = new Promise((resolve, reject) => {
+const secondPromise = new Promise((resolve) => {
   body.addEventListener('mousedown', ({ button }) => {
     if (button === 0 || button === 2) {
       resolve('Second promise was resolved');
@@ -33,7 +49,7 @@ const secondPromise = new Promise((resolve, reject) => {
   });
 });
 
-secondPromise.then(result => addDiv('success', result));
+secondPromise.then(successHandler);
 
 const thirdPromise = new Promise(resolve => {
   let left = false;
@@ -52,4 +68,4 @@ const thirdPromise = new Promise(resolve => {
   });
 });
 
-thirdPromise.then(result => addDiv('message', result));
+thirdPromise.then(successHandler);
