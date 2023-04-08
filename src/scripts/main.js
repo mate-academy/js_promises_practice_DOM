@@ -2,28 +2,12 @@
 
 const { body } = document;
 
-function createDiv() {
+function createDiv(divClass, message) {
   const div = document.createElement('div');
 
   div.dataset.qa = 'notification';
-
-  return div;
-}
-
-function successHandler(message) {
-  const div = createDiv();
-
   div.textContent = message;
-  div.className = 'success';
-
-  body.appendChild(div);
-}
-
-function errorHandler(message) {
-  const div = createDiv();
-
-  div.textContent = message;
-  div.className = 'error';
+  div.className = divClass;
 
   body.appendChild(div);
 }
@@ -38,8 +22,8 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 firstPromise
-  .then(successHandler)
-  .catch(errorHandler);
+  .then(result => createDiv('success', result))
+  .catch(errorMsg => createDiv('error', errorMsg));
 
 const secondPromise = new Promise((resolve) => {
   body.addEventListener('mousedown', ({ button }) => {
@@ -49,7 +33,9 @@ const secondPromise = new Promise((resolve) => {
   });
 });
 
-secondPromise.then(successHandler);
+secondPromise
+  .then(result => createDiv('success', result))
+  .catch(errorMsg => createDiv('error', errorMsg));
 
 const thirdPromise = new Promise(resolve => {
   let left = false;
@@ -68,4 +54,6 @@ const thirdPromise = new Promise(resolve => {
   });
 });
 
-thirdPromise.then(successHandler);
+thirdPromise
+  .then(result => createDiv('success', result))
+  .catch(errorMsg => createDiv('error', errorMsg));
