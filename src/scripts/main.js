@@ -17,12 +17,12 @@ function createMessage(message, isSuccess) {
 }
 
 const promise1 = new Promise((resolve, reject) => {
-  body.addEventListener('click', () => resolve());
+  body.addEventListener('click', resolve);
   setTimeout(() => reject(new Error('Promise was rejected')), 3000);
 });
 
 const promise2 = new Promise(resolve => {
-  body.addEventListener('click', () => resolve());
+  body.addEventListener('click', resolve);
 
   body.addEventListener('contextmenu', (ev) => {
     ev.preventDefault();
