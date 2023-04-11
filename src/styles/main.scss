@@ -1,13 +1,9 @@
 body {
   background: #eee;
   font-family: Roboto, sans-serif;
-  margin: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
+  margin: 0 auto;
   min-height: 100vh;
+  width: 100%;
 }
 
 .logo {
@@ -21,4 +17,49 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 50px auto;
+}
+
+.buttons {
+  font-size: 20px;
+  margin: 0 auto 50px;
+  width: 270px;
+  display: flex;
+  justify-content: space-between;
+  &__button {
+    text-transform: uppercase;
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    background-color: #fc4b3b;
+    padding: 10px;
+    border-radius: 16px;
+    border-color: transparent;
+    width: 100px;
+    transition: transform 0.3s;
+    &:hover {
+      cursor: pointer;
+      color: silver;
+      transform: scale(1.1);
+    }
+  }
+}
+
+div[data-qa="notification"] {
+  text-transform: uppercase;
+  width: 270px;
+  margin: 0 auto;
+  padding-bottom: 20px;
+  border-bottom: 3px #fc4b3b solid;
+  font-weight: 700;
+  font-size: 15px;
+
+}
+
+.success {
+  color: green;
+}
+
+.warning {
+  color: red;
 }
