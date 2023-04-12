@@ -2,34 +2,49 @@
 
 const body = document.body;
 const promise1 = new Promise((resolve, reject) => {
-  listener(resolve, 'First');
-  setTimeout(reject, 3000);
+  body.addEventListener('click', () => {
+    resolve('First promise was resolved');
+  });
+
+  setTimeout(() => reject(new Error('First promise was rejected')), 3000);
 });
+
 const promise2 = new Promise((resolve) => {
-  listener(resolve, 'Second');
-  listener(resolve, 'Second', 'contextmenu');
+  body.addEventListener('click', () => resolve('Second promise was resolved'));
+
+  body.addEventListener('contextmenu', () =>
+    resolve('Second promise was resolved'));
 });
+
 const promise3 = new Promise((resolve) => {
-  listener(resolve, 'Second');
-})
-  .then(() => {
-    return new Promise((resolve) => {
-      listener(resolve, 'Third', 'contextmenu');
-    });
+  let left = false;
+  let right = false;
+
+  document.addEventListener('mousedown', e => {
+    if (e.button === 0) {
+      left = true;
+    }
+
+    if (e.button === 2) {
+      right = true;
+    }
+
+    if (left && right) {
+      resolve('Third promise was resolved');
+    }
   });
+});
 
-promise1.then(html => body.insertAdjacentHTML('beforeend', html));
+promise1
+  .then(text => createNotification(text))
+  .catch(text => createNotification(text, 'worning'));
+promise2.then(text => createNotification(text));
+promise3.then(text => createNotification(text));
 
-promise1.catch(() => body.insertAdjacentHTML('beforeend',
-  `<html class="sucsses" data-qa="notification">
-    First promise was rejected
-  </html>`));
-promise2.then(html => body.insertAdjacentHTML('beforeend', html));
-promise3.then(html => body.insertAdjacentHTML('beforeend', html));
-
-function listener(resolve, text, actions = 'click') {
-  document.addEventListener(actions, () => {
-    resolve(`<html class="sucsses" data-qa="notification">
-    ${text} promise was resolved</html>`);
-  });
-};
+function createNotification(text, className = 'sucsses') {
+  body.insertAdjacentHTML('beforeend', `
+      <div class="${className}" data-qa="notification">
+        ${text}
+      </div>
+    `);
+}
