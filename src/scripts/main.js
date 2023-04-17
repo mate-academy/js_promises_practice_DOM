@@ -23,23 +23,17 @@ const errorHandler = (message) => {
 };
 
 const firstPromise = new Promise((resolve, reject) => {
-  let eventOccurred = false;
+  // let eventOccurred = false;
 
   document.addEventListener('click', () => {
-    const resolvedMessage = 'First promise was resolved!';
-
-    eventOccurred = true;
-
-    resolve(resolvedMessage);
+    resolve('First promise was resolved!');
   });
 
-  if (!eventOccurred) {
-    setTimeout(() => {
-      const rejectedMessage = 'First promise was rejected';
+  setTimeout(() => {
+    const rejectedMessage = 'First promise was rejected';
 
-      reject(rejectedMessage);
-    }, 3000);
-  };
+    reject(rejectedMessage);
+  }, 3000);
 });
 
 firstPromise
