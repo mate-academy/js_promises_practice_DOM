@@ -1,6 +1,6 @@
 'use strict';
 
-const errorHandler = (message, type) => {
+const handler = (message, type) => {
   const newDiv = document.createElement('div');
 
   newDiv.dataset.qa = 'notification';
@@ -10,17 +10,6 @@ const errorHandler = (message, type) => {
 
   document.body.append(newDiv);
 };
-
-// const errorHandler = (message) => {
-//   const newDiv = document.createElement('div');
-
-//   newDiv.dataset.qa = 'notification';
-//   newDiv.classList.add('warning');
-
-//   newDiv.innerText = message;
-
-//   document.body.append(newDiv);
-// };
 
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
@@ -36,10 +25,10 @@ const firstPromise = new Promise((resolve, reject) => {
 
 firstPromise
   .then(message => {
-    errorHandler(message, 'success');
+    handler(message, 'success');
   })
   .catch(message => {
-    errorHandler(message, 'warning');
+    handler(message, 'warning');
   });
 
 const secondPromise = new Promise((resolve) => {
@@ -55,7 +44,7 @@ const secondPromise = new Promise((resolve) => {
 
 secondPromise
   .then(message => {
-    errorHandler(message, 'success');
+    handler(message, 'success');
   });
 
 const thirdPromise = new Promise((resolve) => {
@@ -79,5 +68,5 @@ const thirdPromise = new Promise((resolve) => {
 
 thirdPromise
   .then(message => {
-    errorHandler(message, 'success');
+    handler(message, 'success');
   });
