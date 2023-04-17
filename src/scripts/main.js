@@ -23,8 +23,6 @@ const errorHandler = (message) => {
 };
 
 const firstPromise = new Promise((resolve, reject) => {
-  // let eventOccurred = false;
-
   document.addEventListener('click', () => {
     resolve('First promise was resolved!');
   });
@@ -59,8 +57,6 @@ const thirdPromise = new Promise((resolve) => {
   let leftClick = false;
 
   document.addEventListener('mousedown', (myEvent) => {
-    myEvent.preventDefault();
-
     if (myEvent.button === 0) {
       leftClick = true;
     }
