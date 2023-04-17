@@ -1,26 +1,26 @@
 'use strict';
 
-const successHandler = (message) => {
+const errorHandler = (message, type) => {
   const newDiv = document.createElement('div');
 
   newDiv.dataset.qa = 'notification';
-  newDiv.classList.add('success');
+  newDiv.classList.add(type);
 
   newDiv.innerText = message;
 
   document.body.append(newDiv);
 };
 
-const errorHandler = (message) => {
-  const newDiv = document.createElement('div');
+// const errorHandler = (message) => {
+//   const newDiv = document.createElement('div');
 
-  newDiv.dataset.qa = 'notification';
-  newDiv.classList.add('warning');
+//   newDiv.dataset.qa = 'notification';
+//   newDiv.classList.add('warning');
 
-  newDiv.innerText = message;
+//   newDiv.innerText = message;
 
-  document.body.append(newDiv);
-};
+//   document.body.append(newDiv);
+// };
 
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
@@ -35,8 +35,12 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 firstPromise
-  .then(successHandler)
-  .catch(errorHandler);
+  .then(message => {
+    errorHandler(message, 'success');
+  })
+  .catch(message => {
+    errorHandler(message, 'warning');
+  });
 
 const secondPromise = new Promise((resolve) => {
   function clickHandler(newEvent) {
@@ -50,7 +54,9 @@ const secondPromise = new Promise((resolve) => {
 });
 
 secondPromise
-  .then(successHandler);
+  .then(message => {
+    errorHandler(message, 'success');
+  });
 
 const thirdPromise = new Promise((resolve) => {
   let rightClick = false;
@@ -72,4 +78,6 @@ const thirdPromise = new Promise((resolve) => {
 });
 
 thirdPromise
-  .then(successHandler);
+  .then(message => {
+    errorHandler(message, 'success');
+  });
