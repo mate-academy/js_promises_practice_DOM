@@ -19,7 +19,8 @@ const firstPromise = new Promise((resolve, reject) => {
   }, 3000);
 });
 
-firstPromise.then(res => showMessage(res, 'success'))
+firstPromise
+  .then(res => showMessage(res, 'success'))
   .catch(res => showMessage(res, 'warning'));
 
 const secondPromise = new Promise(resolve => {
@@ -33,7 +34,8 @@ const secondPromise = new Promise(resolve => {
   });
 });
 
-secondPromise.then(res => showMessage(res, 'success'))
+secondPromise
+  .then(res => showMessage(res, 'success'))
   .catch(res => alert(res));
 
 const thirdPromise = new Promise(resolve => {
@@ -57,5 +59,6 @@ const thirdPromise = new Promise(resolve => {
   });
 });
 
-thirdPromise.then(res => showMessage(res, 'success'))
+thirdPromise
+  .then(res => showMessage(res, 'success'))
   .catch(res => alert(res));
