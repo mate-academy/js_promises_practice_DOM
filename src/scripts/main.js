@@ -36,22 +36,22 @@ const thirdPromice = new Promise((resolve, reject) => {
   let click;
   let contextmenu;
 
-  const resolver = () => resolve('Third promise was resolved!');
+  const resolver = () => {
+    if (click && contextmenu) {
+      resolve('Third promise was resolved!')
+    }
+  };
 
   document.addEventListener('click', () => {
     click = true;
 
-    if (click && contextmenu) {
-      resolver();
-    }
+    resolver();
   });
 
   document.addEventListener('contextmenu', () => {
     contextmenu = true;
 
-    if (click && contextmenu) {
-      resolver();
-    }
+    resolver();
   });
 });
 
