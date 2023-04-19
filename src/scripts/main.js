@@ -2,23 +2,16 @@
 
 const body = document.querySelector('body');
 
-function success(textHTML) {
-  body.insertAdjacentHTML('beforeend', textHTML);
-}
-
-function error(textHTML) {
-  body.insertAdjacentHTML('beforeend', textHTML);
+function notification(text) {
+  body.insertAdjacentHTML('beforeend',
+    `<div class="warning" data-qa="notification">${text}</div>`);
 }
 
 const firstPromise = new Promise((resolve, reject) => {
   function handleClick(ev) {
     ev.preventDefault();
 
-    resolve(`
-      <div div data-qa="notification">
-        First promise was resolved!
-      </div>
-    `);
+    resolve('First promise was resolved!');
   }
 
   document.addEventListener('click', handleClick);
@@ -32,11 +25,7 @@ const secondPromise = new Promise((resolve, reject) => {
   function handleClick(ev) {
     ev.preventDefault();
 
-    resolve(`
-      <div div data-qa="notification">
-        Second promise was resolved!
-      </div>
-    `);
+    resolve('Second promise was resolved!');
   }
 
   document.addEventListener('click', handleClick);
@@ -47,17 +36,13 @@ const thirdPromice = new Promise((resolve, reject) => {
   let click;
   let contextmenu;
 
-  const textHTML = `
-      <div div data-qa="notification">
-        Third promise was resolved!
-      </div>
-    `;
+  const text = 'Third promise was resolved!';
 
   document.addEventListener('click', () => {
     click = true;
 
     if (click && contextmenu) {
-      resolve(textHTML);
+      resolve(text);
     }
   });
 
@@ -65,26 +50,15 @@ const thirdPromice = new Promise((resolve, reject) => {
     contextmenu = true;
 
     if (click && contextmenu) {
-      resolve(textHTML);
+      resolve(text);
     }
   });
 });
 
 firstPromise
-  .then(result => {
-    success(result);
-  }).catch(() => {
-    error(`
-    <div div data-qa="notification">
-      First promise was rejected!
-    </div>
-  `);
-  });
+  .then(result => notification(result))
+  .catch(() => notification('First promise was rejected!'));
 
-secondPromise.then(result => {
-  success(result);
-});
+secondPromise.then(result => notification(result));
 
-thirdPromice.then(result => {
-  success(result);
-});
+thirdPromice.then(result => notification(result));
