@@ -36,13 +36,13 @@ const thirdPromice = new Promise((resolve, reject) => {
   let click;
   let contextmenu;
 
-  const text = 'Third promise was resolved!';
+  const resolver = () => resolve('Third promise was resolved!');
 
   document.addEventListener('click', () => {
     click = true;
 
     if (click && contextmenu) {
-      resolve(text);
+      resolver();
     }
   });
 
@@ -50,7 +50,7 @@ const thirdPromice = new Promise((resolve, reject) => {
     contextmenu = true;
 
     if (click && contextmenu) {
-      resolve(text);
+      resolver();
     }
   });
 });
