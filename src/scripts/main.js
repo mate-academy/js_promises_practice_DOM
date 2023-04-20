@@ -1,67 +1,46 @@
 'use strict';
 
 function createMessage(message, messageClass) {
-  let newMess = message;
-
-  if (messageClass === 'error') {
-    newMess = 'First promise was rejected';
-  };
-
   document.body.insertAdjacentHTML('beforeend', `
     <div data-qa="notification" class="${messageClass}">
-      ${newMess}
+      ${message}
     </div>
   `);
 }
 
-const promise1 = new Promise((resolve, reject) => {
-  document.addEventListener('mousedown', (e) => {
-    if (e.buttons === 1) {
-      resolve('First promise was resolved');
-    };
-  });
-
-  setTimeout(() => reject(Error('First promise was rejected')), 3000);
-});
-
-const promise2 = new Promise((resolve, reject) => {
-  document.addEventListener('mousedown', () => {
-    resolve('Second promise was resolved');
-  });
-});
-
-const promise3 = new Promise((resolve, reject) => {
-  let leftButton = false;
-  let rightButton = false;
-
+const rightClick = new Promise((resolve, reject) => {
   document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
-    rightButton = true;
-
-    if (leftButton && rightButton) {
-      resolve('Third promise was resolved');
-    }
+    resolve();
   });
+});
 
+const leftClick = new Promise((resolve, reject) => {
   document.addEventListener('mousedown', (e) => {
     if (e.button === 0) {
-      leftButton = true;
-    };
-
-    if (leftButton && rightButton) {
-      resolve('Third promise was resolved');
+      resolve();
     }
   });
 });
 
-promise1
-  .then(success => createMessage(success, 'success'))
-  .catch(Err => createMessage(Err, 'error'));
+const firstPromise = new Promise((resolve, reject) => {
+  leftClick.then(success => resolve());
 
-promise2
-  .then(success => createMessage(success, 'success'))
-  .catch(Err => createMessage(Err, 'error'));
+  setTimeout(() => reject(Error()), 3000);
+});
 
-promise3
-  .then(success => createMessage(success, 'success'))
-  .catch(Err => createMessage(Err, 'error'));
+const secondPromise = Promise.race([rightClick, leftClick]);
+
+const thirdPromise = Promise.all([rightClick, leftClick]);
+
+firstPromise
+  .then(success => createMessage('First promise was resolved', 'success'))
+  .catch(Err => createMessage('First promise was rejected', 'warning'));
+
+secondPromise
+  .then(success => createMessage('Second promise was resolved', 'success'))
+  .catch(Err => createMessage('Second promise was rejected', 'warning'));
+
+thirdPromise
+  .then(success => createMessage('Third promise was resolved', 'success'))
+  .catch(Err => createMessage('Third promise was rejected', 'warning'));
