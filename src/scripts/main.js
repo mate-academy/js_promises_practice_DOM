@@ -2,18 +2,13 @@
 
 // #region  Promise 1
 const promise1 = new Promise((resolve, reject) => {
-  let clicked = false;
-
   document.addEventListener('click' || 'contextmenu', (e) => {
-    clicked = true;
     resolve('First promise was resolved');
   });
 
-  if (!clicked) {
-    setTimeout(() => {
-      reject(new Error('First promise was rejected'));
-    }, 3000);
-  }
+  setTimeout(() => {
+    reject(new Error('First promise was rejected'));
+  }, 3000);
 });
 
 promise1.then((result) => {
