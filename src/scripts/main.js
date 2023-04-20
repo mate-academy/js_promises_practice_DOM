@@ -38,9 +38,7 @@ firstPromise
   .catch(Err => createMessage('First promise was rejected', 'warning'));
 
 secondPromise
-  .then(success => createMessage('Second promise was resolved', 'success'))
-  .catch(Err => createMessage('Second promise was rejected', 'warning'));
+  .then(success => createMessage('Second promise was resolved', 'success'));
 
 thirdPromise
-  .then(success => createMessage('Third promise was resolved', 'success'))
-  .catch(Err => createMessage('Third promise was rejected', 'warning'));
+  .then(success => createMessage('Third promise was resolved', 'success'));
