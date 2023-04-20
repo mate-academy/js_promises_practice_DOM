@@ -17,16 +17,10 @@ const firstPromise = new Promise((resolve, reject) => {
   setTimeout(() => reject(new Error(`First promise was rejected`)), 3000);
 });
 
-const secondPromise = new Promise((resolve) => {
-  leftButton.then(() => resolve(`Second promise was resolved`));
-
-  rightButton.then(() => resolve(`Second promise was resolved`));
+const secondPromise = new Promise(resolve => {
+  Promise.race([leftButton, rightButton])
+    .then(() => resolve(`Second promise was resolved`));
 });
-
-// const secondPromise = new Promise(resolve => {
-//   Promise.race([leftButton, rightButton])
-//     .then(() => resolve(`Second promise was resolved`));
-// });
 
 const thirdPromise = new Promise(resolve => {
   Promise.all([leftButton, rightButton])
