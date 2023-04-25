@@ -15,16 +15,16 @@ const secondPromise = new Promise((resolve) => {
     resolve('Second promise was resolved');
   });
 
-  document.addEventListener('contextmenu', (ev) => {
-    ev.preventDefault();
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
     resolve('Second promise was resolved');
   });
 });
 
 const thirdPromise = new Promise((resolve) => {
   document.addEventListener('click', () => {
-    document.addEventListener('contextmenu', (ev) => {
-      ev.preventDefault();
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
       resolve('Third promise was resolved');
     });
   });
@@ -50,6 +50,6 @@ function createNotofication(type, message) {
   const body = document.querySelector('body');
 
   body.insertAdjacentHTML('beforeend',
-    `<div data-qa = "notification" class = '${type}'>${message}</div>`
+    `<div data-qa="notification" class='${type}'>${message}</div>`
   );
 };
