@@ -22,12 +22,25 @@ const secondPromise = new Promise((resolve) => {
 });
 
 const thirdPromise = new Promise((resolve) => {
+  let leftClick = false;
+  let rightClick = false;
+
   document.addEventListener('click', () => {
-    document.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-      resolve('Third promise was resolved');
-    });
+    leftClick = true;
+    isClicked();
   });
+
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    rightClick = true;
+    isClicked();
+  });
+
+  function isClicked() {
+    if (rightClick && leftClick) {
+      resolve('Third promise was resolved');
+    }
+  }
 });
 
 firstPromise
