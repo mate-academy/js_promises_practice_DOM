@@ -15,16 +15,16 @@ const secondPromise = new Promise((resolve) => {
     resolve('Second promise was resolved');
   });
 
-  document.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
+  document.addEventListener('contextmenu', (ev) => {
+    ev.preventDefault();
     resolve('Second promise was resolved');
   });
 });
 
 const thirdPromise = new Promise((resolve) => {
   document.addEventListener('click', () => {
-    document.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
+    document.addEventListener('contextmenu', (ev) => {
+      ev.preventDefault();
       resolve('Third promise was resolved');
     });
   });
