@@ -17,7 +17,7 @@ function createPromise() {
 }
 
 function createSecond() {
-  const resolver = (resolve, reject) => {
+  const resolver = (resolve) => {
     result.addEventListener('click', () => {
       resolve();
     });
@@ -33,13 +33,13 @@ function createSecond() {
 
 function createThird() {
   const resolver = (resolve) => {
-    let lefttButtonClicked = false;
+    let leftButtonClicked = false;
     let rightButtonClicked = false;
 
     result.addEventListener('click', () => {
-      lefttButtonClicked = true;
+      leftButtonClicked = true;
 
-      if (lefttButtonClicked && rightButtonClicked) {
+      if (leftButtonClicked && rightButtonClicked) {
         resolve();
       }
     });
@@ -48,7 +48,7 @@ function createThird() {
       e.preventDefault();
       rightButtonClicked = true;
 
-      if (lefttButtonClicked && rightButtonClicked) {
+      if (leftButtonClicked && rightButtonClicked) {
         resolve();
       }
     });
@@ -62,25 +62,25 @@ const promise2 = createSecond();
 const promise3 = createThird();
 
 promise1.then(onSuccess, onError);
-promise2.then(second, onError);
-promise3.then(third, onError);
+promise2.then(second);
+promise3.then(third);
 
-function onSuccess(res) {
+function onSuccess() {
   document.body.insertAdjacentHTML('beforebegin',
     '<div data-qa="notification">First promise was resolved</div>');
 }
 
-function onError(res) {
+function onError() {
   document.body.insertAdjacentHTML('beforebegin',
     '<div data-qa="notification">First promise was rejected</div>');
 }
 
-function second(res) {
+function second() {
   document.body.insertAdjacentHTML('beforebegin',
     '<div data-qa="notification">Second promise was resolved</div>');
 }
 
-function third(res) {
+function third() {
   document.body.insertAdjacentHTML('beforebegin',
     '<div data-qa="notification">Third promise was resolved</div>');
 }
