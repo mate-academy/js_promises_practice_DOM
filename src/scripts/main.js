@@ -33,22 +33,22 @@ function createSecond() {
 
 function createThird() {
   const resolver = (resolve) => {
-    let a = false;
-    let b = false;
+    let lefttButtonClicked = false;
+    let rightButtonClicked = false;
 
     result.addEventListener('click', () => {
-      a = true;
+      lefttButtonClicked = true;
 
-      if (a && b) {
+      if (lefttButtonClicked && rightButtonClicked) {
         resolve();
       }
     });
 
     result.addEventListener('contextmenu', (e) => {
       e.preventDefault();
-      b = true;
+      rightButtonClicked = true;
 
-      if (a && b) {
+      if (lefttButtonClicked && rightButtonClicked) {
         resolve();
       }
     });
