@@ -1,7 +1,8 @@
 'use strict';
 
+const result = document.querySelector('body');
+
 function createPromise() {
-  const result = document.querySelector('body');
   const resolver = (resolve, reject) => {
     result.addEventListener('click', () => {
       resolve();
@@ -16,7 +17,6 @@ function createPromise() {
 }
 
 function createSecond() {
-  const result = document.querySelector('body');
   const resolver = (resolve, reject) => {
     result.addEventListener('click', () => {
       resolve();
@@ -32,10 +32,25 @@ function createSecond() {
 }
 
 function createThird() {
-  const result = document.querySelector('body');
   const resolver = (resolve) => {
+    let a = false;
+    let b = false;
+
     result.addEventListener('click', () => {
-      resolve();
+      a = true;
+
+      if (a && b) {
+        resolve();
+      }
+    });
+
+    result.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      b = true;
+
+      if (a && b) {
+        resolve();
+      }
     });
   };
 
