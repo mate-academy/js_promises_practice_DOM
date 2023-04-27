@@ -46,22 +46,14 @@ function thirdPromise() {
 }
 
 firstPromise()
-  .then(res => {
-    showNotification(res, 'success');
-  })
-  .catch(err => {
-    showNotification(err, 'warning');
-  });
+  .then(res => showNotification(res, 'success'))
+  .catch(err => showNotification(err, 'warning'));
 
 secondPromise()
-  .then(res => {
-    showNotification(res, 'success');
-  });
+  .then(res => showNotification(res, 'success'));
 
 thirdPromise()
-  .then(res => {
-    showNotification(res, 'success');
-  });
+  .then(res => showNotification(res, 'success'));
 
 function showNotification(message, type) {
   document.body.innerHTML
