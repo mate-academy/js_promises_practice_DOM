@@ -17,15 +17,11 @@ const firstPromise = new Promise((resolve, reject) => {
 
 firstPromise
   .then((result) => {
-    div.className = 'succes';
-    div.textContent = result;
-    body.append(div.cloneNode(true));
+    addNotification(result, 'succes');
   })
 
   .catch((result) => {
-    div.className = 'warning';
-    div.textContent = result;
-    body.append(div.cloneNode(true));
+    addNotification(result, 'warning');
   });
 
 const secondPromise = new Promise((resolve) => {
@@ -41,31 +37,37 @@ const secondPromise = new Promise((resolve) => {
 
 secondPromise
   .then((result) => {
-    div.className = 'succes';
-    div.textContent = result;
-    body.append(div.cloneNode(true));
+    addNotification(result, 'succes');
   });
 
-const thirdPromise = new Promise((resolve) => {
-  body.addEventListener('click', () => {
-    body.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
+const thirdPromise = new Promise(resolve => {
+  let leftClick = false;
+  let rigthClick = false;
+
+  document.addEventListener('click', () => {
+    leftClick = true;
+
+    if (leftClick && rigthClick) {
       resolve('Third promise was resolved');
-    });
+    }
   });
 
-  body.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
+  document.addEventListener('contextmenu', () => {
+    rigthClick = true;
 
-    body.addEventListener('click', () => {
+    if (leftClick && rigthClick) {
       resolve('Third promise was resolved');
-    });
+    }
   });
 });
 
 thirdPromise
   .then((result) => {
-    div.className = 'succes';
-    div.textContent = result;
-    body.append(div.cloneNode(true));
+    addNotification(result, 'succes');
   });
+
+function addNotification(text, actionResult) {
+  div.textContent = text;
+  div.className = actionResult;
+  body.append(div.cloneNode(true));
+}
