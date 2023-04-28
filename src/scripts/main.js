@@ -35,9 +35,6 @@ function thirdPromise() {
           break;
         case 2:
           rightBtn = true;
-          break;
-        default:
-          throw new Error('Click left or right button');
       }
 
       if (leftBtn && rightBtn) {
