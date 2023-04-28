@@ -16,7 +16,9 @@ function firstPromise() {
 function secondPromise() {
   return new Promise(resolve => {
     document.addEventListener('mousedown', (e) => {
-      resolve('Second promise was resolved');
+      if (e.button === 0 || e.button === 2) {
+        resolve('Second promise was resolved');
+      }
     });
   });
 }
