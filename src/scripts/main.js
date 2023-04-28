@@ -51,8 +51,8 @@ firstPromise
   .then(result => {
     handlerFunction(result, 'success');
   })
-  .catch(result => {
-    handlerFunction(result, 'warning');
+  .catch(error => {
+    handlerFunction(error, 'warning');
   });
 
 secondPromise
