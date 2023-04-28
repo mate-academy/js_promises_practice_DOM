@@ -60,7 +60,7 @@ secondPromise
     handlerFunction(result, 'success');
   })
   .catch(error => {
-    handlerFunction(error, 'error');
+    handlerFunction(error, 'warning');
   });
 
 thirdPromise
@@ -68,5 +68,5 @@ thirdPromise
     handlerFunction(result, 'success');
   })
   .catch(error => {
-    handlerFunction(error, 'error');
+    handlerFunction(error, 'warning');
   });
