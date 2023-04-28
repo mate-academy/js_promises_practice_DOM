@@ -58,9 +58,15 @@ firstPromise
 secondPromise
   .then(result => {
     handlerFunction(result, 'success');
+  })
+  .catch(error => {
+    handlerFunction(error, 'error');
   });
 
 thirdPromise
   .then(result => {
     handlerFunction(result, 'success');
+  })
+  .catch(error => {
+    handlerFunction(error, 'error');
   });
