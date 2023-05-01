@@ -16,13 +16,13 @@ let secondClick = false;
 
 const firstPromise = new Promise((resolve, reject) => {
   const delay = setTimeout(() => {
-    reject(addNotification('First promise was rejected', 'warning'));
+    reject(new Error('First promise was rejected'));
   }, 3000);
 
   body.addEventListener('click', () => {
     clearTimeout(delay);
 
-    resolve(addNotification('First promise was resolved', 'success'));
+    resolve('First promise was resolved');
 
     firstClick = true;
   });
@@ -32,7 +32,7 @@ const secondPromise = new Promise(resolve => {
   body.addEventListener('contextmenu', e => {
     e.preventDefault();
 
-    resolve(addNotification('Second promise was resolved', 'success'));
+    resolve('Second promise was resolved');
 
     secondClick = true;
   });
@@ -41,15 +41,23 @@ const secondPromise = new Promise(resolve => {
 const thirdPromise = new Promise(resolve => {
   body.addEventListener('click', e => {
     if (firstClick === true && secondClick === true) {
-      resolve(addNotification('Third promise was resolved', 'success'));
+      resolve('Third promise was resolved');
     }
   });
 });
 
 firstPromise
-  .then()
-  .catch();
+  .then(result => {
+    addNotification(result, 'success');
+  })
+  .catch(warning => {
+    addNotification(warning, 'warning');
+  });
 
-secondPromise.then();
+secondPromise.then(result => {
+  addNotification(result, 'success');
+});
 
-thirdPromise.then();
+thirdPromise.then(result => {
+  addNotification(result, 'success');
+});
