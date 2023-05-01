@@ -1,29 +1,28 @@
 'use strict';
 
 const body = document.querySelector('body');
-const div = document.createElement('div');
 
-div.dataset.qa = 'notification';
+function addNotification(text, className) {
+  const div = document.createElement('div');
+
+  div.dataset.qa = 'notification';
+  div.classList.add(className);
+  div.innerText = text;
+  body.append(div);
+}
 
 let firstClick = false;
 let secondClick = false;
 
 const firstPromise = new Promise((resolve, reject) => {
   const delay = setTimeout(() => {
-    div.classList.add('warning');
-    div.innerText = 'First promise was rejected';
-    body.append(div);
-
-    reject(div.innerText);
+    reject(addNotification('First promise was rejected', 'warning'));
   }, 3000);
 
   body.addEventListener('click', () => {
     clearTimeout(delay);
-    div.classList.add('success');
-    div.innerText = 'First promise was resolved';
-    body.append(div);
 
-    resolve(div.innerText);
+    resolve(addNotification('First promise was resolved', 'success'));
 
     firstClick = true;
   });
@@ -32,11 +31,8 @@ const firstPromise = new Promise((resolve, reject) => {
 const secondPromise = new Promise(resolve => {
   body.addEventListener('contextmenu', e => {
     e.preventDefault();
-    div.classList.add('success');
-    div.innerText = 'Second promise was resolved';
-    body.append(div);
 
-    resolve(div.innerText);
+    resolve(addNotification('Second promise was resolved', 'success'));
 
     secondClick = true;
   });
@@ -45,11 +41,7 @@ const secondPromise = new Promise(resolve => {
 const thirdPromise = new Promise(resolve => {
   body.addEventListener('click', e => {
     if (firstClick === true && secondClick === true) {
-      div.classList.add('success');
-      div.innerText = 'Third promise was resolved';
-      body.append(div);
-
-      resolve(div.innerText);
+      resolve(addNotification('Third promise was resolved', 'success'));
     }
   });
 });
