@@ -20,25 +20,33 @@ const secondPromise = new Promise((resolve, reject) => {
 });
 
 const thirdPromise = new Promise((resolve, reject) => {
-  resolve('Third promise was resolved');
+  let mouseLeft = false;
+  let mouseRight = false;
+
+  document.body.addEventListener('mousedown', (e) => {
+    if (e.button === 0) {
+      mouseLeft = true;
+    }
+
+    if (e.button === 2) {
+      mouseRight = true;
+    }
+
+    if (mouseLeft && mouseRight) {
+      resolve('Third promise was resolved');
+    }
+  });
 });
 
+firstPromise
+  .then(res => createMessage('sucsses', res))
+  .catch(err => createMessage('warning', err));
+
 secondPromise
-  .then((result) => {
-    createMessage('success', result);
+  .then(res => createMessage('sucsses', res));
 
-    return firstPromise;
-  })
-  .then((result) => {
-    createMessage('success', result);
-
-    return thirdPromise;
-  }).then(result => {
-    createMessage('success', result);
-  })
-  .catch(err => {
-    createMessage('warning', err);
-  });
+thirdPromise
+  .then(res => createMessage('sucsses', res));
 
 const createMessage = (className, textContent) => {
   document.body.insertAdjacentHTML('beforebegin', `
