@@ -4,7 +4,9 @@ const body = document.querySelector('body');
 const logoMA = document.querySelector('h1');
 
 const createNotification = function(message, className) {
-  const DIV = `<div data-qa="notification" class='${className}'>${message}</div>`;
+  const DIV = `<div data-qa="notification" class='${className}'>
+                 ${message}
+               </div>`;
 
   body.insertAdjacentHTML('beforeend', DIV);
 };
@@ -15,7 +17,7 @@ const promise1 = new Promise((resolve, reject) => {
   });
 
   setTimeout(() => {
-    reject();
+    reject(new Error('time out'));
   }, 3000);
 });
 
