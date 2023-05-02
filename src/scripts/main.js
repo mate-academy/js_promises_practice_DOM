@@ -28,15 +28,15 @@ promise1.then(() => {
 });
 
 const promise2 = new Promise((resolve, reject) => {
-  logoMA.onmousedown = (event) => {
-    if (event.button === 0) {
+  logoMA.onmousedown = (e) => {
+    if (e.button === 0) {
       logoMA.addEventListener('click', () => {
         resolve();
       });
     }
 
-    logoMA.addEventListener('contextmenu', (e) => {
-      if (event.button === 2) {
+    logoMA.addEventListener('contextmenu', (x) => {
+      if (x.button === 2) {
         resolve();
       }
     });
@@ -59,7 +59,7 @@ const promise3 = new Promise((resolve, reject) => {
     }
   });
 
-  logoMA.addEventListener('contextmenu', (event) => {
+  logoMA.addEventListener('contextmenu', () => {
     contextmenuHappened = true;
 
     if (clickHappend && contextmenuHappened) {
