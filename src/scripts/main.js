@@ -24,12 +24,12 @@ const thirdPromise = new Promise((resolve) => {
 
   document.addEventListener('click', () => {
     leftClicked = true;
-    rightClicked === true && resolve('Third promise was resolved');
+    if (rightClicked) resolve('Third promise was resolved');
   });
 
   document.addEventListener('contextmenu', () => {
     rightClicked = true;
-    leftClicked === true && resolve('Third promise was resolved');
+    if (leftClicked) resolve('Third promise was resolved');
   });
 });
 
