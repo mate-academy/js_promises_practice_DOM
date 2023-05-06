@@ -10,18 +10,14 @@ function createNotification(promiseName, className, condition) {
 }
 
 const firstPromise = new Promise((resolve, reject) => {
-  let clicked = false;
+  const timeOut = setTimeout((error) => {
+    reject(error);
+  }, 3000);
 
   document.addEventListener('click', () => {
-    clicked = true;
+    clearTimeout(timeOut);
     resolve();
   });
-
-  setTimeout((error) => {
-    if (!clicked) {
-      reject(error);
-    }
-  }, 3000);
 });
 
 firstPromise
@@ -45,28 +41,21 @@ secondPromise
     createNotification('Second', 'success', 'resolved');
   });
 
-let leftClicked = false;
-let rightClicked = false;
-
 const leftClick = new Promise((resolve) => {
   document.addEventListener('click', () => {
-    leftClicked = true;
     resolve();
   });
 });
 
 const rightClick = new Promise((resolve) => {
   document.addEventListener('contextmenu', () => {
-    rightClicked = true;
     resolve();
   });
 });
 
 const thirdPromise = new Promise((resolve) => {
   Promise.all([leftClick, rightClick]).then(() => {
-    if (leftClicked && rightClicked) {
-      resolve();
-    }
+    resolve();
   });
 });
 
