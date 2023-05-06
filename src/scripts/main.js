@@ -1,33 +1,35 @@
 'use strict';
 
+function createNotification(promiseName, className, condition) {
+  const div = document.createElement('div');
+
+  div.dataset.qa = 'notification';
+  div.className = `${className}`;
+  div.textContent = `${promiseName} promise was ${condition}`;
+  document.body.appendChild(div);
+}
+
 const firstPromise = new Promise((resolve, reject) => {
-  const click = document.addEventListener('click', () => {
+  let clicked = false;
+
+  document.addEventListener('click', () => {
+    clicked = true;
     resolve();
   });
 
-  if (!click) {
-    setTimeout((error) => {
+  setTimeout((error) => {
+    if (!clicked) {
       reject(error);
-    }, 3000);
-  }
+    }
+  }, 3000);
 });
 
 firstPromise
   .then(() => {
-    const div = document.createElement('div');
-
-    div.dataset.qa = 'notification';
-    div.className = 'success';
-    div.textContent = 'First promise was resolved';
-    document.body.appendChild(div);
+    createNotification('First', 'success', 'resolved');
   })
   .catch(() => {
-    const div = document.createElement('div');
-
-    div.dataset.qa = 'notification';
-    div.className = 'warning';
-    div.textContent = 'First promise was rejected';
-    document.body.appendChild(div);
+    createNotification('First', 'warning', 'rejected');
   });
 
 const secondPromise = new Promise((resolve) => {
@@ -40,44 +42,35 @@ const secondPromise = new Promise((resolve) => {
 
 secondPromise
   .then(() => {
-    const div = document.createElement('div');
-
-    div.dataset.qa = 'notification';
-    div.className = 'success';
-    div.textContent = 'Second promise was resolved';
-    document.body.appendChild(div);
+    createNotification('Second', 'success', 'resolved');
   });
+
+let leftClicked = false;
+let rightClicked = false;
 
 const leftClick = new Promise((resolve) => {
   document.addEventListener('click', () => {
-    resolve(true);
+    leftClicked = true;
+    resolve();
   });
 });
+
 const rightClick = new Promise((resolve) => {
   document.addEventListener('contextmenu', () => {
-    resolve(true);
+    rightClicked = true;
+    resolve();
   });
 });
-const thirdPromise
-  = Promise.all([leftClick, rightClick])
-    .then(() => {
-      const checkClicks = (leftClickNew, rightClickNew) => {
-        return new Promise((resolve) => {
-          if (leftClickNew && rightClickNew) {
-            resolve();
-          }
-        });
-      };
 
-      return checkClicks;
-    });
+const thirdPromise = new Promise((resolve) => {
+  Promise.all([leftClick, rightClick]).then(() => {
+    if (leftClicked && rightClicked) {
+      resolve();
+    }
+  });
+});
 
 thirdPromise
   .then(() => {
-    const div = document.createElement('div');
-
-    div.dataset.qa = 'notification';
-    div.className = 'success';
-    div.textContent = 'Third promise was resolved';
-    document.body.appendChild(div);
+    createNotification('Third', 'success', 'resolved');
   });
