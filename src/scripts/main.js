@@ -1,33 +1,10 @@
 'use strict';
 
-const createDiv1 = (text) => {
-  const body = document.querySelector('body');
-  const newDiv = document.createElement('div');
-  const oldMessage = body.querySelector('.message1');
-
-  if (oldMessage) {
-    oldMessage.remove();
-  }
-
-  newDiv.className = 'message message1';
-  newDiv.innerHTML = text;
-  body.append(newDiv);
-};
-
-const createDiv2 = (text) => {
+const createDiv = (text, classes) => {
   const body = document.querySelector('body');
   const newDiv = document.createElement('div');
 
-  newDiv.className = 'message message2';
-  newDiv.innerHTML = text;
-  body.append(newDiv);
-};
-
-const createDiv3 = (text) => {
-  const body = document.querySelector('body');
-  const newDiv = document.createElement('div');
-
-  newDiv.className = 'message message3';
+  newDiv.className = classes;
   newDiv.innerHTML = text;
   body.append(newDiv);
 };
@@ -49,7 +26,7 @@ const promise2 = new Promise((resolve, reject) => {
 
   document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
-    resolve();
+    resolve(`Second promise was resolved!`);
   });
 });
 
@@ -63,26 +40,26 @@ const promise3 = new Promise((resolve, reject) => {
 });
 
 promise1
-  .then(onSuccess1, onError);
+  .then(result => onSuccess1(result), onError);
 
 promise2
-  .then(onSuccess2);
+  .then(result => onSuccess2(result));
 
 promise3
-  .then(onSuccess3);
+  .then(result => onSuccess3(result));
 
-function onSuccess1() {
-  createDiv1(`First promise was resolved!`);
+function onSuccess1(res) {
+  createDiv(res, 'message message1');
 }
 
-function onSuccess2() {
-  createDiv2(`Second promise was resolved!`);
+function onSuccess2(res) {
+  createDiv(res, 'message message2');
 }
 
-function onSuccess3() {
-  createDiv3(`Third promise was resolved!`);
+function onSuccess3(res) {
+  createDiv(res, 'message message3');
 }
 
-function onError() {
-  createDiv1(`First promise was rejected!`);
+function onError(res) {
+  createDiv(res, 'message message1');
 }
