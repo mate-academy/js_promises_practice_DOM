@@ -53,8 +53,8 @@ firstPromise
   .then(result => {
     createMessage('success', result);
   })
-  .catch(result => {
-    createMessage('warning', result);
+  .catch(error => {
+    createMessage('warning', error.message);
   });
 
 secondPromise
