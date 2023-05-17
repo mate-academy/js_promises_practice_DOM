@@ -18,6 +18,14 @@ function errorMessage(message) {
     `);
 }
 
+function waitFor(evt) {
+  return new Promise(resolve => {
+    bodyElement.addEventListener(evt, () => {
+      resolve();
+    });
+  });
+}
+
 const firstPromise = new Promise((resolve, reject) => {
   bodyElement.addEventListener('click', () => {
     resolve('First promise was resolved');
@@ -28,34 +36,24 @@ const firstPromise = new Promise((resolve, reject) => {
   }, 3000);
 });
 
-const secondPromise = new Promise(resolve => {
-  bodyElement.addEventListener('mousedown', (evt) => {
-    if (evt.button === 0 || evt.button === 2) {
-      resolve('Second promise was resolved');
-    }
-  });
-});
-
-const thirdPromise = new Promise((resolve, reject) => {
-  bodyElement.addEventListener('click', () => {
-    resolve('First promise was resolved');
-  });
-});
-
 firstPromise
   .then(result => {
-    successMessage(result);
+    successMessage('First promise was resolved');
   })
   .catch(error => {
     errorMessage(error);
   });
 
+const secondPromise = Promise.race([waitFor('click'), waitFor('contextmenu')]);
+
 secondPromise
   .then(result => {
-    successMessage(result);
+    successMessage('Second promise was resolved');
   });
 
-// thirdPromise
-//   .then(result => {
-//     successMessage(result);
-//   });
+const thirdPromise = Promise.all([waitFor('click'), waitFor('contextmenu')]);
+
+thirdPromise
+  .then(result => {
+    successMessage('Third promise was resolved');
+  });
