@@ -1,6 +1,15 @@
 'use strict';
 
 const notification = document.querySelector('[data-qa="notification"]');
+const clicks = {
+  left: false,
+  right: false,
+};
+
+const messageFunction = (message) => {
+  notification.classList.add('success');
+  notification.textContent = message;
+};
 
 const firstPromise = new Promise((resolve, reject) => {
   const timeoutId = setTimeout(() => {
@@ -17,34 +26,27 @@ const firstPromise = new Promise((resolve, reject) => {
   });
 });
 
-firstPromise.then((message) => {
-  notification.classList.add('success');
-  notification.textContent = message;
-}).catch((error) => {
-  notification.classList.add('warning');
-  notification.textContent = error.message;
-});
+firstPromise.then(messageFunction)
+  .catch((error) => {
+    notification.classList.add('warning');
+    notification.textContent = error.message;
+  });
 
 const secondPromise = new Promise((resolve) => {
   function handleClick(e) {
+    e.preventDefault();
+
     if (e.button === 0 || e.button === 2) {
       document.removeEventListener('click', handleClick);
       resolve('Second promise was resolved');
     }
   }
-  document.addEventListener('click', handleClick);
+  document.addEventListener('contextmenu', handleClick);
 });
 
-secondPromise.then((message) => {
-  notification.classList.add('success');
-  notification.textContent = message;
-});
+secondPromise.then(messageFunction);
 
 const thirdPromise = new Promise((resolve) => {
-  const clicks = {
-    left: false, right: false,
-  };
-
   function handleClick(e) {
     if (e.button === 0) {
       clicks.left = true;
@@ -53,14 +55,11 @@ const thirdPromise = new Promise((resolve) => {
     }
 
     if (clicks.left && clicks.right) {
-      document.removeEventListener('click', handleClick);
+      document.addEventListener('click', handleClick);
       resolve('Third promise was resolved');
     }
   }
   document.addEventListener('click', handleClick);
 });
 
-thirdPromise.then((message) => {
-  notification.classList.add('success');
-  notification.textContent = message;
-});
+thirdPromise.then(messageFunction);
