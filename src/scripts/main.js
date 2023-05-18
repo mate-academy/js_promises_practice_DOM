@@ -3,72 +3,69 @@
 let leftClick = false;
 let rightClick = false;
 
-const succesDiv1 = document.createElement('div');
-const errorDiv1 = document.createElement('div');
-const succesDiv2 = document.createElement('div');
-const succesDiv3 = document.createElement('div');
-
-succesDiv1.classList.add('message');
-errorDiv1.classList.add('warning');
-succesDiv2.classList.add('message');
-succesDiv3.classList.add('message');
-
-succesDiv1.setAttribute('data-qa', 'notification');
-errorDiv1.setAttribute('data-qa', 'notification');
-succesDiv2.setAttribute('data-qa', 'notification');
-succesDiv3.setAttribute('data-qa', 'notification');
-
-const succesMessage1 = document.createTextNode('First promise was resolved');
-const errorMessage1 = document.createTextNode('First promise was rejected');
-const succesMessage2 = document.createTextNode('Second promise was resolved');
-const succesMessage3 = document.createTextNode('Third promise was resolved');
-
 const promise1 = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
+    resolve('First promise was resolved');
     leftClick = true;
-    resolve();
   });
 
   setTimeout(() => {
-    reject(new Error(errorMessage1));
+    reject(new Error('First promise was rejected'));
   }, 3000);
 });
 
 const promise2 = new Promise((resolve) => {
   document.addEventListener('click', () => {
-    resolve();
+    leftClick = true;
+    resolve('Second promise was resolved');
   });
 
   document.addEventListener('contextmenu', () => {
     rightClick = true;
-    resolve();
+    resolve('Second promise was resolved');
   });
 });
 
 const promise3 = new Promise((resolve) => {
-  if (leftClick && rightClick) {
-    resolve();
-  }
+  document.addEventListener('mousedown', () => {
+    if (leftClick && rightClick) {
+      resolve('Third promise was resolved');
+    }
+  });
 });
 
+function showMessage(message) {
+  const tag = document.createElement('div');
+
+  if (message.includes('resolved')) {
+    tag.classList.add('message');
+  } else {
+    tag.classList.add('warning');
+  }
+
+  tag.setAttribute('data-qa', 'notification');
+
+  const text = document.createTextNode(message);
+
+  tag.appendChild(text);
+
+  document.body.appendChild(tag);
+}
+
 promise1
-  .then(() => {
-    succesDiv1.appendChild(succesMessage1);
-    document.body.appendChild(succesDiv1);
+  .then((resolveMessage) => {
+    showMessage(resolveMessage);
   })
-  .catch(() => {
-    errorDiv1.appendChild(errorMessage1);
-    document.body.appendChild(errorDiv1);
+  .catch((errorMessage) => {
+    showMessage(errorMessage);
   });
 
 promise2
-  .then(() => {
-    succesDiv2.appendChild(succesMessage2);
-    document.body.appendChild(succesDiv2);
+  .then((resolveMessage) => {
+    showMessage(resolveMessage);
   });
 
 promise3
-  .then(() => {
-    succesDiv3.appendChild(succesMessage3);
-    document.body.appendChild(succesDiv3);
+  .then((resolveMessage) => {
+    showMessage(resolveMessage);
   });
