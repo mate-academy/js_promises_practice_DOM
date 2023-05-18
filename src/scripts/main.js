@@ -45,16 +45,23 @@ promise2.then(resolution => {
 });
 
 const promise3 = new Promise(function(resolve) {
+  let left = false;
+  let right = false;
+
   document.addEventListener('click', () => {
-    document.addEventListener('contextmenu', () => {
+    left = true;
+
+    if (right) {
       resolve(`Third promise was resolved`);
-    });
+    }
   });
 
   document.addEventListener('contextmenu', () => {
-    document.addEventListener('click', () => {
+    right = true;
+
+    if (left) {
       resolve(`Third promise was resolved`);
-    });
+    }
   });
 });
 
