@@ -2,17 +2,13 @@
 
 function createPromise1() {
   const resolver = (resolve, reject) => {
-    const click = document.addEventListener('mouseup', (e) => {
+    document.addEventListener('mouseup', (e) => {
       if (e.button === 0) {
         resolve();
       }
     });
 
-    setTimeout(() => {
-      if (!click) {
-        reject();
-      }
-    }, 3000);
+    setTimeout(reject, 3000);
   };
 
   return new Promise(resolver);
@@ -20,35 +16,19 @@ function createPromise1() {
 
 function createPromise2() {
   const resolver = (resolve) => {
-    try {
-      document.addEventListener('contextmenu', (ev) => {
-        ev.preventDefault();
+    document.addEventListener('contextmenu', (ev) => {
+      ev.preventDefault();
 
-        if (ev.button === 2) {
-          resolve();
-        }
-      });
+      if (ev.button === 2) {
+        resolve();
+      }
+    });
 
-      document.addEventListener('mouseup', (e) => {
-        if (e.button === 0) {
-          resolve();
-        }
-      });
-    } catch (error) {
-      document.addEventListener('contextmenu', (ev) => {
-        ev.preventDefault();
-
-        if (ev.button === 2) {
-          resolve();
-        }
-      });
-
-      document.addEventListener('mouseup', (e) => {
-        if (e.button === 0) {
-          resolve();
-        }
-      });
-    }
+    document.addEventListener('mouseup', (e) => {
+      if (e.button === 0) {
+        resolve();
+      }
+    });
   };
 
   return new Promise(resolver);
@@ -56,27 +36,27 @@ function createPromise2() {
 
 function createPromise3() {
   const resolver = (resolve, reject) => {
-    let right = 0;
-    let left = 0;
+    let rightClick = false;
+    let leftClick = false;
 
     document.addEventListener('contextmenu', (ev) => {
       ev.preventDefault();
 
       if (ev.button === 2) {
-        if (left > 0) {
+        if (leftClick) {
           resolve();
         } else {
-          right += 1;
+          rightClick = true;
         }
       }
     });
 
     document.addEventListener('mouseup', (e) => {
       if (e.button === 0) {
-        if (right > 0) {
+        if (rightClick) {
           resolve();
         } else {
-          left += 1;
+          leftClick = true;
         }
       }
     });
@@ -86,39 +66,23 @@ function createPromise3() {
 }
 
 const promise1 = createPromise1();
-
-promise1
-  .then(() => {
-    document.body.innerHTML += `
-    <div data-qa="notification" class="success">
-        First promise was resolved
-      </div>
-    `;
-  })
-  .catch(() => {
-    document.body.innerHTML += `
-      <div data-qa="notification" class="warning">
-        First promise was rejected
-      </div>
-    `;
-  });
-
 const promise2 = createPromise2();
-
-promise2.then(() => {
-  document.body.innerHTML += `
-    <div data-qa="notification" class="success">
-      Second promise was resolved
-    </div>
-  `;
-});
-
 const promise3 = createPromise3();
 
-promise3.then(() => {
-  document.body.innerHTML += `
-    <div data-qa="notification" class="success">
-      Third promise was resolved
-    </div>
-  `;
-});
+function addNotification(type, message) {
+  const notification = document.createElement('div');
+
+  notification.setAttribute('data-qa', 'notification');
+  notification.classList.add(type);
+  notification.textContent = message;
+
+  document.body.appendChild(notification);
+}
+
+promise1
+  .then(() => addNotification('success', 'First promise was resolved'))
+  .catch(() => addNotification('warning', 'First promise was rejected'));
+
+promise2.then(() => addNotification('success', 'Second promise was resolved'));
+
+promise3.then(() => addNotification('success', 'Third promise was resolved'));
