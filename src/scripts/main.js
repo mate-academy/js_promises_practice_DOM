@@ -48,24 +48,23 @@ const thirdPromise = new Promise((resolve) => {
   let leftBtn = false;
   let rightBtn = false;
 
-  body.addEventListener('click', () => {
-    leftBtn = true;
-
-    if (leftBtn && rightBtn) {
-      resolve('Third promise was resolved');
-    }
-    /* if (e.button === 0 && e.button === 2) {
+  body.addEventListener('mousedown', (e) => {
+    if (e.button === 0) {
       leftBtn = true;
-      rightBtn = true;
-      resolve('Third promise was resolved');
-    } */
+
+      if (leftBtn && rightBtn) {
+        resolve('Third promise was resolved');
+      }
+    }
   });
 
-  body.addEventListener('contextmenu', () => {
-    rightBtn = true;
+  body.addEventListener('mousedown', (e) => {
+    if (e.button === 2) {
+      rightBtn = true;
 
-    if (leftBtn && rightBtn) {
-      resolve('Third promise was resolved');
+      if (leftBtn && rightBtn) {
+        resolve('Third promise was resolved');
+      }
     }
   });
 });
