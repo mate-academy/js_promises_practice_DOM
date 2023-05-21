@@ -28,8 +28,9 @@ const firstPromise = new Promise((resolve, reject) => {
   }, 3000);
 });
 
-firstPromise.then((str) => createBlockSuccess(str));
-firstPromise.catch((str) => createBlockError(str));
+firstPromise
+  .then((str) => createBlockSuccess(str))
+  .catch((str) => createBlockError(str));
 
 const secondPromise = new Promise((resolve, reject) => {
   document.body.addEventListener('contextmenu', () => {
