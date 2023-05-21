@@ -1,9 +1,5 @@
 'use strict';
 
-// Add `success` and `error` handlers to each promise
-// to show `<div data-qa="notification">` with `success`
-// or `warning` class and a promise message.
-
 function createBlockSuccess(text) {
   const block = document.createElement('div');
 
