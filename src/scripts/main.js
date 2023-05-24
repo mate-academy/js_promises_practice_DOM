@@ -57,7 +57,7 @@ promise1
     showMessage(resolveMessage);
   })
   .catch((errorMessage) => {
-    showMessage(errorMessage);
+    showMessage(errorMessage.message);
   });
 
 promise2
