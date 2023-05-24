@@ -54,11 +54,7 @@ const thirdPromise = new Promise((resolve) => {
       if (leftBtn && rightBtn) {
         resolve('Third promise was resolved');
       }
-    }
-  });
-
-  body.addEventListener('mousedown', (e) => {
-    if (e.button === 2) {
+    } else if (e.button === 2) {
       rightBtn = true;
 
       if (leftBtn && rightBtn) {
