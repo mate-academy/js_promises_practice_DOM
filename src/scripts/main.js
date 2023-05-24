@@ -3,6 +3,20 @@
 const body = document.querySelector('body');
 const message = document.createElement('div');
 
+function handleSuccess(result) {
+  message.setAttribute('data-qa', 'notification');
+  message.className = 'success';
+  message.innerText = result;
+  body.append(message);
+}
+
+function handleError(error) {
+  message.setAttribute('data-qa', 'notification');
+  message.className = 'warning';
+  message.innerText = error;
+  body.append(message);
+}
+
 const firstPromise = new Promise((resolve, reject) => {
   body.addEventListener('click', () => {
     resolve('First promise was resolved');
@@ -14,18 +28,8 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 firstPromise
-  .then(result => {
-    message.setAttribute('data-qa', 'notification');
-    message.className = 'success';
-    message.innerText = result;
-    body.append(message);
-  })
-  .catch(error => {
-    message.setAttribute('data-qa', 'notification');
-    message.className = 'warning';
-    message.innerText = error;
-    body.append(message);
-  });
+  .then(handleSuccess)
+  .catch(handleError);
 
 const secondPromise = new Promise((resolve) => {
   body.addEventListener('mousedown', (e) => {
@@ -36,12 +40,7 @@ const secondPromise = new Promise((resolve) => {
 });
 
 secondPromise
-  .then(result => {
-    message.setAttribute('data-qa', 'notification');
-    message.className = 'success';
-    message.innerText = result;
-    body.append(message);
-  })
+  .then(handleSuccess)
   .catch(null);
 
 const thirdPromise = new Promise((resolve) => {
@@ -70,9 +69,4 @@ const thirdPromise = new Promise((resolve) => {
 });
 
 thirdPromise
-  .then(result => {
-    message.setAttribute('data-qa', 'notification');
-    message.className = 'success';
-    message.innerText = result;
-    body.append(message);
-  });
+  .then(handleSuccess);
