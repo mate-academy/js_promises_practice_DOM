@@ -4,12 +4,12 @@ const createMessage = (message, classType) => {
   document.body.insertAdjacentHTML('beforeend', `
     <div class="${classType}" data-qa="notification">
       ${message}
-    <div>
+    </div>
   `);
 };
 
 const waitForClick = (typeOfClick) => {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     document.body.addEventListener(typeOfClick, () => resolve());
   });
 };
@@ -40,6 +40,9 @@ const secondPromise = new Promise(resolve => {
 secondPromise
   .then(result => {
     createMessage(result, 'success');
+  })
+  .catch(result => {
+    createMessage(result, 'warning');
   });
 
 const thirdPromise = new Promise((resolve) => {
@@ -50,4 +53,7 @@ const thirdPromise = new Promise((resolve) => {
 thirdPromise
   .then(result => {
     createMessage(result, 'success');
+  })
+  .catch(result => {
+    createMessage(result, 'warning');
   });
