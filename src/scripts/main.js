@@ -1,39 +1,37 @@
 'use strict';
 
-const showNotification = ([numberPromise, type]) => {
+const showNotification = (inputMessage) => {
   const message = document.createElement('div');
+  const isError = inputMessage instanceof Error;
 
   message.classList.add(
-    `${type === 'success' ? 'success' : 'warning'}`
+    `${isError ? 'warning' : 'success'}`
   );
   message.setAttribute('data-qa', 'notification');
 
-  message.innerHTML = `
-    <p>
-       ${numberPromise} promise was ${type === 'success' ? 'resolved' : 'rejected'}
-    </p>
-  `;
+  message.innerHTML
+    = isError ? String(inputMessage).replace('Error: ', '') : inputMessage;
 
   document.body.append(message);
 };
 
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
-    resolve(['First', 'success']);
+    resolve('First promise was resolved');
   });
 
   setTimeout(() => {
-    reject(['First', 'reject']);
+    reject(new Error('First promise was rejected'));
   }, 3000);
 });
 
 const secondPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
-    resolve(['Second', 'success']);
+    resolve('Second promise was resolved');
   });
 
   document.addEventListener('contextmenu', () => {
-    resolve(['Second', 'success']);
+    resolve('Second promise was resolved');
   });
 });
 
@@ -56,16 +54,16 @@ secondPromise
 const thirdPromise = Promise.all([
   new Promise((resolve, reject) =>
     document.addEventListener('click', () => {
-      resolve(['Third', 'success']);
+      resolve('Third promise was resolved');
     })
   ),
   new Promise((resolve, reject) =>
     document.addEventListener('contextmenu', () => {
-      resolve(['Third', 'success']);
+      resolve('Third promise was resolved');
     })
   ),
 ]);
 
 thirdPromise
-  .then(success => showNotification(['Third', 'success']))
-  .catch(error => showNotification(['Third', 'reject']));
+  .then(success => showNotification(success[0]))
+  .catch(error => showNotification(error));
