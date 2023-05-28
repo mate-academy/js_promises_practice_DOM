@@ -2,15 +2,9 @@
 
 const body = document.querySelector('body');
 
-const successHandler = (message) => {
-  body.insertAdjacentHTML('beforebegin', `
-  <div data-qa="notification" class="success">${message}</div>
-  `);
-};
-
-const errorHandler = (message) => {
-  body.insertAdjacentHTML('beforebegin', `
-  <div data-qa="notification" class="warning">${message}</div>
+function notification(className, message) {
+  body.insertAdjacentHTML('beforeend', `
+  <div data-qa="notification" class="${className}">${message}</div>
   `);
 };
 
@@ -33,7 +27,9 @@ const firstPromise = new Promise((resolve, reject) => {
 
 const secondPromise = new Promise((resolve) => {
   document.body.addEventListener('click', (e) => {
-    resolve('Second promise was resolved');
+    if (e.button === 0 || e.button === 2) {
+      resolve('Second promise was resolved');
+    }
   });
 });
 
@@ -56,9 +52,15 @@ const thirdPromise = new Promise((resolve) => {
 });
 
 firstPromise
-  .then(successHandler)
-  .catch(errorHandler);
+  .then((message) => {
+    notification('success', message);
+  })
+  .catch((message) => {
+    notification('warning', message);
+  });
 
-secondPromise.then(successHandler);
+secondPromise.then();
 
-thirdPromise.then(successHandler);
+thirdPromise.then((message) => {
+  notification('success', message);
+});
