@@ -27,9 +27,11 @@ const firstPromise = new Promise((resolve, reject) => {
 
 const secondPromise = new Promise((resolve) => {
   document.body.addEventListener('click', (e) => {
-    if (e.button === 0 || e.button === 2) {
-      resolve('Second promise was resolved');
-    }
+    resolve('Second promise was resolved');
+  });
+
+  document.body.addEventListener('contextmenu', (e) => {
+    resolve('Second promise was resolved');
   });
 });
 
