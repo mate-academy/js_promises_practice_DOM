@@ -1,6 +1,5 @@
 'use strict';
 
-// First promise
 const firstPromise = new Promise((resolve, reject) => {
   const timeoutId = setTimeout(() => {
     reject(new Error('First promise was rejected in 3 seconds if not clicked'));
@@ -14,7 +13,6 @@ const firstPromise = new Promise((resolve, reject) => {
   });
 });
 
-// Second promise
 const secondPromise = new Promise((resolve) => {
   document.addEventListener('click', (evnt) => {
     if (evnt.button === 0 || evnt.button === 2) {
@@ -23,12 +21,11 @@ const secondPromise = new Promise((resolve) => {
   });
 });
 
-// Third promise
 const thirdPromise = new Promise((resolve) => {
   let leftClicked = false;
   let rightClicked = false;
 
-  document.addEventListener('click', (evnt) => {
+  document.addEventListener('mousedown', (evnt) => {
     if (evnt.button === 0) {
       leftClicked = true;
     } else if (evnt.button === 2) {
@@ -36,13 +33,12 @@ const thirdPromise = new Promise((resolve) => {
     }
 
     if (leftClicked && rightClicked) {
-      resolve('Third promise was resolved'
-      + 'only after both left and right clicks happened');
+      resolve('Third promise was resolved only'
+      + ' after both left and right clicks happened');
     }
   });
 });
 
-// Helper function to display notifications
 function showNotification(message, isSuccess) {
   const notification = document.createElement('div');
 
@@ -53,21 +49,12 @@ function showNotification(message, isSuccess) {
   document.body.appendChild(notification);
 }
 
-// Adding success and error handlers
 firstPromise
-  .then((message) => {
-    showNotification(message, true);
-  })
-  .catch((error) => {
-    showNotification(error.message, false);
-  });
+  .then((message) => showNotification(message, true))
+  .catch((err) => showNotification(err.message, false));
 
 secondPromise
-  .then((message) => {
-    showNotification(message, true);
-  });
+  .then((message) => showNotification(message, true));
 
 thirdPromise
-  .then((message) => {
-    showNotification(message, true);
-  });
+  .then((message) => showNotification(message, true));
