@@ -15,6 +15,7 @@ const rightButton = new Promise((resolve) => {
 
 const firstPromise = new Promise((resolve, reject) => {
   leftButton.then(() => resolve('First promise was resolved'));
+
   setTimeout(() => {
     reject(new Error('First promise was rejected'));
   }, 3000);
