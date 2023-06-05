@@ -29,28 +29,28 @@ function waitFor(evnt, number) {
   });
 }
 
+const thirdPromise = Promise.all(
+  [waitFor('click', 'Third'),
+    waitFor('contextmenu', 'Third')]);
+
+const secondPromise = Promise.race(
+  [waitFor('click', 'Second'),
+    waitFor('contextmenu', 'Second')]);
+
 firstPromise
-  .catch(error => {
-    createNotification(error, 'warning');
-  })
   .then(result => {
     createNotification(result, 'success');
-
-    const secondPromise = Promise.race(
-      [waitFor('click', 'Second'),
-        waitFor('contextmenu', 'Second')]);
-
-    return secondPromise;
   })
-  .then((result2) => {
-    createNotification(result2, 'success');
+  .catch(error => {
+    createNotification(error, 'warning');
+  });
 
-    const thirdPromise = Promise.all(
-      [waitFor('click', 'Third'),
-        waitFor('contextmenu', 'Third')]);
+secondPromise
+  .then(result => {
+    createNotification(result, 'success');
+  });
 
-    return thirdPromise;
-  })
-  .then((result3) => {
-    createNotification(result3, 'success');
+thirdPromise
+  .then(result => {
+    createNotification(result, 'success');
   });
