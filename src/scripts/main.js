@@ -21,21 +21,17 @@ const firstPromise = new Promise((resolve, reject) => {
   }, 3000);
 });
 
-function waitFor(evnt, number) {
-  return new Promise((resolve) => {
-    document.addEventListener(evnt, () => {
-      resolve(`${number} promise was resolved`);
-    });
+const clickPromise = new Promise(resolve => {
+  document.addEventListener('click', () => {
+    resolve();
   });
-}
+});
 
-const thirdPromise = Promise.all(
-  [waitFor('click', 'Third'),
-    waitFor('contextmenu', 'Third')]);
-
-const secondPromise = Promise.race(
-  [waitFor('click', 'Second'),
-    waitFor('contextmenu', 'Second')]);
+const contextMenuPromise = new Promise(resolve => {
+  document.addEventListener('contextmenu', () => {
+    resolve();
+  });
+});
 
 firstPromise
   .then(result => {
@@ -45,10 +41,20 @@ firstPromise
     createNotification(error, 'warning');
   });
 
+const secondPromise = new Promise((resolve, reject) => {
+  Promise.race([clickPromise, contextMenuPromise])
+    .then((value) => resolve('Second promise was resolved'));
+});
+
 secondPromise
   .then(result => {
     createNotification(result, 'success');
   });
+
+const thirdPromise = new Promise(resolve => {
+  Promise.all([clickPromise, contextMenuPromise])
+    .then((value) => resolve('Third promise was resolved'));
+});
 
 thirdPromise
   .then(result => {
