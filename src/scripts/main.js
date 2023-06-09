@@ -4,13 +4,13 @@ const body = document.querySelector('body');
 
 const logo = body.querySelector('.logo');
 
-function createPromise(masegeClass, numberPromise, mouseEvent) {
-  const resolver = (complite, cancel) => {
+function createPromise(messageClass, numberPromise, mouseEvent = 'click') {
+  const resolver = (complete, cancel) => {
     logo.addEventListener(`${mouseEvent}`, (e) => {
       e.preventDefault();
 
-      complite(
-        `<div class=${masegeClass}
+      complete(
+        `<div class='${messageClass}'
           data-qa="notification"
           >
             ${numberPromise} promise was resolved
@@ -30,18 +30,18 @@ function createPromise(masegeClass, numberPromise, mouseEvent) {
   return new Promise(resolver);
 }
 
-const promis1 = createPromise('success', 'First', 'click');
+const promis1 = createPromise('success', 'First');
 
 promis1.then(suc => {
   body.insertAdjacentHTML('beforeend', suc);
 
-  const promis2 = createPromise('success', 'Second', 'click');
+  const promis2 = createPromise('success', 'Second');
 
   return promis2;
 }).catch(err => {
   body.insertAdjacentHTML('beforeend', err);
 
-  const promis2 = createPromise('success', 'Second', 'click');
+  const promis2 = createPromise('success', 'Second');
 
   return promis2;
 }).then(suc => {
