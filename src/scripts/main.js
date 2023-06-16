@@ -80,5 +80,5 @@ const divSpaces = `.promiseMessage {
 
 const style = document.createElement('style');
 
-style.innerText = divSpaces;
+style.textContent = divSpaces;
 document.head.appendChild(style);
