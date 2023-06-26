@@ -11,24 +11,8 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 firstPromise
-  .then((message) => {
-    const newDiv = document.createElement('DIV');
-
-    newDiv.setAttribute('data-qa', 'notification');
-    newDiv.classList.add('success');
-    newDiv.textContent = message;
-
-    document.body.appendChild(newDiv);
-  })
-  .catch((error) => {
-    const newDiv = document.createElement('DIV');
-
-    newDiv.setAttribute('data-qa', 'notification');
-    newDiv.classList.add('warning');
-    newDiv.textContent = error;
-
-    document.body.appendChild(newDiv);
-  });
+  .then((message) => createContent(message))
+  .catch((error) => (createContent(error)));
 
 const secondPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', e => {
@@ -42,24 +26,8 @@ const secondPromise = new Promise((resolve, reject) => {
 });
 
 secondPromise
-  .then((message) => {
-    const newDiv = document.createElement('DIV');
-
-    newDiv.setAttribute('data-qa', 'notification');
-    newDiv.classList.add('success');
-    newDiv.textContent = message;
-
-    document.body.appendChild(newDiv);
-  })
-  .catch((error) => {
-    const newDiv = document.createElement('DIV');
-
-    newDiv.setAttribute('data-qa', 'notification');
-    newDiv.classList.add('warning');
-    newDiv.textContent = error;
-
-    document.body.appendChild(newDiv);
-  });
+  .then((message) => (createContent(message)))
+  .catch((error) => (createContent(error)));
 
 const thirdPromise = new Promise((resolve, reject) => {
   let leftClick = 0;
@@ -85,21 +53,15 @@ const thirdPromise = new Promise((resolve, reject) => {
 });
 
 thirdPromise
-  .then((message) => {
-    const newDiv = document.createElement('DIV');
+  .then((message) => createContent(message))
+  .catch((error) => (createContent(error)));
 
-    newDiv.setAttribute('data-qa', 'notification');
-    newDiv.classList.add('success');
-    newDiv.textContent = message;
+function createContent(message) {
+  const newDiv = document.createElement('DIV');
 
-    document.body.appendChild(newDiv);
-  })
-  .catch((error) => {
-    const newDiv = document.createElement('DIV');
+  newDiv.setAttribute('data-qa', 'notification');
+  newDiv.classList.add('success');
+  newDiv.textContent = message;
 
-    newDiv.setAttribute('data-qa', 'notification');
-    newDiv.classList.add('warning');
-    newDiv.textContent = error;
-
-    document.body.appendChild(newDiv);
-  });
+  document.body.appendChild(newDiv);
+};
