@@ -22,3 +22,15 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+[data-qa="notification"] {
+  background-color: rgba(0, 128, 0, 0.8);
+  margin: 5px;
+  padding: 20px;
+  border-radius: 6px;
+  color: #eee;
+}
+
+.warning {
+  background-color: rgb(207, 45, 45);
+}
