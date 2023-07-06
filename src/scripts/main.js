@@ -56,8 +56,6 @@ firstPromise
     message.innerText = 'First promise was resolved';
 
     document.body.append(message);
-
-    return secondPromise;
   })
   .catch(() => {
     const message = document.createElement('div');
@@ -67,9 +65,9 @@ firstPromise
     message.innerText = 'First promise was rejected';
 
     document.body.append(message);
+  });
 
-    return secondPromise;
-  })
+secondPromise
   .then(() => {
     const message = document.createElement('div');
 
@@ -78,9 +76,9 @@ firstPromise
     message.innerText = 'Second promise was resolved';
 
     document.body.append(message);
+  });
 
-    return thirdPromise;
-  })
+thirdPromise
   .then(() => {
     const message = document.createElement('div');
 
