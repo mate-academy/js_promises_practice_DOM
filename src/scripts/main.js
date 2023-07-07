@@ -31,7 +31,6 @@ const thirdPromise = new Promise(resolve => {
   document.addEventListener('click', () => {
     isClickedLeft = true;
 
-    // Проверяем условие при каждом клике
     if (isClickedLeft && isClickedRight) {
       resolve();
     }
@@ -47,44 +46,42 @@ const thirdPromise = new Promise(resolve => {
   });
 });
 
+const createMessage = (text, state) => {
+  const message = document.createElement('div');
+
+  message.setAttribute('data-qa', 'notification');
+  message.classList.add(state);
+  message.innerText = text;
+
+  document.body.append(message);
+};
+
 firstPromise
   .then(() => {
-    const message = document.createElement('div');
-
-    message.setAttribute('data-qa', 'notification');
-    message.classList.add('success');
-    message.innerText = 'First promise was resolved';
-
-    document.body.append(message);
+    createMessage(
+      'First promise was resolved',
+      'success',
+    );
   })
   .catch(() => {
-    const message = document.createElement('div');
-
-    message.setAttribute('data-qa', 'notification');
-    message.classList.add('warning');
-    message.innerText = 'First promise was rejected';
-
-    document.body.append(message);
+    createMessage(
+      'First promise was rejected',
+      'warning',
+    );
   });
 
 secondPromise
   .then(() => {
-    const message = document.createElement('div');
-
-    message.setAttribute('data-qa', 'notification');
-    message.classList.add('success');
-    message.innerText = 'Second promise was resolved';
-
-    document.body.append(message);
+    createMessage(
+      'Second promise was resolved',
+      'success',
+    );
   });
 
 thirdPromise
   .then(() => {
-    const message = document.createElement('div');
-
-    message.setAttribute('data-qa', 'notification');
-    message.classList.add('success');
-    message.innerText = 'Third promise was resolved';
-
-    document.body.append(message);
+    createMessage(
+      'Third promise was resolved',
+      'success',
+    );
   });
