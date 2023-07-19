@@ -1,89 +1,50 @@
 'use strict';
 
-const div = document.getElementById('div');
-const logo = document.getElementById('logo');
-let check1prm = false;
-let check2prm = false;
-let check3prm = false;
-let left = false;
-let right = false;
-const partOfDiv = '<div data-qa="notification" class="';
+let leftClick = false;
+let rightClick = false;
+const addMessage = (text, className) => {
+  const div = document.createElement('div');
 
-function handler() {
-  const promise1 = (resolve, reject) => {
-    logo.addEventListener('click', () => {
-      if (right === false && check1prm === false && check3prm === false) {
-        left = true;
-        check1prm = true;
-        resolve(partOfDiv + 'succes">First promise was resolved</div>');
-      }
-    });
+  document.body.append(div);
+  div.dataset.qa = 'notification';
+  div.classList.add(className);
+  div.textContent = text;
+};
 
-    setTimeout(() => {
-      if (check1prm === false && check3prm === false && check2prm === false) {
-        check1prm = true;
-        reject(partOfDiv + 'warning">First promise was rejected</div>');
-      }
-    }, 3000);
-  };
+const promise1 = new Promise((resolve, reject) => {
+  document.addEventListener('mousedown', e => {
+    if (e.button === 0) {
+      leftClick = true;
+      resolve();
+    }
+  });
 
-  return new Promise(promise1);
-}
-
-handler().then(function(result) {
-  div.innerHTML = result;
-}).catch(function(result) {
-  div.innerHTML = result;
+  setTimeout(() => {
+    reject(new Error());
+  }, 3000);
 });
 
-function handler2() {
-  const promise2 = (resolve, reject) => {
-    logo.addEventListener('mousedown', () => {
-      check2prm = true;
+promise1
+  .then(() => addMessage('First promise was resolved', 'succes'))
+  .catch(() => addMessage('First promise was rejected', 'warning'));
 
-      if (event.button === 2 && check3prm === false) {
-        right = true;
-        check2prm = true;
-        resolve(partOfDiv + 'succes">Second promise was resolved</div>');
-      }
-
-      if (event.button === 0 && check3prm === false  && check1prm === true) {
-        left = true;
-        check2prm = true;
-        resolve(partOfDiv + 'succes">Second promise was resolved</div>');
-      }
-    });
-  };
-
-  return new Promise(promise2);
-}
-
-handler2().then(function(result) {
-  div.innerHTML = result;
-}).catch(function(result) {
-  div.innerHTML = result;
+const promise2 = new Promise((resolve, reject) => {
+  document.addEventListener('mousedown', e => {
+    if (e.button === 0 || e.button === 2) {
+      rightClick = (!rightClick && e.button === 2) ? true : rightClick;
+      resolve('Second promise was resolved');
+    }
+  });
 });
 
-function handler3() {
-  const promise3 = (resolve, reject) => {
-    logo.addEventListener('mousedown', () => {
-      if (event.button === 0 && right === true) {
-        check3prm = true;
-        resolve(partOfDiv + 'succes">Third promise was resolved</div>');
-      }
+promise2.then(result => addMessage(result, 'succes'));
 
-      if (event.button === 2 && left === true) {
-        check3prm = true;
-        resolve(partOfDiv + 'succes">Third promise was resolved</div>');
-      }
-    });
-  };
-
-  return new Promise(promise3);
-}
-
-handler3().then(function(result) {
-  div.innerHTML = result;
-}).catch(function(result) {
-  div.innerHTML = result;
+const promise3 = new Promise((resolve, reject) => {
+  document.addEventListener('mousedown', e => {
+    if (leftClick && rightClick) {
+      resolve('Third promise was resolved', 'succes');
+    }
+  });
 });
+
+promise3.then(result => addMessage(result, 'succes'));
