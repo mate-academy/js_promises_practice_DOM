@@ -15,20 +15,16 @@ function createMessage(text, isError = false) {
   document.body.appendChild(messageDiv);
 }
 
-let documentClicked = false;
+const documentClicked = false;
 
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', function() {
     resolve('First promise was resolved');
-
-    documentClicked = true;
   });
 
-  if (!documentClicked) {
-    setTimeout(() => {
-      reject(new Error('First promise was rejected'));
-    }, 3000);
-  }
+  setTimeout(() => {
+    reject(new Error('First promise was rejected'));
+  }, 3000);
 });
 
 const secondPromise = new Promise((resolve) => {
@@ -39,12 +35,13 @@ const secondPromise = new Promise((resolve) => {
 
 const thirdPromise = new Promise((resolve) => {
   let rightClick = false;
+  let leftClick = true;
 
   document.addEventListener('click', function() {
-    if (rightClick) {
-      resolve('Third promise was resolved');
-    } else {
-      documentClicked = true;
+    leftClick = true;
+
+    if (rightClick && leftClick) {
+      resolve();
     }
   });
 
@@ -64,10 +61,14 @@ firstPromise.then((success) => {
     createMessage(error, true);
   });
 
-secondPromise.then((success) => {
-  createMessage(success);
+secondPromise.then((result) => {
+  createMessage(result);
+}).catch((error) => {
+  createMessage(error.message, true);
 });
 
-thirdPromise.then((success) => {
-  createMessage(success);
+thirdPromise.then(() => {
+  createMessage('Third promise was resolved');
+}).catch((error) => {
+  createMessage(error.message, true);
 });
