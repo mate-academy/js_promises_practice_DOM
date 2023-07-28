@@ -15,8 +15,6 @@ function createMessage(text, isError = false) {
   document.body.appendChild(messageDiv);
 }
 
-const documentClicked = false;
-
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', function() {
     resolve('First promise was resolved');
@@ -41,15 +39,15 @@ const thirdPromise = new Promise((resolve) => {
     leftClick = true;
 
     if (rightClick && leftClick) {
-      resolve();
+      resolve('Third promise was resolved');
     }
   });
 
   document.addEventListener('contextmenu', function() {
-    if (documentClicked) {
+    rightClick = true;
+
+    if (rightClick && leftClick) {
       resolve('Third promise was resolved');
-    } else {
-      rightClick = true;
     }
   });
 });
@@ -67,8 +65,8 @@ secondPromise.then((result) => {
   createMessage(error.message, true);
 });
 
-thirdPromise.then(() => {
-  createMessage('Third promise was resolved');
+thirdPromise.then((message) => {
+  createMessage(message);
 }).catch((error) => {
   createMessage(error.message, true);
 });
