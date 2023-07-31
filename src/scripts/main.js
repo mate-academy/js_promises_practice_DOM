@@ -33,20 +33,18 @@ const secondPromise = new Promise((resolve) => {
 
 const thirdPromise = new Promise((resolve) => {
   let rightClick = false;
-  let leftClick = true;
+  let leftClick = false;
 
-  document.addEventListener('click', function() {
-    leftClick = true;
-
-    if (rightClick && leftClick) {
-      resolve('Third promise was resolved');
+  document.addEventListener('mousedown', ({ button }) => {
+    if (button === 0) {
+      leftClick = true;
     }
-  });
 
-  document.addEventListener('contextmenu', function() {
-    rightClick = true;
+    if (button === 2) {
+      rightClick = true;
+    }
 
-    if (rightClick && leftClick) {
+    if (leftClick && rightClick) {
       resolve('Third promise was resolved');
     }
   });
