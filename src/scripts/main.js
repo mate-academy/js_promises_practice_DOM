@@ -45,12 +45,14 @@ const secondPromise = new Promise(resolve => {
 });
 
 const thirdPromise = new Promise((resolve) => {
-  document.addEventListener('mousedown', function eventListener({ button }) {
+  const mouseHandler = ({ button }) => {
     if ([0, 2].includes(button) && button !== lastButton) {
       resolve(THIRD_PROMISE.resolve);
-      document.removeEventListener('mousedown', eventListener);
+      document.removeEventListener('mousedown', mouseHandler);
     };
-  });
+  };
+
+  document.addEventListener('mousedown', mouseHandler);
 });
 
 firstPromise
