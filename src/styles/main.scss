@@ -22,3 +22,15 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.success {
+  padding: 20px;
+  font-size: 1.2em;
+}
+
+.warning {
+  padding: 20px;
+  font-size: 1.2em;
+  color: red;
+  font-weight: bold;
+}
