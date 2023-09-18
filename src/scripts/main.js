@@ -1,6 +1,6 @@
 'use strict';
 
-const body = document.getElementById('document');
+const body = document.querySelector('body');
 
 const notify = (message, className) => {
   body.insertAdjacentHTML('beforeend', `
