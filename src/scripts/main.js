@@ -1,11 +1,17 @@
 'use strict';
 
-const promise1 = new Promise((resolve, reject) => {
+function createMessage(messageText, isError = false) {
+  const messageDiv = document.createElement('div');
+
+  messageDiv.className = isError ? 'message error-message' : 'message';
+  messageDiv.textContent = messageText;
+  document.body.appendChild(messageDiv);
+}
+
+const promise1 = new Promise((resolve) => {
   const logo = document.querySelector('.logo');
 
-  logo.addEventListener('click', () => {
-    resolve();
-  });
+  logo.addEventListener('click', resolve);
 });
 
 const promise2 = new Promise((resolve, reject) => {
@@ -17,33 +23,9 @@ const promise2 = new Promise((resolve, reject) => {
 });
 
 promise1
-  .then(() => {
-    const messageDiv = document.createElement('div');
-
-    messageDiv.className = 'message';
-    messageDiv.textContent = 'Promise was resolved!';
-    document.body.appendChild(messageDiv);
-  })
-  .catch(() => {
-    const errorMessageDiv = document.createElement('div');
-
-    errorMessageDiv.className = 'message error-message';
-    errorMessageDiv.textContent = 'Promise was rejected!';
-    document.body.appendChild(errorMessageDiv);
-  });
+  .then(() => createMessage('Promise was resolved!'))
+  .catch(() => createMessage('Promise was rejected!', true));
 
 promise2
-  .then(() => {
-    const messageDiv = document.createElement('div');
-
-    messageDiv.className = 'message';
-    messageDiv.textContent = 'Promise was resolved!';
-    document.body.appendChild(messageDiv);
-  })
-  .catch(() => {
-    const errorMessageDiv = document.createElement('div');
-
-    errorMessageDiv.className = 'message error-message';
-    errorMessageDiv.textContent = 'Promise was rejected!';
-    document.body.appendChild(errorMessageDiv);
-  });
+  .then(() => createMessage('Promise was resolved!'))
+  .catch(() => createMessage('Promise was rejected!', true));
