@@ -2,48 +2,56 @@
 
 const body = document.querySelector('body');
 
-function succesMessage(succesText) {
+function message(classMessage, textMessage) {
   const newMessage = document.createElement('div');
 
-  newMessage.classList.add('succes');
+  newMessage.classList.add(classMessage);
   newMessage.dataset.qa = 'notification';
-  newMessage.innerText = succesText;
-  body.append(newMessage);
-}
-
-function errorMessage(errorText) {
-  const newMessage = document.createElement('div');
-
-  newMessage.classList.add('warning');
-  newMessage.dataset.qa = 'notification';
-  newMessage.innerText = errorText;
+  newMessage.innerText = textMessage;
   body.append(newMessage);
 }
 
 const promise1 = new Promise((resolve, reject) => {
   body.addEventListener('contextmenu', (e) => {
     e.preventDefault();
-    resolve('First promise was resolved');
+
+    resolve(
+      {
+        classMessage: 'success',
+        textMessage: 'First promise was resolved',
+      }
+    );
   });
 
   setTimeout(() => {
-    reject(new Error(`First promise was rejected`));
+    reject(new Error(
+      {
+        classMessage: 'warning',
+        textMessage: 'First promise was rejected',
+      }
+    )
+    );
   }, 3000);
 });
 
-const promise2 = new Promise((resolve, reject) => {
+const promise2 = new Promise((resolve) => {
   document.addEventListener('mousedown', (e) => {
     e.preventDefault();
 
     if (e.button === 0 || e.button === 2) {
-      resolve('Second promise was resolved');
+      resolve(
+        {
+          classMessage: 'success',
+          textMessage: 'Second promise was resolved',
+        }
+      );
     }
   });
 });
 
-const promise3 = new Promise((resolve, reject) => {
+const promise3 = new Promise((resolve) => {
   let isLeftClicked = false;
-  let isRigthClicked = false;
+  let isRightClicked = false;
 
   body.addEventListener('mousedown', (e) => {
     if (e.button === 0) {
@@ -51,15 +59,26 @@ const promise3 = new Promise((resolve, reject) => {
     }
 
     if (e.button === 2) {
-      isRigthClicked = true;
+      isRightClicked = true;
     }
 
-    if (isLeftClicked && isRigthClicked) {
-      resolve('Third promise was resolved');
+    if (isLeftClicked && isRightClicked) {
+      resolve(
+        {
+          classMessage: 'success',
+          textMessage: 'Third promise was resolved',
+        }
+      );
     }
   });
 });
 
-promise1.then(succesMessage).catch(errorMessage);
-promise2.then(succesMessage);
-promise3.then(succesMessage);
+promise1
+  .then(({ classMessage, textMessage }) => message(classMessage, textMessage))
+  .catch(({ classMessage, textMessage }) => message(classMessage, textMessage));
+
+promise2
+  .then(({ classMessage, textMessage }) => message(classMessage, textMessage));
+
+promise3
+  .then(({ classMessage, textMessage }) => message(classMessage, textMessage));
