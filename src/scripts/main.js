@@ -11,26 +11,22 @@ function message(classMessage, textMessage) {
   body.append(newMessage);
 }
 
+function createObject(className, text) {
+  return {
+    classMessage: className,
+    textMessage: text,
+  };
+}
+
 const promise1 = new Promise((resolve, reject) => {
   body.addEventListener('contextmenu', (e) => {
     e.preventDefault();
 
-    resolve(
-      {
-        classMessage: 'success',
-        textMessage: 'First promise was resolved',
-      }
-    );
+    resolve(createObject('success', 'First promise was resolved'));
   });
 
   setTimeout(() => {
-    reject(new Error(
-      {
-        classMessage: 'warning',
-        textMessage: 'First promise was rejected',
-      }
-    )
-    );
+    reject(createObject('warning', 'First promise was rejected'));
   }, 3000);
 });
 
@@ -39,12 +35,7 @@ const promise2 = new Promise((resolve) => {
     e.preventDefault();
 
     if (e.button === 0 || e.button === 2) {
-      resolve(
-        {
-          classMessage: 'success',
-          textMessage: 'Second promise was resolved',
-        }
-      );
+      resolve(createObject('success', 'Second promise was resolved'));
     }
   });
 });
@@ -54,21 +45,17 @@ const promise3 = new Promise((resolve) => {
   let isRightClicked = false;
 
   body.addEventListener('mousedown', (e) => {
-    if (e.button === 0) {
-      isLeftClicked = true;
-    }
-
-    if (e.button === 2) {
-      isRightClicked = true;
+    switch (e.button) {
+      case 0:
+        isLeftClicked = true;
+        break;
+      case 2:
+        isRightClicked = true;
+        break;
     }
 
     if (isLeftClicked && isRightClicked) {
-      resolve(
-        {
-          classMessage: 'success',
-          textMessage: 'Third promise was resolved',
-        }
-      );
+      resolve(createObject('success', 'Third promise was resolved'));
     }
   });
 });
