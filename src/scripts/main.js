@@ -1,19 +1,15 @@
 'use strict';
 
-function createMessage(className, text) {
-  const message = document.createElement('div');
-
-  message.setAttribute('data-qa', 'notification');
-  message.classList.add(className);
-  message.textContent = text;
-
-  return message;
-}
-
-const root = document.querySelector('body');
+const printMessage = (className, text) => {
+  document.body.insertAdjacentHTML('beforeend',
+    `<div class=${className} data-qa="notification">
+      ${text}
+    </div>`
+  );
+};
 
 const promise1 = new Promise((resolve, reject) => {
-  root.addEventListener('click', () => {
+  document.addEventListener('click', () => {
     resolve('First promise was resolved!');
   });
 
@@ -23,11 +19,11 @@ const promise1 = new Promise((resolve, reject) => {
 });
 
 const promise2 = new Promise((resolve) => {
-  root.addEventListener('click', () => {
+  document.addEventListener('click', () => {
     resolve('Second promise was resolved!');
   });
 
-  root.addEventListener('contextmenu', () => {
+  document.addEventListener('contextmenu', () => {
     resolve('Second promise was resolved!');
   });
 });
@@ -48,36 +44,24 @@ const promise3 = new Promise((resolve) => {
 
   const checkClicks = () => {
     if (leftClick && rightClick) {
-      root.removeEventListener('click', leftClickListener);
-      root.removeEventListener('contextmenu', rightClickListener);
+      document.removeEventListener('click', leftClickListener);
+      document.removeEventListener('contextmenu', rightClickListener);
       resolve('Third promise was resolved!');
     }
   };
 
-  root.addEventListener('click', leftClickListener);
-  root.addEventListener('contextmenu', rightClickListener);
+  document.addEventListener('click', leftClickListener);
+  document.addEventListener('contextmenu', rightClickListener);
 });
 
 promise1
-  .then(message => {
-    root.appendChild(createMessage('success', message));
-  })
-  .catch(error => {
-    root.appendChild(createMessage('warning', error));
-  });
+  .then(message => printMessage('success', message))
+  .catch(error => printMessage('warning', error));
 
 promise2
-  .then(message => {
-    root.appendChild(createMessage('success', message));
-  })
-  .catch(error => {
-    root.appendChild(createMessage('warning', error));
-  });
+  .then(message => printMessage('success', message))
+  .catch(error => printMessage('warning', error));
 
 promise3
-  .then(message => {
-    root.appendChild(createMessage('success', message));
-  })
-  .catch(error => {
-    root.appendChild(createMessage('warning', error));
-  });
+  .then(message => printMessage('success', message))
+  .catch(error => printMessage('warning', error));
