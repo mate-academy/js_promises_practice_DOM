@@ -44,31 +44,21 @@ const thirdPromise = new Promise((resolve) => {
 });
 
 firstPromise
-  .then(() => onSuccess(`First promise was resolved`))
-  .catch((text) => onError(text));
+  .then(() => createMessage(`First promise was resolved`, 'success'))
+  .catch((text) => createMessage(text, 'warning'));
 
 secondPromise
-  .then(() => onSuccess(`Second promise was resolved`));
+  .then(() => createMessage(`Second promise was resolved`, 'success'));
 
 thirdPromise
-  .then(() => onSuccess('Third promise was resolved'));
+  .then(() => createMessage('Third promise was resolved', 'success'));
 
-function onSuccess(text) {
+function createMessage(text, className) {
   const div = document.createElement('div');
 
   div.dataset.qa = 'notification';
-  div.className = 'success';
+  div.className = className;
   div.textContent = text;
 
   body.appendChild(div);
-};
-
-function onError(text) {
-  const div = document.createElement('div');
-
-  div.dataset.qa = 'notification';
-  div.className = 'warning';
-  div.textContent = text;
-
-  body.appendChild(div);
-};
+}
