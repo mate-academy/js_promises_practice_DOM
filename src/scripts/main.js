@@ -29,7 +29,7 @@ const thirdPromise = new Promise((resolve) => {
   document.addEventListener('click', () => {
     firstClick = true;
 
-    if (firstClick === true && secondClick === true) {
+    if (firstClick && secondClick) {
       resolve();
     }
   });
@@ -37,7 +37,7 @@ const thirdPromise = new Promise((resolve) => {
   document.addEventListener('contextmenu', () => {
     secondClick = true;
 
-    if (firstClick === true && secondClick === true) {
+    if (firstClick && secondClick) {
       resolve();
     }
   });
