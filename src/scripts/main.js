@@ -39,19 +39,24 @@ const secondPromise = new Promise(resolve => {
 });
 
 const thirdPromise = new Promise(resolve => {
+  let left = false;
+  let right = false;
+
   document.addEventListener('click', () => {
-    document.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
+    if (right) {
       resolve('Third promise was resolved');
-    });
+    }
+
+    left = true;
   });
 
   document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
+    right = true;
 
-    document.addEventListener('click', () => {
+    if (left) {
       resolve('Third promise was resolved');
-    });
+    }
   });
 });
 
