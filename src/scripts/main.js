@@ -37,12 +37,18 @@ secondPromise
   .then(message => handleStatus(message, 'success'));
 
 const thirdPromise = new Promise((resolve, reject) => {
-  let left;
+  let left, right;
 
   document.addEventListener('mouseup', (e) => {
     if (e.button === 0) {
       left = true;
-    } else if (e.button === 2 && left) {
+    }
+
+    if (e.button === 2) {
+      right = true;
+    }
+
+    if (left && right) {
       resolve('Third promise was resolved');
     }
   });
