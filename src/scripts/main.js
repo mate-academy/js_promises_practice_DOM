@@ -24,7 +24,7 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 const secondPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', () => {
+  document.addEventListener('mouseup', () => {
     if (event.button === 0 || event.button === 2) {
       resolve('Second');
     }
@@ -32,7 +32,7 @@ const secondPromise = new Promise((resolve, reject) => {
 });
 
 const thirdPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', () => {
+  document.addEventListener('mouseup', () => {
     if (event.button === 0) {
       left = true;
     }
