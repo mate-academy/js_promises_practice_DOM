@@ -15,7 +15,7 @@ function rightClick(clickEvent) {
 }
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', () => {
+  document.addEventListener('mouseup', () => {
     if (event.button === 0) {
       resolve('First');
     }
