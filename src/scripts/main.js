@@ -25,12 +25,16 @@ firstPromise
   .then(message => handleStatus(message, 'success'))
   .catch(message => handleStatus(message, 'warning'));
 
-document.addEventListener('mouseup', (e) => {
-  if (e.button === 0 || e.button === 2) {
-    Promise.resolve('Second promise was resolved')
-      .then(message => handleStatus(message, 'success'));
-  }
+const secondPromise = new Promise((resolve, reject) => {
+  document.addEventListener('mouseup', (e) => {
+    if (e.button === 0 || e.button === 2) {
+      resolve('Second promise was resolved');
+    }
+  });
 });
+
+secondPromise
+  .then(message => handleStatus(message, 'success'));
 
 const thirdPromise = new Promise((resolve, reject) => {
   let left;
