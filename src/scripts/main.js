@@ -1,10 +1,8 @@
 'use strict';
 
-const logo = document.querySelector('.logo');
-
 const firstPromise = () => {
   return new Promise((resolve, reject) => {
-    logo.addEventListener('click', () => {
+    document.addEventListener('click', () => {
       resolve('First promise was resolved');
     });
 
@@ -35,11 +33,11 @@ secondPromise()
   });
 
 function secondClick(resolve) {
-  logo.addEventListener('click', () => {
+  document.addEventListener('click', () => {
     resolve('Second promise was resolved');
   });
 
-  logo.addEventListener('contextmenu', () => {
+  document.addEventListener('contextmenu', () => {
     resolve('Second promise was resolved');
   });
 }
@@ -59,12 +57,12 @@ function thirdClick(resolve) {
   let leftClick = false;
   let rightClick = false;
 
-  logo.addEventListener('click', () => {
+  document.addEventListener('click', () => {
     leftClick = true;
     checkAndResolve();
   });
 
-  logo.addEventListener('contextmenu', () => {
+  document.addEventListener('contextmenu', () => {
     rightClick = true;
     checkAndResolve();
   });
@@ -79,6 +77,7 @@ function thirdClick(resolve) {
 function appendMessage(message) {
   const messageDiv = document.createElement('div');
 
+  messageDiv.setAttribute('data-qa', 'notification');
   messageDiv.className = 'message';
   messageDiv.textContent = message;
   document.body.appendChild(messageDiv);
@@ -87,6 +86,7 @@ function appendMessage(message) {
 function appendErrorMessage(error) {
   const errorMessageDiv = document.createElement('div');
 
+  errorMessageDiv.setAttribute('data-qa', 'notification');
   errorMessageDiv.className = 'message error-message';
   errorMessageDiv.textContent = error;
   document.body.appendChild(errorMessageDiv);
