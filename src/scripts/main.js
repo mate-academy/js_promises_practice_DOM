@@ -10,53 +10,26 @@ let left = false;
 // there HAS to be bettter solution for right click. I just didnt find it yet
 
 function rightClick(clickEvent) {
-  clickEvent.preventDefault();
+  // clickEvent.preventDefault();
   right = true;
-  // return false;
 }
 
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
     if (event.button === 0) {
-      resolve();
+      resolve('First');
     }
   });
-  setTimeout(() => reject(new Error()), 3000);
+  setTimeout(() => reject(new Error('First')), 3000);
 });
-
-const addMessage = () => {
-  const succesDiv = document.createElement('div');
-
-  succesDiv.className = 'message';
-  succesDiv.innerText = 'First promise was resolved!';
-  body.appendChild(succesDiv);
-};
-
-const addBadMessage = () => {
-  const succesDiv = document.createElement('div');
-
-  succesDiv.className = 'message error-message';
-  succesDiv.innerText = 'First promise was rejected';
-  body.appendChild(succesDiv);
-};
-
-// not sure aobut one below. Should i override usual rightclick utilities?
 
 const secondPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
     if (event.button === 0 || event.button === 2) {
-      resolve();
+      resolve('Second');
     }
   });
 });
-
-const addSecondMessage = () => {
-  const succesDiv = document.createElement('div');
-
-  succesDiv.className = 'message__second';
-  succesDiv.innerText = 'Second promise was resolved!';
-  body.appendChild(succesDiv);
-};
 
 const thirdPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
@@ -69,27 +42,42 @@ const thirdPromise = new Promise((resolve, reject) => {
     }
 
     if (left === true && right === true) {
-      resolve();
+      resolve('Third');
     }
   });
 });
 
-const addThirdMessage = () => {
+const success = (number) => {
   const succesDiv = document.createElement('div');
 
-  succesDiv.className = 'message__third';
-  succesDiv.innerText = 'Third promise was resolved!';
+  succesDiv.setAttribute('data-qa', 'notification');
+
+  succesDiv.className = 'success';
+  succesDiv.innerText = `${number} promise was resolved!`;
   body.appendChild(succesDiv);
 };
+
+const error = (number) => {
+  const succesDiv = document.createElement('div');
+
+  succesDiv.setAttribute('data-qa', 'notification');
+
+  succesDiv.className = 'warning';
+  succesDiv.innerText = `${number} promise was rejected`;
+  body.appendChild(succesDiv);
+};
+
 // not sure if it should be div, or pop up message
 // it's div for now
 
 firstPromise
-  .then(addMessage)
-  .catch(addBadMessage);
+  .then(text => success(text))
+  .catch(text => error(text));
 
 secondPromise
-  .then(addSecondMessage);
+  .then(text => success(text))
+  .catch(text => error(text));
 
 thirdPromise
-  .then(addThirdMessage);
+  .then(text => success(text))
+  .catch(text => error(text));
