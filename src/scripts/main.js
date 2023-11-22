@@ -18,9 +18,9 @@ const secondPromise = new Promise((resolve) => {
 const thirdPromise = new Promise((resolve) => {
   let clicksCount = 0;
 
-  document.addEventListener('click', handleThirdEvents);
+  document.addEventListener('click', handleThirdEvents, { once: true });
 
-  document.addEventListener('contextmenu', handleThirdEvents);
+  document.addEventListener('contextmenu', handleThirdEvents, { once: true });
 
   function handleThirdEvents() {
     clicksCount++;
@@ -49,7 +49,6 @@ function errorHandler(err) {
 
   successDiv.setAttribute('data-qa', 'notification');
   successDiv.classList.add('warning');
-  err.name = '';
-  successDiv.innerText = err.toString();
+  successDiv.innerText = err.message;
   document.body.appendChild(successDiv);
 }
