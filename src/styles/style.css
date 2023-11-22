@@ -8,11 +8,13 @@ body {
 }
 
 .message {
-  color: green;
   font-size: 24px;
-  transition: 1s;
 }
 
-.error-message {
+.success {
+  color: green;
+}
+
+.warning {
   color: red;
 }

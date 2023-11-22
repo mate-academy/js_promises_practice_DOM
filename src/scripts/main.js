@@ -1,19 +1,17 @@
 'use strict';
 
-const firstPromise = () => {
-  return new Promise((resolve, reject) => {
-    document.addEventListener('click', () => {
-      resolve('First promise was resolved');
-    });
-
-    setTimeout(() => {
-      // eslint-disable-next-line prefer-promise-reject-errors
-      reject('First promise was rejected');
-    }, 3000);
+const firstPromise = new Promise((resolve, reject) => {
+  document.addEventListener('mouseup', () => {
+    resolve('First promise was resolved');
   });
-};
 
-firstPromise()
+  setTimeout(() => {
+    // eslint-disable-next-line prefer-promise-reject-errors
+    reject('First promise was rejected');
+  }, 3000);
+});
+
+firstPromise
   .then(message => {
     appendMessage(message);
   })
@@ -33,12 +31,10 @@ secondPromise()
   });
 
 function secondClick(resolve) {
-  document.addEventListener('click', () => {
-    resolve('Second promise was resolved');
-  });
-
-  document.addEventListener('contextmenu', () => {
-    resolve('Second promise was resolved');
+  document.addEventListener('mouseup', (e) => {
+    if (e.button === 0 || e.button === 2) {
+      resolve('Second promise was resolved');
+    }
   });
 }
 
@@ -57,13 +53,16 @@ function thirdClick(resolve) {
   let leftClick = false;
   let rightClick = false;
 
-  document.addEventListener('click', () => {
-    leftClick = true;
-    checkAndResolve();
-  });
+  document.addEventListener('mouseup', (e) => {
+    if (e.button === 2) {
+      rightClick = true;
+      checkAndResolve();
+    }
 
-  document.addEventListener('contextmenu', () => {
-    rightClick = true;
+    if (e.button === 0) {
+      leftClick = true;
+    }
+
     checkAndResolve();
   });
 
@@ -78,7 +77,7 @@ function appendMessage(message) {
   const messageDiv = document.createElement('div');
 
   messageDiv.setAttribute('data-qa', 'notification');
-  messageDiv.className = 'message';
+  messageDiv.className = 'message success';
   messageDiv.textContent = message;
   document.body.appendChild(messageDiv);
 }
@@ -87,7 +86,7 @@ function appendErrorMessage(error) {
   const errorMessageDiv = document.createElement('div');
 
   errorMessageDiv.setAttribute('data-qa', 'notification');
-  errorMessageDiv.className = 'message error-message';
+  errorMessageDiv.className = 'message warning';
   errorMessageDiv.textContent = error;
   document.body.appendChild(errorMessageDiv);
 }
