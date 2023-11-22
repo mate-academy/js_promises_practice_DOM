@@ -19,13 +19,11 @@ firstPromise
     appendErrorMessage(value);
   });
 
-const secondPromise = () => {
-  return new Promise((resolve) => {
-    secondClick(resolve);
-  });
-};
+const secondPromise = new Promise((resolve) => {
+  secondClick(resolve);
+});
 
-secondPromise()
+secondPromise
   .then(message => {
     appendMessage(message);
   });
@@ -38,13 +36,11 @@ function secondClick(resolve) {
   });
 }
 
-const thirdPromise = () => {
-  return new Promise((resolve) => {
-    thirdClick(resolve);
-  });
-};
+const thirdPromise = new Promise((resolve) => {
+  thirdClick(resolve);
+});
 
-thirdPromise()
+thirdPromise
   .then(message => {
     appendMessage(message);
   });
