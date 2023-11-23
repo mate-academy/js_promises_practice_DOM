@@ -2,7 +2,7 @@
 
 // write your code here
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', (ev) => {
+  document.addEventListener('mouseup', (ev) => {
     if (ev.button === 0) {
       resolve('First promise was resolved');
     }
@@ -14,7 +14,7 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 const secondPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', (ev) => {
+  document.addEventListener('mouseup', (ev) => {
     if (ev.button === 0 || ev.button === 2) {
       resolve('Second promise was resolved');
     }
@@ -24,7 +24,7 @@ const secondPromise = new Promise((resolve, reject) => {
 let leftCnt = 0;
 let rightCnt = 0;
 const thirdPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', (ev) => {
+  document.addEventListener('mouseup', (ev) => {
     // ev.preventDefault();
 
     if (ev.button === 0) {
