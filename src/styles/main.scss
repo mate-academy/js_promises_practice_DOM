@@ -22,3 +22,36 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.message {
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  padding: 25px;
+
+  width: 200px;
+
+  font-family: Verdana, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+
+  border-radius: 15px;
+
+  background-color: rgba(255, 1, 166, 0.5);
+}
+
+.message_2nd {
+  top: 150px;
+  background-color: rgba(31, 1, 255, 0.5);
+}
+
+.message_3rd {
+  top: 250px;
+  background-color: rgba(128, 1, 255, 0.5);
+}
+
+.error-message {
+  background-color: rgba(204, 51, 0, 0.5);
+  right: 350px;
+}
