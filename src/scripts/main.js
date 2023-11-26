@@ -1,8 +1,10 @@
 'use strict';
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', () => {
-    resolve(`First promise was resolved`);
+  document.addEventListener('mouseup', (e) => {
+    if (e.button === 0) {
+      resolve(`First promise was resolved`);
+    }
   });
   setTimeout(() => reject(new Error(`First promise was rejected`)), 3000);
 });
