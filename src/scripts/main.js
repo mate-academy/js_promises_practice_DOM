@@ -6,7 +6,9 @@ const firstPromise = new Promise((resolve, reject) => {
     if (ev.button === 0) {
       resolve('First promise was resolved');
     }
-  });
+  },
+  { once: true },
+  );
 
   setTimeout(() => {
     reject(new Error('First promise was rejected'));
@@ -15,34 +17,41 @@ const firstPromise = new Promise((resolve, reject) => {
 
 const secondPromise = new Promise((resolve, reject) => {
   document.addEventListener('mouseup', (ev) => {
-    if (ev.button === 0 || ev.button === 2) {
-      resolve('Second promise was resolved');
-    }
-  });
+    resolve('Second promise was resolved');
+  },
+  { once: true },
+  );
+
+  document.addEventListener('contextmenu', (ev) => {
+    resolve('Second promise was resolved');
+  },
+  { once: true },
+  );
 });
 
 let leftCnt = 0;
 let rightCnt = 0;
-const thirdPromise = new Promise((resolve, reject) => {
+const thirdPromise = new Promise((resolve) => {
   document.addEventListener('mouseup', (ev) => {
-    // ev.preventDefault();
+    leftCnt++;
+    thirdPromiseTrigger();
+  },
+  { once: true },
+  );
 
-    if (ev.button === 0) {
-      leftCnt++;
-    }
+  document.addEventListener('contextmenu', (ev) => {
+    rightCnt++;
+    thirdPromiseTrigger();
+  });
 
-    if (ev.button === 2) {
-      rightCnt++;
-    }
-
+  function thirdPromiseTrigger() {
     if (leftCnt > 0 && rightCnt > 0) {
       resolve('Third promise was resolved');
     }
-  });
+  }
 });
 
 function onSuccess(result) {
-  // const appendDiv = document.createElement('div data-qa="notification"');
   const appendDiv = document.createElement('div');
 
   appendDiv.setAttribute('data-qa', 'notification');
