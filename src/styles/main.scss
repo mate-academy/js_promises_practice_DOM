@@ -22,3 +22,37 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.message {
+  width: 200px;
+  position: absolute;
+  padding: 20px;
+  font-size: 18px;
+  text-align: center;
+  border-radius: 12px;
+  font-weight: 400;
+
+  &--err {
+    top: 20px;
+    left: 20px;
+    background-color: rgba($color: red, $alpha: 0.5);
+  }
+
+  &--1 {
+    top: 20px;
+    right: 20px;
+    background-color: rgba($color: purple, $alpha: 0.5);
+  }
+
+  &--2 {
+    top: 120px;
+    right: 20px;
+    background-color: rgba($color: blue, $alpha: 0.5);
+  }
+
+  &--3 {
+    top: 220px;
+    right: 20px;
+    background-color: rgba($color: pink, $alpha: 0.5);
+  }
+}
