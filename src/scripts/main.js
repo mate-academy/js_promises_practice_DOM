@@ -40,7 +40,7 @@ const thirdPromise = new Promise((resolve) => {
 
   document.querySelector('body').addEventListener('contextmenu', (e) => {
     e.preventDefault();
-    
+
     if (isLeftClicked) {
       resolve('Third promise was resolved');
     } else {
