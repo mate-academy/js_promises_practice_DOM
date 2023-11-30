@@ -4,8 +4,8 @@ document.addEventListener('contextmenu', (e) => {
   e.preventDefault();
 });
 
-const firstPromise = 0;
-const lastPromise = 3;
+const firstClick = 0;
+const lastClick = 3;
 
 const bodyElement = document.querySelector('body');
 
@@ -41,7 +41,7 @@ const promise2 = new Promise((resolve, reject) => {
   addEventListener('mousedown', (e) => {
     e.preventDefault();
 
-    if (e.button === firstPromise || e.button === lastPromise) {
+    if (e.button === firstClick || e.button === lastClick) {
       resolve('Second promise was resolved');
     }
   });
@@ -52,11 +52,11 @@ const promise3 = new Promise((resolve, reject) => {
   let isRigthClicked = false;
 
   bodyElement.addEventListener('mousedown', (e) => {
-    if (e.button === firstPromise) {
+    if (e.button === firstClick) {
       isLeftClicked = true;
     }
 
-    if (e.button === lastPromise) {
+    if (e.button === lastClick) {
       isRigthClicked = true;
     }
 
