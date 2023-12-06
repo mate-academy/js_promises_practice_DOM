@@ -16,45 +16,40 @@ promise1
   })
   .catch((err) => {
     message(err, 'warning');
-  })
-  .then(() => {
-    const promise2Left = new Promise((resolve) => {
-      document.addEventListener('click', () => {
-        resolve('Second promise left click was resolved');
-      });
-    });
-
-    const promise2Right = new Promise((resolve) => {
-      document.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        resolve('Second promise right click was resolved');
-      });
-    });
-
-    return Promise.race([promise2Left, promise2Right]);
-  })
-  .then((result) => {
-    message(result, 'success');
-  })
-  .then(() => {
-    const promise3Left = new Promise((resolve) => {
-      document.addEventListener('click', () => {
-        resolve();
-      });
-    });
-
-    const promise3Right = new Promise((resolve) => {
-      document.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        resolve();
-      });
-    });
-
-    return Promise.all([promise3Left, promise3Right]);
-  })
-  .then(() => {
-    message('Third promise was resolved', 'success');
   });
+
+const secondPromise = new Promise((resolve) => {
+  document.addEventListener('click', () => {
+    resolve(true);
+  });
+
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    resolve(true);
+  });
+});
+
+secondPromise.then(() => {
+  message('Second promise was resolved', 'success');
+});
+
+const thirdPromise = Promise.all([
+  new Promise((resolve) => {
+    document.addEventListener('click', () => {
+      resolve(true);
+    });
+  }),
+  new Promise((resolve) => {
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      resolve(true);
+    });
+  }),
+]);
+
+thirdPromise.then(() => {
+  message('Third promise was resolved', 'success');
+});
 
 function message(promMessage, type) {
   document.body.insertAdjacentHTML(
