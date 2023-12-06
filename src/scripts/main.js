@@ -10,13 +10,11 @@ const promise1 = new Promise((resolve, reject) => {
   }, 3000);
 });
 
+const handleSuccess = (result) => message(result, 'success')
+const handleError = (err) => message(err, 'warning')
 promise1
-  .then((result) => {
-    message(result, 'success');
-  })
-  .catch((err) => {
-    message(err, 'warning');
-  });
+  .then(handleSuccess)
+  .catch(handleError);
 
 const secondPromise = new Promise((resolve) => {
   document.addEventListener('click', () => {
