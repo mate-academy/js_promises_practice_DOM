@@ -18,7 +18,7 @@ const error = (result) => {
   document.body.append(message);
 };
 
-const firstPromise = new Promise((resolve, reject) => {
+new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
     resolve('First promise was resolved');
   });
@@ -26,7 +26,9 @@ const firstPromise = new Promise((resolve, reject) => {
   setTimeout(() => {
     reject(new Error('First promise was rejected'));
   }, 3000);
-});
+})
+  .then(success)
+  .catch(error);
 
 const secondPromise = new Promise((resolve) => {
   document.addEventListener('click', () => {
@@ -36,26 +38,25 @@ const secondPromise = new Promise((resolve) => {
   document.addEventListener('contextmenu', () => {
     resolve('Second promise was resolved');
   });
-});
+})
+  .then(success)
+  .catch(error);
 
 const thirdPromise = new Promise((resolve) => {
-  document.addEventListener('click', () => {
-    document.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-      resolve('Third promise was resolved');
-    });
-  });
+  const handleClick = () => {
+    resolve('Third promise was resolved');
+  };
 
-  document.addEventListener('contextmenu', (e) => {
+  const handleContextMenu = (e) => {
     e.preventDefault();
+    resolve('Third promise was resolved');
+  };
 
-    document.addEventListener('click', () => {
-      resolve('Third promise was resolved');
-    });
-  });
-});
+  document.addEventListener('click', handleClick);
+  document.addEventListener('contextmenu', handleContextMenu);
+})
+  .then(success)
+  .catch(error);
 
-firstPromise.then(success).catch(error);
-
-secondPromise.then(success);
-thirdPromise.then(success);
+secondPromise.catch(error);
+thirdPromise.catch(error);
