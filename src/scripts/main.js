@@ -13,8 +13,20 @@ function addMessage(className, message) {
   `);
 }
 
+const clickPromise = new Promise(resolve => {
+  document.addEventListener('click', () => {
+    resolve();
+  });
+});
+
+const contextMenuPromise = new Promise(resolve => {
+  document.addEventListener('contextmenu', () => {
+    resolve();
+  });
+});
+
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', (e) => {
+  document.addEventListener('click', () => {
     resolve('First promise was resolved!');
   });
 
@@ -23,43 +35,12 @@ const firstPromise = new Promise((resolve, reject) => {
   }, 3000);
 });
 
-const secondPromise = new Promise((resolve) => {
-  bodyElement.addEventListener('mouseup', (e) => {
-    e.preventDefault();
-
-    if (e.button === 0 || e.button === 2) {
-      resolve('Second promise was resolved');
-    }
-  });
-});
-
-const thirdPromise = new Promise((resolve) => {
-  let leftClick = false;
-  let rightClick = false;
-
-  const clickHandler = (e) => {
-    e.preventDefault();
-
-    if (e.button === 0) {
-      leftClick = true;
-    } else if (e.button === 2) {
-      rightClick = true;
-    }
-
-    if (leftClick && rightClick) {
-      resolve('Third promise was resolved');
-    }
-  };
-
-  bodyElement.addEventListener('mouseup', clickHandler);
-});
-
 firstPromise
   .then(message => addMessage('success message--1', message))
   .catch(error => addMessage('error-message', error));
 
-secondPromise
-  .then(message => addMessage('success message--2', message));
+Promise.race([clickPromise, contextMenuPromise])
+  .then(() => addMessage('success message--2', 'Second promise was resolved'));
 
-thirdPromise
-  .then(message => addMessage('success message--3', message));
+Promise.all([clickPromise, contextMenuPromise])
+  .then(() => addMessage('success message--3', 'Third promise was resolved'));
