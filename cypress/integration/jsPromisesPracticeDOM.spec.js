@@ -1,12 +1,9 @@
 'use strict';
 
-Cypress.Commands.add('clickButton', (mouseButton) =>
-  cy.get('body').trigger('mousedown', mouseButton).trigger('mouseup')
-);
-
-Cypress.Commands.add('checkMessageDisplayed', (message) =>
-  cy.get('[data-qa="notification"]').contains(message)
-);
+const page = {
+  notification: () => cy.get('[data-qa=notification]'),
+  body: () => cy.get('body'),
+};
 
 const firstResolvedMsg = 'First promise was resolved';
 const firstRejectedMsg = 'First promise was rejected';
@@ -15,73 +12,134 @@ const thirdResolvedMsg = 'Third promise was resolved';
 
 describe('Promises in DOM', () => {
   beforeEach(() => {
+    cy.clock();
     cy.visit('/');
   });
 
-  it('should resolve first promise on the left click', () => {
-    cy.clickButton({ button: 0 });
-    cy.checkMessageDisplayed(firstResolvedMsg);
-    // NOTE: waiting for reject
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(3000);
-    cy.checkMessageDisplayed(firstRejectedMsg).should('not.exist');
+  describe('firstPromise', () => {
+    it('should be neither resolved nor rejected on page render', () => {
+      page.notification().should('not.include.text', firstResolvedMsg);
+      page.notification().should('not.include.text', firstRejectedMsg);
+    });
+
+    it('should be resolved after the left click', () => {
+      page.body().click();
+
+      page.notification().should('include.text', firstResolvedMsg);
+    });
+
+    it('should be rejected after 3 seconds of inactivity', () => {
+      cy.tick(3000);
+
+      page.notification().should('include.text', firstRejectedMsg);
+    });
+
+    it('should not show reject message if it was already resolved', () => {
+      page.body().click();
+      cy.tick(3000);
+
+      page.notification().should('not.include.text', firstRejectedMsg);
+    });
+
+    it('should be resolved after the left click on 2999 millisecond', () => {
+      cy.tick(2999);
+      page.body().click();
+
+      page.notification().should('include.text', firstResolvedMsg);
+    });
+
+    it('should not be rejected after 2999 milliseconds of inactivity', () => {
+      cy.tick(2999);
+
+      page.notification().should('not.include.text', firstRejectedMsg);
+    });
+
+    it('should not show resolve message if it was already rejected', () => {
+      cy.tick(3000);
+      page.body().click();
+
+      page.notification().should('not.include.text', firstResolvedMsg);
+    });
   });
 
-  it('should resolve first promise on the right click', () => {
-    cy.clickButton({ button: 2 });
-    cy.checkMessageDisplayed(firstResolvedMsg);
+  describe('secondPromise', () => {
+    it('should not be resolved on page render', () => {
+      page.notification().should('not.include.text', secondResolvedMsg);
+    });
+
+    it('should be resolved after the left click', () => {
+      page.body().click();
+
+      page.notification().should('include.text', secondResolvedMsg);
+    });
+
+    it('should be resolved after the right click', () => {
+      page.body().rightclick();
+
+      page.notification().should('include.text', secondResolvedMsg);
+    });
+
+    it('should not be resolved without clicks after delay', () => {
+      cy.tick(100000);
+
+      page.notification().should('not.include.text', secondResolvedMsg);
+    });
   });
 
-  it('should resolve first promise on the middle button click', () => {
-    cy.clickButton({ button: 1 });
-    cy.checkMessageDisplayed(firstResolvedMsg);
-  });
+  describe('thirdPromise', () => {
+    it('should not be resolved on page render', () => {
+      page.notification().should('not.include.text', thirdResolvedMsg);
+    });
 
-  it('should ignore middle button click for the second promise', () => {
-    cy.clickButton({ button: 1 });
-    cy.clickButton({ button: 1 });
-    cy.checkMessageDisplayed(secondResolvedMsg).should('not.exist');
-  });
+    it('should be resolved after the left and right click', () => {
+      page.body().click();
+      page.body().rightclick();
 
-  it('should reject first promise after 3 seconds of inactivity', () => {
-    // NOTE: waiting for reject
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(3000);
-    cy.checkMessageDisplayed(firstRejectedMsg);
-  });
+      page.notification().should('include.text', thirdResolvedMsg);
+    });
 
-  it('should resolve second promise on the right click', () => {
-    cy.clickButton({ button: 2 });
-    cy.checkMessageDisplayed(secondResolvedMsg);
-  });
+    it('should be resolved after the right and left click', () => {
+      page.body().rightclick();
+      page.body().click();
 
-  it('should resolve second promise on the left click', () => {
-    cy.clickButton({ button: 0 });
-    cy.checkMessageDisplayed(secondResolvedMsg);
-  });
+      page.notification().should('include.text', thirdResolvedMsg);
+    });
 
-  it('should resolve third promise', () => {
-    cy.clickButton({ button: 2 });
-    cy.clickButton({ button: 0 });
-    cy.checkMessageDisplayed(thirdResolvedMsg);
-  });
+    it(
+      'should be resolved despite the delay between the left and right click',
+      () => {
+        page.body().click();
+        cy.tick(100000);
+        page.body().rightclick();
 
-  it('should resolve all promises', () => {
-    cy.clickButton({ button: 2 });
-    cy.clickButton({ button: 0 });
-    cy.checkMessageDisplayed(firstResolvedMsg);
-    cy.checkMessageDisplayed(secondResolvedMsg);
-    cy.checkMessageDisplayed(thirdResolvedMsg);
-  });
+        page.notification().should('include.text', thirdResolvedMsg);
+      },
+    );
 
-  it('should reject 1st promise, resolve 2nd and 3rd promises', () => {
-    // NOTE: waiting for reject
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(3000);
-    cy.clickButton({ button: 0 });
-    cy.clickButton({ button: 2 });
-    cy.checkMessageDisplayed(firstRejectedMsg);
-    cy.checkMessageDisplayed(secondResolvedMsg);
-    cy.checkMessageDisplayed(thirdResolvedMsg);
+    it('should not be resolved after the left click only', () => {
+      page.body().click();
+
+      page.notification().should('not.include.text', thirdResolvedMsg);
+    });
+
+    it('should not be resolved after the right click only', () => {
+      page.body().rightclick();
+
+      page.notification().should('not.include.text', thirdResolvedMsg);
+    });
+
+    it('should not be resolved without clicks after delay', () => {
+      cy.tick(100000);
+
+      page.notification().should('not.include.text', thirdResolvedMsg);
+    });
+
+    it('should not be resolved after several left clicks', () => {
+      page.body().click();
+      page.body().click();
+      page.body().click();
+
+      page.notification().should('not.include.text', thirdResolvedMsg);
+    });
   });
 });
