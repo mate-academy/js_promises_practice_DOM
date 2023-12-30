@@ -2,7 +2,7 @@
 
 const taskBlock = document.createElement('div');
 
-taskBlock.setAttribute('data-qa = "notification"');
+taskBlock.setAttribute('data-qa', 'notification');
 document.body.appendChild(taskBlock);
 
 const firstPromise = new Promise(function(resolve, reject) {
