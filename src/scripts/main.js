@@ -1,17 +1,25 @@
+/* eslint-disable no-console */
 'use strict';
 
 const logo = document.getElementById('logo');
 
+//
+
 const firstPromise = new Promise((resolve, reject) => {
+  let leftClick = false;
+
   logo.addEventListener('mousedown', (click) => {
     if (click.button === 0) {
+      leftClick = true;
       resolve('First promise was resolved');
     }
-
-    setTimeout(() => {
-      reject(new Error('First promise was rejected'));
-    }, 3000);
   });
+
+  setTimeout(() => {
+    if (!leftClick) {
+      reject(new Error(console.log('First promise was rejected')));
+    }
+  }, 3000);
 });
 
 const secondPromise = new Promise((resolve, reject) => {
