@@ -12,40 +12,33 @@ const errorHandler = (message) => {
     `<div class="warning" data-qa="notification">${message}</div>`);
 };
 
-const promise1 = new Promise((resolve, reject) => {
+const firstPromise = new Promise((resolve, reject) => {
   body.addEventListener('click', () => resolve('First promise was resolved'));
   setTimeout(() => reject(new Error('First promise was rejected')), 3000);
 });
 
-const promise2 = new Promise((resolve, reject) => {
-  body.addEventListener('click', () => resolve((
-    'Second promise was resolved')));
-
-  body.addEventListener('contextmenu', () => resolve((
-    'Second promise was resolved')));
-});
-
-const promise3 = new Promise((resolve, reject) => {
-  let leftClick = false;
-  let rightClick = false;
-
+const clickPromise = new Promise(resolve => {
   body.addEventListener('click', () => {
-    leftClick = true;
-
-    if (leftClick && rightClick) {
-      resolve('Third promise was resolved');
-    }
-  });
-
-  body.addEventListener('contextmenu', () => {
-    rightClick = true;
-
-    if (leftClick && rightClick) {
-      resolve('Third promise was resolved');
-    }
+    resolve();
   });
 });
 
-promise1.then(successHandler, errorHandler);
-promise2.then(successHandler, errorHandler);
-promise3.then(successHandler, errorHandler);
+const contextMenuPromise = new Promise(resolve => {
+  body.addEventListener('contextmenu', () => {
+    resolve();
+  });
+});
+
+const secondPromise = new Promise((resolve, reject) => {
+  Promise.race([clickPromise, contextMenuPromise])
+    .then((value) => resolve('Second promise was resolved'));
+});
+
+const thirdPromise = new Promise(resolve => {
+  Promise.all([clickPromise, contextMenuPromise])
+    .then((value) => resolve('Third promise was resolved'));
+});
+
+firstPromise.then(successHandler, errorHandler);
+secondPromise.then(successHandler, errorHandler);
+thirdPromise.then(successHandler, errorHandler);
