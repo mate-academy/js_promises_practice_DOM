@@ -1,23 +1,14 @@
 'use strict';
 
-const success = (message) => {
+const successClass = 'success';
+const errClass = 'error';
+
+const showNotification = (message, className) => {
   const el = document.createElement('div');
 
   el.setAttribute('data-qa', 'notification');
 
-  el.classList.add('success');
-
-  el.textContent = message;
-
-  document.body.append(el);
-};
-
-const error = (message) => {
-  const el = document.createElement('div');
-
-  el.setAttribute('data-qa', 'notification');
-
-  el.classList.add('warning');
+  el.classList.add(className);
 
   el.textContent = message;
 
@@ -62,24 +53,24 @@ const promise3 = new Promise((resolve, reject) => {
 
 promise1
   .then(result => {
-    success(result);
+    showNotification(result, successClass);
   })
   .catch(result => {
-    error(result);
+    showNotification(result, errClass);
   });
 
 promise2
   .then(result => {
-    success(result);
+    showNotification(result, successClass);
   })
   .catch(result => {
-    error(result);
+    showNotification(result, errClass);
   });
 
 promise3
   .then(result => {
-    success(result);
+    showNotification(result, successClass);
   })
   .catch(result => {
-    error(result);
+    showNotification(result, errClass);
   });
