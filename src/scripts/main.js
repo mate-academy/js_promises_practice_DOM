@@ -24,17 +24,6 @@ const error = (message) => {
   document.body.append(el);
 };
 
-// let leftClick = false;
-// let rightClick = false;
-
-// document.addEventListener('click', () => {
-//   leftClick = true;
-// });
-
-// document.addEventListener('contextmenu', () => {
-//   rightClick = true;
-// });
-
 const body = document.querySelector('body');
 
 const promise1 = new Promise((resolve, reject) => {
