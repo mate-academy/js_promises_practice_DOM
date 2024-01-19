@@ -32,7 +32,9 @@ const promise1 = new Promise((resolve, reject) => {
   });
 
   setTimeout(() => {
-    reject('First promise was rejected');
+    const err = new Error('err reason');
+
+    reject(err);
   }, 3000);
 });
 
