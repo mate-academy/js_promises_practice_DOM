@@ -18,8 +18,8 @@ describe('Promises in DOM', () => {
 
   describe('firstPromise', () => {
     it('should be neither resolved nor rejected on page render', () => {
-      page.notification().should('not.include.text', firstResolvedMsg);
-      page.notification().should('not.include.text', firstRejectedMsg);
+      page.notification().should('not.exist');
+      page.notification().should('not.exist');
     });
 
     it('should be resolved after the left click', () => {
@@ -51,7 +51,7 @@ describe('Promises in DOM', () => {
     it('should not be rejected after 2999 milliseconds of inactivity', () => {
       cy.tick(2999);
 
-      page.notification().should('not.include.text', firstRejectedMsg);
+      page.notification().should('not.exist');
     });
 
     it('should not show resolve message if it was already rejected', () => {
@@ -64,7 +64,7 @@ describe('Promises in DOM', () => {
 
   describe('secondPromise', () => {
     it('should not be resolved on page render', () => {
-      page.notification().should('not.include.text', secondResolvedMsg);
+      page.notification().should('not.exist');
     });
 
     it('should be resolved after the left click', () => {
@@ -88,7 +88,7 @@ describe('Promises in DOM', () => {
 
   describe('thirdPromise', () => {
     it('should not be resolved on page render', () => {
-      page.notification().should('not.include.text', thirdResolvedMsg);
+      page.notification().should('not.exist');
     });
 
     it('should be resolved after the left and right click', () => {
