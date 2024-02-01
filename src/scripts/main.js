@@ -34,7 +34,7 @@ const thirdPromise = new Promise((resolve, reject) => {
     }
 
     if (leftClick && rightClick) {
-      resolve('Third promise was resolve');
+      resolve('Third promise was resolved');
     }
   });
 });
