@@ -60,3 +60,5 @@ secondPromise
 
 thirdPromise
   .then(() => createMessage(`Third promise was resolved`, 'success'));
+
+// comment for another commit to check GitHub
