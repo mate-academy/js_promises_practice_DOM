@@ -36,43 +36,39 @@ const thirdPromise = Promise.all([
   }),
 ]);
 
+function createSuccessNotification(message) {
+  const div = document.createElement('div');
+
+  div.setAttribute('data-qa', 'notification');
+  div.classList = 'success';
+  div.textContent = message;
+
+  body.append(div);
+}
+
+function createErrorNotification(message) {
+  const div = document.createElement('div');
+
+  div.setAttribute('data-qa', 'notification');
+  div.classList = 'error';
+  div.textContent = message;
+
+  body.append(div);
+}
+
 firstPromise
   .then((resolve) => {
-    const div = document.createElement('div');
-
-    div.setAttribute('data-qa', 'notification');
-    div.classList = 'success';
-    div.textContent = resolve;
-
-    body.append(div);
+    createSuccessNotification(resolve);
   }).catch((reject) => {
-    const div = document.createElement('div');
-
-    div.setAttribute('data-qa', 'notification');
-    div.classList = 'error';
-    div.textContent = reject;
-
-    body.append(div);
+    createErrorNotification(reject);
   });
 
 secondPromise
   .then((resolve) => {
-    const div = document.createElement('div');
-
-    div.setAttribute('data-qa', 'notification');
-    div.classList = 'success';
-    div.textContent = resolve;
-
-    body.append(div);
+    createSuccessNotification(resolve);
   });
 
 thirdPromise
   .then(() => {
-    const div = document.createElement('div');
-
-    div.setAttribute('data-qa', 'notification');
-    div.classList = 'success';
-    div.textContent = 'Third promise was resolved';
-
-    body.append(div);
+    createSuccessNotification('Third promise was resolved');
   });
