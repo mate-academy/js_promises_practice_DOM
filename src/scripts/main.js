@@ -3,7 +3,7 @@
 
 const notificationDiv = document.querySelector('[data-qa="notification"]');
 // Obsługa sukcesu dla wszystkich obietnic.
-// Deklaruje funkcję successHandler, która przyjmuje wiadomość jako argument.
+// Deklaruje funkcję successHandler, która przyjmuje wiadomość jako argument
 const successHandler = (message) =>
 {
   const notification = document.createElement('div');
