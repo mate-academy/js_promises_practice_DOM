@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function checkBothClicks() {
       if (leftClick && rightClick) {
-        resolve('Both left and right clicks happened');
+        resolve('Third promise was resolved');
         document.removeEventListener('click', handleLeftClick);
         document.removeEventListener('contextmenu', handleRightClick);
       }
