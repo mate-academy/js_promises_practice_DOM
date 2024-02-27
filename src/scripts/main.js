@@ -1,5 +1,25 @@
 'use strict';
 
+const SUCCES_MESSAGE = 'promise was resolved';
+const ERROR_MESSAGE = 'promise was rejected';
+
+function getPrefixFromNumber(number) {
+  switch (number) {
+    case 1: return 'First';
+    case 2: return 'Second';
+    case 3: return 'Third';
+    default: return '';
+  }
+}
+
+function getSuccesMessage(promiseNumber) {
+  return `${getPrefixFromNumber(promiseNumber)} ${SUCCES_MESSAGE}`;
+}
+
+function getErrorMessage(promiseNumber) {
+  return `${getPrefixFromNumber(promiseNumber)} ${ERROR_MESSAGE}`;
+}
+
 function appendElement(cssClass, message) {
   const element = document.createElement('DIV');
 
@@ -22,16 +42,14 @@ function errorHandler(message) {
 }
 
 const firstPromise = () => {
-  const SUCCES_MESSAGE = 'First promise was resolved';
-  const ERROR_MESSAGE = 'First promise was rejected';
-
+  const promiseNumber = 1;
   const resolver = (resolve, reject) => {
     document.addEventListener('click', () => {
-      resolve(SUCCES_MESSAGE);
+      resolve(getSuccesMessage(promiseNumber));
     });
 
     setTimeout(() => {
-      reject(ERROR_MESSAGE);
+      reject(getErrorMessage(promiseNumber));
     }, 3000);
   };
 
@@ -39,13 +57,12 @@ const firstPromise = () => {
 };
 
 const secondPromise = () => {
-  const SUCCES_MESSAGE = 'Second promise was resolved';
-
+  const promiseNumber = 2;
   const resolver = resolve => {
     document.addEventListener('mouseup', e => {
       switch (e.button) {
         case 0: case 2:
-          resolve(SUCCES_MESSAGE);
+          resolve(getSuccesMessage(promiseNumber));
       }
     });
   };
@@ -54,7 +71,7 @@ const secondPromise = () => {
 };
 
 const thirdPromise = () => {
-  const SUCCES_MESSAGE = 'Third promise was resolved';
+  const promiseNumber = 3;
   let isLeftClick = false;
   let isRightClick = false;
 
@@ -66,7 +83,7 @@ const thirdPromise = () => {
       }
 
       if (isLeftClick && isRightClick) {
-        resolve(SUCCES_MESSAGE);
+        resolve(getSuccesMessage(promiseNumber));
       }
     });
   };
