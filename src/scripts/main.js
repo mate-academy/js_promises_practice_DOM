@@ -50,24 +50,23 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   const thirdPromise = new Promise((resolve) => {
-    let leftClick = false;
-    let rightClick = false;
+    let leftClickElement = null;
+    let rightClickElement = null;
 
-    function handleLeftClick() {
-      leftClick = true;
+    function handleLeftClick(cli) {
+      leftClickElement = cli.target;
       checkBothClicks();
     }
 
-    function handleRightClick(events) {
-      if (events.type === 'contextmenu') {
-        events.preventDefault();
-        rightClick = true;
-        checkBothClicks();
-      }
+    function handleRightClick(cli) {
+      cli.preventDefault();
+      rightClickElement = cli.target;
+      checkBothClicks();
     }
 
     function checkBothClicks() {
-      if (leftClick && rightClick) {
+      if (leftClickElement && rightClickElement
+        && leftClickElement !== rightClickElement) {
         resolve('Third promise was resolved');
         document.removeEventListener('click', handleLeftClick);
         document.removeEventListener('contextmenu', handleRightClick);
