@@ -23,7 +23,7 @@ body {
   justify-content: center;
 }
 
-[data-qa="notification"] {
+[data-qa='notification'] {
   position: fixed;
   top: 20px;
   right: 20px;
@@ -31,14 +31,14 @@ body {
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out;
-  color: #FFF;
+  color: #fff;
 }
 
-[data-qa="notification"] + [data-qa="notification"] {
+[data-qa='notification'] + [data-qa='notification'] {
   margin-top: 50px;
 }
 
-[data-qa="notification"] + [data-qa="notification"] + [data-qa="notification"] {
+[data-qa='notification'] + [data-qa='notification'] + [data-qa='notification'] {
   margin-top: 100px;
 }
 
