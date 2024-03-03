@@ -11,7 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const secondPromise = new Promise((resolve) => {
-    const onClick = () => {
+    const onClick = (e) => {
+      e.preventDefault();
       resolve('Second promise was resolved');
     };
 
@@ -41,15 +42,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  const addNotification = (type, data) => {
+    const notification = `<div data-qa="notification" class="${type}">${data}</div>`;
+
+    document.body.insertAdjacentHTML('afterbegin', notification);
+  };
+
   firstPromise
-    .then((data) => console.log(data))
-    .catch((error) => console.log(error));
+    .then((data) => addNotification('success', data))
+    .catch((error) => addNotification('error', error));
 
   secondPromise
-    .then((data) => console.log(data))
-    .catch((error) => console.log(error));
+    .then((data) => addNotification('success', data))
+    .catch((error) => addNotification('error', error));
 
   thirdPromise
-    .then((data) => console.log(data))
-    .catch((error) => console.log(error));
+    .then((data) => addNotification('success', data))
+    .catch((error) => addNotification('error', error));
 });
