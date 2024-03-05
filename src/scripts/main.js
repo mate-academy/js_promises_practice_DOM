@@ -1,6 +1,18 @@
 /* eslint-disable no-console */
 'use strict';
 
+const clickPromise = new Promise((resolve) => {
+  document.addEventListener('click', () => {
+    resolve();
+  });
+});
+
+const contextMenuPromise = new Promise((resolve) => {
+  document.addEventListener('contextmenu', () => {
+    resolve();
+  });
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   const firstPromise = new Promise((resolve, reject) => {
     document.addEventListener('click', () => {
@@ -11,34 +23,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const secondPromise = new Promise((resolve) => {
-    const onClick = (e) => {
-      e.preventDefault();
+    Promise.race([clickPromise, contextMenuPromise]).then(() => {
       resolve('Second promise was resolved');
-    };
-
-    document.addEventListener('mousedown', onClick);
+    });
   });
 
   const thirdPromise = new Promise((resolve) => {
-    let leftClicked = false;
-    let rightClicked = false;
-
-    document.addEventListener('mousedown', ({ which }) => {
-      if (which === 1) {
-        leftClicked = true;
-
-        if (rightClicked) {
-          resolve('Third promise was resolved');
-        }
-      }
-
-      if (which === 3) {
-        rightClicked = true;
-
-        if (leftClicked) {
-          resolve('Third promise was resolved');
-        }
-      }
+    Promise.all([clickPromise, contextMenuPromise]).then(() => {
+      resolve('Third promise was resolved');
     });
   });
 
