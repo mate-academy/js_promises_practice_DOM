@@ -23,17 +23,18 @@ notification.setAttribute('data-qa', 'notification');
 notification.style.padding = '15px';
 notification.style.background = 'yellow';
 
-firstPromise.then(result => {
-  notification.innerHTML = result;
-  document.body.appendChild(notification);
-})
-  .catch(reject => {
+firstPromise
+  .then((result) => {
+    notification.innerHTML = result;
+    document.body.appendChild(notification);
+  })
+  .catch((reject) => {
     notification.innerHTML = reject;
     document.body.appendChild(notification);
   });
 
-const secondPromise = new Promise(resolve => {
-  document.addEventListener('mousedown', e => {
+const secondPromise = new Promise((resolve) => {
+  document.addEventListener('mousedown', (e) => {
     if (e.button === 0 || e.button === 2) {
       resolve('Second promise was resolved');
     }
@@ -46,12 +47,12 @@ secondNotification.setAttribute('data-qa', 'notification');
 secondNotification.style.padding = '15px';
 secondNotification.style.background = 'green';
 
-secondPromise.then(result => {
+secondPromise.then((result) => {
   secondNotification.innerHTML = result;
   document.body.appendChild(secondNotification);
 });
 
-const thirdPromise = new Promise(resolve => {
+const thirdPromise = new Promise((resolve) => {
   const buttonPressed = {
     left: false,
     right: false,
@@ -63,7 +64,7 @@ const thirdPromise = new Promise(resolve => {
     }
   };
 
-  document.addEventListener('mousedown', e => {
+  document.addEventListener('mousedown', (e) => {
     if (e.button === 0) {
       buttonPressed.left = true;
       checkButtons();
@@ -80,8 +81,7 @@ thirdNotification.setAttribute('data-qa', 'notification');
 thirdNotification.style.padding = '15px';
 thirdNotification.style.background = 'red';
 
-thirdPromise.then(result => {
+thirdPromise.then((result) => {
   thirdNotification.innerHTML = result;
   document.body.appendChild(thirdNotification);
-},
-);
+});
