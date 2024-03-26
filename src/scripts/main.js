@@ -1,7 +1,7 @@
 'use strict';
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('mouseup', (mouseEvent) => {
+  document.addEventListener('mousedown', (mouseEvent) => {
     if (mouseEvent.button === 0) {
       resolve('First promise was resolved');
     }
@@ -13,7 +13,7 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 const secondPromise = new Promise((resolve, reject) => {
-  document.addEventListener('mouseup', (mouseEvent) => {
+  document.addEventListener('mousedown', (mouseEvent) => {
     if (mouseEvent.button === 0 || mouseEvent.button === 2) {
       resolve('Second promise was resolved');
     }
@@ -24,7 +24,7 @@ const thirdPromise = new Promise((resolve, reject) => {
   let leftClicked = false;
   let rightClicked = false;
 
-  document.addEventListener('mouseup', (mouseEvent) => {
+  document.addEventListener('mousedown', (mouseEvent) => {
     if (mouseEvent.button === 0) {
       leftClicked = true;
     } else if (mouseEvent.button === 2) {
