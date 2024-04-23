@@ -53,3 +53,4 @@ firstPromise
 secondPromise.then((result) => createMesage(result, 'success'));
 
 thirdPromise.then((result) => createMesage(result, 'success'));
+
