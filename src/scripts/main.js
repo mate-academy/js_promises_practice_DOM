@@ -35,7 +35,7 @@ const thirdPromise = new Promise((resolve) => {
   document.addEventListener('click', () => {
     leftCounter++;
 
-    if (leftCounter > 0 && rightCounter > 0) {
+    if (leftCounter && rightCounter) {
       resolve();
     }
   });
@@ -43,16 +43,18 @@ const thirdPromise = new Promise((resolve) => {
   document.addEventListener('contextmenu', () => {
     rightCounter++;
 
-    if (leftCounter > 0 && rightCounter > 0) {
+    if (leftCounter && rightCounter) {
       resolve();
     }
   });
 });
 
-firstPromise.then(() => createMessage('First promise was resolved', 'success'));
-firstPromise.catch(() => createMessage('First promise was rejected', 'error'));
+firstPromise
+  .then(() => createMessage('First promise was resolved', 'success'))
+  .catch(() => createMessage('First promise was rejected', 'error'));
 
 secondPromise.then(() =>
   // eslint-disable-next-line prettier/prettier
   createMessage(`Second promise was resolved`, 'success'));
+
 thirdPromise.then(() => createMessage('Third promise was resolved', 'success'));
