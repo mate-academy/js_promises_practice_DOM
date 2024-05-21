@@ -22,7 +22,7 @@ const pushNotification = (message, type) => {
 };
 
 const firstPromise = new Promise((resolve, reject) => {
-  let clicked = null;
+  let clicked = false;
   const timeoutId = setTimeout(() => {
     if (!clicked) {
       reject(new Error('First promise was rejected'));
