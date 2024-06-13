@@ -3,7 +3,7 @@
 const handleResult = (message, newClass) => {
   const div = document.createElement('div');
 
-  div.dataset.qa = 'notification';
+  div.setAttribute('data-qa', 'notification');
 
   div.classList.add(newClass);
   div.innerHTML = message;
