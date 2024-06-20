@@ -1,13 +1,15 @@
 'use strict';
 
+'use strict';
+
 const body = document.querySelector('body');
 
-let clickRight = 0;
-let clickLeft = 0;
+let leftClickOccurred = false;
+let rightClickOccurred = false;
 
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
-    clickLeft++;
+    leftClickOccurred = true;
     resolve();
   });
 
@@ -18,21 +20,20 @@ const firstPromise = new Promise((resolve, reject) => {
 
 const secondPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
-    clickLeft++;
+    leftClickOccurred = true;
     resolve();
   });
 
   document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
-    clickRight++;
-
+    rightClickOccurred = true;
     resolve();
   });
 });
 
 const thirdPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
-    if (clickRight > 0 && clickLeft > 0) {
+    if (rightClickOccurred && leftClickOccurred) {
       resolve();
     }
   });
@@ -40,7 +41,7 @@ const thirdPromise = new Promise((resolve, reject) => {
   document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
 
-    if (clickRight > 0 && clickLeft > 0) {
+    if (rightClickOccurred && leftClickOccurred) {
       resolve();
     }
   });
@@ -48,60 +49,35 @@ const thirdPromise = new Promise((resolve, reject) => {
 
 firstPromise
   .then(() => {
-    body.appendChild(createfirstPromiseResolve());
+    body.appendChild(
+      createMessageElement('First promise was resolved', 'success'),
+    );
   })
   .catch(() => {
-    body.appendChild(createfirstPromiseReject());
+    body.appendChild(
+      createMessageElement('First promise was rejected', 'error'),
+    );
   });
 
 secondPromise.then(() => {
-  body.appendChild(createsecondPromiseResolve());
+  body.appendChild(
+    createMessageElement('Second promise was resolved', 'success'),
+  );
 });
 
 thirdPromise.then(() => {
-  body.appendChild(createthirdPromiseResolve());
+  body.appendChild(
+    createMessageElement('Third promise was resolved', 'success'),
+  );
 });
 
-function createfirstPromiseResolve() {
+function createMessageElement(message, type) {
   const el = document.createElement('div');
 
   el.setAttribute('data-qa', 'notification');
   el.classList.add('message');
-  el.classList.add('success');
-  el.textContent = 'First promise was resolved';
-
-  return el;
-}
-
-function createfirstPromiseReject() {
-  const el = document.createElement('div');
-
-  el.setAttribute('data-qa', 'notification');
-  el.classList.add('message');
-  el.classList.add('error');
-  el.textContent = 'First promise was rejected';
-
-  return el;
-}
-
-function createsecondPromiseResolve() {
-  const el = document.createElement('div');
-
-  el.setAttribute('data-qa', 'notification');
-  el.classList.add('message');
-  el.classList.add('success');
-  el.textContent = 'Second promise was resolved';
-
-  return el;
-}
-
-function createthirdPromiseResolve() {
-  const el = document.createElement('div');
-
-  el.setAttribute('data-qa', 'notification');
-  el.classList.add('message');
-  el.classList.add('success');
-  el.textContent = 'Third promise was resolved';
+  el.classList.add(type);
+  el.textContent = message;
 
   return el;
 }
