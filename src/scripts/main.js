@@ -17,7 +17,7 @@ const promise1 = new Promise((resolve, reject) => {
 
   document.addEventListener('click', () => {
     clearTimeout(timeout);
-    resolve('Frirst promise was resolved');
+    resolve('First promise was resolved');
   });
 });
 
