@@ -1,6 +1,11 @@
 'use strict';
 
-const body = document.body;
+function insertHTML(message) {
+  document.body.insertAdjacentHTML(
+    'beforeend',
+    `<div data-qa="notification" class="success">${message}</div>`,
+  );
+}
 
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
@@ -44,28 +49,16 @@ const thirdPromise = Promise.all([leftClickPromise, rightClickPromise]).then(
 
 firstPromise
   .then((result) => {
-    body.insertAdjacentHTML(
-      'beforeend',
-      `<div data-qa="notification" class="success">${result}</div>`,
-    );
+    insertHTML(result);
   })
   .catch((error) => {
-    body.insertAdjacentHTML(
-      'beforeend',
-      `<div data-qa="notification" class="error">${error}</div>`,
-    );
+    insertHTML(error);
   });
 
 secondPromise.then((result) => {
-  body.insertAdjacentHTML(
-    'beforeend',
-    `<div data-qa="notification" class="success">${result}</div>`,
-  );
+  insertHTML(result);
 });
 
 thirdPromise.then((result) => {
-  body.insertAdjacentHTML(
-    'beforeend',
-    `<div data-qa="notification" class="success">${result}</div>`,
-  );
+  insertHTML(result);
 });
