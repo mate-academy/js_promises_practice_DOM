@@ -1,17 +1,13 @@
 'use strict';
 
 const body = document.querySelector('body');
-const div = document.createElement('div');
 let leftClickHappened = false;
 let rightClickHappened = false;
-
-div.setAttribute('data-qa', 'notification');
-body.appendChild(div);
 
 const showNotification = (message, type) => {
   const notification = document.createElement('div');
 
-  notification.className = type;
+  notification.classList.add(type);
   notification.setAttribute('data-qa', 'notification');
   notification.textContent = message;
   body.appendChild(notification);
