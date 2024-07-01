@@ -30,6 +30,7 @@ const secondPromise = async () => {
   try {
     divSecond.classList.add('success');
     divSecond.textContent = 'Second promise was resolved';
+  } finally {
     divSecond.setAttribute('data-qa', 'notification');
     body.appendChild(divSecond);
   }
@@ -37,14 +38,14 @@ const secondPromise = async () => {
 
 const thirdPromise = async () => {
   try {
-   if (leftClick && rightClick) {
-    divThird.classList.add('success');
-    divThird.textContent = 'Third promise was resolved';
+    if (leftClick && rightClick) {
+      divThird.classList.add('success');
+      divThird.textContent = 'Third promise was resolved';
 
-    return;
-   }
+      return;
+    }
 
-   throw new Error();
+    throw new Error();
   } catch {
     divThird.classList.add('error');
     divThird.textContent = 'Third promise was rejected';
@@ -52,7 +53,7 @@ const thirdPromise = async () => {
     divThird.setAttribute('data-qa', 'notification');
     body.appendChild(divThird);
   }
-}
+};
 
 setTimeout(() => {
   firstPromise();
@@ -69,4 +70,4 @@ document.addEventListener('contextmenu', () => {
 
   secondPromise();
   thirdPromise();
-})
+});
