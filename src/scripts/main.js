@@ -1,21 +1,11 @@
 'use strict';
-'use strict';
 
-const handleSuccess = (message) => {
+const createNotification = (message, isSuccess) => {
   const div = document.createElement('div');
 
   div.setAttribute('data-qa', 'notification');
-  div.classList.add('success');
-  div.textContent = `${message} promise was resolved`;
-  document.body.appendChild(div);
-};
-
-const handleError = (message) => {
-  const div = document.createElement('div');
-
-  div.setAttribute('data-qa', 'notification');
-  div.classList.add('error');
-  div.textContent = `${message} promise was rejected`;
+  div.classList.add(isSuccess ? 'success' : 'error');
+  div.textContent = `${message} promise was ${isSuccess ? 'resolved' : 'rejected'}`;
   document.body.appendChild(div);
 };
 
@@ -70,13 +60,13 @@ const thirdPromise = new Promise((resolve, reject) => {
 });
 
 firstPromise
-  .then(() => handleSuccess('First'))
-  .catch(() => handleError('First'));
+  .then(() => createNotification('First', true))
+  .catch(() => createNotification('First', false));
 
 secondPromise
-  .then(() => handleSuccess('Second'))
-  .catch(() => handleError('Second'));
+  .then(() => createNotification('Second', true))
+  .catch(() => createNotification('Second', false));
 
 thirdPromise
-  .then(() => handleSuccess('Third'))
-  .catch(() => handleError('Third'));
+  .then(() => createNotification('Third', true))
+  .catch(() => createNotification('Third', false));
