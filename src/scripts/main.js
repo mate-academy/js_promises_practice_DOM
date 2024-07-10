@@ -1,5 +1,8 @@
 'use strict';
 
+const SUCCESS = 'success';
+const ERROR = 'error';
+
 const createMessageElement = () => {
   const message = document.createElement('div');
 
@@ -7,6 +10,12 @@ const createMessageElement = () => {
 
   return message;
 };
+
+function updateMessage(element, value, text) {
+  element.classList.add(value);
+  element.innerText = text;
+  document.body.append(element);
+}
 
 // First promise
 const firstMessage = createMessageElement();
@@ -32,16 +41,10 @@ const firstPromise = new Promise((resolve, reject) => {
 
 firstPromise
   .then((resolvedValue) => {
-    firstMessage.classList.add('success');
-    firstMessage.innerText = resolvedValue;
-
-    document.body.append(firstMessage);
+    updateMessage(firstMessage, SUCCESS, resolvedValue);
   })
   .catch((rejectedValue) => {
-    firstMessage.classList.add('error');
-    firstMessage.innerText = rejectedValue;
-
-    document.body.append(firstMessage);
+    updateMessage(firstMessage, ERROR, rejectedValue);
   });
 
 // Second promise
@@ -58,9 +61,7 @@ const secondPromise = new Promise((resolve, reject) => {
 });
 
 secondPromise.then((resolvedValue) => {
-  secondMessage.classList.add('success');
-  secondMessage.innerText = resolvedValue;
-  document.body.append(secondMessage);
+  updateMessage(secondMessage, SUCCESS, resolvedValue);
 });
 
 // Third promise
@@ -92,7 +93,5 @@ const thirdPromise = new Promise((resolve, reject) => {
 });
 
 thirdPromise.then((resolvedValue) => {
-  thirdMessage.classList.add('success');
-  thirdMessage.innerText = resolvedValue;
-  document.body.append(thirdMessage);
+  updateMessage(thirdMessage, SUCCESS, resolvedValue);
 });
