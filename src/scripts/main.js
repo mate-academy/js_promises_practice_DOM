@@ -30,13 +30,20 @@ firstPromise
   .then((result) => {
     document.body.insertAdjacentHTML(
       'beforeend',
-      '<div data-qa="notification" class="success">First Promise resolved</div>',
+      `<div data-qa="notification" class="success">
+      First promise was resolved
+      </div>`,
     );
   })
   .catch((err) => {
+    if (err) {
+    }
+
     document.body.insertAdjacentHTML(
       'beforeend',
-      `<div data-qa="notification" class="error">First Promise rejected</div>`,
+      `<div data-qa="notification" class="error">
+      First promise was rejected
+      </div>`,
     );
   });
 
@@ -44,13 +51,20 @@ secondPromise
   .then((result) => {
     document.body.insertAdjacentHTML(
       'beforeend',
-      '<div data-qa="notification" class="success">Second Promise resolved</div>',
+      `<div data-qa="notification" class="success">
+      Second promise was resolved
+      </div>`,
     );
   })
   .catch((err) => {
+    if (err) {
+    }
+
     document.body.insertAdjacentHTML(
       'beforeend',
-      `<div data-qa="notification" class="error">Second Promise rejected</div>`,
+      `<div data-qa="notification" class="error">
+      Second promise was rejected
+      </div>`,
     );
   });
 
@@ -58,12 +72,19 @@ thirdPromise
   .then((result) => {
     document.body.insertAdjacentHTML(
       'beforeend',
-      '<div data-qa="notification" class="success">Third Promise resolved</div>',
+      `<div data-qa="notification" class="success">
+      Third promise was resolved
+      </div>`,
     );
   })
   .catch((err) => {
+    if (err) {
+    }
+
     document.body.insertAdjacentHTML(
       'beforeend',
-      `<div data-qa="notification" class="error">Third Promise rejected</div>`,
+      `<div data-qa="notification" class="error">
+      Third promise was rejected
+      </div>`,
     );
   });
