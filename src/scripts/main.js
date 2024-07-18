@@ -1,20 +1,10 @@
 'use strict';
 
-const handleSuccess = (message) => {
+const handleErrorOrSuccess = (message, type) => {
   const divElement = document.createElement('div');
 
   divElement.dataset.qa = 'notification';
-  divElement.classList.add('success');
-  divElement.textContent = message;
-
-  document.body.append(divElement);
-};
-
-const handleError = (message) => {
-  const divElement = document.createElement('div');
-
-  divElement.dataset.qa = 'notification';
-  divElement.classList.add('error');
+  divElement.classList.add(type);
   divElement.textContent = message;
 
   document.body.append(divElement);
@@ -69,6 +59,9 @@ const thirdPromise = new Promise((resolve, reject) => {
   });
 });
 
-firstPromise.then(handleSuccess).catch((value) => handleError(value.message));
-secondPromise.then(handleSuccess);
-thirdPromise.then(handleSuccess);
+firstPromise
+  .then((value) => handleErrorOrSuccess(value, 'success'))
+  .catch((value) => handleErrorOrSuccess(value.message, 'error'));
+
+secondPromise.then((value) => handleErrorOrSuccess(value, 'success'));
+thirdPromise.then((value) => handleErrorOrSuccess(value, 'success'));
