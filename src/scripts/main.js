@@ -1,20 +1,10 @@
 'use strict';
 
-function notifyAboutSuccess(message) {
+function sendNotification(message, hasError = false) {
   const handler = document.createElement('div');
 
   handler.setAttribute('data-qa', 'notification');
-  handler.classList.add('success');
-  handler.textContent = message;
-
-  document.body.appendChild(handler);
-}
-
-function notifyAboutError(message) {
-  const handler = document.createElement('div');
-
-  handler.setAttribute('data-qa', 'notification');
-  handler.classList.add('error');
+  handler.classList.add(hasError ? 'error' : 'success');
   handler.textContent = message;
 
   document.body.appendChild(handler);
@@ -66,13 +56,13 @@ const thirdPromise = new Promise((resolve) => {
 });
 
 firstPromise
-  .then(notifyAboutSuccess)
-  .catch((error) => notifyAboutError(error.message));
+  .then(sendNotification)
+  .catch((error) => sendNotification(error.message, true));
 
 secondPromise
-  .then(notifyAboutSuccess)
-  .catch((error) => notifyAboutError(error.message));
+  .then(sendNotification)
+  .catch((error) => sendNotification(error.message, true));
 
 thirdPromise
-  .then(notifyAboutSuccess)
-  .catch((error) => notifyAboutError(error.message));
+  .then(sendNotification)
+  .catch((error) => sendNotification(error.message, true));
