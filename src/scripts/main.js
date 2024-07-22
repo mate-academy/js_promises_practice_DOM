@@ -1,25 +1,7 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const body = document.body;
-
-  const handleSuccess = (message) => {
-    const successDiv = document.createElement('div');
-
-    successDiv.className = 'message success';
-    successDiv.textContent = message;
-    successDiv.setAttribute('data-qa', 'notification');
-    body.appendChild(successDiv);
-  };
-
-  const handleError = (error) => {
-    const errorDiv = document.createElement('div');
-
-    errorDiv.className = 'message error';
-    errorDiv.textContent = error.message;
-    errorDiv.setAttribute('data-qa', 'notification');
-    body.appendChild(errorDiv);
-  };
+  let leftClicked = false;
 
   const firstPromise = new Promise((resolve, reject) => {
     document.addEventListener('click', (e) => {
@@ -35,27 +17,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const secondPromise = new Promise((resolve) => {
     document.addEventListener('click', (e) => {
-      const middle = window.innerWidth / 2;
-
-      if (e.clientX < middle || e.clientX > middle) {
+      if (e.clientX < window.innerWidth / 2) {
+        leftClicked = true;
         resolve('Second promise was resolved');
       }
-    });
-  });
-
-  let leftClicked = false;
-
-  document.addEventListener('click', (e) => {
-    if (e.clientX < window.innerWidth / 2) {
-      leftClicked = true;
-    } else if (e.clientX > window.innerWidth / 2 && leftClicked) {
-      thirdPromise.resolve('Third promise was resolved');
-    }
+    }, { once: true });
   });
 
   const thirdPromise = new Promise((resolve) => {
-    thirdPromise.resolve = resolve;
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      if (leftClicked && e.clientX > window.innerWidth / 2) {
+        resolve('Third promise was resolved');
+      }
+    }, { once: true });
   });
+
+  const handleSuccess = (message) => {
+    const notification = document.createElement('div');
+    notification.className = 'message success';
+    notification.setAttribute('data-qa', 'notification');
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+      notification.remove();
+    }, 2000);
+  };
+
+  const handleError = (error) => {
+    const notification = document.createElement('div');
+    notification.className = 'message error';
+    notification.setAttribute('data-qa', 'notification');
+    notification.textContent = error.message;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+      notification.remove();
+    }, 2000);
+  };
 
   firstPromise.then(handleSuccess).catch(handleError);
   secondPromise.then(handleSuccess).catch(handleError);
