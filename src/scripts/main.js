@@ -10,10 +10,6 @@ function createNotification(result, messageText) {
   notification.className = result;
   notification.textContent = messageText;
   body.appendChild(notification);
-
-  // setTimeout(() => {
-  //   notification.remove();
-  // }, 3000);
 }
 
 const promise1 = new Promise((resolve, reject) => {
