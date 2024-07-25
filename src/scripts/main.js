@@ -1,34 +1,33 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
-  let firstPromiseResolved = false;
-
   const firstPromise = new Promise((resolve, reject) => {
     document.addEventListener('click', () => {
-      if (!firstPromiseResolved) {
-        firstPromiseResolved = true;
-        resolve('First promise was resolved');
-      }
+      resolve('First promise was resolved');
     });
-
     setTimeout(() => {
-      if (!firstPromiseResolved) {
-        reject(new Error('First promise was rejected'));
-      }
+      reject(new Error('First promise was rejected'));
     }, 3000);
   });
 
   const secondPromise = new Promise((resolve) => {
     document.addEventListener('click', () => {
       resolve('Second promise was resolved');
-    }, { once: true });
+    });
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      resolve('Second promise was resolved');
+    });
   });
 
   const thirdPromise = new Promise((resolve) => {
     document.addEventListener('contextmenu', (e) => {
       e.preventDefault();
       resolve('Third promise was resolved');
-    }, { once: true });
+    });
+    document.addEventListener('click', () => {
+      resolve('Third promise was resolved');
+    });
   });
 
   const handleSuccess = (message) => {
