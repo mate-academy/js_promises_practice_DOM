@@ -2,25 +2,33 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  const firstPromise = new Promise((resolve, reject) => {
-    document.addEventListener('click', () => {
-      resolve('First promise was resolved');
-    });
-    setTimeout(() => {
-      reject(new Error('First promise was rejected'));
-    }, 3000);
-  });
+  const createPromise = (resolveOnClick = false, rejectAfter = null) => {
+    let resolved = false;
+    let rejected = false;
 
-  const secondPromise = new Promise((resolve) => {
-    document.addEventListener('click', () => {
-      resolve('Second promise was resolved');
-    });
-    document.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-      resolve('Second promise was resolved');
-    });
-  });
+    return new Promise((resolve, reject) => {
+      if (resolveOnClick) {
+        document.addEventListener('click', () => {
+          if (!resolved && !rejected) {
+            resolved = true;
+            resolve('Promise was resolved on click');
+          }
+        });
+      }
 
+      if (rejectAfter !== null) {
+        setTimeout(() => {
+          if (!resolved && !rejected) {
+            rejected = true;
+            reject(new Error('Promise was rejected after timeout'));
+          }
+        }, rejectAfter);
+      }
+    });
+  };
+
+  const firstPromise = createPromise(true, 3000);
+  const secondPromise = createPromise(true);
   const thirdPromise = new Promise((resolve) => {
     let leftClicked = false;
     let rightClicked = false;
