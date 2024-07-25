@@ -1,6 +1,9 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
+  let leftClicked = false;
+  let rightClicked = false;
+
   const firstPromise = new Promise((resolve, reject) => {
     document.addEventListener('click', () => {
       resolve('First promise was resolved');
@@ -21,17 +24,25 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const thirdPromise = new Promise((resolve) => {
+    document.addEventListener('click', () => {
+      leftClicked = true;
+      if (leftClicked && rightClicked) {
+        resolve('Third promise was resolved');
+      }
+    });
+
     document.addEventListener('contextmenu', (e) => {
       e.preventDefault();
-      resolve('Third promise was resolved');
-    });
-    document.addEventListener('click', () => {
-      resolve('Third promise was resolved');
+      rightClicked = true;
+      if (leftClicked && rightClicked) {
+        resolve('Third promise was resolved');
+      }
     });
   });
 
   const handleSuccess = (message) => {
     const notification = document.createElement('div');
+
     notification.className = 'message success';
     notification.setAttribute('data-qa', 'notification');
     notification.textContent = message;
@@ -44,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const handleError = (error) => {
     const notification = document.createElement('div');
+
     notification.className = 'message error';
     notification.setAttribute('data-qa', 'notification');
     notification.textContent = error.message;
