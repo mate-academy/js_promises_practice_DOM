@@ -1,40 +1,41 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
+  const firstPromise = new Promise((resolve, reject) => {
+    let isResolved = false;
 
-  const createPromise = (resolveOnClick = false, rejectAfter = null) => {
-    let resolved = false;
-    let rejected = false;
-
-    return new Promise((resolve, reject) => {
-      if (resolveOnClick) {
-        document.addEventListener('click', () => {
-          if (!resolved && !rejected) {
-            resolved = true;
-            resolve('Promise was resolved on click');
-          }
-        });
-      }
-
-      if (rejectAfter !== null) {
-        setTimeout(() => {
-          if (!resolved && !rejected) {
-            rejected = true;
-            reject(new Error('Promise was rejected after timeout'));
-          }
-        }, rejectAfter);
+    document.addEventListener('click', () => {
+      if (!isResolved) {
+        isResolved = true;
+        resolve('First promise was resolved');
       }
     });
-  };
 
-  const firstPromise = createPromise(true, 3000);
-  const secondPromise = createPromise(true);
+    setTimeout(() => {
+      if (!isResolved) {
+        reject(new Error('First promise was rejected'));
+      }
+    }, 3000);
+  });
+
+  const secondPromise = new Promise((resolve) => {
+    document.addEventListener('click', () => {
+      resolve('Second promise was resolved');
+    });
+
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      resolve('Second promise was resolved');
+    });
+  });
+
   const thirdPromise = new Promise((resolve) => {
     let leftClicked = false;
     let rightClicked = false;
 
     document.addEventListener('click', () => {
       leftClicked = true;
+
       if (leftClicked && rightClicked) {
         resolve('Third promise was resolved');
       }
@@ -43,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('contextmenu', (e) => {
       e.preventDefault();
       rightClicked = true;
+
       if (leftClicked && rightClicked) {
         resolve('Third promise was resolved');
       }
@@ -51,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const handleSuccess = (message) => {
     const notification = document.createElement('div');
+
     notification.className = 'message success';
     notification.setAttribute('data-qa', 'notification');
     notification.textContent = message;
@@ -63,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const handleError = (error) => {
     const notification = document.createElement('div');
+
     notification.className = 'message error';
     notification.setAttribute('data-qa', 'notification');
     notification.textContent = error.message;
