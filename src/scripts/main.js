@@ -1,5 +1,8 @@
 'use strict';
 
+let leftClick = false;
+let rigthClick = false;
+
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
     resolve('First promise was resolved');
@@ -34,9 +37,6 @@ secondPromise.then((data) => {
 });
 
 const thirdPromise = new Promise((resolve, reject) => {
-  let leftClick = false;
-  let rigthClick = false;
-
   document.addEventListener('click', () => {
     leftClick = true;
   });
