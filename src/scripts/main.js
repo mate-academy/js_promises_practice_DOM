@@ -39,6 +39,10 @@ secondPromise.then((data) => {
 const thirdPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
     leftClick = true;
+
+    if (leftClick && rigthClick) {
+      resolve('Third promise was resolved');
+    }
   });
 
   document.addEventListener('contextmenu', (e) => {
@@ -64,9 +68,9 @@ function showNegativeResult(result) {
 
   document.body.append(dataHtml);
 
-  setTimeout(() => {
-    dataHtml.remove();
-  }, 3000);
+  // setTimeout(() => {
+  //   dataHtml.remove();
+  // }, 3000);
 }
 
 function showPositiveResult(result) {
@@ -78,7 +82,7 @@ function showPositiveResult(result) {
 
   document.body.append(dataHtml);
 
-  setTimeout(() => {
-    dataHtml.remove();
-  }, 3000);
+  // setTimeout(() => {
+  //   dataHtml.remove();
+  // }, 3000);
 }
