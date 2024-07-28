@@ -67,10 +67,6 @@ function showNegativeResult(result) {
   dataHtml.textContent = result;
 
   document.body.append(dataHtml);
-
-  // setTimeout(() => {
-  //   dataHtml.remove();
-  // }, 3000);
 }
 
 function showPositiveResult(result) {
@@ -81,8 +77,4 @@ function showPositiveResult(result) {
   dataHtml.textContent = result;
 
   document.body.append(dataHtml);
-
-  // setTimeout(() => {
-  //   dataHtml.remove();
-  // }, 3000);
 }
