@@ -1,18 +1,10 @@
 'use strict';
 
 new Promise((resolve, reject) => {
-  let isClicked = false;
-
   document.addEventListener('click', () => {
-    isClicked = true;
     resolve('First promise was resolved');
   });
-
-  setTimeout(() => {
-    if (!isClicked) {
-      reject(new Error('First promise was rejected'));
-    }
-  }, 3000);
+  setTimeout(() => reject(new Error('First promise was rejected')), 3000);
 })
   .then((message) => addDiv(message, 'success'))
   .catch((message) => addDiv(message, 'error'));
