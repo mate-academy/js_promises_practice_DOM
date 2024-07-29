@@ -20,28 +20,20 @@ new Promise((resolve, reject) => {
 new Promise((resolve) => {
   const message = 'Second promise was resolved';
 
-  document.addEventListener('click', () => {
-    resolve(message);
-  });
+  document.addEventListener('click', () => resolve(message));
 
-  document.addEventListener('contextmenu', () => {
-    resolve(message);
-  });
+  document.addEventListener('contextmenu', () => resolve(message));
 }).then((message) => addDiv(message, 'success'));
 
 new Promise((resolve) => {
   const message = 'Third promise was resolved';
 
   document.addEventListener('click', () => {
-    document.addEventListener('contextmenu', () => {
-      resolve(message);
-    });
+    document.addEventListener('contextmenu', () => resolve(message));
   });
 
   document.addEventListener('contextmenu', () => {
-    document.addEventListener('click', () => {
-      resolve(message);
-    });
+    document.addEventListener('click', () => resolve(message));
   });
 }).then((message) => addDiv(message, 'success'));
 
