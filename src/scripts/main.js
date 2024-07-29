@@ -26,3 +26,20 @@ new Promise((resolve, reject) => {
       `<div data-qa="notification" class="error">${message}</div>`,
     );
   });
+
+new Promise((resolve, reject) => {
+  const message = 'Second promise was resolved';
+
+  document.addEventListener('click', () => {
+    resolve(message);
+  });
+
+  document.addEventListener('contextmenu', () => {
+    resolve(message);
+  });
+}).then((message) => {
+  document.body.insertAdjacentHTML(
+    'beforeend',
+    `<div data-qa="notification" class="success">${message}</div>`,
+  );
+});
