@@ -27,7 +27,7 @@ new Promise((resolve, reject) => {
     );
   });
 
-new Promise((resolve, reject) => {
+new Promise((resolve) => {
   const message = 'Second promise was resolved';
 
   document.addEventListener('click', () => {
@@ -36,6 +36,27 @@ new Promise((resolve, reject) => {
 
   document.addEventListener('contextmenu', () => {
     resolve(message);
+  });
+}).then((message) => {
+  document.body.insertAdjacentHTML(
+    'beforeend',
+    `<div data-qa="notification" class="success">${message}</div>`,
+  );
+});
+
+new Promise((resolve) => {
+  const message = 'Third promise was resolved';
+
+  document.addEventListener('click', () => {
+    document.addEventListener('contextmenu', () => {
+      resolve(message);
+    });
+  });
+
+  document.addEventListener('contextmenu', () => {
+    document.addEventListener('click', () => {
+      resolve(message);
+    });
   });
 }).then((message) => {
   document.body.insertAdjacentHTML(
