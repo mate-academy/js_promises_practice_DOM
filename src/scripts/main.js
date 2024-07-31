@@ -29,17 +29,18 @@ const firstPromise = new Promise((resolve, reject) => {
   });
 });
 
+
 const secondPromise = new Promise((resolve, _) => {
   /* eslint-disable promise/param-names */
-  document.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
+  const listeners = ['click', 'contextmenu'];
 
-    resolve('Second promise was resolved');
-  });
+  for (const type of listeners) {
+    document.addEventListener(type, (e) => {
+      e.preventDefault();
 
-  document.addEventListener('click', () => {
-    resolve('Second promise was resolved');
-  });
+      resolve('Second promise was resolved');
+    });
+  }
 });
 
 const thirdPromise = new Promise((resolve, _) => {
