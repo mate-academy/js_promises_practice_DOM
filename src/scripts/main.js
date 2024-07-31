@@ -7,6 +7,8 @@ const NOTIFICATION_TYPES = {
   error: 'error',
 };
 
+const listeners = ['click', 'contextmenu'];
+
 const showNotification = (type, text) => {
   const notification = document.createElement('div');
 
@@ -29,11 +31,8 @@ const firstPromise = new Promise((resolve, reject) => {
   });
 });
 
-
 const secondPromise = new Promise((resolve, _) => {
   /* eslint-disable promise/param-names */
-  const listeners = ['click', 'contextmenu'];
-
   for (const type of listeners) {
     document.addEventListener(type, (e) => {
       e.preventDefault();
