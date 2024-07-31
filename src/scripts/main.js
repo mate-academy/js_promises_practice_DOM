@@ -36,12 +36,20 @@ const secondPromise = new Promise((resolve, _) => {
 
     resolve('Second promise was resolved');
   });
+
+  document.addEventListener('click', () => {
+    resolve('Second promise was resolved');
+  });
 });
 
 const thirdPromise = new Promise((resolve, _) => {
   /* eslint-disable promise/param-names */
-  Promise.all([firstPromise, secondPromise]).then(() => {
-    resolve('Third promise was resolved');
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+
+    Promise.all([firstPromise, secondPromise]).then(() => {
+      resolve('Third promise was resolved');
+    });
   });
 });
 
@@ -50,7 +58,7 @@ firstPromise
     showNotification(NOTIFICATION_TYPES.success, response);
   })
   .catch((error) => {
-    showNotification(NOTIFICATION_TYPES.error, error.message);
+    showNotification(NOTIFICATION_TYPES.error, error);
   });
 
 secondPromise.then((response) => {
