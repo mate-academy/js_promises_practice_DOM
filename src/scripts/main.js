@@ -25,7 +25,6 @@ const secondPromise = new Promise((resolve) => {
 const thirdPromise = new Promise((resolve) => {
   let leftClick = false;
   let rightClick = false;
-
   const clickHandler = (e) => {
     if (e.button === 0) {
       leftClick = true;
@@ -36,10 +35,12 @@ const thirdPromise = new Promise((resolve) => {
     if (leftClick && rightClick) {
       resolve('Third promise was resolved');
       document.removeEventListener('click', clickHandler);
+      document.removeEventListener('contextmenu', clickHandler);
     }
   };
 
   document.addEventListener('click', clickHandler);
+  document.addEventListener('contextmenu', clickHandler);
 });
 
 function showNotification(type, message) {
