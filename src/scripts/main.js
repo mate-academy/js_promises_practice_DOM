@@ -12,11 +12,12 @@ const text = document.createElement('p');
 
 showNotification.appendChild(text);
 
+let leftClick = false;
+let rightClick = false;
+
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', (e) => {
-    if (e.button === 0) {
+  document.addEventListener('click', () => {
       resolve('First promise was resolved');
-    }
   });
 
   setTimeout(() => reject(new Error('First promise was rejected')), 3000);
@@ -27,9 +28,8 @@ firstPromise.then((message) => {
   showNotification.classList.add('success');
   showNotification.style.color = 'green';
   body.appendChild(showNotification);
-});
-
-firstPromise.catch((message) => {
+})
+  .catch((message) => {
   text.textContent = message;
   showNotification.classList.add('error');
   showNotification.style.color = 'red';
@@ -37,11 +37,19 @@ firstPromise.catch((message) => {
 });
 
 const secondPromise = new Promise((resolve) => {
-  document.addEventListener('click', (e) => {
-    if (e.button === 0 || e.button === 2) {
-      resolve('Second promise was resolved');
-    }
+  document.addEventListener('click', () => {
+    leftClick = true;
   });
+
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    
+    rightClick = true;
+  });
+
+  if (leftClick || rightClick) {
+    resolve('Second promise was resolved');
+  }
 });
 
 secondPromise.then((message) => {
@@ -53,21 +61,18 @@ secondPromise.then((message) => {
   body.appendChild(showNotification);
 });
 
-let leftClickHappened = false;
-let rightClickHappened = false;
-
 const thirdPromise = new Promise((resolve) => {
-  document.addEventListener('click', (e) => {
-    if (e.button === 0) {
-      leftClickHappened = true;
-    } else if (e.button === 2) {
-      rightClickHappened = true;
-    }
-
-    if (leftClickHappened && rightClickHappened) {
-      resolve('Third promise was resolved');
-    }
+  document.addEventListener('click', () => {
+    leftClick = true;
   });
+
+  document.addEventListener('contextmenu', () => {
+    rightClick = true;
+  });
+
+  if (leftClick && rightClick) {
+    resolve('Third promise was resolved');
+  };
 });
 
 thirdPromise.then((message) => {
