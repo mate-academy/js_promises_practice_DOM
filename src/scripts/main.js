@@ -3,61 +3,78 @@
 const body = document.querySelector('body');
 
 const showNotification = document.createElement('div');
+
+showNotification.setAttribute('data-qa', 'notification');
+
+showNotification.style.backgroundColor = 'white';
+
 const text = document.createElement('p');
 
 showNotification.appendChild(text);
-showNotification.setAttribute('data-qa', 'notification');
-
-// showNotification.style.
-
-// showNotification.style.display = 'none';
-
-// # Promises practice
-// Create 3 promises:
-// - The `firstPromise` should be
-//   - **resolved** with a message `First promise was resolved`
-//   on a left`click` in the`document`
-
-//   - **rejected** with a message `First promise was rejected`
-//   in 3 seconds if not clicked
 
 const firstPromise = new Promise((resolve, reject) => {
-  const timerId = setTimeout(
-    () => reject(new Error('First promise was rejected')),
-    3000,
-  );
-
-  document.addEventListener('click', () => {
-    clearTimeout(timerId);
-    resolve('First promise was resolved');
+  document.addEventListener('click', (e) => {
+    if (e.button === 0) {
+      resolve('First promise was resolved');
+    }
   });
+
+  setTimeout(() => reject(new Error('First promise was rejected')), 3000);
 });
 
 firstPromise.then((message) => {
   text.textContent = message;
-  showNotification.style.display = 'block';
+  showNotification.classList.add('success');
   showNotification.style.color = 'green';
-  showNotification.style.backgroundColor = 'black';
   body.appendChild(showNotification);
 });
 
 firstPromise.catch((message) => {
   text.textContent = message;
-  showNotification.style.display = 'block';
+  showNotification.classList.add('error');
   showNotification.style.color = 'red';
-  showNotification.style.backgroundColor = 'white';
   body.appendChild(showNotification);
 });
 
-// - The `secondPromise` should be:
-//   - **resolved** only on `left` or `right` click in the `
-//   document` with a message `Second promise was resolved`
+const secondPromise = new Promise((resolve) => {
+  document.addEventListener('click', (e) => {
+    if (e.button === 0 || e.button === 2) {
+      resolve('Second promise was resolved');
+    }
+  });
+});
 
-//   - never **rejected**
-// - The `thirdPromise` should be **resolved** with a message
-//  `Third promise was resolved` only after both `left` and
-//  `right` clicks happened
+secondPromise.then((message) => {
+  text.textContent = message;
+  showNotification.classList.add('success');
+  showNotification.style.color = 'blue';
+  showNotification.style.backgroundColor = 'black';
+  showNotification.style.top = 100 + 'px';
+  body.appendChild(showNotification);
+});
 
-// Add `success` and `error` handlers to each promise to show
-// `<div data-qa="notification">` with `success` or `error`
-//  class and a promise message.
+let leftClickHappened = false;
+let rightClickHappened = false;
+
+const thirdPromise = new Promise((resolve) => {
+  document.addEventListener('click', (e) => {
+    if (e.button === 0) {
+      leftClickHappened = true;
+    } else if (e.button === 2) {
+      rightClickHappened = true;
+    }
+
+    if (leftClickHappened && rightClickHappened) {
+      resolve('Third promise was resolved');
+    }
+  });
+});
+
+thirdPromise.then((message) => {
+  text.textContent = message;
+  showNotification.classList.add('success');
+  showNotification.style.color = 'blue';
+  showNotification.style.backgroundColor = 'black';
+  showNotification.style.top = 200 + 'px';
+  body.appendChild(showNotification);
+});
