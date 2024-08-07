@@ -16,7 +16,7 @@ function createNotification(message, stat) {
   showNotification.appendChild(text);
 
   document.body.appendChild(showNotification);
-}
+};
 
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
@@ -36,18 +36,14 @@ firstPromise
 
 const secondPromise = new Promise((resolve) => {
   document.addEventListener('click', () => {
-    leftClick = true;
+    resolve('Second promise was resolved');
   });
 
   document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
 
-    rightClick = true;
-  });
-
-  if (leftClick || rightClick) {
     resolve('Second promise was resolved');
-  }
+  });
 });
 
 secondPromise.then((message) => {
@@ -57,15 +53,21 @@ secondPromise.then((message) => {
 const thirdPromise = new Promise((resolve) => {
   document.addEventListener('click', () => {
     leftClick = true;
+
+    if (leftClick && rightClick) {
+      resolve('Third promise was resolved');
+    }
   });
 
-  document.addEventListener('contextmenu', () => {
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+
     rightClick = true;
-  });
 
-  if (leftClick && rightClick) {
-    resolve('Third promise was resolved');
-  }
+    if (leftClick && rightClick) {
+      resolve('Third promise was resolved');
+    }
+  });
 });
 
 thirdPromise.then((message) => {
