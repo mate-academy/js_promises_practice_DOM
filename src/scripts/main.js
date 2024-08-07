@@ -2,17 +2,18 @@
 
 let leftClick = false;
 let rightClick = false;
-function createNotification(message, status, color) {
 
+function createNotification(message, stat, color) {
   const showNotification = document.createElement('div');
 
   showNotification.setAttribute('data-qa', 'notification');
-  showNotification.classList.add(`${status}`);
+  showNotification.classList.add(stat);
 
   showNotification.style.backgroundColor = 'white';
   showNotification.style.color = color;
 
   const text = document.createElement('p');
+
   text.textContent = message;
 
   showNotification.appendChild(text);
