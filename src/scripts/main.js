@@ -1,40 +1,40 @@
 'use strict';
 
-const body = document.querySelector('body');
-
-const showNotification = document.createElement('div');
-
-showNotification.setAttribute('data-qa', 'notification');
-
-showNotification.style.backgroundColor = 'white';
-
-const text = document.createElement('p');
-
-showNotification.appendChild(text);
-
 let leftClick = false;
 let rightClick = false;
+function createNotification(message, status, color) {
+
+  const showNotification = document.createElement('div');
+
+  showNotification.setAttribute('data-qa', 'notification');
+  showNotification.classList.add(`${status}`);
+
+  showNotification.style.backgroundColor = 'white';
+  showNotification.style.color = color;
+
+  const text = document.createElement('p');
+  text.textContent = message;
+
+  showNotification.appendChild(text);
+
+  document.body.appendChild(showNotification);
+}
 
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
-      resolve('First promise was resolved');
+    resolve('First promise was resolved');
   });
 
   setTimeout(() => reject(new Error('First promise was rejected')), 3000);
 });
 
-firstPromise.then((message) => {
-  text.textContent = message;
-  showNotification.classList.add('success');
-  showNotification.style.color = 'green';
-  body.appendChild(showNotification);
-})
+firstPromise
+  .then((message) => {
+    createNotification(message, 'success', 'green');
+  })
   .catch((message) => {
-  text.textContent = message;
-  showNotification.classList.add('error');
-  showNotification.style.color = 'red';
-  body.appendChild(showNotification);
-});
+    createNotification(message, 'error', 'red');
+  });
 
 const secondPromise = new Promise((resolve) => {
   document.addEventListener('click', () => {
@@ -43,7 +43,7 @@ const secondPromise = new Promise((resolve) => {
 
   document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
-    
+
     rightClick = true;
   });
 
@@ -53,12 +53,7 @@ const secondPromise = new Promise((resolve) => {
 });
 
 secondPromise.then((message) => {
-  text.textContent = message;
-  showNotification.classList.add('success');
-  showNotification.style.color = 'blue';
-  showNotification.style.backgroundColor = 'black';
-  showNotification.style.top = 100 + 'px';
-  body.appendChild(showNotification);
+  createNotification(message, 'success', 'green');
 });
 
 const thirdPromise = new Promise((resolve) => {
@@ -72,14 +67,9 @@ const thirdPromise = new Promise((resolve) => {
 
   if (leftClick && rightClick) {
     resolve('Third promise was resolved');
-  };
+  }
 });
 
 thirdPromise.then((message) => {
-  text.textContent = message;
-  showNotification.classList.add('success');
-  showNotification.style.color = 'blue';
-  showNotification.style.backgroundColor = 'black';
-  showNotification.style.top = 200 + 'px';
-  body.appendChild(showNotification);
+  createNotification(message, 'success', 'blue');
 });
