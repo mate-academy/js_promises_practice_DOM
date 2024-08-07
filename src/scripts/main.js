@@ -3,14 +3,11 @@
 let leftClick = false;
 let rightClick = false;
 
-function createNotification(message, stat, color) {
+function createNotification(message, stat) {
   const showNotification = document.createElement('div');
 
   showNotification.setAttribute('data-qa', 'notification');
   showNotification.classList.add(stat);
-
-  showNotification.style.backgroundColor = 'white';
-  showNotification.style.color = color;
 
   const text = document.createElement('p');
 
@@ -31,10 +28,10 @@ const firstPromise = new Promise((resolve, reject) => {
 
 firstPromise
   .then((message) => {
-    createNotification(message, 'success', 'green');
+    createNotification(message, 'success');
   })
   .catch((message) => {
-    createNotification(message, 'error', 'red');
+    createNotification(message, 'error');
   });
 
 const secondPromise = new Promise((resolve) => {
@@ -54,7 +51,7 @@ const secondPromise = new Promise((resolve) => {
 });
 
 secondPromise.then((message) => {
-  createNotification(message, 'success', 'green');
+  createNotification(message, 'success');
 });
 
 const thirdPromise = new Promise((resolve) => {
@@ -72,5 +69,5 @@ const thirdPromise = new Promise((resolve) => {
 });
 
 thirdPromise.then((message) => {
-  createNotification(message, 'success', 'blue');
+  createNotification(message, 'success');
 });
