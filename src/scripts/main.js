@@ -47,24 +47,23 @@ function getThirdPromise() {
   });
 }
 
-function successHandler(result) {
+function handler(className, text) {
   const element = document.createElement('div');
 
   element.dataset.qa = 'notification';
-  element.className = 'success';
-  element.textContent = `${result} promise was resolved`;
+  element.className = className;
+  element.textContent = text;
   document.body.append(element);
 }
 
-function errorHandler(result) {
-  const element = document.createElement('div');
+getFirstPromise()
+  .then((data) => handler('success', `${data} promise was resolved`))
+  .catch((data) => handler('error', `${data} promise was rejected`));
 
-  element.dataset.qa = 'notification';
-  element.className = 'error';
-  element.textContent = `${result} promise was rejected`;
-  document.body.append(element);
-}
+getSecondPromise()
+  .then((data) => handler('success', `${data} promise was resolved`))
+  .catch((data) => handler('error', `${data} promise was rejected`));
 
-getFirstPromise().then(successHandler).catch(errorHandler);
-getSecondPromise().then(successHandler).catch(errorHandler);
-getThirdPromise().then(successHandler).catch(errorHandler);
+getThirdPromise()
+  .then((data) => handler('success', `${data} promise was resolved`))
+  .catch((data) => handler('error', `${data} promise was rejected`));
