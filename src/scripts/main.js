@@ -60,38 +60,27 @@ const promiseThree = new Promise((resolve) => {
   body.addEventListener('contextmenu', clickHandler);
 });
 
+const getMessage = (message, classType) => {
+  const div = document.createElement('div');
+
+  div.dataset.qa = 'notification';
+  div.classList.add(classType);
+  div.innerHTML = message;
+  document.body.appendChild(div);
+};
+
 promiseOne
   .then(() => {
-    const div = document.createElement('div');
-
-    div.dataset.qa = 'notification';
-    div.classList.add('success');
-    div.innerHTML = 'First promise was resolved';
-    document.body.appendChild(div);
+    getMessage('First promise was resolved', 'success');
   })
   .catch(() => {
-    const div = document.createElement('div');
-
-    div.dataset.qa = 'notification';
-    div.classList.add('error');
-    div.innerHTML = 'First promise was rejected';
-    document.body.appendChild(div);
+    getMessage('First promise was rejected', 'error');
   });
 
 promiseTwo.then(() => {
-  const div = document.createElement('div');
-
-  div.dataset.qa = 'notification';
-  div.classList.add('success');
-  div.innerHTML = 'Second promise was resolved';
-  document.body.appendChild(div);
+  getMessage('Second promise was resolved', 'success');
 });
 
 promiseThree.then(() => {
-  const div = document.createElement('div');
-
-  div.dataset.qa = 'notification';
-  div.classList.add('success');
-  div.innerHTML = 'Third promise was resolved';
-  document.body.appendChild(div);
+  getMessage('Third promise was resolved', 'success');
 });
