@@ -26,7 +26,7 @@ const handleSuccess1Promise = (message) => {
 };
 
 const handleError1Promise = (message) => {
-  createMessage(message, 'succerroress');
+  createMessage(message, 'error');
 };
 
 const promise2 = new Promise((resolve) => {
