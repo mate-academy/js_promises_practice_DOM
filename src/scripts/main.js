@@ -38,12 +38,22 @@ const secondPromise = new Promise((resolve) => {
 secondPromise.then((text) => addResult(text, 'success'));
 
 const thirdPromise = new Promise((resolve) => {
+  let mouseLeft = false;
+  let mouseRight = false;
   const spHandler = () => {
     resolve('Third promise was resolved');
   };
 
   document.addEventListener('mousedown', (e) => {
-    if (e.buttons === 3) {
+    if (e.button === 0) {
+      mouseLeft = true;
+    }
+
+    if (e.button === 2) {
+      mouseRight = true;
+    }
+
+    if (mouseLeft && mouseRight) {
       spHandler();
     }
   });
