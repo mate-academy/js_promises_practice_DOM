@@ -1,25 +1,23 @@
 'use strict';
 
-const firstSuccessMessage = document.createElement('div');
+function message(count, decide = 'resolved') {
+  const SuccessMessage = document.createElement('div');
 
-firstSuccessMessage.setAttribute('class', 'success');
-firstSuccessMessage.setAttribute('data-qa', 'notification');
+  SuccessMessage.setAttribute('class', 'success');
+  SuccessMessage.setAttribute('data-qa', 'notification');
 
-firstSuccessMessage.textContent = 'First promise was resolved';
+  SuccessMessage.textContent = `${count} promise was ${decide}`;
 
-const firstErrorMessage = document.createElement('div');
-
-firstErrorMessage.setAttribute('class', 'error');
-firstErrorMessage.setAttribute('data-qa', 'notification');
-firstErrorMessage.textContent = 'First promise was rejected';
+  return SuccessMessage;
+}
 
 const firstPromise = new Promise((resolve, reject) => {
   document.querySelector('.logo').addEventListener('click', () => {
-    resolve(firstSuccessMessage);
+    resolve(message('First'));
   });
 
   setTimeout(() => {
-    reject(firstErrorMessage);
+    reject(message('First', 'rejected'));
   }, 3000);
 });
 
@@ -31,34 +29,20 @@ firstPromise
     document.body.appendChild(erorr);
   });
 
-const secondSuccessMessage = document.createElement('div');
-
-secondSuccessMessage.setAttribute('class', 'success');
-secondSuccessMessage.setAttribute('data-qa', 'notification');
-
-secondSuccessMessage.textContent = 'Second promise was resolved';
-
 const secondPromise = new Promise((resolve) => {
   document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
-    resolve(secondSuccessMessage);
+    resolve(message('Second'));
   });
 
-  document.addEventListener('click', (e) => {
-    resolve(secondSuccessMessage);
+  document.addEventListener('click', () => {
+    resolve(message('Second'));
   });
 });
 
 secondPromise.then((success) => {
   document.body.appendChild(success);
 });
-
-const thirdSuccesMessage = document.createElement('div');
-
-thirdSuccesMessage.setAttribute('class', 'success');
-thirdSuccesMessage.setAttribute('data-qa', 'notification');
-
-thirdSuccesMessage.textContent = 'Third promise was resolved';
 
 const thirdPromise = new Promise((resolve) => {
   let leftClickHappened = false;
@@ -68,7 +52,7 @@ const thirdPromise = new Promise((resolve) => {
     leftClickHappened = true;
 
     if (leftClickHappened && rightClickHappened) {
-      resolve(thirdSuccesMessage);
+      resolve(message('Third'));
     }
   });
 
@@ -77,7 +61,7 @@ const thirdPromise = new Promise((resolve) => {
     rightClickHappened = true;
 
     if (leftClickHappened && rightClickHappened) {
-      resolve(thirdSuccesMessage);
+      resolve(message('Third'));
     }
   });
 });
