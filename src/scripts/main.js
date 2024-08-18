@@ -43,8 +43,6 @@ const thirdPromise = new Promise((resolve) => {
   };
 
   document.addEventListener('mousedown', (e) => {
-    console.log(e.buttons);
-
     if (e.buttons === 3) {
       spHandler();
     }
