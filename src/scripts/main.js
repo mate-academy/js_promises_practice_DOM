@@ -42,11 +42,11 @@ promise2.then((message) => {
   addClass('message', message);
 });
 
-let leftClick = false;
-let rightClick = false;
-
 const promise3 = new Promise((resolve) => {
-  document.addEventListener('click', function (e) {
+  let leftClick = false;
+  let rightClick = false;
+
+  document.addEventListener('mousedown', function (e) {
     if (e.button === 0) {
       leftClick = true;
     }
