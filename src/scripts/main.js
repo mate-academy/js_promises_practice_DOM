@@ -31,10 +31,12 @@ promise1
   });
 
 const promise2 = new Promise((resolve) => {
-  document.addEventListener('click', function (e) {
-    if (e.button === 0 || e.button === 2) {
-      resolve('Second promise was resolved');
-    }
+  document.addEventListener('click', function () {
+    resolve('Second promise was resolved');
+  });
+
+  document.addEventListener('contextmenu', () => {
+    resolve('Second promise was resolved');
   });
 });
 
