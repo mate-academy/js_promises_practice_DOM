@@ -4,15 +4,7 @@ function notification(type, message) {
   const div = document.createElement('div');
 
   div.setAttribute('data-qa', 'notification');
-
-  if (type === 'success') {
-    div.classList.add('success');
-  }
-
-  if (type === 'error') {
-    div.classList.add('error');
-  }
-
+  div.classList.add(type);
   div.textContent = message;
   document.body.append(div);
 }
