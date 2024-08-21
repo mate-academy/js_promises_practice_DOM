@@ -16,13 +16,12 @@ function showMessage(message, isError = false) {
 }
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', () => {
-    resolve('First promise was resolved');
-  });
-
   setTimeout(() => {
     reject(new Error('First promise was rejected'));
   }, 3000);
+  document.addEventListener('click', () => {
+    resolve('First promise was resolved');
+  });
 });
 
 firstPromise
@@ -43,16 +42,20 @@ const secondPromise = new Promise((resolve, reject) => {
 secondPromise.then((response) => showMessage(response));
 
 const thirdPromise = new Promise((resolve, reject) => {
-  document.addEventListener('contextmenu', () => {
-    document.addEventListener('click', () => {
-      resolve('Third promise was resolved');
-    });
-  });
+  let l = 0;
+  let r = 0;
+  document.addEventListener('mousedown', (e) => {
+    if (e.button === 0) {
+      l = 1;
+    }
 
-  document.addEventListener('click', () => {
-    document.addEventListener('contextmenu', () => {
+    if (e.button === 2) {
+      r = 1;
+    }
+
+    if (l && r) {
       resolve('Third promise was resolved');
-    });
+    }
   });
 });
 
