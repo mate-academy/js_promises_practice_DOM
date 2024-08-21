@@ -12,15 +12,11 @@ const firstPromise = new Promise((resolve, reject) => {
 
 const secondPromise = new Promise((resolve) => {
   document.addEventListener('click', (e) => {
-    if (e.button === 0) {
-      resolve('Second promise was resolved');
-    }
+    resolve('Second promise was resolved');
   });
 
   document.addEventListener('contextmenu', (e) => {
-    if (e.button === 2) {
-      resolve('Second promise was resolved');
-    }
+    resolve('Second promise was resolved');
   });
 });
 
@@ -45,7 +41,10 @@ const thirdPromise = new Promise((resolve) => {
 });
 
 function showNotification(message, isError = false) {
-  const notification = document.querySelector('[data-qa="notification"]');
+  const notification = document.createElement('div');
+
+  notification.setAttribute('data-qa', 'notification');
+  document.body.append(notification);
 
   if (notification) {
     notification.textContent = message;
