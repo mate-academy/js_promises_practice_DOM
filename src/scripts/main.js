@@ -46,12 +46,6 @@ const thirdPromise = new Promise((resolve, reject) => {
   body.addEventListener('contextmenu', () => {
     resolve();
   });
-
-  // if (!leftClick) {
-  //   body.addEventListener('contextmenu', () => {
-  //     resolve();
-  //   });
-  // }
 });
 
 firstPromise
@@ -81,7 +75,6 @@ thirdPromise
         createElement('success', 'Third promise was resolved');
       });
     }
-
   })
   .catch(() => {
     createElement('error', 'Third promise was rejected');
