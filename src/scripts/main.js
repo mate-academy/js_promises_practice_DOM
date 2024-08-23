@@ -1,7 +1,7 @@
 'use strict';
 
 const body = document.querySelector('body');
-const createElement = function (className, text) {
+const createElement = (className, text) => {
   const div = document.createElement('div');
 
   div.setAttribute('data-qa', 'notification');
@@ -17,7 +17,7 @@ let leftClick = false;
 const firstPromise = new Promise((resolve, reject) => {
   body.addEventListener('click', () => {
     isClicked = true;
-    resolve('First promise was resolved');
+    resolve();
   });
 
   setTimeout(() => {
@@ -29,7 +29,7 @@ const firstPromise = new Promise((resolve, reject) => {
 
 const secondPromise = new Promise((resolve) => {
   body.addEventListener('click', () => {
-    resolve('Second promise was resolved');
+    resolve();
   });
 
   body.addEventListener('contextmenu', () => {
