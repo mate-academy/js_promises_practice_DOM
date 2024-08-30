@@ -5,24 +5,22 @@
 document.addEventListener('contextmenu', (e) => e.preventDefault());
 
 const body = document.querySelector('body');
-const notification = document.createElement('div');
 
-notification.dataset.qa = 'notification';
+function appendNotification(text, extraClass) {
+  const notification = document.createElement('div');
+
+  notification.dataset.qa = 'notification';
+  notification.classList.add(extraClass);
+  notification.textContent = text;
+  body.append(notification);
+}
 
 const handleSuccess = (msg) => {
-  const successMsg = notification.cloneNode();
-
-  successMsg.classList.add('success');
-  successMsg.textContent = msg;
-  body.append(successMsg);
+  appendNotification(msg, 'success');
 };
 
 const handleError = (msg) => {
-  const errorMsg = notification.cloneNode();
-
-  errorMsg.classList.add('error');
-  errorMsg.textContent = msg;
-  body.append(errorMsg);
+  appendNotification(msg, 'error');
 };
 
 const firstPromise = new Promise((resolve, reject) => {
