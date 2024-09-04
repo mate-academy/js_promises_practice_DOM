@@ -1,32 +1,31 @@
 const body = document.querySelector('body');
 
+function createNotification(message, type) {
+  const notification = document.createElement('div');
+
+  notification.setAttribute('data-qa', 'notification');
+  notification.className = type;
+  notification.innerText = message;
+  body.insertAdjacentElement('afterbegin', notification);
+}
+
 function firstPromise() {
   return new Promise((resolve, reject) => {
-    let a = 0;
+    let isClicked = false;
 
     const timeOut = setTimeout(() => {
-      const errorMessage =
-        '<div data-qa="notification" class="error">' +
-        'First promise was rejected</div>';
-
-      body.insertAdjacentHTML('afterbegin', errorMessage);
+      createNotification('First promise was rejected', 'error');
       // eslint-disable-next-line prefer-promise-reject-errors
       reject('First promise was rejected');
-      a = 2;
+      isClicked = true;
     }, 3000);
 
     document.addEventListener('click', (e) => {
-      if (e.button === 0 && a === 0) {
-        a = 1;
-
-        const successMessage =
-          '<div data-qa="notification" class="success">' +
-          'First promise was resolved</div>';
-
-        body.insertAdjacentHTML('afterbegin', successMessage);
+      if (e.button === 0 && !isClicked) {
+        isClicked = true;
+        createNotification('First promise was resolved', 'success');
         clearTimeout(timeOut);
         resolve('First promise was resolved');
-        a = 2;
       }
     });
   });
@@ -34,19 +33,13 @@ function firstPromise() {
 
 function secondPromise() {
   return new Promise((resolve) => {
-    let a = 0;
+    let isClicked = false;
 
     document.addEventListener('mousedown', (e) => {
-      if ((e.button === 0 || e.button === 2) && a === 0) {
-        a = 1;
-
-        const successMessage =
-          '<div data-qa="notification" class="success">' +
-          'Second promise was resolved</div>';
-
-        body.insertAdjacentHTML('afterbegin', successMessage);
+      if ((e.button === 0 || e.button === 2) && !isClicked) {
+        isClicked = true;
+        createNotification('Second promise was resolved', 'success');
         resolve('Second promise was resolved');
-        a = 2;
       }
     });
   });
@@ -54,34 +47,41 @@ function secondPromise() {
 
 function thirdPromise() {
   return new Promise((resolve) => {
-    let a = 0;
-    let b = 0;
+    let leftClick = false;
+    let rightClick = false;
 
     document.addEventListener('mousedown', (e) => {
       if (e.button === 0) {
-        a = 1;
+        leftClick = true;
       }
 
       if (e.button === 2) {
-        b = 1;
+        rightClick = true;
       }
 
-      if (a === 1 && b === 1) {
-        const successMessage =
-          '<div data-qa="notification" class="success">' +
-          'Third promise was resolved</div>';
-
-        body.insertAdjacentHTML('afterbegin', successMessage);
+      if (leftClick && rightClick) {
+        createNotification('Third promise was resolved', 'success');
         resolve('Third promise was resolved');
-        a = b = 2;
+        leftClick = rightClick = false;
       }
     });
   });
 }
 
-// eslint-disable-next-line no-console
-firstPromise().catch((error) => console.error(error));
-// eslint-disable-next-line no-console
-secondPromise().then((message) => console.log(message));
-// eslint-disable-next-line no-console
-thirdPromise().then((message) => console.log(message));
+firstPromise()
+  // eslint-disable-next-line no-console
+  .then((message) => console.log(message))
+  // eslint-disable-next-line no-console
+  .catch((error) => console.error(error));
+
+secondPromise()
+  // eslint-disable-next-line no-console
+  .then((message) => console.log(message))
+  // eslint-disable-next-line no-console
+  .catch((error) => console.error(error));
+
+thirdPromise()
+  // eslint-disable-next-line no-console
+  .then((message) => console.log(message))
+  // eslint-disable-next-line no-console
+  .catch((error) => console.error(error));
