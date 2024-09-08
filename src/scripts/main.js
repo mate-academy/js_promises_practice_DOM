@@ -1,6 +1,5 @@
 'use strict';
 
-// Заборона стандартного контекстного меню
 document.addEventListener('contextmenu', (eve) => {
   eve.preventDefault();
 });
@@ -8,6 +7,7 @@ document.addEventListener('contextmenu', (eve) => {
 const firstPromise = new Promise((resolve, reject) => {
   const rejectTimeOut = setTimeout(() => {
     const div = document.createElement('div');
+
     div.setAttribute('data-qa', 'notification');
     div.classList.add('error');
     div.textContent = 'First promise was rejected';
@@ -20,7 +20,9 @@ const firstPromise = new Promise((resolve, reject) => {
     }
 
     clearTimeout(rejectTimeOut);
+
     const div = document.createElement('div');
+
     div.setAttribute('data-qa', 'notification');
     div.classList.add('success');
     div.textContent = 'First promise was resolved';
@@ -29,15 +31,16 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 firstPromise
-  .then(div => {
+  .then((div) => {
     document.body.append(div);
   })
-  .catch(div => {
+  .catch((div) => {
     document.body.append(div);
   });
 
 const secondPromise = new Promise((resolve) => {
   const div = document.createElement('div');
+
   div.setAttribute('data-qa', 'notification');
 
   const handleEvent = () => {
@@ -50,7 +53,7 @@ const secondPromise = new Promise((resolve) => {
   document.addEventListener('click', handleEvent);
 });
 
-secondPromise.then(div => {
+secondPromise.then((div) => {
   document.body.append(div);
 });
 
@@ -58,11 +61,13 @@ const thirdPromise = new Promise((resolve) => {
   let rightCheck = false;
   let leftCheck = false;
   const div = document.createElement('div');
+
   div.setAttribute('data-qa', 'notification');
   div.classList.add('success');
 
   document.addEventListener('contextmenu', (eve) => {
     rightCheck = true;
+
     if (leftCheck) {
       div.textContent = 'Third promise was resolved';
       resolve(div);
@@ -70,8 +75,9 @@ const thirdPromise = new Promise((resolve) => {
   });
 
   document.addEventListener('click', (eve) => {
-    if (eve.button === 0) { // Лівий клік
+    if (eve.button === 0) {
       leftCheck = true;
+
       if (rightCheck) {
         div.textContent = 'Third promise was resolved';
         resolve(div);
@@ -80,6 +86,6 @@ const thirdPromise = new Promise((resolve) => {
   });
 });
 
-thirdPromise.then(div => {
+thirdPromise.then((div) => {
   document.body.append(div);
 });
