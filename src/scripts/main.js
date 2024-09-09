@@ -1,87 +1,89 @@
-const body = document.querySelector('body');
+document.addEventListener('contextmenu', (eve) => {
+  eve.preventDefault();
+});
 
-function createNotification(message, type) {
-  const notification = document.createElement('div');
+const firstPromise = new Promise((resolve, reject) => {
+  const rejectTimeOut = setTimeout(() => {
+    const div = document.createElement('div');
 
-  notification.setAttribute('data-qa', 'notification');
-  notification.className = type;
-  notification.innerText = message;
-  body.insertAdjacentElement('afterbegin', notification);
-}
+    div.setAttribute('data-qa', 'notification');
+    div.classList.add('error');
+    div.textContent = 'First promise was rejected';
+    reject(div);
+  }, 3000);
 
-function firstPromise() {
-  return new Promise((resolve, reject) => {
-    let isClicked = false;
+  document.addEventListener('click', (eve) => {
+    if (eve.button !== 0) {
+      return;
+    }
 
-    const timeOut = setTimeout(() => {
-      createNotification('First promise was rejected', 'error');
-      // eslint-disable-next-line prefer-promise-reject-errors
-      reject('First promise was rejected');
-      isClicked = true;
-    }, 3000);
+    clearTimeout(rejectTimeOut);
 
-    document.addEventListener('click', (e) => {
-      if (e.button === 0 && !isClicked) {
-        isClicked = true;
-        createNotification('First promise was resolved', 'success');
-        clearTimeout(timeOut);
-        resolve('First promise was resolved');
-      }
-    });
+    const div = document.createElement('div');
+
+    div.setAttribute('data-qa', 'notification');
+    div.classList.add('success');
+    div.textContent = 'First promise was resolved';
+    resolve(div);
   });
-}
+});
 
-function secondPromise() {
-  return new Promise((resolve) => {
-    let isClicked = false;
-
-    document.addEventListener('mousedown', (e) => {
-      if ((e.button === 0 || e.button === 2) && !isClicked) {
-        isClicked = true;
-        createNotification('Second promise was resolved', 'success');
-        resolve('Second promise was resolved');
-      }
-    });
+firstPromise
+  .then((div) => {
+    document.body.append(div);
+  })
+  .catch((div) => {
+    document.body.append(div);
   });
-}
 
-function thirdPromise() {
-  return new Promise((resolve) => {
-    let leftClick = false;
-    let rightClick = false;
+const secondPromise = new Promise((resolve) => {
+  const div = document.createElement('div');
 
-    document.addEventListener('mousedown', (e) => {
-      if (e.button === 0) {
-        leftClick = true;
-      }
+  div.setAttribute('data-qa', 'notification');
 
-      if (e.button === 2) {
-        rightClick = true;
-      }
+  const handleEvent = () => {
+    div.classList.add('success');
+    div.textContent = 'Second promise was resolved';
+    resolve(div);
+  };
 
-      if (leftClick && rightClick) {
-        createNotification('Third promise was resolved', 'success');
-        resolve('Third promise was resolved');
-        leftClick = rightClick = false;
-      }
-    });
+  document.addEventListener('contextmenu', handleEvent);
+  document.addEventListener('click', handleEvent);
+});
+
+secondPromise.then((div) => {
+  document.body.append(div);
+});
+
+const thirdPromise = new Promise((resolve) => {
+  let rightCheck = false;
+  let leftCheck = false;
+  const div = document.createElement('div');
+
+  div.setAttribute('data-qa', 'notification');
+  div.classList.add('success');
+
+  document.addEventListener('contextmenu', (eve) => {
+    rightCheck = true;
+
+    if (leftCheck) {
+      div.textContent = 'Third promise was resolved';
+      resolve(div);
+    }
   });
-}
 
-firstPromise()
-  // eslint-disable-next-line no-console
-  .then((message) => console.log(message))
-  // eslint-disable-next-line no-console
-  .catch((error) => console.error(error));
+  document.addEventListener('click', (eve) => {
+    if (eve.button === 0) {
+      leftCheck = true;
 
-secondPromise()
-  // eslint-disable-next-line no-console
-  .then((message) => console.log(message))
-  // eslint-disable-next-line no-console
-  .catch((error) => console.error(error));
+      if (rightCheck) {
+        div.textContent = 'Third promise was resolved';
+        resolve(div);
+      }
+    }
+  });
+});
 
-thirdPromise()
-  // eslint-disable-next-line no-console
-  .then((message) => console.log(message))
-  // eslint-disable-next-line no-console
-  .catch((error) => console.error(error));
+thirdPromise.then((div) => {
+  document.body.append(div);
+});
