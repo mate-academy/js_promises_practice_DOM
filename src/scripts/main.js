@@ -1,89 +1,67 @@
-document.addEventListener('contextmenu', (eve) => {
-  eve.preventDefault();
+let isLeftClicked = false;
+let isRightClicked = false;
+
+document.addEventListener('click', () => {
+  isLeftClicked = true;
+});
+
+document.addEventListener('contextmenu', () => {
+  isRightClicked = true;
 });
 
 const firstPromise = new Promise((resolve, reject) => {
-  const rejectTimeOut = setTimeout(() => {
-    const div = document.createElement('div');
+  document.addEventListener('click', () => {
+    resolve('First promise was resolved');
+  });
 
-    div.setAttribute('data-qa', 'notification');
-    div.classList.add('error');
-    div.textContent = 'First promise was rejected';
-    reject(div);
+  setTimeout(() => {
+    reject(new Error('First promise was rejected'));
   }, 3000);
-
-  document.addEventListener('click', (eve) => {
-    if (eve.button !== 0) {
-      return;
-    }
-
-    clearTimeout(rejectTimeOut);
-
-    const div = document.createElement('div');
-
-    div.setAttribute('data-qa', 'notification');
-    div.classList.add('success');
-    div.textContent = 'First promise was resolved';
-    resolve(div);
-  });
 });
-
-firstPromise
-  .then((div) => {
-    document.body.append(div);
-  })
-  .catch((div) => {
-    document.body.append(div);
-  });
 
 const secondPromise = new Promise((resolve) => {
-  const div = document.createElement('div');
+  document.addEventListener('click', () => {
+    resolve('Second promise was resolved');
+  });
 
-  div.setAttribute('data-qa', 'notification');
-
-  const handleEvent = () => {
-    div.classList.add('success');
-    div.textContent = 'Second promise was resolved';
-    resolve(div);
-  };
-
-  document.addEventListener('contextmenu', handleEvent);
-  document.addEventListener('click', handleEvent);
-});
-
-secondPromise.then((div) => {
-  document.body.append(div);
+  document.addEventListener('contextmenu', () => {
+    resolve('Second promise was resolved');
+  });
 });
 
 const thirdPromise = new Promise((resolve) => {
-  let rightCheck = false;
-  let leftCheck = false;
+  document.addEventListener('click', () => {
+    if (isRightClicked) {
+      resolve('Third promise was resolved');
+    }
+  });
+
+  document.addEventListener('contextmenu', () => {
+    if (isLeftClicked) {
+      resolve('Third promise was resolved');
+    }
+  });
+});
+
+function appendMessage(message, isError = false) {
   const div = document.createElement('div');
 
   div.setAttribute('data-qa', 'notification');
-  div.classList.add('success');
 
-  document.addEventListener('contextmenu', (eve) => {
-    rightCheck = true;
+  if (!isError) {
+    div.className = 'success';
+  } else {
+    div.className = 'error';
+  }
 
-    if (leftCheck) {
-      div.textContent = 'Third promise was resolved';
-      resolve(div);
-    }
-  });
+  div.textContent = message;
+  document.body.appendChild(div);
+}
 
-  document.addEventListener('click', (eve) => {
-    if (eve.button === 0) {
-      leftCheck = true;
-
-      if (rightCheck) {
-        div.textContent = 'Third promise was resolved';
-        resolve(div);
-      }
-    }
-  });
+firstPromise.then(appendMessage).catch((error) => {
+  appendMessage(error, true);
 });
 
-thirdPromise.then((div) => {
-  document.body.append(div);
-});
+secondPromise.then(appendMessage);
+
+thirdPromise.then(appendMessage);
