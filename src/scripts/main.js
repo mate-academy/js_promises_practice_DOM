@@ -17,64 +17,71 @@ const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', (action) => {
     if (action.button === 0) {
       clearTimeout(timeout);
-      resolve();
+      resolve('First promise was resolved');
     }
   });
 });
 
 firstPromise
-  .then(() => {
+  .then((message) => {
     const firstDiv = createNotification();
 
     firstDiv.classList.add('success');
-    firstDiv.textContent = 'First promise was resolved';
+    firstDiv.textContent = message;
   })
 
-  .catch(() => {
+  .catch((error) => {
     const firstDiv = createNotification();
 
     firstDiv.classList.add('error');
-    firstDiv.textContent = 'First promise was rejected';
+    firstDiv.textContent = error.message;
   });
 
 const secondPromise = new Promise((resolve) => {
   document.addEventListener('click', () => {
-    resolve();
+    resolve('Second promise was resolved');
   });
 });
 
-secondPromise.then(() => {
+secondPromise.then((message) => {
   const secondDiv = createNotification();
 
   secondDiv.classList.add('success');
-  secondDiv.textContent = 'Second promise was resolved';
+  secondDiv.textContent = message;
 });
 
 const thirdPromise = new Promise((resolve) => {
   let leftClicked = false;
   let rightClicked = false;
-
-  const callback = (e) => {
+  const checkClicks = () => {
     if (leftClicked && rightClicked) {
       resolve('Third promise was resolved');
     }
   };
 
-  document.addEventListener('click', () => {
-    leftClicked = true;
-    callback();
-  });
+  document.addEventListener(
+    'click',
+    () => {
+      leftClicked = true;
+      checkClicks();
+    },
+    { once: true },
+  );
 
-  document.addEventListener('contextmenu', (e) => {
-    event.preventDefault();
-    rightClicked = true;
-    callback();
-  });
+  document.addEventListener(
+    'contextmenu',
+    (e) => {
+      e.preventDefault();
+      rightClicked = true;
+      checkClicks();
+    },
+    { once: true },
+  );
 });
 
-thirdPromise.then(() => {
+thirdPromise.then((message) => {
   const thirdDiv = createNotification();
 
   thirdDiv.classList.add('success');
-  thirdDiv.textContent = 'Third promise was resolved';
+  thirdDiv.textContent = message;
 });
