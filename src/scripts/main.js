@@ -36,22 +36,22 @@ secondPromise().then((mes) => buildNotification('success', mes));
 
 const thirdPromise = () => {
   return new Promise((resolve, reject) => {
-    let isLeftClickWas = 0;
-    let isRightClickWas = 0;
+    let isLeftClick = false;
+    let isRightClick = false;
 
     const canResolve = () => {
-      if (isLeftClickWas > 0 && isRightClickWas > 0) {
+      if (isLeftClick && isRightClick) {
         resolve('Third promise was resolved');
       }
     };
 
     document.addEventListener('contextmenu', () => {
-      isRightClickWas++;
+      isRightClick = true;
       canResolve();
     });
 
     document.addEventListener('click', () => {
-      isLeftClickWas++;
+      isLeftClick = true;
       canResolve();
     });
   });
