@@ -7,7 +7,7 @@ const firstPromise = new Promise((resolve, reject) => {
   let hasFirst = true;
 
   const errorTimer = setTimeout(() => {
-    reject(createDiv('First promise was rejected', 'error'));
+    reject(new Error('First promise was rejected'));
     isError = true;
   }, 3000);
 
@@ -19,21 +19,27 @@ const firstPromise = new Promise((resolve, reject) => {
     clearTimeout(errorTimer);
 
     if (hasFirst) {
-      resolve(createDiv('First promise was resolved', 'success'));
+      resolve('First promise was resolved');
     }
 
     hasFirst = false;
   });
 });
 
-firstPromise.then(() => {}).catch(() => {});
+firstPromise
+  .then(() => {
+    createDiv('First promise was resolved', 'success');
+  })
+  .catch(() => {
+    createDiv('First promise was rejected', 'error');
+  });
 
 const secondPromise = new Promise((resolve) => {
   let hasSecond = true;
 
   body.addEventListener('click', () => {
     if (hasSecond) {
-      resolve(createDiv('Second promise was resolved', 'success'));
+      resolve('Second promise was resolved');
     }
 
     hasSecond = false;
@@ -41,13 +47,15 @@ const secondPromise = new Promise((resolve) => {
 
   body.addEventListener('contextmenu', () => {
     if (hasSecond) {
-      resolve(createDiv('Second promise was resolved', 'success'));
+      resolve('Second promise was resolved');
       hasSecond = false;
     }
   });
 });
 
-secondPromise.then(() => {});
+secondPromise.then(() => {
+  createDiv('Second promise was resolved', 'success');
+});
 
 const thirdPromise = new Promise((resolve) => {
   let leftClick = false;
@@ -77,12 +85,14 @@ const thirdPromise = new Promise((resolve) => {
 
   function checkBothClicks() {
     if (leftClick && rightClick) {
-      resolve(createDiv('Third promise was resolved', 'success'));
+      resolve('Third promise was resolved');
     }
   }
 });
 
-thirdPromise.then(() => {});
+thirdPromise.then(() => {
+  createDiv('Third promise was resolved', 'success');
+});
 
 function createDiv(message, className) {
   const newDiv = document.createElement('div');
