@@ -2,6 +2,15 @@
 
 const logo = document.querySelector('.logo');
 const body = document.querySelector('body');
+const divMessage = (type, message) => {
+  const div = document.createElement('div');
+
+  div.setAttribute('class', type);
+  div.setAttribute('data-qa', 'notification');
+
+  div.textContent = message;
+  body.append(div);
+};
 
 const firstPromise = new Promise((resolve, reject) => {
   logo.addEventListener('click', () => {
@@ -17,22 +26,10 @@ const firstPromise = new Promise((resolve, reject) => {
 
 firstPromise
   .then((message) => {
-    const div = document.createElement('div');
-
-    div.setAttribute('class', 'success');
-    div.setAttribute('data-qa', 'notification');
-
-    div.textContent = message;
-    body.append(div);
+    divMessage('success', message);
   })
   .catch((errorMesage) => {
-    const div = document.createElement('div');
-
-    div.setAttribute('class', 'error');
-    div.setAttribute('data-qa', 'notification');
-
-    div.textContent = errorMesage;
-    body.append(div);
+    divMessage('error', errorMesage);
   });
 
 const secondPromise = new Promise((resolve, reject) => {
@@ -47,13 +44,7 @@ const secondPromise = new Promise((resolve, reject) => {
 });
 
 secondPromise.then((message) => {
-  const div = document.createElement('div');
-
-  div.setAttribute('class', 'success');
-  div.setAttribute('data-qa', 'notification');
-
-  div.textContent = message;
-  body.append(div);
+  divMessage('success', message);
 });
 
 const thirdPromise = new Promise((resolve, reject) => {
