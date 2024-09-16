@@ -43,15 +43,15 @@ const thirdPromis = new Promise((resolve) => {
   });
 });
 
-function appendMessage(data, hasError) {
+function appendMessage(data) {
   const div = document.createElement('div');
 
   div.setAttribute('data-qa', 'notification');
 
-  if (!hasError) {
-    div.classList.add('success');
-  } else {
+  if (data instanceof Error) {
     div.classList.add('error');
+  } else {
+    div.classList.add('success');
   }
 
   div.innerHTML = data;
