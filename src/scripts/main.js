@@ -15,7 +15,7 @@ const firstPromise = new Promise((resolve, reject) => {
   }
 });
 
-const secondPromis = new Promise((resolve) => {
+const secondPromise = new Promise((resolve) => {
   document.addEventListener('click', () => {
     resolve('Second promise was resolved');
   });
@@ -26,7 +26,7 @@ const secondPromis = new Promise((resolve) => {
   });
 });
 
-const thirdPromis = new Promise((resolve) => {
+const thirdPromise = new Promise((resolve) => {
   document.addEventListener('click', () => {
     document.addEventListener('contextmenu', (e) => {
       e.preventDefault();
@@ -59,5 +59,5 @@ function appendMessage(data) {
 }
 
 firstPromise.then(appendMessage).catch(appendMessage);
-secondPromis.then(appendMessage);
-thirdPromis.then(appendMessage);
+secondPromise.then(appendMessage);
+thirdPromise.then(appendMessage);
