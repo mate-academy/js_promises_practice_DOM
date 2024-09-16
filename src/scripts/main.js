@@ -58,8 +58,6 @@ function appendMessage(data) {
   document.body.append(div);
 }
 
-firstPromise
-  .then((message) => appendMessage(message))
-  .catch((error) => appendMessage(error));
-secondPromis.then((message) => appendMessage(message));
-thirdPromis.then((message) => appendMessage(message));
+firstPromise.then(appendMessage).catch(appendMessage);
+secondPromis.then(appendMessage);
+thirdPromis.then(appendMessage);
