@@ -43,24 +43,23 @@ const thirdPromis = new Promise((resolve) => {
   });
 });
 
-const successHandler = (dataFromResolve) => {
+function appendMessage(data, hasError) {
   const div = document.createElement('div');
 
   div.setAttribute('data-qa', 'notification');
-  div.classList.add('success');
-  div.innerHTML = dataFromResolve;
+
+  if (!hasError) {
+    div.classList.add('success');
+  } else {
+    div.classList.add('error');
+  }
+
+  div.innerHTML = data;
   document.body.append(div);
-};
+}
 
-const errorHandler = (dataFromReject) => {
-  const div = document.createElement('div');
-
-  div.setAttribute('data-qa', 'notification');
-  div.classList.add('error');
-  div.innerHTML = dataFromReject;
-  document.body.append(div);
-};
-
-firstPromise.then(successHandler).catch(errorHandler);
-secondPromis.then(successHandler);
-thirdPromis.then(successHandler);
+firstPromise
+  .then((message) => appendMessage(message))
+  .catch((error) => appendMessage(error));
+secondPromis.then((message) => appendMessage(message));
+thirdPromis.then((message) => appendMessage(message));
