@@ -2,7 +2,7 @@
 
 const logo = document.querySelector('.logo');
 const body = document.querySelector('body');
-const divMessage = (type, message) => {
+const handleMessage = (type, message) => {
   const div = document.createElement('div');
 
   div.setAttribute('class', type);
@@ -26,10 +26,10 @@ const firstPromise = new Promise((resolve, reject) => {
 
 firstPromise
   .then((message) => {
-    divMessage('success', message);
+    handleMessage('success', message);
   })
   .catch((errorMesage) => {
-    divMessage('error', errorMesage);
+    handleMessage('error', errorMesage);
   });
 
 const secondPromise = new Promise((resolve, reject) => {
@@ -44,7 +44,7 @@ const secondPromise = new Promise((resolve, reject) => {
 });
 
 secondPromise.then((message) => {
-  divMessage('success', message);
+  handleMessage('success', message);
 });
 
 const thirdPromise = new Promise((resolve, reject) => {
@@ -65,11 +65,5 @@ const thirdPromise = new Promise((resolve, reject) => {
 });
 
 thirdPromise.then((message) => {
-  const div = document.createElement('div');
-
-  div.setAttribute('class', 'success');
-  div.setAttribute('data-qa', 'notification');
-
-  div.textContent = message;
-  body.append(div);
+  handleMessage('success', message);
 });
