@@ -43,40 +43,46 @@ firstPromise
   });
 // //////////////////////////////////////////////////////////
 
-let action; // for checikng condition click || contextmenu ????
-
 // ///////////////////////////////////////////////
 
 const secondPromise = new Promise((resolve, reject) => {
   doc.addEventListener('click', (e) => {
     resolve('Second promise was resolved');
-    action = e.type;
   });
 
   doc.addEventListener('contextmenu', (e) => {
     resolve('Second promise was resolved');
-    action = e.type;
   });
 });
 
 secondPromise.then((data) => {
   creativeMessage(data);
-
-  // ?????????????????????????????
-
-  if (action === 'contextmenu') {
-    thirdPromise.then((data3) => {
-      creativeMessage(data3);
-    });
-  }
 });
 
 // //////////////////////////////////////////////////
+let leftClick = false;
+let rightClick = false;
 
 const thirdPromise = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve('Third promise was resolved');
-  }, 3000);
+  doc.addEventListener('click', () => {
+    leftClick = true;
+
+    if (leftClick && rightClick) {
+      resolve('Third promise was resolved');
+    }
+  });
+
+  doc.addEventListener('contextmenu', () => {
+    rightClick = true;
+
+    if (leftClick && rightClick) {
+      resolve('Third promise was resolved');
+    }
+  });
+});
+
+thirdPromise.then((data) => {
+  creativeMessage(data);
 });
 
 // //////////////////////////////////////////////
