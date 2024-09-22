@@ -53,9 +53,9 @@ function appendNotification(result, isError = false) {
 }
 
 firstPromise
-  .then((result) => appendNotification(result))
+  .then(appendNotification)
   .catch((error) => appendNotification(error, true));
 
-secondPromise.then((result) => appendNotification(result));
+secondPromise.then(appendNotification);
 
-thirdPromise.then((result) => appendNotification(result));
+thirdPromise.then(appendNotification);
