@@ -1,5 +1,6 @@
 'use strict';
 
+// solution
 function showNotification(message, type) {
   const notification = document.createElement('div');
 
