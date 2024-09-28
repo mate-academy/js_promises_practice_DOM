@@ -29,10 +29,14 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 const secondPromise = new Promise((resolve) => {
-  document.addEventListener('click', (e) => {
-    if (e.button === 0 || e.button === 2) {
-      resolve('Second promise was resolved');
-    }
+  document.addEventListener('click', () => {
+    resolve('Second promise was resolved');
+  });
+
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+
+    resolve('Second promise was resolved');
   });
 });
 
@@ -49,9 +53,23 @@ const thirdPromise = new Promise((resolve) => {
       rightClicked = true;
     }
 
-    if ((e.button === 0 && leftClicked) || (e.button === 2 && rightClicked)) {
-      resolve('Third promise was resolved');
-    }
+    const checkClickedButtons = () => {
+      if (leftClicked && rightClicked) {
+        resolve('Third promise was resolved');
+      }
+    };
+
+    document.addEventListener('click', () => {
+      leftClicked = true;
+
+      checkClickedButtons();
+    });
+
+    document.addEventListener('contextmenu', (evt) => {
+      evt.preventDefault();
+      rightClicked = true;
+      checkClickedButtons();
+    });
   });
 });
 
@@ -69,8 +87,4 @@ secondPromise.then((message) => {
 
 thirdPromise.then((message) => {
   showNotification(message, 'success');
-});
-
-document.addEventListener('contextmenu', (evt) => {
-  evt.preventDefault();
 });
