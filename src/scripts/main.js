@@ -20,8 +20,8 @@ const firstPromise = new Promise((resolve, reject) => {
     reject(new Error('First promise was rejected'));
   }, 3000);
 
-  document.addEventListener('click', (e) => {
-    if (e.button === 0) {
+  document.addEventListener('click', (evt) => {
+    if (evt.button === 0) {
       clearTimeout(timer);
       resolve('First promise was resolved');
     }
@@ -49,7 +49,7 @@ const thirdPromise = new Promise((resolve) => {
       rightClicked = true;
     }
 
-    if (leftClicked && rightClicked) {
+    if ((e.button === 0 && leftClicked) || (e.button === 2 && rightClicked)) {
       resolve('Third promise was resolved');
     }
   });
@@ -71,6 +71,6 @@ thirdPromise.then((message) => {
   showNotification(message, 'success');
 });
 
-document.addEventListener('contextmenu', (e) => {
-  e.preventDefault();
+document.addEventListener('contextmenu', (evt) => {
+  evt.preventDefault();
 });
