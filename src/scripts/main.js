@@ -1,12 +1,8 @@
 'use strict';
 
-let bodyDoc;
+const bodyDoc = document.querySelector('body');
 let rightClick;
 let leftClick;
-
-if (document.querySelector('body') !== null) {
-  bodyDoc = document.querySelector('body');
-}
 
 function makeDiv(className) {
   const div = document.createElement('div');
@@ -20,11 +16,15 @@ function makeDiv(className) {
 
 const firstPromise = () => {
   return new Promise((resolve, reject) => {
-    document.addEventListener('click', () => {
-      leftClick = true;
+    document.addEventListener(
+      'click',
+      () => {
+        leftClick = true;
 
-      resolve('First promise was resolved');
-    });
+        resolve('First promise was resolved');
+      },
+      { once: true },
+    );
 
     // eslint-disable-next-line prefer-promise-reject-errors
     setTimeout(() => reject('First promise was rejected!'), 3000);
@@ -33,33 +33,51 @@ const firstPromise = () => {
 
 const secondPromise = () => {
   return new Promise((resolve) => {
-    document.addEventListener('click', () => {
-      leftClick = true;
+    document.addEventListener(
+      'click',
+      () => {
+        leftClick = true;
 
-      resolve('Second promise was resolved');
-    });
+        resolve('Second promise was resolved');
+      },
+      { once: true },
+    );
 
-    document.addEventListener('contextmenu', () => {
-      rightClick = true;
+    document.addEventListener(
+      'contextmenu',
+      () => {
+        rightClick = true;
 
-      resolve('Second promise was resolved');
-    });
+        resolve('Second promise was resolved');
+      },
+      { once: true },
+    );
   });
 };
 
 const thirdPromise = () => {
   return new Promise((resolve) => {
-    document.addEventListener('click', () => {
-      if (rightClick === true) {
-        resolve('Third promise was resolved');
-      }
-    });
+    document.addEventListener(
+      'click',
+      () => {
+        if (rightClick === true) {
+          rightClick = false;
+          resolve('Third promise was resolved');
+        }
+      },
+      { once: true },
+    );
 
-    document.addEventListener('contextmenu', () => {
-      if (leftClick === true) {
-        resolve('Third promise was resolved');
-      }
-    });
+    document.addEventListener(
+      'contextmenu',
+      () => {
+        if (leftClick === true) {
+          leftClick = false;
+          resolve('Third promise was resolved');
+        }
+      },
+      { once: true },
+    );
   });
 };
 
