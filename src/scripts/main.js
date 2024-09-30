@@ -1,6 +1,5 @@
 'use strict';
 
-const bodyDoc = document.querySelector('body');
 let rightClick;
 let leftClick;
 
@@ -9,7 +8,7 @@ function makeDiv(className) {
 
   div.setAttribute('data-qa', 'notification');
   div.setAttribute('class', className);
-  bodyDoc.appendChild(div);
+  document.body.appendChild(div);
 
   return div;
 }
@@ -93,14 +92,18 @@ firstPromise()
     div.textContent = val;
   });
 
-secondPromise().then((val) => {
-  const div = makeDiv('success');
+secondPromise()
+  .then((val) => {
+    const div = makeDiv('success');
 
-  div.textContent = val;
-});
+    div.textContent = val;
+  })
+  .catch();
 
-thirdPromise().then((val) => {
-  const div = makeDiv('success');
+thirdPromise()
+  .then((val) => {
+    const div = makeDiv('success');
 
-  div.textContent = val;
-});
+    div.textContent = val;
+  })
+  .catch();
