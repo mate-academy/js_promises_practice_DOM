@@ -1,10 +1,8 @@
 'use strict';
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', (e) => {
-    if (e.button === 0) {
-      resolve('First promise was resolved');
-    }
+  document.addEventListener('click', () => {
+    resolve('First promise was resolved');
   });
 
   setTimeout(() => {
@@ -12,17 +10,26 @@ const firstPromise = new Promise((resolve, reject) => {
   }, 3000);
 });
 
-const secondPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', (e) => {
-    if (e.button === 0 || e.button === 1) {
+const secondPromise = new Promise((resolve) => {
+  document.addEventListener('mouseup', (e) => {
+    if (e.button === 0 || e.button === 2) {
       resolve('Second promise was resolved');
     }
   });
 });
 
-const thirdPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', (e) => {
-    if (e.button === 0 && e.button === 1) {
+const thirdPromise = new Promise((resolve) => {
+  let right = false;
+  let left = false;
+
+  document.addEventListener('mouseup', (e) => {
+    if (e.button === 0) {
+      left = true;
+    } else if (e.button === 2) {
+      right = true;
+    }
+
+    if (left && right) {
       resolve('Third promise was resolved');
     }
   });
