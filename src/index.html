@@ -24,55 +24,74 @@
         document.getElementById('notifications').appendChild(notification);
       }
 
-      const firstPromise = new Promise((resolve, reject) => {
-        let clicked = false;
-        document.addEventListener('click', (event) => {
-          if (event.button === 0) {
-            clicked = true;
-            resolve('First promise was resolved');
-          }
-        });
+      let firstPromiseResolved = false;
+      let secondPromiseResolved = false;
+      let thirdPromiseResolved = false;
+      let leftClicked = false;
+      let rightClicked = false;
 
+      const firstPromise = new Promise((resolve, reject) => {
         setTimeout(() => {
-          if (!clicked) {
+          if (!firstPromiseResolved) {
             reject('First promise was rejected');
           }
         }, 3000);
       });
 
-      const secondPromise = new Promise((resolve) => {
-        document.addEventListener('click', (event) => {
-          if (event.button === 0 || event.button === 2) {
-            resolve('Second promise was resolved');
+      const secondPromise = new Promise((resolve) => {});
+
+      const thirdPromise = new Promise((resolve) => {});
+
+      function handleClick(event) {
+        if (event.button === 0) {
+          if (!firstPromiseResolved) {
+            firstPromiseResolved = true;
+            firstPromise
+              .then((message) => createNotification(message, 'success'))
+              .catch((message) => createNotification(message, 'error'));
+            firstPromiseResolved = true;
           }
-        });
-      });
 
-      let leftClicked = false;
-      let rightClicked = false;
-      const thirdPromise = new Promise((resolve) => {
-        document.addEventListener('click', (event) => {
-          if (event.button === 0) {
-            leftClicked = true;
+          if (!secondPromiseResolved) {
+            secondPromiseResolved = true;
+            secondPromise.then((message) =>
+              createNotification(message, 'success'),
+            );
           }
-          if (event.button === 2) {
-            rightClicked = true;
+
+          leftClicked = true;
+        }
+
+        if (event.button === 2) {
+          if (!secondPromiseResolved) {
+            secondPromiseResolved = true;
+            secondPromise.then((message) =>
+              createNotification(message, 'success'),
+            );
           }
-          if (leftClicked && rightClicked) {
-            resolve('Third promise was resolved');
-          }
-        });
-      });
 
-      firstPromise
-        .then((message) => createNotification(message, 'success'))
-        .catch((message) => createNotification(message, 'error'));
+          rightClicked = true;
+        }
 
-      secondPromise.then((message) => createNotification(message, 'success'));
+        if (leftClicked && rightClicked && !thirdPromiseResolved) {
+          thirdPromiseResolved = true;
+          thirdPromise.then((message) =>
+            createNotification(message, 'success'),
+          );
+        }
 
-      thirdPromise.then((message) => createNotification(message, 'success'));
+        if (
+          firstPromiseResolved &&
+          secondPromiseResolved &&
+          thirdPromiseResolved
+        ) {
+          document.removeEventListener('click', handleClick);
+        }
+      }
 
-      // Prevent context menu on right click
+      document.addEventListener('click', handleClick);
+
+      // Prevent context menu on right click to ensure right-clicks are captured
       document.addEventListener('contextmenu', (event) =>
         event.preventDefault(),
       );
