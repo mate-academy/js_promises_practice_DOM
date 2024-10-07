@@ -1,27 +1,19 @@
 'use strict';
 
 const firstPromise = new Promise((resolve, reject) => {
-  let isResolved = false;
-
   const clickHandler = () => {
-    if (!isResolved) {
-      isResolved = true;
-      clearTimeout(timer);
-      document.removeEventListener('click', clickHandler);
+    clearTimeout(timer);
+    document.removeEventListener('click', clickHandler);
 
-      resolve('First promise was resolved');
-    }
+    resolve('First promise was resolved');
   };
 
   document.addEventListener('click', clickHandler);
 
   const timer = setTimeout(() => {
-    if (!isResolved) {
-      isResolved = true;
-      document.removeEventListener('click', clickHandler);
+    document.removeEventListener('click', clickHandler);
 
-      reject(new Error('First promise was rejected'));
-    }
+    reject(new Error('First promise was rejected'));
   }, 3000);
 });
 
@@ -44,15 +36,10 @@ firstPromise
   });
 
 const secondPromise = new Promise((resolve, reject) => {
-  let isResolved = false;
-
   const clickHandler = () => {
-    if (!isResolved) {
-      isResolved = true;
-      document.removeEventListener('click', clickHandler);
+    document.removeEventListener('click', clickHandler);
 
-      resolve('Second promise was resolved');
-    }
+    resolve('Second promise was resolved');
   };
 
   document.addEventListener('click', clickHandler);
@@ -72,27 +59,25 @@ const thirdPromise = new Promise((resolve, reject) => {
   let leftClick = false;
   let rightClick = false;
 
-  const clickHandler = (clickWith) => {
-    if (clickWith === 'left') {
+  const clickHandler = (click) => {
+    if (click.button === 0) {
       leftClick = true;
     }
 
-    if (clickWith === 'right') {
+    if (click.button === 2) {
+      click.preventDefault(); // Prevents the menu from appearing
       rightClick = true;
     }
 
     if (leftClick && rightClick) {
-      document.removeEventListener('click', leftClickHandler);
-      document.removeEventListener('contextmenu', rightClickHandler);
+      document.removeEventListener('click', clickHandler);
+      document.removeEventListener('contextmenu', clickHandler);
       resolve('Third promise was resolved');
     }
   };
 
-  const leftClickHandler = () => clickHandler('left');
-  const rightClickHandler = () => clickHandler('right');
-
-  document.addEventListener('click', leftClickHandler);
-  document.addEventListener('contextmenu', rightClickHandler);
+  document.addEventListener('click', clickHandler);
+  document.addEventListener('contextmenu', clickHandler);
 });
 
 thirdPromise.then((message) => {
