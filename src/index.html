@@ -14,6 +14,90 @@
   </head>
   <body>
     <h1 class="logo">MA</h1>
-    <script src="scripts/main.js"></script>
+    <div id="notifications"></div>
+    <script>
+      function createNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.className = type;
+        notification.dataset.qa = 'notification';
+        notification.textContent = message;
+        document.getElementById('notifications').appendChild(notification);
+      }
+
+      let firstPromiseResolved = false;
+      let secondPromiseResolved = false;
+      let thirdPromiseResolved = false;
+      let leftClicked = false;
+      let rightClicked = false;
+
+      const firstPromise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          if (!firstPromiseResolved) {
+            reject('First promise was rejected');
+          }
+        }, 3000);
+      });
+
+      const secondPromise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve('Second promise resolved');
+        }, 2000);
+      });
+
+      const thirdPromise = new Promise((resolve, reject) => {
+          resolve('Third promise resolved');
+        }, 4000);
+      });
+
+      function handleClick(event) {
+        if (event.button === 0) {
+          if (!firstPromiseResolved) {
+            firstPromiseResolved = true;
+            firstPromise
+              .then((message) => createNotification(message, 'success'))
+              .catch((message) => createNotification(message, 'error'));
+            firstPromiseResolved = true;
+          }
+
+          if (!secondPromiseResolved) {
+            secondPromiseResolved = true;
+            secondPromise.then((message) =>
+              createNotification(message, 'success'),
+            );
+          }
+
+          leftClicked = true;
+        }
+
+        if (event.button === 2) {
+          if (!secondPromiseResolved) {
+            secondPromiseResolved = true;
+            secondPromise.then((message) =>
+              createNotification(message, 'success'),
+            );
+          }
+
+          rightClicked = true;
+        }
+
+        if (firstPromiseResolved && secondPromiseResolved && thirdPromiseResolved) {
+          document.removeEventListener('click', handleClick);
+        }
+        if (
+          firstPromiseResolved &&
+          secondPromiseResolved &&
+          thirdPromiseResolved
+        ) {
+          document.removeEventListener('click', handleClick);
+        }
+      }
+
+      document.addEventListener('click', handleClick);
+
+      // Prevent context menu on right click to ensure right-clicks are captured
+      document.addEventListener('contextmenu', (event) =>
+        event.preventDefault(),
+      );
+    </script>
   </body>
 </html>
