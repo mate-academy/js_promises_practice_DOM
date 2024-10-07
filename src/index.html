@@ -38,9 +38,16 @@
         }, 3000);
       });
 
-      const secondPromise = new Promise((resolve) => {});
+      const secondPromise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve('Second promise resolved');
+        }, 2000);
+      });
 
-      const thirdPromise = new Promise((resolve) => {});
+      const thirdPromise = new Promise((resolve, reject) => {
+          resolve('Third promise resolved');
+        }, 4000);
+      });
 
       function handleClick(event) {
         if (event.button === 0) {
@@ -73,13 +80,9 @@
           rightClicked = true;
         }
 
-        if (leftClicked && rightClicked && !thirdPromiseResolved) {
-          thirdPromiseResolved = true;
-          thirdPromise.then((message) =>
-            createNotification(message, 'success'),
-          );
+        if (firstPromiseResolved && secondPromiseResolved && thirdPromiseResolved) {
+          document.removeEventListener('click', handleClick);
         }
-
         if (
           firstPromiseResolved &&
           secondPromiseResolved &&
