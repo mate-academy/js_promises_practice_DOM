@@ -1,11 +1,11 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const notification = (message, isSuccess) => {
+  const notification = (message, type) => {
     const div = document.createElement('div');
 
     div.setAttribute('data-qa', 'notification');
-    div.className = isSuccess ? 'success' : 'error';
+    div.classList.add(type);
     div.textContent = message;
     document.body.appendChild(div);
   };
@@ -41,32 +41,34 @@ document.addEventListener('DOMContentLoaded', () => {
     let leftClickHappened = false;
     let rightClickHappened = false;
 
-    const handleThirdClick = (ev) => {
+    document.addEventListener('click', (ev) => {
       if (ev.button === 0) {
         leftClickHappened = true;
-      } else if (ev.button === 2) {
+      }
+
+      if (leftClickHappened && rightClickHappened) {
+        resolve('Third promise was resolved');
+      }
+    });
+
+    document.addEventListener('contextmenu', (ev) => {
+      ev.preventDefault();
+
+      if (ev.button === 2) {
         rightClickHappened = true;
       }
 
       if (leftClickHappened && rightClickHappened) {
-        resolve('Third promise was resolved after both left and right clicks');
-        document.removeEventListener('click', handleThirdClick);
+        resolve('Third promise was resolved');
       }
-    };
-
-    document.addEventListener('click', handleThirdClick);
+    });
   });
 
   firstPromise
-    .then((message) => notification(message, true))
-    .catch((err) => notification(err.message, false));
+    .then((message) => notification(message, 'success'))
+    .catch((err) => notification(err.message, 'error'));
 
-  secondPromise.then((message) => notification(message, true));
+  secondPromise.then((message) => notification(message, 'success'));
 
-  thirdPromise.then((message) => notification(message, true));
-
-  // Відключаємо контекстне меню
-  document.addEventListener('contextmenu', (ev) => {
-    ev.preventDefault();
-  });
+  thirdPromise.then((message) => notification(message, 'success'));
 });
