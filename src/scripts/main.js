@@ -1,5 +1,3 @@
-'use strict';
-
 document.addEventListener('DOMContentLoaded', () => {
   const notification = (message, type) => {
     const div = document.createElement('div');
@@ -10,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.appendChild(div);
   };
 
-  // Перший проміс
+  // First promise
   const firstPromise = new Promise((resolve, reject) => {
     document.addEventListener('click', (ev) => {
       if (ev.button === 0) {
@@ -23,20 +21,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3000);
   });
 
-  // Другий проміс
+  firstPromise
+    .then((message) => notification(message, 'success'))
+    .catch((err) => notification(err.message, 'error'));
+
+  // Second promise
   const secondPromise = new Promise((resolve) => {
-    document.addEventListener(
-      'click',
-      (ev) => {
-        if (ev.button === 0 || ev.button === 2) {
-          resolve('Second promise was resolved');
-        }
-      },
-      { once: true },
-    );
+    document.addEventListener('click', (ev) => {
+      if (ev.button === 0) {
+        resolve('Second promise was resolved');
+      }
+    }, { once: true });
+
+    document.addEventListener('contextmenu', (ev) => {
+      ev.preventDefault();
+      if (ev.button === 2) {
+        resolve('Second promise was resolved');
+      }
+    });
   });
 
-  // Третій проміс
+  secondPromise.then((message) => notification(message, 'success'));
+
+  // Third promise
   const thirdPromise = new Promise((resolve) => {
     let leftClickHappened = false;
     let rightClickHappened = false;
@@ -63,12 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-
-  firstPromise
-    .then((message) => notification(message, 'success'))
-    .catch((err) => notification(err.message, 'error'));
-
-  secondPromise.then((message) => notification(message, 'success'));
 
   thirdPromise.then((message) => notification(message, 'success'));
 });
