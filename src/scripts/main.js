@@ -1,7 +1,8 @@
 'use strict';
 
 const doc = document;
-let counter = 0;
+let firstPromiseRes = false;
+let secondPromiseRes = false;
 
 const promise1 = new Promise((resolve, reject) => {
   const timer = setTimeout(() => {
@@ -43,7 +44,7 @@ function proms(promResult, theMessage) {
 }
 
 function checkCounter() {
-  if (counter === 2) {
+  if (firstPromiseRes && secondPromiseRes) {
     const promise3 = new Promise((resolve, reject) => {
       resolve('Third promise was resolved');
     });
@@ -56,7 +57,7 @@ function checkCounter() {
 
 promise1
   .then((message) => {
-    counter++;
+    firstPromiseRes = true;
     proms(true, message);
     checkCounter();
   })
@@ -65,7 +66,7 @@ promise1
   });
 
 promise2.then((message) => {
-  counter++;
+  secondPromiseRes = true;
   proms(true, message);
   checkCounter();
 });
