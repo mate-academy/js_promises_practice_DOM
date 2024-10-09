@@ -1,8 +1,8 @@
 'use strict';
 
 const doc = document;
-let firstPromiseRes = false;
-let secondPromiseRes = false;
+let leftClick = false;
+let rightClick = false;
 
 const promise1 = new Promise((resolve, reject) => {
   const timer = setTimeout(() => {
@@ -13,6 +13,7 @@ const promise1 = new Promise((resolve, reject) => {
 
   doc.addEventListener('click', (ev) => {
     clearTimeout(timer);
+    leftClick = true;
     resolve('First promise was resolved');
   });
 });
@@ -20,10 +21,12 @@ const promise1 = new Promise((resolve, reject) => {
 const promise2 = new Promise((resolve, reject) => {
   doc.addEventListener('contextmenu', (ev) => {
     ev.preventDefault();
+    rightClick = true;
     resolve('Second promise was resolved');
   });
 
   doc.addEventListener('click', (ev) => {
+    leftClick = true;
     resolve('Second promise was resolved');
   });
 });
@@ -33,18 +36,13 @@ function proms(promResult, theMessage) {
   const div = document.createElement('div');
 
   div.setAttribute('data-qa', 'notification');
-
-  if (promResult) {
-    div.classList.add('success');
-  } else {
-    div.classList.add('error');
-  }
-  div.textContent = `${theMessage}`;
+  div.classList.add(promResult ? 'success' : 'error');
+  div.textContent = theMessage;
   body.appendChild(div);
 }
 
-function checkCounter() {
-  if (firstPromiseRes && secondPromiseRes) {
+function checkBothClicks() {
+  if (leftClick && rightClick) {
     const promise3 = new Promise((resolve, reject) => {
       resolve('Third promise was resolved');
     });
@@ -55,18 +53,18 @@ function checkCounter() {
   }
 }
 
+// Handling first promise
 promise1
   .then((message) => {
-    firstPromiseRes = true;
     proms(true, message);
-    checkCounter();
+    checkBothClicks();
   })
   .catch((error) => {
     proms(false, error);
   });
 
+// Handling second promise
 promise2.then((message) => {
-  secondPromiseRes = true;
   proms(true, message);
-  checkCounter();
+  checkBothClicks();
 });
