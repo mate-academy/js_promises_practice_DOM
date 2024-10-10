@@ -6,7 +6,7 @@ let rightClick = false;
 
 const promise1 = new Promise((resolve, reject) => {
   const timer = setTimeout(() => {
-    const error = 'First promise was rejected';
+    const error = 'First promise was rejected in 3 seconds';
 
     reject(error);
   }, 3000);
@@ -14,7 +14,7 @@ const promise1 = new Promise((resolve, reject) => {
   doc.addEventListener('click', (ev) => {
     clearTimeout(timer);
     leftClick = true;
-    resolve('First promise was resolved');
+    resolve('First promise was resolved on a left click in the document');
   });
 });
 
@@ -31,6 +31,15 @@ const promise2 = new Promise((resolve, reject) => {
   });
 });
 
+const promise3 = new Promise((resolve, reject) => {
+  const interval = setInterval(() => {
+    if (leftClick && rightClick) {
+      clearInterval(interval);
+      resolve('Third promise was resolved');
+    }
+  }, 100);
+});
+
 function proms(promResult, theMessage) {
   const body = document.querySelector('body');
   const div = document.createElement('div');
@@ -41,23 +50,10 @@ function proms(promResult, theMessage) {
   body.appendChild(div);
 }
 
-function checkBothClicks() {
-  if (leftClick && rightClick) {
-    const promise3 = new Promise((resolve, reject) => {
-      resolve('Third promise was resolved');
-    });
-
-    promise3.then((message) => {
-      proms(true, message);
-    });
-  }
-}
-
 // Handling first promise
 promise1
   .then((message) => {
     proms(true, message);
-    checkBothClicks();
   })
   .catch((error) => {
     proms(false, error);
@@ -66,5 +62,9 @@ promise1
 // Handling second promise
 promise2.then((message) => {
   proms(true, message);
-  checkBothClicks();
+});
+
+// Handling third promise
+promise3.then((message) => {
+  proms(true, message);
 });
