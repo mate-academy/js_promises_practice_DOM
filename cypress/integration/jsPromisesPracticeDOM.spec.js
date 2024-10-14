@@ -105,16 +105,13 @@ describe('Promises in DOM', () => {
       page.notification().should('include.text', thirdResolvedMsg);
     });
 
-    it(
-      'should be resolved despite the delay between the left and right click',
-      () => {
-        page.body().click();
-        cy.tick(100000);
-        page.body().rightclick();
+    it('should be resolved despite the delay between the left and right click', () => {
+      page.body().click();
+      cy.tick(100000);
+      page.body().rightclick();
 
-        page.notification().should('include.text', thirdResolvedMsg);
-      },
-    );
+      page.notification().should('include.text', thirdResolvedMsg);
+    });
 
     it('should not be resolved after the left click only', () => {
       page.body().click();
