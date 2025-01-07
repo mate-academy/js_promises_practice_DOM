@@ -20,7 +20,7 @@ const firstPromise = new Promise((resolve, reject) => {
 const secondPromise = new Promise((resolve) => {
   document.addEventListener('click', (ev) => {
     if (ev.button === 0 || ev.button === 2) {
-      resolve(new Error('Second promise was resolved'));
+      resolve('Second promise was resolved');
     }
   });
 });
@@ -39,7 +39,7 @@ const thirdPromise = new Promise((resolve) => {
     }
 
     if (leftClick && rightClick) {
-      resolve(new Error('Third promise was resolved'));
+      resolve('Third promise was resolved');
     }
   });
 });
