@@ -61,7 +61,7 @@ promise2
 
 const promise3 = new Promise((resolve) => {
   let leftClickMouse = false;
-  let rigthClickMouse = false;
+  let rightClickMouse = false;
 
   const mouseClickHandler = (e) => {
     const target = e.button;
@@ -71,10 +71,10 @@ const promise3 = new Promise((resolve) => {
     } else if (target === 2) {
       e.preventDefault();
 
-      rigthClickMouse = true;
+      rightClickMouse = true;
     }
 
-    if (leftClickMouse && rigthClickMouse) {
+    if (leftClickMouse && rightClickMouse) {
       resolve('Third promise was resolved');
       document.removeEventListener('mousedown', mouseClickHandler);
     }
