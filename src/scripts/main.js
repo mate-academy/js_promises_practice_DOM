@@ -1,6 +1,5 @@
 /* eslint-disable prefer-promise-reject-errors */
 'use strict';
-
 const logo = document.querySelector('.logo');
 const body = document.querySelector('body');
 
