@@ -21,7 +21,7 @@ logo.addEventListener('click', () => {
 
 const timeout = setTimeout(() => {
   Promise.reject(new Error('First promise was rejected')).catch((message) => {
-    const errorText = document.createTextNode(message);
+    const errorText = document.createTextNode(message.message);
     const notification = document.createElement('div');
 
     notification.className = 'error';
@@ -51,8 +51,8 @@ function secondPromise() {
 
 // third promise
 
-logo.addEventListener('click', () => {
-  logo.addEventListener('contextmenu', thirdPromise);
+logo.addEventListener('contextmenu', () => {
+  logo.addEventListener('click', thirdPromise);
 });
 
 function thirdPromise() {
