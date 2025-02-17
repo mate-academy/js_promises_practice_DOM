@@ -5,31 +5,54 @@ const firstPromiseErrorMessage = 'First promise was rejected';
 const secondPromiseSuccessMessage = 'Second promise was resolved';
 const thirdPromiseSuccessMessage = 'Third promise was resolved';
 
+let leftClickHappened = false;
+let rightClickHappened = false;
+
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', () => {
-    resolve();
-  });
+  document.addEventListener(
+    'click',
+    () => resolve(firstPromiseSuccessMessage),
+    { once: true },
+  );
 
   setTimeout(() => {
-    reject(new Error('error'));
+    reject(firstPromiseErrorMessage);
   }, 3000);
 });
 
-const secondPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', () => {
-    resolve();
-  });
+const secondPromise = new Promise((resolve) => {
+  document.addEventListener(
+    'click',
+    () => resolve(secondPromiseSuccessMessage),
+    { once: true },
+  );
 
-  document.addEventListener('contextmenu', () => {
-    resolve();
-  });
+  document.addEventListener(
+    'contextmenu',
+    (e) => {
+      e.preventDefault();
+      resolve(secondPromiseSuccessMessage);
+    },
+    { once: true },
+  );
 });
 
-const thirdPromise = new Promise((resolve, reject) => {
+const thirdPromise = new Promise((resolve) => {
   document.addEventListener('click', () => {
-    document.addEventListener('contextmenu', () => {
-      resolve();
-    });
+    leftClickHappened = true;
+
+    if (leftClickHappened && rightClickHappened) {
+      resolve(thirdPromiseSuccessMessage);
+    }
+  });
+
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    rightClickHappened = true;
+
+    if (leftClickHappened && rightClickHappened) {
+      resolve(thirdPromiseSuccessMessage);
+    }
   });
 });
 
@@ -39,7 +62,7 @@ function success(message) {
   newElement.className = 'success';
   newElement.setAttribute('data-qa', 'notification');
   newElement.innerHTML = message;
-  document.appendChild(newElement);
+  document.body.appendChild(newElement);
 }
 
 function error(message) {
@@ -48,12 +71,9 @@ function error(message) {
   newElement.className = 'error';
   newElement.setAttribute('data-qa', 'notification');
   newElement.innerHTML = message;
-  document.appendChild(newElement);
+  document.body.appendChild(newElement);
 }
 
-firstPromise
-  .then(success(firstPromiseSuccessMessage))
-  .catch(error(firstPromiseErrorMessage));
-
-secondPromise.then(secondPromiseSuccessMessage);
-thirdPromise.then(thirdPromiseSuccessMessage);
+firstPromise.then(success).catch(error);
+secondPromise.then(success);
+thirdPromise.then(success);
