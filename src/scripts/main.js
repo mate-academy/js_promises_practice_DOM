@@ -47,12 +47,24 @@ const thirdPromise = new Promise((resolve, reject) => {
   doc.addEventListener('mousedown', (e) => {
     if (e.button === 0) {
       isLeftClick = true;
-    } else if (e.button === 2) {
+    }
+
+    if (e.button === 2) {
       isRightClick = true;
     }
 
     if (isLeftClick && isRightClick) {
       resolve('Third promise was resolved');
+    }
+  });
+
+  doc.addEventListener('mouseup', (e) => {
+    if (e.button === 0) {
+      isLeftClick = false;
+    }
+
+    if (e.button === 2) {
+      isRightClick = false;
     }
   });
 });
