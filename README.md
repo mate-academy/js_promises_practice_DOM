@@ -1,19 +1,32 @@
-# Promises practice
-Create 3 promises:
-- The `firstPromise` should be
-  - **resolved** with a message `First promise was resolved` on a left `click` in the `document`
-  - **rejected** with a message `First promise was rejected` in 3 seconds if not clicked
-- The `secondPromise` should be:
-  - **resolved** only on `left` or `right` click in the `document` with a message `Second promise was resolved`
-  - never **rejected**
-- The `thirdPromise` should be **resolved** with a message `Third promise was resolved` only after both `left` and `right` clicks happened
+# Promises Practice
 
-Add `success` and `error` handlers to each promise to show `<div data-qa="notification">` with `success` or `error` class and a promise message.
+## 🎮 About the Project
+This project demonstrates the use of multiple promises with different behaviors:
+- **firstPromise**: 
+  - Resolves with a message "First promise was resolved" when the user clicks on the left side of the document.
+  - Rejects with a message "First promise was rejected" after 3 seconds if no click happens.
+- **secondPromise**: Resolves with a message "Second promise was resolved" when either left or right click is detected. This promise never rejects.
+- **thirdPromise**: Resolves with a message "Third promise was resolved" only after both left and right clicks occur.
 
-## Instructions
-1. Replace `<your_account>` with your Github username in the link
-    - [DEMO LINK](https://<your_account>.github.io/js_promises_practice_DOM/)
-2. Follow [this instructions](https://mate-academy.github.io/layout_task-guideline/)
-    - Run `npm run test` command to test your code;
-    - Run `npm run test:only -- -n` to run fast test ignoring linter;
-    - Run `npm run test:only -- -l` to run fast test with additional info in console ignoring linter.
+## 🚀 Tech Stack
+- **HTML** (BEM methodology for structured markup)
+- **CSS** (For styling)
+- **JavaScript** (Handling promises)
+
+## 🛠️ Tools & Dependencies
+- **ESLint** – Ensuring code quality  
+- **Prettier** – Code formatting for readability  
+- **Cypress** – End-to-end testing  
+- **Mochawesome** – Test reporting  
+- **Parcel** – Web application bundler  
+
+## 📌 Features
+✅ Demonstrates promise resolution and rejection with different conditions  
+✅ Multiple user interactions to resolve/reject promises  
+✅ Click events triggering promise behavior  
+
+## 🌐 Demo
+🔗 [Live Demo](https://AndriiZakharenko.github.io/promises-practice/)
+
+## 📜 License
+This project is forked from 💻 [Mate Academy](https://github.com/mate-academy/js_promises_practice_DOM)
