@@ -3,6 +3,16 @@
 const page = {
   notification: () => cy.get('[data-qa=notification]'),
   body: () => cy.get('body'),
+  simulateRightClick: (element = document) => {
+    const $event = new MouseEvent('click', {
+      view: window,
+      bubbles: true,
+      cancelable: true,
+      button: 2,
+    });
+
+    element.dispatchEvent($event);
+  },
 };
 
 const firstResolvedMsg = 'First promise was resolved';
@@ -74,7 +84,7 @@ describe('Promises in DOM', () => {
     });
 
     it('should be resolved after the right click', () => {
-      page.body().rightclick();
+      page.simulateRightClick();
 
       page.notification().should('include.text', secondResolvedMsg);
     });
@@ -93,24 +103,25 @@ describe('Promises in DOM', () => {
 
     it('should be resolved after the left and right click', () => {
       page.body().click();
-      page.body().rightclick();
+      page.simulateRightClick();
 
       page.notification().should('include.text', thirdResolvedMsg);
     });
 
     it('should be resolved after the right and left click', () => {
-      page.body().rightclick();
+      page.simulateRightClick();
       page.body().click();
 
       page.notification().should('include.text', thirdResolvedMsg);
     });
 
     it(
-      'should be resolved despite the delay between the left and right click',
+      'should be resolved despite the delay ' +
+        'between the left and right click',
       () => {
         page.body().click();
         cy.tick(100000);
-        page.body().rightclick();
+        page.simulateRightClick();
 
         page.notification().should('include.text', thirdResolvedMsg);
       },
@@ -123,7 +134,7 @@ describe('Promises in DOM', () => {
     });
 
     it('should not be resolved after the right click only', () => {
-      page.body().rightclick();
+      page.simulateRightClick();
 
       page.notification().should('not.include.text', thirdResolvedMsg);
     });
