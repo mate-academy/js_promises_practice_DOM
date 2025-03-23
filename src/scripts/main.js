@@ -4,35 +4,36 @@ const body = document.body;
 const bodyWh = document.documentElement.clientWidth;
 
 const firstPromise = new Promise((resolve, reject) => {
-  body.onclick = (e) => {
+  body.addEventListener('click', (e) => {
     const clickPosition = e.clientX;
     const bodyLeft = bodyWh / 2;
 
     if (clickPosition < bodyLeft) {
-      resolve();
+      resolve('First promise was resolved');
     }
-  };
+  })
 
   setTimeout(() => {
-    reject(new Error);
+    reject(new Error('First promise was rejected'));
   }, 3000);
+
 });
 
-firstPromise.catch( () => {
+firstPromise.catch((mess) => {
   const div = document.createElement('div');
 
   div.setAttribute('data-qa', 'notification');
-  div.textContent = 'First promise was rejected';
+  div.textContent = mess;
   div.classList.add('error');
 
   document.body.append(div);
 });
 
-firstPromise.then(() => {
+firstPromise.then((message) => {
   const div = document.createElement('div');
 
   div.setAttribute('data-qa', 'notification');
-  div.textContent = 'First promise was resolved';
+  div.textContent = message;
   div.classList.add('success');
 
   document.body.append(div);
@@ -42,13 +43,13 @@ firstPromise.then(() => {
 
 new Promise((resolve) => {
   body.addEventListener('click', (e) => {
-    resolve();
+    resolve('Second promise was resolved');
   });
-}).then(() => {
+}).then((message) => {
   const div = document.createElement('div');
 
   div.setAttribute('data-qa', 'notification');
-  div.textContent = 'Second promise was resolved';
+  div.textContent = message;
   div.classList.add('success');
 
   document.body.append(div);
@@ -68,7 +69,7 @@ const thirdPromise = new Promise((resolve, reject) => {
       (lefT === true && clickPos > leftBody) ||
       (rigtH === true && clickPos < leftBody)
     ) {
-      resolve();
+      resolve('Third promise was resolved');
     }
 
     if (clickPos > leftBody) {
@@ -81,11 +82,11 @@ const thirdPromise = new Promise((resolve, reject) => {
   });
 });
 
-thirdPromise.then((res) => {
+thirdPromise.then((lastValue) => {
   const div = document.createElement('div');
 
   div.setAttribute('data-qa', 'notification');
-  div.textContent = 'Third promise was resolved';
+  div.textContent = lastValue;
   div.classList.add('error');
 
   document.body.append(div);
