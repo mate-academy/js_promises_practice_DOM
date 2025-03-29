@@ -1,71 +1,76 @@
 'use strict';
 
-const body = document.querySelector('body');
+document.addEventListener('DOMContentLoaded', () => {
+  const firstPromise = new Promise((resolve, reject) => {
+    let clickDetected = false;
 
-const firstPromise = new Promise((resolve, reject) => {
-  body.addEventListener('click', () => {
-    resolve('First promise was resolved');
+    const handleClick = (e) => {
+      if (e.button === 0) {
+        clickDetected = true;
+        resolve('First promise was resolved');
+      }
+    };
+
+    document.addEventListener('click', handleClick);
+
+    setTimeout(() => {
+      if (!clickDetected) {
+        reject(new Error('First promise was rejected'));
+      }
+      document.removeEventListener('click', handleClick);
+    }, 3000);
   });
 
-  setTimeout(() => {
-    reject(new Error('First promise was rejected'));
-  }, 3000);
+  const secondPromise = new Promise((resolve) => {
+    const handleClick = (e) => {
+      if (e.button === 0 || e.button === 2) {
+        resolve('Second promise was resolved');
+      }
+    };
+
+    document.addEventListener('click', handleClick);
+  });
+
+  const thirdPromise = new Promise((resolve) => {
+    let leftClicked = false;
+    let rightClicked = false;
+
+    const handleClick = (e) => {
+      if (e.button === 0) {
+        leftClicked = true;
+      }
+
+      if (e.button === 2) {
+        rightClicked = true;
+      }
+
+      if (leftClicked && rightClicked) {
+        resolve('Third promise was resolved');
+      }
+    };
+
+    document.addEventListener('click', handleClick);
+  });
+
+  const showNotification = (message, type) => {
+    const notification = document.createElement('div');
+
+    notification.classList.add('notification', type);
+    notification.setAttribute('data-qa', 'notification');
+    notification.innerText = message;
+
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+      notification.remove();
+    }, 3000);
+  };
+
+  firstPromise
+    .then((message) => showNotification(message, 'success'))
+    .catch((message) => showNotification(message, 'error'));
+
+  secondPromise.then((message) => showNotification(message, 'success'));
+
+  thirdPromise.then((message) => showNotification(message, 'success'));
 });
-
-const secondPromise = new Promise((resolve, reject) => {
-  body.addEventListener('click', () => {
-    resolve('Second promise was resolved');
-  });
-
-  body.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-
-    resolve('Second promise was resolved');
-  });
-});
-
-const thirdPromise = new Promise((resolve, reject) => {
-  let left = false;
-  let right = false;
-
-  body.addEventListener('click', () => {
-    left = true;
-
-    if (right) {
-      resolve('Third promise was resolved');
-    }
-  });
-
-  body.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-    right = true;
-
-    if (left) {
-      resolve('Third promise was resolved');
-    }
-  });
-});
-
-const onSuccess = (message) => {
-  const mes = document.createElement('div');
-
-  mes.className = 'success';
-  mes.setAttribute('data-qa', 'notification');
-  mes.innerText = message;
-
-  body.appendChild(mes);
-};
-
-const onError = (message) => {
-  const mes = document.createElement('div');
-
-  mes.className = 'arning';
-  mes.setAttribute('data-qa', 'notification');
-  mes.innerText = message;
-
-  body.appendChild(mes);
-};
-
-firstPromise.then(onSuccess).catch(onError);
-secondPromise.then(onSuccess).catch(onError);
-thirdPromise.then(onSuccess).catch(onError);
