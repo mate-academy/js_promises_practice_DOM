@@ -2,7 +2,9 @@
 
 const onSuccess = (message) => {
   const divEl = document.createElement('div');
+
   divEl.className = 'success';
+  divEl.dataset.qa = 'notification';
   divEl.textContent = message;
   document.body.append(divEl);
 };
@@ -13,16 +15,18 @@ const firstPromise = new Promise((resolve, reject) => {
   });
 
   setTimeout(() => {
-    reject('First promise was rejected');
+    reject(new Error('First promise was rejected'));
   }, 3000);
 });
 
 firstPromise.then(onSuccess);
 
-firstPromise.catch((message) => {
+firstPromise.catch((error) => {
   const divEl = document.createElement('div');
+
   divEl.className = 'error';
-  divEl.textContent = message;
+  divEl.dataset.qa = 'notification';
+  divEl.textContent = error.message;
   document.body.append(divEl);
 });
 
