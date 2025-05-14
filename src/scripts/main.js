@@ -7,7 +7,7 @@ function notification(text, isError = false) {
 
   div.dataset.qa = 'notification';
   div.className = isError ? 'error' : 'success';
-  div.innerText = text;
+  div.textContent = text;
 
   document.body.appendChild(div);
 }
@@ -72,25 +72,13 @@ const thirdPromise = new Promise((resolve) => {
 });
 
 firstPromise
-  .then((message) => {
-    notification(message);
-  })
-  .catch((error) => {
-    notification(error.message, true);
-  });
+  .then((message) => notification(message))
+  .catch((error) => notification(error.message, true));
 
 secondPromise
-  .then((message) => {
-    notification(message);
-  })
-  .catch((error) => {
-    notification(error.message, true);
-  });
+  .then((message) => notification(message))
+  .catch((error) => notification(error.message, true));
 
 thirdPromise
-  .then((message) => {
-    notification(message);
-  })
-  .catch((error) => {
-    notification(error.message, true);
-  });
+  .then((message) => notification(message))
+  .catch((error) => notification(error.message, true));
