@@ -6,29 +6,36 @@ const mouseState = {
 };
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', () => {
+  const onClick = () => {
     clearTimeout(timer);
     resolve('First promise was resolved');
-  });
+    document.removeEventListener('click', onClick);
+  };
+
+  document.addEventListener('click', onClick);
 
   const timer = setTimeout(() => {
     // eslint-disable-next-line prefer-promise-reject-errors
     reject('First promise was rejected');
+    document.removeEventListener('click', onClick);
   }, 3000);
 });
 
 const secondPromise = new Promise((resolve) => {
-  document.addEventListener('mousedown', (e) => {
+  const onClick = (e) => {
     if (e.button === 0) {
       resolve('Second promise was resolved');
     } else if (e.button === 2) {
       resolve('Second promise was resolved');
     }
-  });
+    document.removeEventListener('click', onClick);
+  };
+
+  document.addEventListener('mousedown', onClick);
 });
 
 const thirdPromise = new Promise((resolve) => {
-  document.addEventListener('mousedown', (e) => {
+  const onClick = (e) => {
     if (e.button === 0) {
       mouseState.leftPressed = true;
     }
@@ -40,7 +47,10 @@ const thirdPromise = new Promise((resolve) => {
     if (mouseState.leftPressed && mouseState.rightPressed) {
       resolve('Third promise was resolved');
     }
-  });
+    document.removeEventListener('click', onClick);
+  };
+
+  document.addEventListener('mousedown', onClick);
 });
 
 function handleSuccess(valueOfPromise) {
