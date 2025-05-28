@@ -45,9 +45,9 @@ const thirdPromise = new Promise((resolve) => {
     }
 
     if (mouseState.leftPressed && mouseState.rightPressed) {
+      document.removeEventListener('mousedown', onClick);
       resolve('Third promise was resolved');
     }
-    document.removeEventListener('mousedown', onClick);
   };
 
   document.addEventListener('mousedown', onClick);
