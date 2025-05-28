@@ -28,7 +28,7 @@ const secondPromise = new Promise((resolve) => {
     } else if (e.button === 2) {
       resolve('Second promise was resolved');
     }
-    document.removeEventListener('click', onClick);
+    document.removeEventListener('mousedown', onClick);
   };
 
   document.addEventListener('mousedown', onClick);
@@ -47,7 +47,7 @@ const thirdPromise = new Promise((resolve) => {
     if (mouseState.leftPressed && mouseState.rightPressed) {
       resolve('Third promise was resolved');
     }
-    document.removeEventListener('click', onClick);
+    document.removeEventListener('mousedown', onClick);
   };
 
   document.addEventListener('mousedown', onClick);
