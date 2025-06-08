@@ -8,86 +8,72 @@ document.addEventListener('DOMContentLoaded', () => {
       reject(new Error('First promise was rejected'));
     }, 3000);
 
-    const clickHandler = (e) => {
-      if (e.button === 0) {
-        clearTimeout(timer);
-        resolve('First promise was resolved');
-        body.removeEventListener('mousedown', clickHandler);
-      }
-    };
-
-    body.addEventListener('mousedown', clickHandler);
+    body.addEventListener('click', () => {
+      clearTimeout(timer);
+      resolve('First promise was resolved');
+    });
   });
 
-  firstPromise
-    .then(() => {
-      const div = document.createElement('div');
-
-      div.setAttribute('data-qa', 'notification');
-      div.classList.add('success');
-      div.textContent = 'First promise was resolved';
-      body.appendChild(div);
-    })
-    .catch(() => {
-      const div = document.createElement('div');
-
-      div.textContent = 'First promise was rejected';
-      div.classList.add('error');
-      div.setAttribute('data-qa', 'notification');
-      body.appendChild(div);
-    });
+  firstPromise.then(successHandler).catch(errorHandler);
 
   const secondPromise = new Promise((resolve) => {
-    const clickHandler = (e) => {
-      if (e.button === 0 || e.button === 2) {
-        resolve('Second promise was resolved');
-      }
+    body.addEventListener('click', (e) => {
+      resolve('Second promise was resolved');
+    });
 
-      body.removeEventListener('mousedown', clickHandler);
-      body.removeEventListener('mouseup', clickHandler);
-    };
+    body.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
 
-    body.addEventListener('mousedown', clickHandler);
-    body.addEventListener('mouseup', clickHandler);
+      resolve('Second promise was resolved');
+    });
   });
 
-  secondPromise.then(() => {
-    const div = document.createElement('div');
-
-    div.setAttribute('data-qa', 'notification');
-    div.classList.add('success');
-    div.textContent = 'First promise was resolved';
-    body.appendChild(div);
-  });
+  secondPromise.then(successHandler);
 
   const thirdPromise = new Promise((resolve) => {
     let leftClick = false;
     let rightClick = false;
 
-    const clickHandler = (e) => {
-      if (e.button === 0) {
-        leftClick = true;
-      }
-
-      if (e.button === 2) {
-        rightClick = true;
-      }
-
+    const checkBoth = () => {
       if (leftClick && rightClick) {
         resolve('Third promise was resolved');
-        body.removeEventListener('mousedown', clickHandler);
       }
     };
 
-    body.addEventListener('mousedown', clickHandler);
+    const onLeftClick = () => {
+      leftClick = true;
+      checkBoth();
+    };
+
+    const onRightClick = (e) => {
+      e.preventDefault();
+      rightClick = true;
+      checkBoth();
+    };
+
+    body.addEventListener('click', onLeftClick);
+    body.addEventListener('contextmenu', onRightClick);
   });
 
-  thirdPromise.then(() => {
+  thirdPromise.then(successHandler);
+
+  function successHandler(result) {
     const div = document.createElement('div');
 
-    div.setAttribute('data-qa', 'notification');
     div.classList.add('success');
-    div.textContent = 'First promise was resolved';
-    body.appendChild(div);
-  });
+    div.setAttribute('data-qa', 'notification');
+    div.textContent = result;
+
+    document.body.appendChild(div);
+  }
+
+  function errorHandler(error) {
+    const div = document.createElement('div');
+
+    div.classList.add('error');
+    div.setAttribute('data-qa', 'notification');
+    div.textContent = error.message;
+
+    document.body.appendChild(div);
+  }
 });
