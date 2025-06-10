@@ -2,6 +2,16 @@
 
 const doc = document.querySelector('html');
 
+function createDiv(type, message) {
+  const div = document.createElement('div');
+
+  div.setAttribute('data-qa', 'notification');
+  div.textContent = message;
+  div.className = type;
+
+  document.body.appendChild(div);
+}
+
 const firstPromise = new Promise((resolve, reject) => {
   setTimeout(() => {
     reject(new Error());
@@ -13,23 +23,11 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 firstPromise.then(() => {
-  const div = document.createElement('div');
-
-  div.setAttribute('data-qa', 'notification');
-  div.textContent = 'First promise was resolved';
-  div.className = 'success';
-
-  document.body.appendChild(div);
+  createDiv('success', 'First promise was resolved');
 });
 
 firstPromise.catch(() => {
-  const div = document.createElement('div');
-
-  div.setAttribute('data-qa', 'notification');
-  div.textContent = 'First promise was rejected';
-  div.className = 'error';
-
-  document.body.appendChild(div);
+  createDiv('error', 'First promise was rejected');
 });
 
 const secondPromise = new Promise((resolve, reject) => {
@@ -39,12 +37,7 @@ const secondPromise = new Promise((resolve, reject) => {
 });
 
 secondPromise.then(() => {
-  const div = document.createElement('div');
-
-  div.setAttribute('data-qa', 'notification');
-  div.textContent = 'Second promise was resolved';
-  div.className = 'success';
-  document.body.appendChild(div);
+  createDiv('success', 'Second promise was resolved');
 });
 
 const thirdPromise = new Promise((resolve) => {
@@ -67,11 +60,5 @@ const thirdPromise = new Promise((resolve) => {
 });
 
 thirdPromise.then(() => {
-  const div = document.createElement('div');
-
-  div.setAttribute('data-qa', 'notification');
-  div.textContent = 'Third promise was resolved';
-  div.className = 'success';
-
-  document.body.appendChild(div);
+  createDiv('success', 'Third promise was resolved');
 });
