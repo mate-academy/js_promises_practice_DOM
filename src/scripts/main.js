@@ -33,7 +33,7 @@ const firstPromise = new Promise((resolve, reject) => {
 
 firstPromise
   .then((msg) => setNotification('success', msg))
-  .catch((err) => setNotification('error', err));
+  .catch((err) => setNotification('error', err.message));
 
 const secondPromise = new Promise((resolve) => {
   function getPromiseValue(e) {
