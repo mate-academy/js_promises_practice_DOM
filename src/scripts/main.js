@@ -6,8 +6,8 @@ const firstPromise = new Promise((resolve, reject) => {
   let wasClicked = false;
 
   document.addEventListener('click', () => {
-    wasClicked = true;
     resolve('First promise was resolved');
+    wasClicked = true;
   });
 
   if (wasClicked === false) {
@@ -67,17 +67,27 @@ const thirdPromise = new Promise((resolve, reject) => {
   let leftClick = false;
   let rightClick = false;
 
-  document.addEventListener('click', () => {
-    leftClick = true;
-  });
+  function checkBothClicks() {
+    if (leftClick && rightClick) {
+      resolve('Third promise was resolved');
 
-  document.addEventListener('contextmenu', () => {
-    rightClick = true;
-  });
-
-  if (leftClick && rightClick) {
-    resolve('Third promise was resolved');
+      document.removeEventListener('click', leftClickHandler);
+      document.removeEventListener('contextmenu', rightClickHandler);
+    }
   }
+
+  function leftClickHandler() {
+    leftClick = true;
+    checkBothClicks();
+  }
+
+  function rightClickHandler(e) {
+    rightClick = true;
+    checkBothClicks();
+  }
+
+  document.addEventListener('click', leftClickHandler);
+  document.addEventListener('contextmenu', rightClickHandler);
 });
 
 thirdPromise.then(() => {
