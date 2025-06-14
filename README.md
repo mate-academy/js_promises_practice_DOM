@@ -10,6 +10,7 @@ Create 3 promises:
 
 Add `success` and `error` handlers to each promise to show `<div data-qa="notification">` with `success` or `error` class and a promise message.
 
+
 ## Instructions
 1. Replace `<your_account>` with your Github username in the link
     - [DEMO LINK](https://<your_account>.github.io/js_promises_practice_DOM/)
