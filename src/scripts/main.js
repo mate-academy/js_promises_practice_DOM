@@ -66,7 +66,7 @@ document.addEventListener('contextmenu', (e) => e.preventDefault());
 // Handle success and errors
 firstPromise
   .then((msg) => showNotification('success', msg))
-  .catch((err) => showNotification('error', err));
+  .catch((err) => showNotification('error', err.message || err));
 
 secondPromise.then((msg) => showNotification('success', msg));
 // Never rejected
