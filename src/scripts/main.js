@@ -40,11 +40,14 @@ firstPromise
   });
 
 const secondPromise = new Promise((resolve, reject) => {
-  document.addEventListener('mousedown', (e) => {
+  const handleMouseDown = (e) => {
     if (e.button === 0 || e.button === 2) {
+      document.removeEventListener('mousedown', handleMouseDown);
       resolve('Second promise was resolved');
     }
-  });
+  };
+
+  document.addEventListener('mousedown', handleMouseDown);
 });
 
 secondPromise.then((msg) => {
@@ -60,7 +63,7 @@ const thirdPromise = new Promise((resolve, reject) => {
   let leftClick = false;
   let rightClick = false;
 
-  document.addEventListener('mousedown', (e) => {
+  const handleMouseDown = (e) => {
     if (e.button === 0) {
       leftClick = true;
     } else if (e.button === 2) {
@@ -68,9 +71,12 @@ const thirdPromise = new Promise((resolve, reject) => {
     }
 
     if (leftClick && rightClick) {
+      document.removeEventListener('mousedown', handleMouseDown);
       resolve('Third promise was resolved');
     }
-  });
+  };
+
+  document.addEventListener('mousedown', handleMouseDown);
 });
 
 thirdPromise.then((msg) => {
