@@ -52,7 +52,20 @@ const thirdPromise = new Promise((resolve) => {
   let leftClicked = false;
   let rightClicked = false;
 
+  function getValue(e) {
+    if (e.button === 0) {
+      leftClicked = true;
+    }
 
+    if (e.button === 2) {
+      rightClicked = true;
+    }
+
+    if (leftClicked && rightClicked) {
+      resolve('Third promise was resolved');
+      document.removeEventListener('mousedown', getValue);
+    }
+  }
 
   document.addEventListener('mousedown', getValue);
 });
