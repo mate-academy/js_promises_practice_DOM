@@ -52,17 +52,7 @@ const thirdPromise = new Promise((resolve) => {
   let leftClicked = false;
   let rightClicked = false;
 
-  function getValue(e) {
-    if (e.button === 0) {
-      leftClicked = true;
-    }
 
-    if (e.button === 2) {
-      rightClicked = true;
-    }
-
-
-  }
 
   document.addEventListener('mousedown', getValue);
 });
