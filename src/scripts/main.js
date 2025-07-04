@@ -1,65 +1,54 @@
 'use strict';
 
 const firstPromise = new Promise((resolve, reject) => {
-  const timeout = setTimeout(() => {
-    reject(new Error('First promise was rejected'));
-  }, 3000);
+  document.addEventListener('click', () => {
+    resolve('First promise was resolved');
+  });
 
-  document.addEventListener('click', (e) => {
-    if (e.button === 0) {
-      clearTimeout(timeout);
-      resolve('First promise was resolved');
+  setTimeout(() => reject(Error), 3000);
+});
+
+const secondPromise = new Promise((resolve) => {
+  document.addEventListener('click', () => {
+    resolve('Second promise was resolved');
+  });
+
+  document.addEventListener('contextmenu', () => {
+    resolve('Second promise was resolved');
+  });
+});
+
+const thirdPromise = new Promise((resolve) => {
+  let leftClick, rightClick;
+
+  window.addEventListener('mousedown', (e) => {
+    leftClick = e.button === 0 || leftClick;
+    rightClick = e.button === 2 || rightClick;
+
+    if (leftClick && rightClick) {
+      resolve('Third promise was resolved');
     }
   });
 });
 
-const secondPromise = new Promise((resolve) => {
-  const handleClick = (e) => {
-    if (e.button === 0 || e.button === 2) {
-      resolve('Second promise was resolved');
-      document.removeEventListener('mousedown', handleClick);
-    }
-  };
+const successHandler = (message) => {
+  const container = document.createElement('div');
 
-  document.addEventListener('mousedown', handleClick);
-});
+  container.setAttribute('data-qa', 'notification');
+  container.classList.add('success');
+  container.textContent = message;
+  document.body.append(container);
+};
 
-const thirdPromise = new Promise((resolve) => {
-  let leftClick = false;
-  let rightClick = false;
+const errorHandler = () => {
+  const container = document.createElement('div');
 
-  const handleClick = (e) => {
-    if (e.button === 0) {
-      leftClick = true;
-    } else if (e.button === 2) {
-      rightClick = true;
-    } else if (e.buttons === 3) {
-      resolve('Third promise was resolved');
-      document.removeEventListener('mousedown', handleClick);
-    }
+  container.setAttribute('data-qa', 'notification');
+  container.classList.add('error');
+  container.textContent = 'First promise was rejected';
+  document.body.append(container);
+};
 
-    if (leftClick && rightClick) {
-      resolve('Third promise was resolved');
-      document.removeEventListener('mousedown', handleClick);
-    }
-  };
-
-  document.addEventListener('mousedown', handleClick);
-});
-
-function notification(message, st) {
-  const div = document.createElement('div');
-
-  div.setAttribute('data-qa', 'notification');
-  div.textContent = message;
-  div.classList.add(st === 'success' ? 'success' : 'error');
-  document.body.appendChild(div);
-}
-
-firstPromise
-  .then((message) => notification(message, 'success'))
-  .catch((error) => notification(error, 'error'));
-
-secondPromise.then((message) => notification(message, 'success'));
-
-thirdPromise.then((message) => notification(message, 'success'));
+firstPromise.then(successHandler).catch(errorHandler);
+secondPromise.then(successHandler);
+thirdPromise.then(successHandler);
