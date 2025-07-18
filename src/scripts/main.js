@@ -3,16 +3,19 @@
 const firstPromise = new Promise((resolve, reject) => {
 
   const timer = setTimeout(() => {
-  reject('First promise was rejected');
-}, 3000);
+    document.removeEventListener('click', handleClick);
+    reject('First promise was rejected');
+  }, 3000);
 
-document.addEventListener('click', (event) => {
-if (event.button === 0) {
-  clearTimeout(timer);
-  resolve ('First promise was resolved');
-}
+  const handleClick = (event) => {
+    if (event.button === 0) {
+      clearTimeout(timer);
+      document.removeEventListener('click', handleClick);
+      resolve('First promise was resolved');
+    }
+  };
 
-})
+  document.addEventListener('click', handleClick);
 });
 
 firstPromise
