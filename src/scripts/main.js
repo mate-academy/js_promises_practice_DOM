@@ -10,7 +10,7 @@ const firstPromise = new Promise((resolve, reject) => {
 
   const onClick = (e) => {
     if (e.button === 0) {
-      clearTimeout(timerId); // 💥 ОЧИЩАЕМ ТАЙМЕР
+      clearTimeout(timerId);
       resolve('First promise was resolved');
       document.removeEventListener('click', onClick);
     }
@@ -75,7 +75,7 @@ function handleError(errorMessage) {
   errorElement.classList.add('notification', 'error');
   errorElement.classList.add('message', 'error-message');
   errorElement.setAttribute('data-qa', 'notification');
-  errorElement.textContent = errorMessage;
+  errorElement.textContent = errorMessage.message || errorMessage;
   document.body.appendChild(errorElement);
 }
 
