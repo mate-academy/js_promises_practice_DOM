@@ -1,7 +1,5 @@
 'use strict';
 
-let isClicked = false;
-
 function message(mess, cond) {
   const div = document.createElement('div');
 
@@ -13,6 +11,8 @@ function message(mess, cond) {
 }
 
 const firstPromise = new Promise((resolve, reject) => {
+  let isClicked = false;
+
   function handler(e) {
     if (e.button === 0) {
       resolve('First promise was resolved');
@@ -25,9 +25,7 @@ const firstPromise = new Promise((resolve, reject) => {
 
   setTimeout(() => {
     if (!isClicked) {
-      reject(
-        new Error('First promise was rejected in 3 seconds if not clicked'),
-      );
+      reject(new Error('First promise was rejected'));
       // eslint-disable-next-line max-len
       document.removeEventListener('click', handler); // теперь handler определён!
     }
@@ -38,7 +36,6 @@ const secondPromise = new Promise((resolve, reject) => {
   function handler(e) {
     if (e.button === 0 || e.button === 2) {
       resolve('Second promise was resolved');
-      isClicked = true;
       document.removeEventListener('click', handler);
       document.removeEventListener('contextmenu', handler);
     }
@@ -64,7 +61,7 @@ const thirdPromise = new Promise((resolve, reject) => {
     if (left && right) {
       resolve(
         // eslint-disable-next-line max-len
-        'Third promise was resolved only after both left and right clicks happened',
+        'Third promise was resolved',
       );
       document.removeEventListener('click', handler);
       document.removeEventListener('contextmenu', handler);
