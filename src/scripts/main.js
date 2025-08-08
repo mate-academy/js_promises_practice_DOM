@@ -2,24 +2,21 @@
 
 // First Promise
 
-let firstClicked = false;
 const firstPromise = new Promise((resolve, reject) => {
+  const timerId = setTimeout(() => {
+    reject(new Error('First promise was rejected'));
+    document.removeEventListener('click', onClick);
+  }, 3000);
+
   const onClick = (e) => {
     if (e.button === 0) {
-      firstClicked = true;
+      clearTimeout(timerId); // 💥 ОЧИЩАЕМ ТАЙМЕР
       resolve('First promise was resolved');
       document.removeEventListener('click', onClick);
     }
   };
 
   document.addEventListener('click', onClick);
-
-  setTimeout(() => {
-    if (!firstClicked) {
-      reject(new Error('First promise was rejected'));
-      document.removeEventListener('click', onClick);
-    }
-  }, 3000);
 });
 
 // Second Promise
