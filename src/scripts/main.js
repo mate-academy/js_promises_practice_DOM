@@ -8,7 +8,10 @@ const firstPromise = new Promise((resolve, reject) => {
 
   document.addEventListener(
     'click',
-    () => {
+    (e) => {
+      if (e.button !== 0) {
+        return;
+      }
       clearTimeout(timer);
       resolve('First promise was resolved');
     },
@@ -37,21 +40,28 @@ const secondPromise = new Promise((resolve) => {
 
 // Третій проміс
 const thirdPromise = new Promise((resolve) => {
-  let countLeft = 0;
-  let countRight = 0;
+  let clickLeft = false;
+  let clickRight = false;
+  let resolved = false;
 
-  document.addEventListener('click', () => {
-    countLeft++;
+  document.addEventListener('click', (e) => {
+    if (e.button === 0) {
+      clickLeft = true;
+    }
 
-    if (countLeft > 0 && countRight > 0) {
+    if (clickLeft && clickRight && !resolved) {
+      resolved = true;
       resolve('Third promise was resolved');
     }
   });
 
-  document.addEventListener('contextmenu', () => {
-    countRight++;
+  document.addEventListener('contextmenu', (e) => {
+    if (e.button === 2) {
+      clickRight = true;
+    }
 
-    if (countLeft > 0 && countRight > 0) {
+    if (clickLeft && clickRight && !resolved) {
+      resolved = true;
       resolve('Third promise was resolved');
     }
   });
@@ -62,8 +72,14 @@ function showMessage(message) {
   const div = document.createElement('div');
 
   div.setAttribute('data-qa', 'notification');
-  div.classList.add(message instanceof Error ? 'error' : 'success');
-  div.textContent = message;
+
+  if (message instanceof Error) {
+    div.classList.add('error');
+    div.textContent = message.message;
+  } else {
+    div.classList.add('success');
+    div.textContent = message;
+  }
   document.body.appendChild(div);
 }
 
