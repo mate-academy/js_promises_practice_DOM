@@ -1,35 +1,40 @@
 'use strict';
 
 const firstPromise = new Promise((resolve, reject) => {
+  const timer = setTimeout(() => {
+    return reject(new Error('First promise was rejected'));
+  }, 3000);
+
   document.addEventListener(
     'click',
     (e) => {
       if (e.button === 0) {
+        clearTimeout(timer);
+
         return resolve('First promise was resolved');
       }
     },
     { once: true },
   );
-
-  setTimeout(() => {
-    return reject(new Error('First promise was rejected'));
-  }, 3000);
 });
 
 const secondPromise = new Promise((resolve) => {
-  document.addEventListener('click', (e) => {
+  function handler(e) {
     if (e.button === 0 || e.button === 2) {
-      return resolve('Second promise was resolved');
+      resolve('Second promise was resolved');
+      document.removeEventListener('mousedown', handler);
     }
-  });
+  }
+
+  document.addEventListener('mousedown', handler);
 });
 
 let leftClicked = false;
 let rightClicked = false;
-let thirdResolved = false;
+let resolved = false;
 const thirdPromise = new Promise((resolve) => {
-  document.addEventListener('click', (e) => {
-    if (thirdResolved) {
+  function handler(e) {
+    if (resolved) {
       return;
     }
 
@@ -42,21 +47,27 @@ const thirdPromise = new Promise((resolve) => {
     }
 
     if (leftClicked && rightClicked) {
-      thirdResolved = true;
+      resolved = true;
 
-      return resolve('Third promise was resolved');
+      resolve('Third promise was resolved');
+      document.removeEventListener('mousedown', handler);
     }
-  });
+  }
+
+  document.addEventListener('mousedown', handler);
 });
 
 function showNotification(message, type) {
-  const div = document.createElement('div');
+  let div = document.querySelector('[data-qa="notification"]');
+
+  if (!div) {
+    div = document.createElement('div');
+    div.dataset.qa = 'notification';
+    document.body.appendChild(div);
+  }
 
   div.className = type;
-  div.dataset.qa = 'notification';
   div.textContent = message;
-
-  document.body.appendChild(div);
 }
 
 firstPromise
