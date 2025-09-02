@@ -2,27 +2,30 @@
 
 const notification = (type, text) => {
   const body = document.querySelector('body');
-  const div = document.createElement('div');
 
-  div.dataset.qa = 'notification';
-  div.className = type;
-  div.textContent = text;
+  let el = document.querySelector('[data-qa="notification"]');
 
-  body.appendChild(div);
+  if (!el) {
+    el = document.createElement('div');
+    el.dataset.qa = 'notification';
+    body.appendChild(el);
+  }
+
+  el.className = type;
+  el.textContent = text;
 };
 
 const firstPromise = new Promise((resolve, reject) => {
-  const idleTimer = setTimeout(() => reject(Error), 3000);
+  const idleTimer = setTimeout(() => {
+    reject(new Error('First promise was rejected'));
+  }, 3000);
 
   document.addEventListener(
     'click',
     (e) => {
-      clearTimeout(idleTimer);
-
       if (e.button === 0) {
-        resolve();
-      } else {
-        setTimeout(() => reject(Error), 3000);
+        clearTimeout(idleTimer);
+        resolve('First promise was resolved');
       }
     },
     { once: true },
@@ -30,8 +33,8 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 firstPromise
-  .then(() => notification('success', 'First promise was resolved'))
-  .catch(() => notification('error', 'First promise was rejected'));
+  .then((msg) => notification('success', msg))
+  .catch((msg) => notification('error', msg));
 
 const secondPromise = new Promise((resolve) => {
   document.addEventListener('click', (e) => {
@@ -47,7 +50,6 @@ secondPromise.finally(() => {
   notification('success', 'Second promise was resolved');
 });
 
-// THIRD PROMISE
 let leftClicked = false;
 let rightClicked = false;
 
