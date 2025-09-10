@@ -14,16 +14,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.addEventListener('contextmenu', deleteMenu);
 
+  // Первый промис
   const firstPromise = new Promise((resolve, reject) => {
     const timeOut = setTimeout(() => {
-      reject(new Error('First promise was rejected'));
+      document.removeEventListener('click', clickLeft);
+      // eslint-disable-next-line prefer-promise-reject-errors
+      reject('First promise was rejected');
     }, 3000);
 
-    // document.addEventListener('click', function clickedLeft) {}
     function clickLeft(e) {
       if (e.button === 0) {
-        // если левая кнопка
-        clearTimeout(timeOut); // убираем таймер
+        clearTimeout(timeOut);
         resolve('First promise was resolved');
         document.removeEventListener('click', clickLeft);
       }
@@ -35,9 +36,10 @@ document.addEventListener('DOMContentLoaded', () => {
     .then((message) => createMessage('success', message))
     .catch((message) => createMessage('error', message));
 
+  // Второй промис
   const secondPromise = new Promise((resolve) => {
     function clickedBoth(e) {
-      if (e.button === 0 || e.button === 2) {
+      if (e.button === 0 || e.button === 2 || e.type === 'contextmenu') {
         resolve('Second promise was resolved');
         document.removeEventListener('click', clickedBoth);
         document.removeEventListener('contextmenu', clickedBoth);
@@ -47,8 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('contextmenu', clickedBoth);
   });
 
-  secondPromise.then((message) => createMessage('success', message));
+  secondPromise
+    .then((message) => createMessage('success', message))
+    .catch((message) => createMessage('error', message));
 
+  // Третий промис
   const thirdPromise = new Promise((resolve) => {
     let leftClicked = false;
     let rightClicked = false;
@@ -60,10 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if ((e.type === 'click' && e.button === 2) || e.type === 'contextmenu') {
         rightClicked = true;
-
-        if (e.type === 'contextmenu') {
-          e.preventDefault();
-        }
       }
 
       if (leftClicked && rightClicked) {
@@ -77,5 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('contextmenu', clickedTwoTimes);
   });
 
-  thirdPromise.then((message) => createMessage('success', message));
+  thirdPromise
+    .then((message) => createMessage('success', message))
+    .catch((message) => createMessage('error', message));
 });
