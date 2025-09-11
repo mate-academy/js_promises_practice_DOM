@@ -25,29 +25,29 @@ const firstPromise = new Promise((resolve, reject) => {
   const timeout = setTimeout(() => {
     // eslint-disable-next-line prefer-promise-reject-errors
     reject('First promise was rejected');
-    document.removeEventListener('click', clickHandler);
+    document.removeEventListener('mousedown', clickHandler);
   }, REJECT_PROMISE_TIME);
 
   function clickHandler(e) {
     if (e.button === 0) {
       clearTimeout(timeout);
       resolve('First promise was resolved');
-      document.removeEventListener('click', clickHandler);
+      document.removeEventListener('mousedown', clickHandler);
     }
   }
 
-  document.addEventListener('click', clickHandler);
+  document.addEventListener('mousedown', clickHandler);
 });
 
 const secondPromise = new Promise((resolve) => {
   function clickHandler(e) {
     if (e.button === 0 || e.button === 2) {
       resolve('Second promise was resolved');
-      document.removeEventListener('click', clickHandler);
+      document.removeEventListener('mousedown', clickHandler);
     }
   }
 
-  document.addEventListener('click', clickHandler);
+  document.addEventListener('mousedown', clickHandler);
 });
 
 const thirdPromise = new Promise((resolve) => {
@@ -66,11 +66,11 @@ const thirdPromise = new Promise((resolve) => {
     if (leftClicked && rightClicked) {
       resolve('Third promise was resolved');
 
-      document.removeEventListener('click', clickHandler);
+      document.removeEventListener('mousedown', clickHandler);
     }
   }
 
-  document.addEventListener('click', clickHandler);
+  document.addEventListener('mousedown', clickHandler);
 });
 
 firstPromise
