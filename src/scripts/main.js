@@ -1,18 +1,30 @@
 'use strict';
 
-function showNotification(message, type = 'success') {
+function createNotification() {
   const div = document.createElement('div');
 
   div.setAttribute('data-qa', 'notification');
-  div.className = type;
-  div.textContent = message;
   document.body.appendChild(div);
+
+  return div;
+}
+
+function showNotification(message, type = 'success') {
+  let msgBlock = document.querySelector('div[data-qa="notification"]');
+
+  if (!msgBlock) {
+    msgBlock = createNotification();
+  }
+
+  msgBlock.className = type;
+  msgBlock.textContent = message;
 }
 
 const REJECT_PROMISE_TIME = 3000;
-const promise1 = new Promise((resolve, reject) => {
+const firstPromise = new Promise((resolve, reject) => {
   const timeout = setTimeout(() => {
-    reject(new Error('First promise was rejected'));
+    // eslint-disable-next-line prefer-promise-reject-errors
+    reject('First promise was rejected');
     document.removeEventListener('click', clickHandler);
   }, REJECT_PROMISE_TIME);
 
@@ -27,7 +39,7 @@ const promise1 = new Promise((resolve, reject) => {
   document.addEventListener('click', clickHandler);
 });
 
-const promise2 = new Promise((resolve) => {
+const secondPromise = new Promise((resolve) => {
   function clickHandler(e) {
     if (e.button === 0 || e.button === 2) {
       resolve('Second promise was resolved');
@@ -38,7 +50,7 @@ const promise2 = new Promise((resolve) => {
   document.addEventListener('click', clickHandler);
 });
 
-const promise3 = new Promise((resolve) => {
+const thirdPromise = new Promise((resolve) => {
   let leftClicked = false;
   let rightClicked = false;
 
@@ -61,10 +73,14 @@ const promise3 = new Promise((resolve) => {
   document.addEventListener('click', clickHandler);
 });
 
-promise1
+firstPromise
   .then((msg) => showNotification(msg, 'success'))
-  .catch((err) => showNotification(err.message, 'error'));
+  .catch((err) => showNotification(err, 'error'));
 
-promise2.then((msg) => showNotification(msg, 'success'));
+secondPromise
+  .then((msg) => showNotification(msg, 'success'))
+  .catch((err) => showNotification(err, 'error'));
 
-promise3.then((msg) => showNotification(msg, 'success'));
+thirdPromise
+  .then((msg) => showNotification(msg, 'success'))
+  .catch((err) => showNotification(err, 'error'));
