@@ -18,24 +18,26 @@ async function handleFirstPromise() {
   try {
     const firstPromise = new Promise((resolve, reject) => {
       let isSettled = false;
+
+      function firstHandler(e) {
+        if (e.button === 0 && !isSettled) {
+          clearTimeout(timeoutId);
+          isSettled = true;
+          document.removeEventListener('mousedown', firstHandler);
+          resolve('First promise was resolved');
+        }
+      }
+
       const timeoutId = setTimeout(() => {
         if (!isSettled) {
+          isSettled = true;
+          document.removeEventListener('mousedown', firstHandler);
           // eslint-disable-next-line prefer-promise-reject-errors
           reject('First promise was rejected');
         }
       }, 3000);
 
-      document.addEventListener(
-        'mousedown',
-        (e) => {
-          if (e.button === 0 && isSettled === false) {
-            resolve('First promise was resolved');
-            isSettled = true;
-            clearTimeout(timeoutId);
-          }
-        },
-        { once: true },
-      );
+      document.addEventListener('mousedown', firstHandler);
     });
 
     const result = await firstPromise;
