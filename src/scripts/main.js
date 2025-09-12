@@ -3,24 +3,39 @@
 const body = document.querySelector('body');
 
 const firstPromise = new Promise((resolve, reject) => {
-  body.addEventListener('click', () => resolve('First promise was resolved'));
+  const clickHeandler = (e) => {
+    if (e.button === 0) {
+      document.removeEventListener('click', clickHeandler);
+      clearTimeout(timeOutId);
+      resolve('First promise was resolved');
+    }
+  };
 
-  setTimeout(() => reject(new Error('First promise was rejected')), 3000);
+  document.addEventListener('click', clickHeandler);
+
+  const timeOutId = setTimeout(() => {
+    document.removeEventListener('click', clickHeandler);
+    // eslint-disable-next-line prefer-promise-reject-errors
+    reject('First promise was rejected');
+  }, 3000);
 });
 
 const secondPromise = new Promise((resolve) => {
-  body.addEventListener('mousedown', (e) => {
+  const clickHeandler = (e) => {
     if (e.button === 0 || e.button === 2) {
+      document.removeEventListener('mousedown', clickHeandler);
       resolve('Second promise was resolved');
     }
-  });
+  };
+
+  document.addEventListener('mousedown', clickHeandler);
 });
 
 const thirdPromise = new Promise((resolve) => {
   let leftdown = false;
   let rightdown = false;
 
-  body.addEventListener('mousedown', (e) => {
+  const thirdHeandler = (e) => {
     if (e.button === 0) {
       leftdown = true;
     }
@@ -30,11 +45,12 @@ const thirdPromise = new Promise((resolve) => {
     }
 
     if (leftdown && rightdown) {
-      leftdown = false;
-      rightdown = false;
+      document.removeEventListener('mousedown', thirdHeandler);
       resolve('Third promise was resolved');
     }
-  });
+  };
+
+  document.addEventListener('mousedown', thirdHeandler);
 });
 
 function messageCreat(text, type) {
