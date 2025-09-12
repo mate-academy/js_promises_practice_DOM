@@ -3,6 +3,12 @@
 const body = document.querySelector('body');
 
 const firstPromise = new Promise((resolve, reject) => {
+  const timeOutId = setTimeout(() => {
+    document.removeEventListener('click', clickHeandler);
+    // eslint-disable-next-line prefer-promise-reject-errors
+    reject('First promise was rejected');
+  }, 3000);
+
   const clickHeandler = (e) => {
     if (e.button === 0) {
       document.removeEventListener('click', clickHeandler);
@@ -12,12 +18,6 @@ const firstPromise = new Promise((resolve, reject) => {
   };
 
   document.addEventListener('click', clickHeandler);
-
-  const timeOutId = setTimeout(() => {
-    document.removeEventListener('click', clickHeandler);
-    // eslint-disable-next-line prefer-promise-reject-errors
-    reject('First promise was rejected');
-  }, 3000);
 });
 
 const secondPromise = new Promise((resolve) => {
