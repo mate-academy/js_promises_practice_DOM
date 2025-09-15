@@ -1,3 +1,10 @@
+# CYPRESS TEST CHECK
+npx cypress run --browser chrome --config baseUrl=http://localhost:1234
+npx cypress open
+
+# MAKE REVIEW BUNDLE
+node make-review-bundle.mjs
+
 # Promises practice
 Create 3 promises:
 - The `firstPromise` should be
@@ -12,7 +19,7 @@ Add `success` and `error` handlers to each promise to show `<div data-qa="notifi
 
 ## Instructions
 1. Replace `<your_account>` with your Github username in the link
-    - [DEMO LINK](https://<your_account>.github.io/js_promises_practice_DOM/)
+    - [DEMO LINK](https://cooper85.github.io/js_promises_practice_DOM/)
 2. Follow [this instructions](https://mate-academy.github.io/layout_task-guideline/)
     - Run `npm run test` command to test your code;
     - Run `npm run test:only -- -n` to run fast test ignoring linter;
