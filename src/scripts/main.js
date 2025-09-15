@@ -3,13 +3,15 @@
 const body = document.body;
 
 const firstPromise = new Promise((resolve, reject) => {
-  const timeroutID = setTimeout(() => {
-    reject(new Error('First promise was rejected'));
+  const timeoutID = setTimeout(() => {
+    document.removeEventListener('mousedown', clickLeftHandler);
+    // eslint-disable-next-line prefer-promise-reject-errors
+    reject('First promise was rejected');
   }, 3000);
 
   const clickLeftHandler = (e) => {
     if (e.button === 0) {
-      clearTimeout(timeroutID);
+      clearTimeout(timeoutID);
       document.removeEventListener('mousedown', clickLeftHandler);
       resolve('First promise was resolved');
     }
@@ -75,7 +77,7 @@ firstPromise
     createMessage(messageText, false);
   })
   .catch((error) => {
-    createMessage(error.message, true);
+    createMessage(error, true);
   });
 
 secondPromise
