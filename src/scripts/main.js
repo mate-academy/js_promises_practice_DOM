@@ -2,15 +2,14 @@
 
 const doc = document;
 
-// 1. First promise
+// ========== First Promise ==========
 const firstPromise = new Promise((resolve, reject) => {
-  let settled = false;
+  let timerId = null;
 
   const onClick = (e) => {
-    if (e.button === 0 && !settled) {
-      // left click
-      settled = true;
-      clearTimeout(timerId); // stop the pending rejection
+    if (e.button === 0) {
+      // left click only
+      clearTimeout(timerId);
       resolve('First promise was resolved');
       doc.removeEventListener('click', onClick);
     }
@@ -18,51 +17,58 @@ const firstPromise = new Promise((resolve, reject) => {
 
   doc.addEventListener('click', onClick);
 
-  const timerId = setTimeout(() => {
-    if (!settled) {
-      settled = true;
-      reject('First promise was rejected'); // must be string, not Error
-      doc.removeEventListener('click', onClick);
-    }
+  timerId = setTimeout(() => {
+    reject(new Error('First promise was rejected'));
+    doc.removeEventListener('click', onClick);
   }, 3000);
 });
 
-// 2. Second promise
+// ========== Second Promise ==========
 const secondPromise = new Promise((resolve) => {
-  const onClick = () => {
-    resolve('Second promise was resolved');
-    cleanup();
-  };
-
-  const onRightClick = (e) => {
-    e.preventDefault();
-    resolve('Second promise was resolved');
-    cleanup();
-  };
-
-  function cleanup() {
-    doc.removeEventListener('click', onClick);
-    doc.removeEventListener('contextmenu', onRightClick);
-  }
-
-  doc.addEventListener('click', onClick);
-  doc.addEventListener('contextmenu', onRightClick);
-});
-
-// 3. Third promise
-const thirdPromise = new Promise((resolve) => {
-  let leftClick = false;
-  let rightClick = false;
-
-  const onLeft = () => {
-    leftClick = true;
-    checkBoth();
+  const onLeft = (e) => {
+    if (e.button === 0) {
+      resolve('Second promise was resolved');
+      cleanup();
+    }
   };
 
   const onRight = (e) => {
     e.preventDefault();
-    rightClick = true;
-    checkBoth();
+
+    if (e.button === 2) {
+      resolve('Second promise was resolved');
+      cleanup();
+    }
+  };
+
+  function cleanup() {
+    doc.removeEventListener('click', onLeft);
+    doc.removeEventListener('contextmenu', onRight);
+  }
+
+  doc.addEventListener('click', onLeft);
+  doc.addEventListener('contextmenu', onRight);
+});
+
+// ========== Third Promise ==========
+const thirdPromise = new Promise((resolve) => {
+  let leftClick = false;
+  let rightClick = false;
+
+  const onLeft = (e) => {
+    if (e.button === 0) {
+      leftClick = true;
+      checkBoth();
+    }
+  };
+
+  const onRight = (e) => {
+    e.preventDefault();
+
+    if (e.button === 2) {
+      rightClick = true;
+      checkBoth();
+    }
   };
 
   function checkBoth() {
@@ -77,26 +83,30 @@ const thirdPromise = new Promise((resolve) => {
   doc.addEventListener('contextmenu', onRight);
 });
 
-// Handlers
+// ========== Handlers ==========
 function successHandler(message) {
   const div = document.createElement('div');
 
   div.className = 'success';
   div.setAttribute('data-qa', 'notification');
   div.textContent = message;
+
   document.body.appendChild(div);
 }
 
-function errorHandler(message) {
+function errorHandler(error) {
   const div = document.createElement('div');
 
   div.className = 'error';
   div.setAttribute('data-qa', 'notification');
-  div.textContent = message;
+
+  // error might be a string or an Error object
+  div.textContent = error instanceof Error ? error.message : error;
+
   document.body.appendChild(div);
 }
 
-// Attach handlers
+// ========== Attach Handlers ==========
 firstPromise.then(successHandler).catch(errorHandler);
 secondPromise.then(successHandler).catch(errorHandler);
 thirdPromise.then(successHandler).catch(errorHandler);
