@@ -1,18 +1,19 @@
 'use strict';
 
+const notification = document.createElement('div');
+
+document.body.appendChild(notification);
+
 function showNotification(message, type = 'success') {
-  const notification = document.createElement('div');
+  const divChild = document.createElement('div');
 
-  notification.setAttribute('data-qa', 'notification');
-  notification.classList.add(type);
-  notification.textContent = message;
-  document.body.appendChild(notification);
-
-  setTimeout(() => {
-    notification.style.transform = 'translateX(120%)';
-    setTimeout(() => notification.remove(), 300);
-  }, 4000);
+  divChild.setAttribute('data-qa', 'notification');
+  divChild.className = type;
+  divChild.textContent = message;
+  notification.appendChild(divChild);
 }
+
+document.addEventListener('contextmenu', (e) => e.preventDefault());
 
 // FIRST PROMISE
 const firstPromise = new Promise((resolve, reject) => {
@@ -21,18 +22,18 @@ const firstPromise = new Promise((resolve, reject) => {
     if (evt.button === 0) {
       isClicked = true;
       resolve('First promise was resolved');
-      document.removeEventListener('mousedown', onClick);
       clearTimeout(timeoutId);
+      document.removeEventListener('click', onClick);
     }
   };
 
-  document.addEventListener('mousedown', onClick);
+  document.addEventListener('click', onClick);
 
   const timeoutId = setTimeout(() => {
     if (!isClicked) {
       // eslint-disable-next-line prefer-promise-reject-errors
       reject('First promise was rejected');
-      document.removeEventListener('mousedown', onClick);
+      document.removeEventListener('click', onClick);
     }
   }, 3000);
 });
@@ -46,39 +47,65 @@ firstPromise.then(
 
 const secondPromise = new Promise((resolve) => {
   const onClick = (evt) => {
-    if (evt.button === 0 || evt.button === 2) {
+    if (evt.button === 0) {
       resolve('Second promise was resolved');
-      document.removeEventListener('mousedown', onClick);
+      document.removeEventListener('click', onClick);
     }
   };
 
-  document.addEventListener('mousedown', onClick);
+  const onClick1 = (evt) => {
+    if (evt.button === 2) {
+      resolve('Second promise was resolved');
+      document.removeEventListener('contextmenu', onClick1);
+    }
+  };
+
+  document.addEventListener('click', onClick);
+  document.addEventListener('contextmenu', onClick1);
 });
 
-secondPromise.then((msg) => showNotification(msg, 'success'));
+secondPromise.then(
+  (msg) => showNotification(msg, 'success'),
+  (err) => showNotification(err, 'error'),
+);
 
 // THIRD PROMISE
 
 const thirdPromise = new Promise((resolve) => {
   let firstMbuttonClicked = false;
   let secondMbuttonClicked = false;
-  const onClick = (evt) => {
-    if (evt.button === 0) {
-      firstMbuttonClicked = true;
-    }
 
-    if (evt.button === 2) {
-      secondMbuttonClicked = true;
-    }
-
+  function result() {
     if (firstMbuttonClicked && secondMbuttonClicked) {
       resolve('Third promise was resolved');
 
       document.removeEventListener('mousedown', onClick);
     }
+  }
+
+  const onClick = (evt) => {
+    if (evt.button === 0) {
+      firstMbuttonClicked = true;
+    }
+
+    document.removeEventListener('click', onClick);
+    result();
   };
 
-  document.addEventListener('mousedown', onClick);
+  const onClick1 = (evt) => {
+    if (evt.button === 2) {
+      secondMbuttonClicked = true;
+    }
+
+    document.removeEventListener('contextmenu', onClick1);
+    result();
+  };
+
+  document.addEventListener('contextmenu', onClick1);
+  document.addEventListener('click', onClick);
 });
 
-thirdPromise.then((msg) => showNotification(msg, 'success'));
+thirdPromise.then(
+  (msg) => showNotification(msg, 'success'),
+  (err) => showNotification(err, 'error'),
+);
