@@ -1,16 +1,26 @@
 'use strict';
 
 function showNotification(message, classes) {
-  const div = document.createElement('div');
+  const div = document.querySelector('div[data-qa="notification"]');
 
-  div.className = classes;
-  div.textContent = message;
-  document.body.append(div);
+  if (div) {
+    div.className = classes;
+    div.textContent = message;
+  } else {
+    const newDiv = document.createElement('div');
+
+    newDiv.setAttribute('data-qa', 'notification');
+    newDiv.className = classes;
+    newDiv.textContent = message;
+    document.body.append(newDiv);
+
+    setTimeout(() => newDiv.remove(), 3000);
+  }
 }
 
 const firstPromise = new Promise((resolve, reject) => {
   const handleClick = () => {
-    resolve();
+    resolve('First promise was resolved on left click');
     clearTimeout(timeoutId);
     document.removeEventListener('click', handleClick);
   };
@@ -18,26 +28,28 @@ const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', handleClick);
 
   const timeoutId = setTimeout(() => {
-    reject(new Error('Timeout error'));
+    document.removeEventListener('click', handleClick);
+    reject(new Error('First promise was rejected after 3 seconds'));
   }, 3000);
 });
 
 firstPromise
-  .then(() => {
-    showNotification('First promise was resolved', 'message');
+  .then((message) => {
+    showNotification(message, 'success');
   })
-  .catch(() => {
-    showNotification('First promise was rejected!', 'message');
+  .catch((error) => {
+    showNotification(error.message, 'error');
   });
 
-const secondPromise = new Promise((resolve, reject) => {
+const secondPromise = new Promise((resolve) => {
   const handleClick = () => {
     resolve('Second promise was resolved');
     document.removeEventListener('click', handleClick);
     document.removeEventListener('contextmenu', handleContextMenu);
   };
 
-  const handleContextMenu = () => {
+  const handleContextMenu = (e) => {
+    e.preventDefault();
     resolve('Second promise was resolved');
     document.removeEventListener('click', handleClick);
     document.removeEventListener('contextmenu', handleContextMenu);
@@ -47,11 +59,15 @@ const secondPromise = new Promise((resolve, reject) => {
   document.addEventListener('contextmenu', handleContextMenu);
 });
 
-secondPromise.then((message) => {
-  showNotification(message, 'message');
-});
+secondPromise
+  .then((message) => {
+    showNotification(message, 'success');
+  })
+  .catch((error) => {
+    showNotification(error.message, 'error');
+  });
 
-const thirdPromise = new Promise((resolve, reject) => {
+const thirdPromise = new Promise((resolve) => {
   let leftClicked = false;
   let rightClicked = false;
 
@@ -71,12 +87,16 @@ const thirdPromise = new Promise((resolve, reject) => {
       document.removeEventListener('click', handleClick);
       document.removeEventListener('contextmenu', handleContextMenu);
     }
-
-    document.addEventListener('click', handleClick);
-    document.addEventListener('contextmenu', handleContextMenu);
   };
 
-  thirdPromise.then((message) => {
-    showNotification(message, 'message');
-  });
+  document.addEventListener('click', handleClick);
+  document.addEventListener('contextmenu', handleContextMenu);
 });
+
+thirdPromise
+  .then((message) => {
+    showNotification(message, 'success');
+  })
+  .catch((message) => {
+    showNotification(message, 'error');
+  });
