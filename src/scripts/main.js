@@ -1,6 +1,6 @@
 'use strict';
 
-// Utility to display messages
+ // Utility to display messages
     function notify(message, isError = false) {
       const div = document.createElement("div");
       div.dataset.qa = "notification";
@@ -16,7 +16,7 @@
       function onClick(event) {
         if (event.button === 0) { // Left click
           resolved = true;
-          resolve("First promise was resolved on a left click in the document");
+          resolve("First promise was resolved");
           document.removeEventListener("click", onClick);
         }
       }
@@ -25,7 +25,7 @@
 
       setTimeout(() => {
         if (!resolved) {
-          reject("First promise was rejected in 3 seconds if not clicked");
+          reject("First promise was rejected");
           document.removeEventListener("click", onClick);
         }
       }, 3000);
@@ -54,7 +54,7 @@
         if (event.button === 2) rightClicked = true;
 
         if (leftClicked && rightClicked) {
-          resolve("Third promise was resolved only after both left and right clicks happened");
+          resolve("Third promise was resolved");
           document.removeEventListener("click", onClick);
           document.removeEventListener("contextmenu", onClick);
         }
