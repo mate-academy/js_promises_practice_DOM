@@ -14,20 +14,19 @@ function ensureRoot() {
 
 function showMessage(text, type = 'success') {
   const root = ensureRoot();
-  const item = document.createElement('div');
 
-  item.className = type;
-  item.textContent = text;
-  root.appendChild(item);
+  root.className = type;
+
+  root.textContent = root.textContent ? `${root.textContent}\n${text}` : text;
 }
 
-const isLeft = (e) => e.button === 0;
-const isRight = (e) => e.button === 2 || e.type === 'contextmenu';
+const isLeft = (e) => e.type === 'click' && e.button === 0;
+const isRight = (e) => e.type === 'contextmenu' || e.button === 2;
 
 const firstPromise = new Promise((resolve, reject) => {
   let settled = false;
 
-  const onMouse = (e) => {
+  const onClick = (e) => {
     if (!settled && isLeft(e)) {
       settled = true;
       cleanup();
@@ -39,21 +38,22 @@ const firstPromise = new Promise((resolve, reject) => {
     if (!settled) {
       settled = true;
       cleanup();
-      reject(new Error('First promise was rejected'));
+      // eslint-disable-next-line prefer-promise-reject-errors
+      reject('First promise was rejected');
     }
   }, 3000);
 
   function cleanup() {
     clearTimeout(timer);
-    document.removeEventListener('mousedown', onMouse, true);
+    document.removeEventListener('click', onClick, true);
   }
 
-  document.addEventListener('mousedown', onMouse, true);
+  document.addEventListener('click', onClick, true);
 });
 
 firstPromise.then(
   (msg) => showMessage(msg, 'success'),
-  (err) => showMessage(err?.message ?? String(err), 'error'),
+  (err) => showMessage(String(err), 'error'),
 );
 
 const secondPromise = new Promise((resolve) => {
@@ -65,17 +65,17 @@ const secondPromise = new Promise((resolve) => {
   };
 
   function remove() {
-    document.removeEventListener('mousedown', handler, true);
+    document.removeEventListener('click', handler, true);
     document.removeEventListener('contextmenu', handler, true);
   }
 
-  document.addEventListener('mousedown', handler, true);
+  document.addEventListener('click', handler, true);
   document.addEventListener('contextmenu', handler, true);
 });
 
 secondPromise.then(
   (msg) => showMessage(msg, 'success'),
-  (err) => showMessage(err?.message ?? String(err), 'error'),
+  (err) => showMessage(String(err), 'error'),
 );
 
 const thirdPromise = new Promise((resolve) => {
@@ -98,15 +98,15 @@ const thirdPromise = new Promise((resolve) => {
   };
 
   function remove() {
-    document.removeEventListener('mousedown', handler, true);
+    document.removeEventListener('click', handler, true);
     document.removeEventListener('contextmenu', handler, true);
   }
 
-  document.addEventListener('mousedown', handler, true);
+  document.addEventListener('click', handler, true);
   document.addEventListener('contextmenu', handler, true);
 });
 
 thirdPromise.then(
   (msg) => showMessage(msg, 'success'),
-  (err) => showMessage(err?.message ?? String(err), 'error'),
+  (err) => showMessage(String(err), 'error'),
 );
