@@ -1,6 +1,6 @@
 'use strict';
 
-function getNotificationRoot() {
+function ensureRoot() {
   let root = document.querySelector('[data-qa="notification"]');
 
   if (!root) {
@@ -13,21 +13,16 @@ function getNotificationRoot() {
 }
 
 function showMessage(text, type = 'success') {
-  const root = getNotificationRoot();
-  const el = document.createElement('div');
+  const root = ensureRoot();
+  const item = document.createElement('div');
 
-  el.className = type === 'error' ? 'error' : 'success';
-  el.textContent = text;
-  root.appendChild(el);
+  item.className = type;
+  item.textContent = text;
+  root.appendChild(item);
 }
 
-function isLeft(e) {
-  return e.button === 0;
-}
-
-function isRight(e) {
-  return e.button === 2 || e.type === 'contextmenu';
-}
+const isLeft = (e) => e.button === 0;
+const isRight = (e) => e.button === 2 || e.type === 'contextmenu';
 
 const firstPromise = new Promise((resolve, reject) => {
   let settled = false;
@@ -58,7 +53,7 @@ const firstPromise = new Promise((resolve, reject) => {
 
 firstPromise.then(
   (msg) => showMessage(msg, 'success'),
-  (err) => showMessage(err, 'error'),
+  (err) => showMessage(err?.message ?? String(err), 'error'),
 );
 
 const secondPromise = new Promise((resolve) => {
@@ -78,21 +73,25 @@ const secondPromise = new Promise((resolve) => {
   document.addEventListener('contextmenu', handler, true);
 });
 
-secondPromise.then((msg) => showMessage(msg, 'success'));
+secondPromise.then(
+  (msg) => showMessage(msg, 'success'),
+  (err) => showMessage(err?.message ?? String(err), 'error'),
+);
 
 const thirdPromise = new Promise((resolve) => {
-  const seen = { left: false, right: false };
+  let left = false;
+  let right = false;
 
   const handler = (e) => {
     if (isLeft(e)) {
-      seen.left = true;
+      left = true;
     }
 
     if (isRight(e)) {
-      seen.right = true;
+      right = true;
     }
 
-    if (seen.left && seen.right) {
+    if (left && right) {
       remove();
       resolve('Third promise was resolved');
     }
@@ -107,4 +106,7 @@ const thirdPromise = new Promise((resolve) => {
   document.addEventListener('contextmenu', handler, true);
 });
 
-thirdPromise.then((msg) => showMessage(msg, 'success'));
+thirdPromise.then(
+  (msg) => showMessage(msg, 'success'),
+  (err) => showMessage(err?.message ?? String(err), 'error'),
+);
