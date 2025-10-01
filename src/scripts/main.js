@@ -9,18 +9,23 @@ function showNotification(message, type) {
   document.body.appendChild(div);
 }
 
+document.addEventListener('contextmenu', (e) => e.preventDefault());
+
 // First promise
 const firstPromise = new Promise((resolve, reject) => {
-  const timer = setTimeout(() => {
-    reject(new Error('First promise was rejected'));
-  }, 3000);
-
   function onDown(e) {
     if (e.button === 0) {
       clearTimeout(timer);
+      document.removeEventListener('mousedown', onDown);
       resolve('First promise was resolved');
     }
   }
+
+  const timer = setTimeout(() => {
+    document.removeEventListener('mousedown', onDown);
+    // eslint-disable-next-line prefer-promise-reject-errors
+    reject('First promise was rejected');
+  }, 3000);
 
   document.addEventListener('mousedown', onDown, { once: true });
 });
@@ -60,8 +65,12 @@ const thirdPromise = new Promise((resolve) => {
 
 firstPromise
   .then((msg) => showNotification(msg, 'success'))
-  .catch((err) => showNotification(err.message, 'error'));
+  .catch((err) => showNotification(err?.message ?? String(err), 'error'));
 
-secondPromise.then((msg) => showNotification(msg, 'success'));
+secondPromise
+  .then((msg) => showNotification(msg, 'success'))
+  .catch((err) => showNotification(err?.message ?? String(err), 'error'));
 
-thirdPromise.then((msg) => showNotification(msg, 'success'));
+thirdPromise
+  .then((msg) => showNotification(msg, 'success'))
+  .catch((err) => showNotification(err?.message ?? String(err), 'error'));
