@@ -1,37 +1,43 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const logo = document.querySelector('.logo');
+  const doc = document;
 
   function renderNotification(message, className = 'success') {
     const div = document.createElement('div');
-
     div.setAttribute('data-qa', 'notification');
     div.className = className;
     div.textContent = message;
     document.body.append(div);
   }
 
+  let leftClick = false;
+  let rightClick = false;
+
   const firstPromise = new Promise((resolve, reject) => {
-    const timerId = setTimeout(() => {
+    const timer = setTimeout(() => {
       reject(new Error('First promise was rejected'));
     }, 3000);
 
-    logo.addEventListener(
+    doc.addEventListener(
       'click',
-      () => {
-        clearTimeout(timerId);
-        resolve('First promise was resolved click document');
+      (e) => {
+        if (e.button === 0) {
+          clearTimeout(timer);
+          leftClick = true;
+          resolve('First promise was resolved');
+        }
       },
-      { once: true }
+      { once: true },
     );
   });
 
   const secondPromise = new Promise((resolve) => {
-    logo.addEventListener(
+    doc.addEventListener(
       'mousedown',
       (e) => {
-        if (e.button === 2) {
+        e.preventDefault();
+        if (e.button === 0 || e.button === 2) {
           resolve('Second promise was resolved');
         }
       },
@@ -40,14 +46,23 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const thirdPromise = new Promise((resolve) => {
-    Promise.all([firstPromise, secondPromise]).then(() => {
-      resolve('Third promise was resolved leftright');
+    const checkBothClicks = () => {
+      if (leftClick && rightClick) {
+        resolve('Third promise was resolved');
+        doc.removeEventListener('mousedown', checkBothClicks);
+      }
+    };
+
+    doc.addEventListener('mousedown', (e) => {
+      if (e.button === 0) leftClick = true;
+      if (e.button === 2) rightClick = true;
+      checkBothClicks();
     });
   });
 
   firstPromise
     .then((message) => renderNotification(message))
-    .catch((errors) => renderNotification(errors.message, 'error'));
+    .catch((error) => renderNotification(error.message, 'error'));
 
   secondPromise.then((message) => renderNotification(message));
   thirdPromise.then((message) => renderNotification(message));
