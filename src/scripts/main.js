@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderNotification(message, className = 'success') {
     const div = document.createElement('div');
+
     div.setAttribute('data-qa', 'notification');
     div.className = className;
     div.textContent = message;
@@ -37,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'mousedown',
       (e) => {
         e.preventDefault();
+
         if (e.button === 0 || e.button === 2) {
           resolve('Second promise was resolved');
         }
@@ -54,8 +56,13 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     doc.addEventListener('mousedown', (e) => {
-      if (e.button === 0) leftClick = true;
-      if (e.button === 2) rightClick = true;
+      if (e.button === 0) {
+        leftClick = true;
+      }
+
+      if (e.button === 2) {
+        rightClick = true;
+      }
       checkBothClicks();
     });
   });
