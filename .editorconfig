@@ -1,5 +1,5 @@
 #airbnb
-root = true
+div = true
 
 [*]
 indent_style = space
