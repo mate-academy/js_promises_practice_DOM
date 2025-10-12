@@ -15,16 +15,12 @@ function createMessageBlock(className, text) {
 }
 
 const firstPromise = new Promise((resolve, reject) => {
-  body.addEventListener(
-    'mousedown',
-    (e) => {
-      const buttonClick = e.button;
+  document.addEventListener(
+    'click',
+    () => {
+      resolve('First promise was resolved');
 
-      if (buttonClick === 0) {
-        resolve('First promise was resolved');
-
-        clearTimeout(idTimeout);
-      }
+      clearTimeout(idTimeout);
     },
     { once: true },
   );
@@ -34,12 +30,18 @@ const firstPromise = new Promise((resolve, reject) => {
   }, 3000);
 });
 
+let rightButton = false;
+
 const secondPromise = new Promise((resolve) => {
-  body.addEventListener(
+  document.addEventListener(
     'mousedown',
     (e) => {
       if (e.button === 0 || e.button === 2) {
         resolve('Second promise was resolved');
+
+        if (e.button === 2) {
+          rightButton = true;
+        }
       }
     },
     { once: true },
@@ -49,41 +51,37 @@ const secondPromise = new Promise((resolve) => {
 const thirdPromise = Promise.all([firstPromise, secondPromise]);
 
 async function firstMessage() {
-  if (body) {
-    try {
-      const resolve = await firstPromise;
+  try {
+    const resolve = await firstPromise;
 
-      body.append(createMessageBlock('success', resolve));
-    } catch (errorMessage) {
-      body.append(createMessageBlock('error', 'First promise was rejected'));
-    }
+    body.append(createMessageBlock('success', resolve));
+  } catch (errorMessage) {
+    body.append(createMessageBlock('error', 'First promise was rejected'));
   }
 }
 
 async function secondMessage() {
-  if (body) {
-    try {
-      const resolve = await secondPromise;
+  try {
+    const resolve = await secondPromise;
 
-      body.append(createMessageBlock('success', resolve));
-    } catch (errorMessage) {
-      body.append(createMessageBlock('error', errorMessage));
-    }
+    body.append(createMessageBlock('success', resolve));
+  } catch (errorMessage) {
+    body.append(createMessageBlock('error', errorMessage));
   }
 }
 
 async function thirdMessage() {
-  if (body) {
-    thirdPromise
-      .then(() => {
+  thirdPromise
+    .then(() => {
+      if (rightButton) {
         body.append(
           createMessageBlock('success', 'Third promise was resolved'),
         );
-      })
-      .catch((errorMessage) => {
-        createMessageBlock('error', errorMessage);
-      });
-  }
+      }
+    })
+    .catch((errorMessage) => {
+      createMessageBlock('error', errorMessage);
+    });
 }
 firstMessage();
 secondMessage();
