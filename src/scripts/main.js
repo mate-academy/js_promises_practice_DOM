@@ -15,23 +15,35 @@ function createMessageBlock(className, text) {
 }
 
 const firstPromise = new Promise((resolve, reject) => {
-  body.addEventListener('mousedown', (e) => {
-    const buttonClick = e.button;
+  body.addEventListener(
+    'mousedown',
+    (e) => {
+      const buttonClick = e.button;
 
-    if (buttonClick === 0) {
-      resolve('First promise was resolved');
-    }
-  });
+      if (buttonClick === 0) {
+        resolve('First promise was resolved');
 
-  setTimeout(() => {
+        clearTimeout(idTimeout);
+      }
+    },
+    { once: true },
+  );
+
+  const idTimeout = setTimeout(() => {
     reject(new Error('First promise was rejected'));
   }, 3000);
 });
 
-const secondPromise = new Promise((resolve, reject) => {
-  body.addEventListener('mousedown', () => {
-    resolve('Second promise was resolved');
-  });
+const secondPromise = new Promise((resolve) => {
+  body.addEventListener(
+    'mousedown',
+    (e) => {
+      if (e.button === 0 || e.button === 2) {
+        resolve('Second promise was resolved');
+      }
+    },
+    { once: true },
+  );
 });
 
 const thirdPromise = Promise.all([firstPromise, secondPromise]);
@@ -50,17 +62,27 @@ async function firstMessage() {
 
 async function secondMessage() {
   if (body) {
-    const resolve = await secondPromise;
+    try {
+      const resolve = await secondPromise;
 
-    body.append(createMessageBlock('success', resolve));
+      body.append(createMessageBlock('success', resolve));
+    } catch (errorMessage) {
+      body.append(createMessageBlock('error', errorMessage));
+    }
   }
 }
 
 async function thirdMessage() {
   if (body) {
-    thirdPromise.then(() => {
-      body.append(createMessageBlock('success', 'Third promise was resolved'));
-    });
+    thirdPromise
+      .then(() => {
+        body.append(
+          createMessageBlock('success', 'Third promise was resolved'),
+        );
+      })
+      .catch((errorMessage) => {
+        createMessageBlock('error', errorMessage);
+      });
   }
 }
 firstMessage();
