@@ -1,33 +1,43 @@
 'use strict';
 
-let clicked = false;
-
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', (e) => {
-    if (e.button === 0) {
-      clicked = true;
-      resolve('First promise was resolved');
-    }
-  });
+  let clicked = false;
 
-  setTimeout(() => {
+  const timeoutId = setTimeout(() => {
     if (!clicked) {
       reject(new Error('First promise was rejected'));
     }
   }, 3000);
+
+  document.addEventListener(
+    'click',
+    (e) => {
+      if (e.button === 0 && !clicked) {
+        clicked = true;
+        clearTimeout(timeoutId);
+        resolve('First promise was resolved');
+      }
+    },
+    { once: true },
+  );
 });
 
 const secondPromise = new Promise((resolve, reject) => {
-  document.addEventListener('mousedown', (e) => {
-    if (e.button === 0 || e.button === 2) {
-      resolve('Second promise was resolved');
-    }
-  });
+  document.addEventListener(
+    'mousedown',
+    (e) => {
+      if (e.button === 0 || e.button === 2) {
+        resolve('Second promise was resolved');
+      }
+    },
+    { once: true },
+  );
 });
 
 const thirdPromise = new Promise((resolve, reject) => {
   let clickLeftMouse = false;
   let clickRightMouse = false;
+  let resolved = false;
 
   document.addEventListener('mousedown', (e) => {
     if (e.button === 0) {
@@ -38,7 +48,8 @@ const thirdPromise = new Promise((resolve, reject) => {
       clickRightMouse = true;
     }
 
-    if (clickLeftMouse && clickRightMouse) {
+    if (clickLeftMouse && clickRightMouse && !resolved) {
+      resolved = true;
       resolve('Third promise was resolved');
     }
   });
@@ -59,10 +70,10 @@ firstPromise
 
 secondPromise
   .then((msg) => showNotification('success', msg))
-  .catch((err) => showNotification('error', err));
+  .catch((err) => showNotification('error', err.message));
 
 thirdPromise
   .then((msg) => showNotification('success', msg))
-  .catch((err) => showNotification('error', err));
+  .catch((err) => showNotification('error', err.message));
 
 document.addEventListener('contextmenu', (e) => e.preventDefault());
