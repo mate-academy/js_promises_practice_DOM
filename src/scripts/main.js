@@ -24,7 +24,7 @@ const firstPromise = new Promise((resolve, reject) => {
 
 const secondPromise = new Promise((resolve, reject) => {
   document.addEventListener(
-    'mousedown',
+    'click',
     (e) => {
       if (e.button === 0 || e.button === 2) {
         resolve('Second promise was resolved');
@@ -39,7 +39,7 @@ const thirdPromise = new Promise((resolve, reject) => {
   let clickRightMouse = false;
   let resolved = false;
 
-  document.addEventListener('mousedown', (e) => {
+  document.addEventListener('click', (e) => {
     if (e.button === 0) {
       clickLeftMouse = true;
     }
