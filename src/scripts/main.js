@@ -13,12 +13,13 @@ function handler(result, stat) {
 const firstPromise = new Promise((resolve, reject) => {
   const tid = setTimeout(() => {
     reject(new Error('First promise was rejected'));
+    clearTimeout(tid);
   }, 3000);
 
   const handleClick = (e) => {
     resolve(`First promise was resolved`);
 
-    removeEventListener('click', handleClick);
+    document.removeEventListener('click', handleClick);
     clearTimeout(tid);
   };
 
@@ -29,9 +30,9 @@ const secondPromise = new Promise((resolve, reject) => {
   const handleMousedown = (e) => {
     if (e.button === 2 || e.button === 0) {
       resolve(`Second promise was resolved`);
-    }
 
-    removeEventListener('mousedown', handleMousedown);
+      document.removeEventListener('mousedown', handleMousedown);
+    }
   };
 
   document.addEventListener('mousedown', handleMousedown);
@@ -53,7 +54,7 @@ const thirdPromise = new Promise((resolve, reject) => {
     if (leftClick && rightClick) {
       resolve(`Third promise was resolved`);
 
-      removeEventListener('mousedown', handleMousedown);
+      document.removeEventListener('mousedown', handleMousedown);
     }
   };
 
