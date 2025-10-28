@@ -66,8 +66,8 @@ firstPromise
     showNotification(message, 'success');
   })
 
-  .catch((message) => {
-    showNotification(message, 'error');
+  .catch((error) => {
+    showNotification(error.message, 'error');
   });
 
 secondPromise
@@ -75,8 +75,8 @@ secondPromise
     showNotification(message, 'success');
   })
 
-  .catch((message) => {
-    showNotification(message, 'error');
+  .catch((error) => {
+    showNotification(error.message, 'error');
   });
 
 thirdPromise
@@ -84,6 +84,6 @@ thirdPromise
     showNotification(message, 'success');
   })
 
-  .catch((message) => {
-    showNotification(message, 'error');
+  .catch((error) => {
+    showNotification(error.message, 'error');
   });
