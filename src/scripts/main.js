@@ -1,15 +1,18 @@
 'use strict';
 
 const firstPromise = new Promise((resolve, reject) => {
+  document.addEventListener('click', onClick);
+
   const timer = setTimeout(() => {
     reject(new Error('First promise was rejected'));
-    document.removeEventListener('click', click);
+    document.removeEventListener('click', onClick);
   }, 3000);
 
-  const click = document.addEventListener('click', () => {
+  function onClick() {
     resolve('First promise was resolved');
     clearTimeout(timer);
-  });
+    document.removeEventListener('click', onClick);
+  }
 });
 
 const secondPromise = new Promise((resolve, reject) => {
@@ -29,7 +32,7 @@ const thirdPromise = new Promise((resolve, reject) => {
   let leftClick = false;
 
   document.addEventListener('click', () => {
-    rightClick = true;
+    leftClick = true;
 
     if (leftClick === true && rightClick === true) {
       resolve('Third promise was resolved');
@@ -39,16 +42,12 @@ const thirdPromise = new Promise((resolve, reject) => {
   document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
 
-    leftClick = true;
+    rightClick = true;
 
     if (leftClick === true && rightClick === true) {
       resolve('Third promise was resolved');
     }
   });
-
-  if (leftClick === true && rightClick === true) {
-    resolve('Third promise was resolved');
-  }
 });
 
 firstPromise
