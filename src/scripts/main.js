@@ -4,7 +4,7 @@ const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', onClick);
 
   const timer = setTimeout(() => {
-    reject(new Error('First promise was rejected'));
+    reject('First promise was rejected');
     document.removeEventListener('click', onClick);
   }, 3000);
 
@@ -66,6 +66,7 @@ firstPromise
     div.dataset.qa = 'notification';
     div.classList.add('error');
     div.textContent = message;
+    console.log(message);
 
     document.body.appendChild(div);
   });
