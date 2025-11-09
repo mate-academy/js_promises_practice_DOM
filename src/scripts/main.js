@@ -11,42 +11,65 @@ const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('mousedown', onDown, { once: true });
 
   const timer = setTimeout(() => {
+    document.removeEventListener('mousedown', onDown);
     reject(new Error('First promise was rejected'));
   }, 3000);
 });
 
+const cleanup = (onLeftClick, onRightClick) => {
+  document.removeEventListener('mousedown', onLeftClick);
+  document.removeEventListener('contextmenu', onRightClick);
+};
+
 const secondPromise = new Promise((resolve) => {
-  document.addEventListener(
-    'mousedown',
-    (e) => {
-      if (e.button === 0 || e.button === 2) {
-        resolve('Second promise was resolved');
-      }
-    },
-    { once: true },
-  );
+  const finish = () => {
+    cleanup(onLeftClick, onRightClick);
+    resolve('Second promise was resolved');
+  };
+
+  const onLeftClick = (e) => {
+    if (e.button === 0) {
+      finish();
+    }
+  };
+
+  const onRightClick = (e) => {
+    e.preventDefault();
+    finish();
+  };
+
+  document.addEventListener('mousedown', onLeftClick);
+  document.addEventListener('contextmenu', onRightClick);
 });
 
 const thirdPromise = new Promise((resolve) => {
   let leftClicked = false;
   let rightClicked = false;
 
-  const onMouseDown = (e) => {
-    if (e.button === 0) {
-      leftClicked = true;
-    }
-
-    if (e.button === 2) {
-      rightClicked = true;
-    }
-
+  const maybeResolve = () => {
     if (leftClicked && rightClicked) {
-      document.removeEventListener('mousedown', onMouseDown);
+      cleanup(onLeftClick, onRightClick);
       resolve('Third promise was resolved');
     }
   };
 
-  document.addEventListener('mousedown', onMouseDown);
+  const onLeftClick = (e) => {
+    if (e.button !== 0) {
+      return;
+    }
+
+    leftClicked = true;
+    maybeResolve();
+  };
+
+  const onRightClick = (e) => {
+    e.preventDefault();
+    rightClicked = true;
+    maybeResolve();
+  };
+
+  document.addEventListener('mousedown', onLeftClick);
+  document.addEventListener('contextmenu', onRightClick);
 });
 
 firstPromise.then(
