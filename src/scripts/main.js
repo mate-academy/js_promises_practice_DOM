@@ -27,32 +27,27 @@ const secondPromise = new Promise((resolve) => {
   );
 });
 
-const leftClickPromise = new Promise((resolve) => {
-  document.addEventListener(
-    'mousedown',
-    (e) => {
-      if (e.button === 0) {
-        resolve('Third promise left click resolved');
-      }
-    },
-    { once: true },
-  );
-});
-const rightClickPromise = new Promise((resolve) => {
-  document.addEventListener(
-    'mousedown',
-    (e) => {
-      if (e.button === 2) {
-        resolve('Third promise right click resolved');
-      }
-    },
-    { once: true },
-  );
-});
+const thirdPromise = new Promise((resolve) => {
+  let leftClicked = false;
+  let rightClicked = false;
 
-const thirdPromise = Promise.all([leftClickPromise, rightClickPromise]).then(
-  () => 'Third promise was resolved',
-);
+  const onMouseDown = (e) => {
+    if (e.button === 0) {
+      leftClicked = true;
+    }
+
+    if (e.button === 2) {
+      rightClicked = true;
+    }
+
+    if (leftClicked && rightClicked) {
+      document.removeEventListener('mousedown', onMouseDown);
+      resolve('Third promise was resolved');
+    }
+  };
+
+  document.addEventListener('mousedown', onMouseDown);
+});
 
 firstPromise.then(
   (message) => {
