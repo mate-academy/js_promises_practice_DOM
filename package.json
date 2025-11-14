@@ -1,5 +1,5 @@
 {
-  "name": "js_promises_practice_DOM",
+  "name": "js_promises_practice_dom",
   "version": "1.0.0",
   "description": "js_promises_practice_DOM",
   "keywords": [],
@@ -53,5 +53,9 @@
       "backstop": false,
       "cypress": true
     }
+  },
+  "main": ".eslintrc.js",
+  "dependencies": {
+    "mate-scripts": "^0.0.1"
   }
 }
