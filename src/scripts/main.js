@@ -21,6 +21,7 @@ document.addEventListener('mousedown', (e) => {
 const firstPromise = new Promise((resolve, reject) => {
   const clickHandler = (e) => {
     if (e.button === 0) {
+      clearTimeout(timeoutId);
       resolve('First promise was resolved');
       document.removeEventListener('mousedown', clickHandler);
     }
@@ -28,7 +29,7 @@ const firstPromise = new Promise((resolve, reject) => {
 
   document.addEventListener('mousedown', clickHandler);
 
-  setTimeout(() => {
+  const timeoutId = setTimeout(() => {
     reject('First promise was rejected');
     document.removeEventListener('mousedown', clickHandler);
   }, 3000);
