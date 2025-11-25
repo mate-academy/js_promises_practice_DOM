@@ -5,12 +5,12 @@
 const promise1 = new Promise((resolve, reject) => {
   const doc = document.querySelector('body');
   const time = setTimeout(() => {
-    reject('First promise was rejected in 3 seconds if not clicked');
+    reject('First promise was rejected');
   }, 3000);
 
   const handler = (event) => {
     if (event.button === 0) {
-      resolve('First promise was resolved on a left click in the document');
+      resolve('First promise was resolved');
 
       clearTimeout(time);
       doc.removeEventListener('click', handler);
