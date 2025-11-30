@@ -45,7 +45,7 @@ const state = {
     }
 
     if (!this.first && this.timedOut && !this.left) {
-      firstReject(new Error('First promise was rejected'));
+      firstReject('First promise was rejected');
       this.first = true;
     }
 
