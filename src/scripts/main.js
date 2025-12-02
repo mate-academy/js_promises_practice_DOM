@@ -25,10 +25,12 @@ const firstPromise = new Promise(function (resolve, reject) {
       resolve(`First promise was resolved`);
     }
   });
+  document.removeEventListener();
 
   setTimeout(() => {
     reject(new Error(`First promise was rejected`));
   }, 3000);
+  clearTimeout();
 });
 
 const secondPromise = new Promise(function (resolve, reject) {
@@ -37,6 +39,7 @@ const secondPromise = new Promise(function (resolve, reject) {
       resolve(`Second promise was resolved`);
     }
   });
+  document.removeEventListener();
 });
 
 const thirdPromise = new Promise(function (resolve, reject) {
@@ -56,6 +59,7 @@ const thirdPromise = new Promise(function (resolve, reject) {
       resolve('Third promise was resolved');
     }
   });
+  document.removeEventListener();
 });
 
 document.addEventListener('DOMContentLoaded', () => {
