@@ -7,6 +7,8 @@ let resolveFirst;
 let resolveSecond;
 let resolveThird;
 
+let timerId;
+
 document.addEventListener('contextmenu', (ev) => {
   ev.preventDefault();
 });
@@ -14,6 +16,7 @@ document.addEventListener('contextmenu', (ev) => {
 document.addEventListener('mousedown', (e) => {
   if (e.button === 0) {
     leftClicked = true;
+    clearTimeout(timerId);
     resolveFirst('First promise was resolved');
     resolveSecond('Second promise was resolved');
   }
@@ -31,7 +34,7 @@ document.addEventListener('mousedown', (e) => {
 const firstPromise = new Promise((resolve, reject) => {
   resolveFirst = resolve;
 
-  setTimeout(() => {
+  timerId = setTimeout(() => {
     reject(new Error('First promise was rejected'));
   }, 3000);
 });
