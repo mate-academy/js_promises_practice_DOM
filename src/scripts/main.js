@@ -20,46 +20,56 @@ function handlePromise(promise) {
 }
 
 const firstPromise = new Promise(function (resolve, reject) {
-  document.addEventListener('mousedown', (e) => {
+  const listener = (e) => {
     if (e.button === 0) {
+      document.removeEventListener('mousedown', listener);
       resolve(`First promise was resolved`);
     }
-  });
-  document.removeEventListener();
+  };
+
+  document.addEventListener('mousedown', listener);
 
   setTimeout(() => {
     reject(new Error(`First promise was rejected`));
   }, 3000);
-  clearTimeout();
 });
 
 const secondPromise = new Promise(function (resolve, reject) {
-  document.addEventListener('mousedown', (e) => {
+  const listener = (e) => {
     if (e.button === 0 || e.button === 2) {
+      document.removeEventListener('mousedown', listener);
       resolve(`Second promise was resolved`);
     }
-  });
-  document.removeEventListener();
+  };
+
+  document.addEventListener('mousedown', listener);
 });
 
-const thirdPromise = new Promise(function (resolve, reject) {
+const thirdPromise = new Promise((resolve) => {
   let leftClicked = false;
   let rightClicked = false;
 
-  document.addEventListener('mousedown', (e) => {
-    if (e.button === 0) {
+  function clickedTwoTimes(e) {
+    if (e.type === 'click' && e.button === 0) {
       leftClicked = true;
     }
 
-    if (e.button === 2) {
+    if ((e.type === 'click' && e.button === 2) || e.type === 'contextmenu') {
       rightClicked = true;
+
+      if (e.type === 'contextmenu') {
+        e.preventDefault();
+      }
     }
 
     if (leftClicked && rightClicked) {
       resolve('Third promise was resolved');
+      document.removeEventListener('click', clickedTwoTimes);
+      document.removeEventListener('contextmenu', clickedTwoTimes);
     }
-  });
-  document.removeEventListener();
+  }
+  document.addEventListener('click', clickedTwoTimes);
+  document.addEventListener('contextmenu', clickedTwoTimes);
 });
 
 document.addEventListener('DOMContentLoaded', () => {
