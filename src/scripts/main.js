@@ -4,7 +4,7 @@ let leftClick = false;
 let rightClick = false;
 const firstPromise = new Promise((resolve, reject) => {
   const timer = setTimeout(() => {
-    reject(new Error());
+    reject(new Error('First promise was rejected'));
   }, 3000);
 
   document.addEventListener(
@@ -50,37 +50,55 @@ const thirdPromise = new Promise((resolve, reject) => {
 });
 
 firstPromise
-  .then(() => {
+  .then((message) => {
     const div = document.createElement('div');
 
-    div.textContent = 'First promise was resolved';
+    div.textContent = message;
     div.setAttribute('data-qa', 'notification');
     div.classList.add('success');
     document.body.appendChild(div);
   })
-  .catch(() => {
+  .catch((err) => {
     const div = document.createElement('div');
 
-    div.textContent = 'First promise was rejected';
+    div.textContent = err.message || err;
     div.setAttribute('data-qa', 'notification');
     div.classList.add('error');
     document.body.appendChild(div);
   });
 
-secondPromise.then(() => {
-  const div = document.createElement('div');
+secondPromise
+  .then((message) => {
+    const div = document.createElement('div');
 
-  div.textContent = 'Second promise was resolved';
-  div.setAttribute('data-qa', 'notification');
-  div.classList.add('success');
-  document.body.appendChild(div);
-});
+    div.textContent = message;
+    div.setAttribute('data-qa', 'notification');
+    div.classList.add('success');
+    document.body.appendChild(div);
+  })
+  .catch((err) => {
+    const div = document.createElement('div');
 
-thirdPromise.then(() => {
-  const div = document.createElement('div');
+    div.textContent = err.message || err;
+    div.setAttribute('data-qa', 'notification');
+    div.classList.add('error');
+    document.body.appendChild(div);
+  });
 
-  div.textContent = 'Third promise was resolved';
-  div.setAttribute('data-qa', 'notification');
-  div.classList.add('success');
-  document.body.appendChild(div);
-});
+thirdPromise
+  .then((message) => {
+    const div = document.createElement('div');
+
+    div.textContent = message;
+    div.setAttribute('data-qa', 'notification');
+    div.classList.add('success');
+    document.body.appendChild(div);
+  })
+  .catch((err) => {
+    const div = document.createElement('div');
+
+    div.textContent = err.message || err;
+    div.setAttribute('data-qa', 'notification');
+    div.classList.add('error');
+    document.body.appendChild(div);
+  });
