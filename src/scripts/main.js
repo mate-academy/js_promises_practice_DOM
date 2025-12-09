@@ -80,12 +80,12 @@ firstPromise
   });
 
 secondPromise.then(() => {
-  handleError('Second promise was resolved');
+  handleSuccess('Second promise was resolved');
 });
 
 thirdPromise
   .then(() => {
-    handleError('Third promise was resolved');
+    handleSuccess('Third promise was resolved');
   })
   .catch(() => {
     handleError('Third promise was rejected');
