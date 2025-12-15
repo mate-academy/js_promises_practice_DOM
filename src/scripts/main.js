@@ -4,29 +4,29 @@ const firstPromise = new Promise((resolve, reject) => {
   const doc = document.querySelector('html');
 
   doc.addEventListener('click', () => {
-    resolve();
+    resolve('First promise was resolved');
   });
 
   setTimeout(() => {
-    reject(new Error());
+    reject(new Error('First promise was rejected'));
   }, 3000);
 });
 
 firstPromise
-  .then(() => {
+  .then((success) => {
     const div = document.createElement('div');
 
     div.setAttribute('data-qa', 'notification');
     div.className = 'success';
-    div.textContent = 'First promise was resolved';
+    div.textContent = success;
     document.body.appendChild(div);
   })
-  .catch(() => {
+  .catch((error) => {
     const div = document.createElement('div');
 
     div.setAttribute('data-qa', 'notification');
     div.className = 'error';
-    div.textContent = 'First promise was rejected';
+    div.textContent = error;
     document.body.appendChild(div);
   });
 
@@ -35,7 +35,7 @@ const secondPromise = new Promise((resolve, reject) => {
 
   doc.addEventListener('mousedown', (e) => {
     if (e.button === 0 || e.button === 2) {
-      resolve();
+      resolve('Second promise was resolved');
     }
   });
 
@@ -44,22 +44,14 @@ const secondPromise = new Promise((resolve, reject) => {
   });
 });
 
-secondPromise
-  .then(() => {
-    const div = document.createElement('div');
+secondPromise.then((success) => {
+  const div = document.createElement('div');
 
-    div.setAttribute('data-qa', 'notification');
-    div.className = 'success';
-    div.textContent = 'Second promise was resolved';
-    document.body.appendChild(div);
-  })
-  .catch(() => {
-    const div = document.createElement('div');
-
-    div.setAttribute('data-qa', 'notification');
-    div.className = 'error';
-    document.body.appendChild(div);
-  });
+  div.setAttribute('data-qa', 'notification');
+  div.className = 'success';
+  div.textContent = success;
+  document.body.appendChild(div);
+});
 
 const thirdPromise = new Promise((resolve, reject) => {
   const doc = document.querySelector('html');
@@ -77,7 +69,7 @@ const thirdPromise = new Promise((resolve, reject) => {
     }
 
     if (leftClick === true && rigthClick === true) {
-      resolve();
+      resolve('Third promise was resolved');
     }
   });
 
@@ -86,19 +78,11 @@ const thirdPromise = new Promise((resolve, reject) => {
   });
 });
 
-thirdPromise
-  .then(() => {
-    const div = document.createElement('div');
+thirdPromise.then((success) => {
+  const div = document.createElement('div');
 
-    div.setAttribute('data-qa', 'notification');
-    div.className = 'success';
-    div.textContent = 'Third promise was resolved';
-    document.body.appendChild(div);
-  })
-  .catch(() => {
-    const div = document.createElement('div');
-
-    div.setAttribute('data-qa', 'notification');
-    div.className = 'error';
-    document.body.appendChild(div);
-  });
+  div.setAttribute('data-qa', 'notification');
+  div.className = 'success';
+  div.textContent = success;
+  document.body.appendChild(div);
+});
