@@ -26,7 +26,7 @@ firstPromise
 
     div.setAttribute('data-qa', 'notification');
     div.className = 'error';
-    div.textContent = error;
+    div.textContent = error.message;
     document.body.appendChild(div);
   });
 
@@ -57,7 +57,7 @@ const thirdPromise = new Promise((resolve, reject) => {
   const doc = document.querySelector('html');
 
   let leftClick = false;
-  let rigthClick = false;
+  let rightClick = false;
 
   doc.addEventListener('mousedown', (e) => {
     if (e.button === 0) {
@@ -65,10 +65,10 @@ const thirdPromise = new Promise((resolve, reject) => {
     }
 
     if (e.button === 2) {
-      rigthClick = true;
+      rightClick = true;
     }
 
-    if (leftClick === true && rigthClick === true) {
+    if (leftClick === true && rightClick === true) {
       resolve('Third promise was resolved');
     }
   });
