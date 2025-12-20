@@ -3,31 +3,32 @@
 const firstPromise = new Promise((resolve, reject) => {
   const body = document.querySelector('body');
 
-  body.addEventListener('click', (e) => {
-    resolve();
-  });
-
-  setTimeout(() => {
-    reject(Error);
+  const timerId = setTimeout(() => {
+    reject(new Error('First promise was rejected'));
   }, 3000);
+
+  body.addEventListener('click', (e) => {
+    clearTimeout(timerId);
+    resolve('First promise was resolved');
+  });
 });
 
 firstPromise
-  .then(() => {
+  .then((message) => {
     const body = document.querySelector('body');
     const messageBlock = document.createElement('div');
 
     messageBlock.dataset.qa = 'notification';
-    messageBlock.textContent = 'First promise was resolved';
+    messageBlock.textContent = message;
     messageBlock.classList.add('success');
     body.appendChild(messageBlock);
   })
-  .catch(() => {
+  .catch((error) => {
     const body = document.querySelector('body');
     const messageBlock = document.createElement('div');
 
     messageBlock.dataset.qa = 'notification';
-    messageBlock.textContent = 'First promise was rejected';
+    messageBlock.textContent = error.message;
     messageBlock.classList.add('error');
     body.appendChild(messageBlock);
   });
@@ -37,21 +38,21 @@ const secondPromise = new Promise((resolve, reject) => {
   const body = document.querySelector('body');
 
   body.addEventListener('click', (e) => {
-    resolve();
+    resolve('Second promise was resolved');
   });
 
   body.addEventListener('contextmenu', (e) => {
     e.preventDefault();
-    resolve();
+    resolve('Second promise was resolved');
   });
 });
 
-secondPromise.then(() => {
+secondPromise.then((message) => {
   const body = document.querySelector('body');
   const messageBlock = document.createElement('div');
 
   messageBlock.dataset.qa = 'notification';
-  messageBlock.textContent = 'Second promise was resolved';
+  messageBlock.textContent = message;
   messageBlock.classList.add('success');
   body.appendChild(messageBlock);
 });
@@ -74,17 +75,17 @@ const thirdPromise = new Promise((resolve, reject) => {
     }
 
     if (isLeftButton && isRightButton) {
-      resolve();
+      resolve('Third promise was resolved');
     }
   });
 });
 
-thirdPromise.then(() => {
+thirdPromise.then((message) => {
   const body = document.querySelector('body');
   const messageBlock = document.createElement('div');
 
   messageBlock.dataset.qa = 'notification';
-  messageBlock.textContent = 'Third promise was resolved';
+  messageBlock.textContent = message;
   messageBlock.classList.add('success');
   body.appendChild(messageBlock);
 });
