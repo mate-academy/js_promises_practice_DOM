@@ -46,13 +46,13 @@ firstPromise
   });
 
 const secondPromise = new Promise((resolve, reject) => {
-  const handler = (e) => {
+  body.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     resolve('Second promise was resolved');
-  };
+  });
 
-  ['click', 'contextmenu'].forEach((item) => {
-    body.addEventListener(item, handler);
+  body.addEventListener('click', () => {
+    resolve('Second promise was resolved');
   });
 });
 
@@ -66,12 +66,29 @@ secondPromise.then((contextmenuText) => {
   document.body.append(message);
 });
 
-Promise.all([firstPromise, secondPromise]).then(() => {
-  const message = document.createElement('div');
-
-  message.classList.add('success');
-  message.dataset.qa = 'notification';
-  message.textContent = 'Third promise was resolved';
-
-  document.body.append(message);
+const leftClick = new Promise((resolve, reject) => {
+  body.addEventListener('click', (e) => {
+    resolve('true');
+  });
 });
+
+const RightClick = new Promise((resolve, reject) => {
+  body.addEventListener('contextmenu', (e) => {
+    resolve('true');
+  });
+});
+
+
+Promise.all([leftClick, RightClick])
+  .then(() => {
+    const message = document.createElement('div');
+
+    message.classList.add('success');
+    message.dataset.qa = 'notification';
+    message.textContent = 'Third promise was resolved';
+
+    document.body.append(message);
+  })
+  .catch((errorText) => {
+    return;
+  })
