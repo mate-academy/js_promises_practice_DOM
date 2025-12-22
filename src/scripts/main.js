@@ -6,7 +6,7 @@ let rejectTimeout;
 
 const firstPromise = new Promise((resolve, reject) => {
   rejectTimeout = setTimeout(() => {
-    reject(new Error("'First promise was rejected'"));
+    reject(new Error('First promise was rejected'));
   }, 3000);
 
   body.addEventListener(
@@ -40,14 +40,19 @@ firstPromise
 
     message.classList.add('error');
     message.dataset.qa = 'notification';
-    message.textContent = 'First promise was rejected';
+    message.textContent = errorText.message;
 
     document.body.append(message);
   });
 
 const secondPromise = new Promise((resolve, reject) => {
-  body.addEventListener('contextmenu', (e) => {
+  const handler = (e) => {
+    e.preventDefault();
     resolve('Second promise was resolved');
+  };
+
+  ['click', 'contextmenu'].forEach((item) => {
+    body.addEventListener(item, handler);
   });
 });
 
