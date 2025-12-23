@@ -1,10 +1,8 @@
 'use strict';
 
-const { errors } = require("@linthtml/linthtml/messages");
-
 const firstPromise = new Promise((resolve, reject) => {
   const time = setTimeout(() => {
-    reject(new Error('First promise was resolved'));
+    reject(new Error('First promise was rejected'));
   }, 3000);
 
   document.addEventListener(
@@ -79,7 +77,7 @@ firstPromise.then((msg) => {
 });
 
 firstPromise.catch((msg) => {
-  showMessage(msg, 'error');
+  showMessage(msg.message, 'error');
 });
 
 secondPromise.then((msg) => {
