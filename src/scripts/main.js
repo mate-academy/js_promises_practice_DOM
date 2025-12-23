@@ -84,6 +84,14 @@ secondPromise.then((msg) => {
   showMessage(msg, 'success');
 });
 
+secondPromise.catch((msg) => {
+  showMessage(msg.message, 'error');
+});
+
 thirdPromise.then((msg) => {
   showMessage(msg, 'success');
+});
+
+thirdPromise.catch((msg) => {
+  showMessage(msg.message, 'error');
 });
