@@ -1,49 +1,82 @@
 'use strict';
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', () => {
-    resolve('First promise was resolved');
-  });
-
-  setTimeout(() => {
+  const timerId = setTimeout(() => {
+    cleanup();
     reject(new Error('First promise was rejected'));
   }, 3000);
+
+  document.addEventListener('click', onClick);
+
+  function onClick() {
+    cleanup();
+    resolve('First promise was resolved');
+  }
+
+  function cleanup() {
+    clearTimeout(timerId);
+    document.removeEventListener('click', onClick);
+  }
 });
 
 const secondPromise = new Promise((resolve) => {
-  document.addEventListener('click', () => {
-    resolve('Second promise was resolved');
-  });
+  document.addEventListener('click', onClick);
+  document.addEventListener('contextmenu', onContextMenu);
 
-  document.addEventListener('contextmenu', () => {
+  function onClick() {
+    cleanup();
     resolve('Second promise was resolved');
-  });
+  }
+
+  function onContextMenu(e) {
+    cleanup();
+    e.preventDefault();
+    resolve('Second promise was resolved');
+  }
+
+  function cleanup() {
+    document.removeEventListener('click', onClick);
+    document.removeEventListener('contextmenu', onContextMenu);
+  }
 });
 
 const thirdPromise = new Promise((resolve) => {
   let isLeftClicked = false;
   let isRightClicked = false;
 
-  document.addEventListener('click', () => {
+  document.addEventListener('click', onClick);
+
+  document.addEventListener('contextmenu', onContextMenu);
+
+  function onClick() {
     if (isRightClicked) {
+      cleanup();
       resolve('Third promise was resolved');
     } else {
       isLeftClicked = true;
     }
-  });
+  }
 
-  document.addEventListener('contextmenu', () => {
+  function onContextMenu(e) {
+    e.preventDefault();
+
     if (isLeftClicked) {
+      cleanup();
       resolve('Third promise was resolved');
     } else {
       isRightClicked = true;
     }
-  });
+  }
+
+  function cleanup() {
+    document.removeEventListener('click', onClick);
+    document.removeEventListener('contextmenu', onContextMenu);
+  }
 });
 
 firstPromise
   .then((message) => showNotification('success', message))
-  .catch((message) => showNotification('error', message));
+  .catch((error) => showNotification('error', error.message));
 
 secondPromise.then((message) => showNotification('success', message));
 thirdPromise.then((message) => showNotification('success', message));
