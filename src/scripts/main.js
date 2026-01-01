@@ -23,7 +23,7 @@ const firstPromise = new Promise((resolve, reject) => {
       clicked = true;
       document.removeEventListener('click', handleClick);
 
-      resolve('First promise was resolved on a left click in the document');
+      resolve('First promise was resolved');
     }
   }
 
@@ -33,9 +33,7 @@ const firstPromise = new Promise((resolve, reject) => {
     if (!clicked) {
       document.removeEventListener('click', handleClick);
 
-      reject(
-        new Error('First promise was rejected in 3 seconds if not clicked'),
-      );
+      reject(new Error('First promise was rejected'));
     }
   }, 3000);
 });
@@ -75,10 +73,7 @@ const thirdPromise = new Promise((resolve, reject) => {
     if (leftClicked && rightClicked) {
       document.removeEventListener('mousedown', handleMouseDown);
 
-      resolve(
-        `Third promise was resolved only after
-        both left and right clicks happened`,
-      );
+      resolve('Third promise was resolved');
     }
   }
 
