@@ -16,7 +16,6 @@ function click() {
     const clickEvent = (e) => {
       if (e.button === 0) {
         clearTimeout(timer);
-        // console.log('✅ First Promise: Resolved (Лівий клік)');
         resolve('First promise was resolved');
       }
     };
@@ -25,7 +24,6 @@ function click() {
 
     const timer = setTimeout(() => {
       body.removeEventListener('mousedown', clickEvent);
-      // console.log('❌ First Promise: Rejected (Час вийшов)');
       reject(new Error('First promise was rejected'));
     }, 3000);
   });
@@ -35,7 +33,6 @@ function click() {
       'mousedown',
       (e) => {
         if (e.button === 0 || e.button === 2) {
-          // console.log('✅ Second Promise: Resolved (Будь-який клік)');
           resolve('Second promise was resolved');
         }
       },
@@ -45,22 +42,18 @@ function click() {
 
   const thirdPromise = new Promise((resolve) => {
     const clickEvent = (e) => {
-      const isLeft = e.button === 0;
-      const isRight = e.button === 2;
-
-      if (isLeft === true && isRight === true) {
+      if (e.buttons === 3) {
         resolve('Third promise was resolved');
-        body.addEventListener('mousedown', clickEvent);
+        body.removeEventListener('mousedown', clickEvent);
       }
-      // console.log('✅ Third Promise: Resolved (Обидві кнопки разом)');
     };
 
-    body.removeEventListener('mousedown', clickEvent);
+    body.addEventListener('mousedown', clickEvent);
   });
 
   firstPromise
     .then((sms) => createMessage(sms, 'success'))
-    .catch((error) => createMessage(error, 'error'));
+    .catch((error) => createMessage(error.message, 'error'));
 
   secondPromise.then((sms) => createMessage(sms, 'success'));
   thirdPromise.then((sms) => createMessage(sms, 'success'));
