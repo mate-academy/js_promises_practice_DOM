@@ -21,7 +21,7 @@ function showError(message) {
 const firstPromise = new Promise((resolve, reject) => {
   const timerId = setTimeout(() => {
     document.removeEventListener('click', onClick);
-    reject(new Error('First promise was rejected in 3 seconds if not clicked'));
+    reject(new Error('First promise was rejected'));
   }, 3000);
 
   function onClick(evt) {
@@ -31,7 +31,7 @@ const firstPromise = new Promise((resolve, reject) => {
 
     clearTimeout(timerId);
     document.removeEventListener('click', onClick);
-    resolve('First promise was resolved on a left click in the document');
+    resolve('First promise was resolved');
   }
 
   document.addEventListener('click', onClick);
@@ -61,10 +61,7 @@ const thirdPromise = new Promise((resolve) => {
       document.removeEventListener('click', onLeftClick);
       document.removeEventListener('contextmenu', onRightClick);
 
-      resolve(
-        'Third promise was resolved only after both left and ' +
-          'right clicks happened',
-      );
+      resolve('Third promise was resolved');
     }
   }
 
