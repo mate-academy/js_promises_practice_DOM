@@ -14,7 +14,7 @@ function showError(message) {
 
   div.setAttribute('data-qa', 'notification');
   div.classList.add('error');
-  div.textContent = message;
+  div.textContent = message.message;
   document.body.appendChild(div);
 }
 
