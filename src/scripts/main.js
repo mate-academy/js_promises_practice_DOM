@@ -41,10 +41,16 @@ function click() {
   });
 
   const thirdPromise = new Promise((resolve) => {
+    let leftClick = false;
+    let rightClick =  false;
+
     const clickEvent = (e) => {
-      if (e.buttons === 3) {
-        resolve('Third promise was resolved');
+      if (e.button === 0) leftClick = true;
+      if (e.button === 2) rightClick = true;
+
+      if (leftClick && rightClick) {
         body.removeEventListener('mousedown', clickEvent);
+        resolve('Third promise was resolved');
       }
     };
 
