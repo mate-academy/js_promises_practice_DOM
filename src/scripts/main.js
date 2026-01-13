@@ -15,7 +15,7 @@ function showMessage(message, isError = false) {
 // --------------------
 const firstPromise = new Promise((resolve, reject) => {
   const timerId = setTimeout(() => {
-    reject(new Error('First promise was rejected in 3 seconds'));
+    reject(new Error('First promise was rejected'));
   }, 3000);
 
   document.addEventListener(
@@ -24,7 +24,7 @@ const firstPromise = new Promise((resolve, reject) => {
       if (e.button === 0) {
         clearTimeout(timerId);
 
-        resolve('First promise was resolved on a left click in the document');
+        resolve('First promise was resolved');
       }
     },
     { once: true },
@@ -59,26 +59,22 @@ const thirdPromise = new Promise((resolve, reject) => {
   let leftClicked = false;
   let rightClicked = false;
 
-  function checkClicks() {
-    if (leftClicked && rightClicked) {
-      resolve(
-        'Third promise was resolved only after both left and right clicks ' +
-          'happened',
-      );
-    }
-  }
-
-  document.addEventListener('mousedown', (e) => {
+  function onMouseDown(e) {
     if (e.button === 0) {
       leftClicked = true;
-      checkClicks();
     }
 
     if (e.button === 2) {
       rightClicked = true;
-      checkClicks();
     }
-  });
+
+    if (leftClicked && rightClicked) {
+      document.removeEventListener('mousedown', onMouseDown);
+      resolve('Third promise was resolved');
+    }
+  }
+
+  document.addEventListener('mousedown', onMouseDown);
 });
 
 thirdPromise.then((message) => showMessage(message));
