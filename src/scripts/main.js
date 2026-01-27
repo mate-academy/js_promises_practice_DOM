@@ -2,18 +2,20 @@
 
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', (e) => {
-    resolve();
+    resolve('First promise was resolved');
   });
 
-  setTimeout(reject, 3000);
+  setTimeout(() => {
+    reject(new Error('First promise was rejected'));
+  }, 3000);
 });
 
 firstPromise
-  .then(() => {
-    createNotification('First promise was resolved', 'success');
+  .then((message) => {
+    createNotification(message, 'success');
   })
-  .catch(() => {
-    createNotification('First promise was rejected', 'error');
+  .catch((error) => {
+    createNotification(error.message, 'error');
   });
 
 const secondPromise = new Promise((resolve, reject) => {
@@ -21,13 +23,13 @@ const secondPromise = new Promise((resolve, reject) => {
     const button = e.button;
 
     if (button === 0 || button === 2) {
-      resolve();
+      resolve('Second promise was resolved');
     }
   });
 });
 
-secondPromise.then(() => {
-  createNotification('Second promise was resolved', 'success');
+secondPromise.then((message) => {
+  createNotification(message, 'success');
 });
 
 const thirdPromise = new Promise((resolve, reject) => {
@@ -44,13 +46,13 @@ const thirdPromise = new Promise((resolve, reject) => {
     }
 
     if (pressed[0] && pressed[2]) {
-      resolve();
+      resolve('Third promise was resolved');
     }
   });
 });
 
-thirdPromise.then(() => {
-  createNotification('Third promise was resolved', 'success');
+thirdPromise.then((message) => {
+  createNotification(message, 'success');
 });
 
 function createNotification(message, type) {
