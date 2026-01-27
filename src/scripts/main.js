@@ -1,13 +1,19 @@
 'use strict';
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', (e) => {
-    resolve('First promise was resolved');
-  });
+  const firstEvent = () => {
+    clearTimeout(timer);
 
-  setTimeout(() => {
+    resolve('First promise was resolved');
+  };
+
+  const timer = setTimeout(() => {
+    document.removeEventListener('click', firstEvent);
+
     reject(new Error('First promise was rejected'));
   }, 3000);
+
+  document.addEventListener('click', firstEvent);
 });
 
 firstPromise
@@ -19,13 +25,17 @@ firstPromise
   });
 
 const secondPromise = new Promise((resolve, reject) => {
-  document.addEventListener('mousedown', (e) => {
+  const secondEvent = (e) => {
     const button = e.button;
 
     if (button === 0 || button === 2) {
       resolve('Second promise was resolved');
+
+      document.removeEventListener('mousedown', secondEvent);
     }
-  });
+  };
+
+  document.addEventListener('mousedown', secondEvent);
 });
 
 secondPromise.then((message) => {
@@ -38,7 +48,7 @@ const thirdPromise = new Promise((resolve, reject) => {
     2: false,
   };
 
-  document.addEventListener('mousedown', (e) => {
+  const thirdEvent = (e) => {
     const button = e.button;
 
     if (button in pressed) {
@@ -47,8 +57,12 @@ const thirdPromise = new Promise((resolve, reject) => {
 
     if (pressed[0] && pressed[2]) {
       resolve('Third promise was resolved');
+
+      document.removeEventListener('mousedown', thirdEvent);
     }
-  });
+  };
+
+  document.addEventListener('mousedown', thirdEvent);
 });
 
 thirdPromise.then((message) => {
