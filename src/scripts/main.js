@@ -16,19 +16,19 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 firstPromise
-  .then(() => {
+  .then((message) => {
     const div = document.createElement('div');
 
     div.className = 'success';
-    div.textContent = 'First promise was resolved';
+    div.textContent = message;
     div.setAttribute('data-qa', 'notification');
     document.body.appendChild(div);
   })
-  .catch(() => {
+  .catch((error) => {
     const div = document.createElement('div');
 
     div.className = 'error';
-    div.textContent = 'First promise was rejected';
+    div.textContent = error.message;
     div.setAttribute('data-qa', 'notification');
     document.body.appendChild(div);
   });
@@ -54,19 +54,19 @@ const secondPromise = new Promise((resolve, reject) => {
 });
 
 secondPromise
-  .then(() => {
+  .then((message) => {
     const div = document.createElement('div');
 
     div.className = 'success';
-    div.textContent = 'Second promise was resolved';
+    div.textContent = message;
     div.setAttribute('data-qa', 'notification');
     document.body.appendChild(div);
   })
-  .catch(() => {
+  .catch((error) => {
     const div = document.createElement('div');
 
     div.className = 'error';
-    div.textContent = 'Second promise was rejected';
+    div.textContent = error.message;
     div.setAttribute('data-qa', 'notification');
     document.body.appendChild(div);
   });
@@ -101,19 +101,19 @@ const thirdPromise = new Promise((resolve, reject) => {
 });
 
 thirdPromise
-  .then(() => {
+  .then((message) => {
     const div = document.createElement('div');
 
     div.className = 'success';
-    div.textContent = 'Third promise was resolved';
+    div.textContent = message;
     div.setAttribute('data-qa', 'notification');
     document.body.appendChild(div);
   })
-  .catch(() => {
+  .catch((error) => {
     const div = document.createElement('div');
 
     div.className = 'error';
-    div.textContent = 'Third promise was rejected';
+    div.textContent = error.message;
     div.setAttribute('data-qa', 'notification');
     document.body.appendChild(div);
   });
