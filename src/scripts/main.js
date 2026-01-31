@@ -4,15 +4,7 @@ const body = document.querySelector('body');
 
 const firstPromise = new Promise((resolve, reject) => {
   const timer = setTimeout(() => {
-    const message = document.createElement('div');
-
-    message.classList.add('error');
-    message.setAttribute('data-qa', 'notification');
-
-    message.textContent =
-      'First promise was rejected in 3 seconds if not clicked';
-
-    reject(message);
+    reject(new Error('First promise was rejected'));
   }, 3000);
 
   document.addEventListener(
@@ -21,48 +13,31 @@ const firstPromise = new Promise((resolve, reject) => {
       if (e.button !== 0) {
         return;
       }
+
       clearTimeout(timer);
-
-      const message = document.createElement('div');
-
-      message.setAttribute('data-qa', 'notification');
-
-      message.classList.add('success');
-
-      message.textContent =
-        'First promise was resolved on a left click in the document';
-
-      resolve(message);
+      resolve('First promise was resolved');
     },
     { once: true },
   );
 });
 
-const secondPromise = new Promise((resolve, reject) => {
+const secondPromise = new Promise((resolve) => {
   document.addEventListener(
     'mousedown',
     (e) => {
       if (e.button === 0 || e.button === 2) {
-        const message = document.createElement('div');
-
-        message.setAttribute('data-qa', 'notification');
-
-        message.classList.add('success');
-
-        message.textContent = 'Second promise was resolved';
-
-        resolve(message);
+        resolve('Second promise was resolved');
       }
     },
     { once: true },
   );
 });
 
-const thirdPromise = new Promise((resolve, reject) => {
+const thirdPromise = new Promise((resolve) => {
   let leftClick = false;
   let rightClick = false;
 
-  document.addEventListener('mousedown', (e) => {
+  const handler = (e) => {
     if (e.button === 0) {
       leftClick = true;
     }
@@ -72,24 +47,32 @@ const thirdPromise = new Promise((resolve, reject) => {
     }
 
     if (leftClick && rightClick) {
-      const message = document.createElement('div');
-
-      message.setAttribute('data-qa', 'notification');
-
-      message.classList.add('success');
-
-      message.textContent =
-        // eslint-disable-next-line max-len
-        'Third promise was resolved only after both left and right clicks happened';
-
-      resolve(message);
+      document.removeEventListener('mousedown', handler);
+      resolve('Third promise was resolved');
     }
-  });
+  };
+
+  document.addEventListener('mousedown', handler);
 });
 
-firstPromise
-  .then((message) => body.append(message))
-  .catch((e) => body.append(e));
+const showSuccess = (text) => {
+  const message = document.createElement('div');
 
-secondPromise.then((message) => body.append(message));
-thirdPromise.then((message) => body.append(message));
+  message.setAttribute('data-qa', 'notification');
+  message.classList.add('success');
+  message.textContent = text;
+  body.append(message);
+};
+
+const showError = (text) => {
+  const message = document.createElement('div');
+
+  message.setAttribute('data-qa', 'notification');
+  message.classList.add('error');
+  message.textContent = text;
+  body.append(message);
+};
+
+firstPromise.then(showSuccess).catch(showError);
+secondPromise.then(showSuccess);
+thirdPromise.then(showSuccess);
