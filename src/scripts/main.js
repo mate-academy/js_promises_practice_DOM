@@ -21,14 +21,14 @@ const firstPromise = new Promise((resolve, reject) => {
   // Таймер на 3 секунди — якщо не було кліку, promise буде відхилений
   const timer = setTimeout(() => {
     // eslint-disable-next-line prefer-promise-reject-errors
-    reject('First promise was rejected in 3 seconds');
+    reject('First promise was rejected');
   }, 3000);
 
   document.addEventListener(
     'click',
     () => {
       clearTimeout(timer);
-      resolve('First promise was resolved on a left click in the document');
+      resolve('First promise was resolved');
     },
     { once: true }, // спрацьовує лише один раз
   );
@@ -70,7 +70,7 @@ const thirdPromise = new Promise((resolve) => {
     if (leftClicked && rightClicked) {
       resolve(
         // eslint-disable-next-line max-len
-        'Third promise was resolved only after both left and right clicks happened',
+        'Third promise was resolved',
       );
     }
   }
