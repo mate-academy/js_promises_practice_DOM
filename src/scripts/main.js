@@ -6,10 +6,14 @@ const firstPromise = new Promise((resolve, reject) => {
     reject('First promise was rejected');
   }, 3000);
 
-  document.addEventListener('click', () => {
-    resolve('First promise was resolved');
-    clearTimeout(idTime);
-  });
+  document.addEventListener(
+    'click',
+    () => {
+      resolve('First promise was resolved');
+      clearTimeout(idTime);
+    },
+    { once: true },
+  );
 });
 
 firstPromise.then(
@@ -52,12 +56,12 @@ secondPromise.then(
 
     document.body.appendChild(div);
   },
-  () => {
+  (message = 'Second promise was rejected') => {
     const div = document.createElement('div');
 
     div.dataset.qa = 'notification';
     div.classList.add('error');
-    div.textContent = 'Third promise was rejected';
+    div.textContent = message;
     document.body.appendChild(div);
   },
 );
@@ -101,12 +105,12 @@ thirdPromise.then(
 
     document.body.appendChild(div);
   },
-  () => {
+  (message = 'Third promise was rejected') => {
     const div = document.createElement('div');
 
     div.dataset.qa = 'notification';
     div.classList.add('error');
-    div.textContent = 'Third promise was rejected';
+    div.textContent = message;
     document.body.appendChild(div);
   },
 );
