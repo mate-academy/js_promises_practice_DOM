@@ -2,9 +2,8 @@
 
 const firstPromise = new Promise((resolve, reject) => {
   const idTime = setTimeout(() => {
-    const message = 'First promise was rejected';
-
-    reject(new Error(message));
+    // eslint-disable-next-line prefer-promise-reject-errors
+    reject('First promise was rejected');
   }, 3000);
 
   document.addEventListener('click', () => {
@@ -22,12 +21,12 @@ firstPromise.then(
     div.textContent = message;
     document.body.appendChild(div);
   },
-  (err) => {
+  (message) => {
     const div = document.createElement('div');
 
     div.dataset.qa = 'notification';
     div.classList.add('error');
-    div.textContent = err.message;
+    div.textContent = message;
     document.body.appendChild(div);
   },
 );
@@ -43,15 +42,25 @@ const secondPromise = new Promise((resolve) => {
   });
 });
 
-secondPromise.then((message) => {
-  const div = document.createElement('div');
+secondPromise.then(
+  (message) => {
+    const div = document.createElement('div');
 
-  div.dataset.qa = 'notification';
-  div.classList.add('success');
-  div.textContent = message;
+    div.dataset.qa = 'notification';
+    div.classList.add('success');
+    div.textContent = message;
 
-  document.body.appendChild(div);
-});
+    document.body.appendChild(div);
+  },
+  () => {
+    const div = document.createElement('div');
+
+    div.dataset.qa = 'notification';
+    div.classList.add('error');
+    div.textContent = 'Third promise was rejected';
+    document.body.appendChild(div);
+  },
+);
 
 const thirdPromise = new Promise((resolve) => {
   let countEvent = 0;
@@ -82,12 +91,22 @@ const thirdPromise = new Promise((resolve) => {
   );
 });
 
-thirdPromise.then((message) => {
-  const div = document.createElement('div');
+thirdPromise.then(
+  (message) => {
+    const div = document.createElement('div');
 
-  div.dataset.qa = 'notification';
-  div.classList.add('success');
-  div.textContent = message;
+    div.dataset.qa = 'notification';
+    div.classList.add('success');
+    div.textContent = message;
 
-  document.body.appendChild(div);
-});
+    document.body.appendChild(div);
+  },
+  () => {
+    const div = document.createElement('div');
+
+    div.dataset.qa = 'notification';
+    div.classList.add('error');
+    div.textContent = 'Third promise was rejected';
+    document.body.appendChild(div);
+  },
+);
