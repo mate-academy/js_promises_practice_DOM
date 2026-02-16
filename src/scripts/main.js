@@ -19,7 +19,7 @@ const firstPromise = new Promise((resolve, reject) => {
 
 firstPromise
   .then((success) => handleSuccess(success))
-  .catch((error) => handleError(error.message));
+  .catch((error) => handleError(error));
 
 const secondPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
@@ -33,7 +33,7 @@ const secondPromise = new Promise((resolve, reject) => {
 
 secondPromise
   .then((success) => handleSuccess(success))
-  .catch((error) => handleError(error.message));
+  .catch((error) => handleError(error));
 
 const clicks = {
   left: false,
@@ -63,7 +63,7 @@ const thirdPromise = new Promise((resolve, reject) => {
 
 thirdPromise
   .then((success) => handleSuccess(success))
-  .catch((error) => handleError(error.message));
+  .catch((error) => handleError(error));
 
 function handleSuccess(message) {
   createDiv(message, 'success');
