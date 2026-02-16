@@ -31,10 +31,9 @@ const secondPromise = new Promise((resolve, reject) => {
   });
 });
 
-secondPromise.then(
-  (success) => handleSuccess(success),
-  (error) => handleError(error),
-);
+secondPromise
+  .then((success) => handleSuccess(success))
+  .catch((error) => handleError(error.message));
 
 const clicks = {
   left: false,
