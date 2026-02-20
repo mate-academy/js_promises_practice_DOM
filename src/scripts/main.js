@@ -18,46 +18,45 @@ const firstPromise = new Promise((resolve, reject) => {
     3000,
   );
 
-  document.addEventListener(
-    'mousedown',
-    (e) => {
-      if (e.button === 0) {
-        clearTimeout(id);
-        resolve('First promise was resolved');
-      }
-    },
-    { once: true },
-  );
+  const firstPromiseHandler = (e) => {
+    if (e.button === 0) {
+      clearTimeout(id);
+      resolve('First promise was resolved');
+      document.removeEventListener('mousedown', firstPromiseHandler);
+    }
+  };
+
+  document.addEventListener('mousedown', firstPromiseHandler);
 });
 
 const secondPromise = new Promise((resolve, reject) => {
   let leftCheck = false;
   let rightCheck = false;
 
-  document.addEventListener(
-    'mousedown',
-    (e) => {
-      if (e.button === 0) {
-        leftCheck = true;
-      }
+  const secondPromiseHandler = (e) => {
+    if (e.button === 0) {
+      leftCheck = true;
+    }
 
-      if (e.button === 2) {
-        rightCheck = true;
-      }
+    if (e.button === 2) {
+      rightCheck = true;
+    }
 
-      if (leftCheck || rightCheck) {
-        resolve('Second promise was resolved');
-      }
-    },
-    { once: true },
-  );
+    if (leftCheck || rightCheck) {
+      resolve('Second promise was resolved');
+
+      document.removeEventListener('mousedown', secondPromiseHandler);
+    }
+  };
+
+  document.addEventListener('mousedown', secondPromiseHandler);
 });
 
 const thirdPromise = new Promise((resolve, reject) => {
   let leftCheck = false;
   let rightCheck = false;
 
-  document.addEventListener('mousedown', (e) => {
+  const thirdPromiseHandler = (e) => {
     if (e.button === 0) {
       leftCheck = true;
     }
@@ -68,8 +67,12 @@ const thirdPromise = new Promise((resolve, reject) => {
 
     if (leftCheck && rightCheck) {
       resolve('Third promise was resolved');
+
+      document.removeEventListener('mousedown', thirdPromiseHandler);
     }
-  });
+  };
+
+  document.addEventListener('mousedown', thirdPromiseHandler);
 });
 
 firstPromise
