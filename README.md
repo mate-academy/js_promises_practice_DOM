@@ -9,11 +9,6 @@ Create 3 promises:
 - The `thirdPromise` should be **resolved** with a message `Third promise was resolved` only after both `left` and `right` clicks happened
 
 Add `success` and `error` handlers to each promise to show `<div data-qa="notification">` with `success` or `error` class and a promise message.
+# DEMO
+[DEMO LINK](https://kaminazer.github.io/js_promises_practice_DOM/)
 
-## Instructions
-1. Replace `<your_account>` with your Github username in the link
-    - [DEMO LINK](https://<your_account>.github.io/js_promises_practice_DOM/)
-2. Follow [this instructions](https://mate-academy.github.io/layout_task-guideline/)
-    - Run `npm run test` command to test your code;
-    - Run `npm run test:only -- -n` to run fast test ignoring linter;
-    - Run `npm run test:only -- -l` to run fast test with additional info in console ignoring linter.
