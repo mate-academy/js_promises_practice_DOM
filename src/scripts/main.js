@@ -23,7 +23,6 @@ const secondPromise = new Promise((resolve, reject) => {
   const finish = (result) => {
     controller.abort();
     resolve(result);
-    reject(new Error('Second promise was rejected'));
   };
 
   document.body.addEventListener(
