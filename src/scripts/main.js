@@ -17,6 +17,7 @@ function showMessage(message, isError = false) {
 
 const firstPromise = new Promise((resolve, reject) => {
   const timeoutId = setTimeout(() => {
+    document.removeEventListener('mousedown', handler);
     reject(new Error('First promise was rejected'));
   }, 3000);
 
