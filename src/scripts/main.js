@@ -28,7 +28,7 @@ firstPromise
   })
   .catch((rej) => {
     divRejFirst.classList.add('error');
-    divRejFirst.textContent = 'First promise was rejected';
+    divRejFirst.textContent = rej.message;
     body.append(divRejFirst);
   });
 
@@ -64,7 +64,7 @@ const divResThird = document.createElement('div');
 divResThird.setAttribute('data-qa', 'notification');
 
 const thirdPromise = new Promise((resolve) => {
-  let rightClick = 'false';
+  let rightClick = false;
 
   document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
