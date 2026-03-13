@@ -6,12 +6,15 @@ const body = document.querySelector('body');
 const firstPromise = new Promise((resolve, reject) => {
   const timerId = setTimeout(() => {
     reject('First promise was rejected');
+    document.removeEventListener('click', onClick);
   }, 3000);
 
-  document.addEventListener('click', () => {
+  function onClick() {
     clearTimeout(timerId);
     resolve('First promise was resolved');
-  });
+  }
+
+  document.addEventListener('click', onClick);
 });
 
 firstPromise
@@ -33,14 +36,21 @@ firstPromise
   });
 
 const secondPromise = new Promise((resolve) => {
-  document.addEventListener('click', () => {
+  function onLeftClick() {
     resolve('Second promise was resolved');
-  });
+    document.removeEventListener('click', onLeftClick);
+    document.removeEventListener('contextmenu', onRightClick);
+  }
 
-  document.addEventListener('contextmenu', (eve) => {
+  function onRightClick(eve) {
     eve.preventDefault();
     resolve('Second promise was resolved');
-  });
+    document.removeEventListener('click', onLeftClick);
+    document.removeEventListener('contextmenu', onRightClick);
+  }
+
+  document.addEventListener('click', onLeftClick);
+  document.addEventListener('contextmenu', onRightClick);
 });
 
 secondPromise
@@ -61,19 +71,23 @@ const thirdPromise = new Promise((resolve) => {
   function checkBothClicks() {
     if (leftClicked && rightClicked) {
       resolve('Third promise was resolved');
+      document.removeEventListener('click', onLeftClick);
+      document.removeEventListener('contextmenu', onRightClick);
     }
   }
 
-  document.addEventListener('click', () => {
+  function onLeftClick() {
     leftClicked = true;
     checkBothClicks();
-  });
+  }
 
-  document.addEventListener('contextmenu', (eve) => {
+  function onRightClick(eve) {
     eve.preventDefault();
     rightClicked = true;
     checkBothClicks();
-  });
+  }
+  document.addEventListener('click', onLeftClick);
+  document.addEventListener('contextmenu', onRightClick);
 });
 
 thirdPromise
