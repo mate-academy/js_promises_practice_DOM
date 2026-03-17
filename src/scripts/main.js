@@ -2,6 +2,15 @@
 
 const body = document.querySelector('body');
 
+const showError = (error) => {
+  const div = document.createElement('div');
+
+  div.dataset.qa = 'notification';
+  div.classList.add('error');
+  div.textContent = error.message;
+  body.appendChild(div);
+};
+
 const firstPromise = new Promise((resolve, reject) => {
   const timeoutId = setTimeout(() => {
     reject(new Error('First promise was rejected'));
@@ -28,14 +37,7 @@ firstPromise
     body.appendChild(div);
   })
 
-  .catch((error) => {
-    const div = document.createElement('div');
-
-    div.dataset.qa = 'notification';
-    div.classList.add('error');
-    div.textContent = error.message;
-    body.appendChild(div);
-  });
+  .catch(showError);
 
 const secondPromise = new Promise((resolve) => {
   const cleanup = () => {
@@ -60,14 +62,17 @@ const secondPromise = new Promise((resolve) => {
   document.addEventListener('contextmenu', handleRightClick);
 });
 
-secondPromise.then((message) => {
-  const div = document.createElement('div');
+secondPromise
+  .then((message) => {
+    const div = document.createElement('div');
 
-  div.dataset.qa = 'notification';
-  div.classList.add('success');
-  div.textContent = message;
-  body.appendChild(div);
-});
+    div.dataset.qa = 'notification';
+    div.classList.add('success');
+    div.textContent = message;
+    body.appendChild(div);
+  })
+
+  .catch(showError);
 
 const thirdPromise = new Promise((resolve) => {
   let leftClicked = false;
@@ -98,11 +103,14 @@ const thirdPromise = new Promise((resolve) => {
   document.addEventListener('contextmenu', handleRightClick);
 });
 
-thirdPromise.then((message) => {
-  const div = document.createElement('div');
+thirdPromise
+  .then((message) => {
+    const div = document.createElement('div');
 
-  div.dataset.qa = 'notification';
-  div.classList.add('success');
-  div.textContent = message;
-  body.appendChild(div);
-});
+    div.dataset.qa = 'notification';
+    div.classList.add('success');
+    div.textContent = message;
+    body.appendChild(div);
+  })
+
+  .catch(showError);
