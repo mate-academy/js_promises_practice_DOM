@@ -39,7 +39,18 @@ const rightClickPromise = new Promise((resolve) => {
   document.addEventListener('mousedown', handler);
 });
 
-const thirdPromise = Promise.all([firstPromise, rightClickPromise])
+const leftClickPromise = new Promise((resolve) => {
+  const handler = (e) => {
+    if (e.button === 0) {
+      resolve('Right click done');
+      document.removeEventListener('mousedown', handler);
+    }
+  };
+
+  document.addEventListener('mousedown', handler);
+});
+
+const thirdPromise = Promise.all([leftClickPromise, rightClickPromise])
 
   .then(() => 'Third promise was resolved');
 
