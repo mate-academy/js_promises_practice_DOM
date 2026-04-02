@@ -31,46 +31,62 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 const secondPromise = new Promise((resolve) => {
-  const handler = (e) => {
-    if (e.button === 0 || e.button === 2) {
+  const leftHandler = (e) => {
+    if (e.button === 0) {
       resolve('Second promise was resolved');
-      document.removeEventListener('click', handler);
+      document.removeEventListener('click', leftHandler);
+      document.removeEventListener('contextmenu', rightHandler);
     }
   };
 
-  document.addEventListener('click', handler);
+  const rightHandler = (e) => {
+    e.preventDefault();
+    resolve('Second promise was resolved');
+    document.removeEventListener('click', leftHandler);
+    document.removeEventListener('contextmenu', rightHandler);
+  };
+
+  document.addEventListener('click', leftHandler);
+  document.addEventListener('contextmenu', rightHandler);
 });
 
 let leftClicked = false;
 let rightClicked = false;
 
 const thirdPromise = new Promise((resolve) => {
-  const handler = (e) => {
+  const leftHandler = (e) => {
     if (e.button === 0) {
       leftClicked = true;
-    }
-
-    if (e.button === 2) {
-      rightClicked = true;
-    }
-
-    if (leftClicked && rightClicked) {
-      resolve('Third promise was resolved');
-      document.removeEventListener('click', handler);
+      checkBoth();
     }
   };
 
-  document.addEventListener('click', handler);
+  const rightHandler = (e) => {
+    e.preventDefault();
+    rightClicked = true;
+    checkBoth();
+  };
+
+  function checkBoth() {
+    if (leftClicked && rightClicked) {
+      resolve('Third promise was resolved');
+      document.removeEventListener('click', leftHandler);
+      document.removeEventListener('contextmenu', rightHandler);
+    }
+  }
+
+  document.addEventListener('click', leftHandler);
+  document.addEventListener('contextmenu', rightHandler);
 });
 
 firstPromise
   .then((msg) => showNotification(msg, 'success'))
-  .catch((err) => showNotification(err, 'error'));
+  .catch((err) => showNotification(err.message, 'error'));
 
 secondPromise
   .then((msg) => showNotification(msg, 'success'))
-  .catch((err) => showNotification(err, 'error'));
+  .catch((err) => showNotification(err.message, 'error'));
 
 thirdPromise
   .then((msg) => showNotification(msg, 'success'))
-  .catch((err) => showNotification(err, 'error'));
+  .catch((err) => showNotification(err.message, 'error'));
