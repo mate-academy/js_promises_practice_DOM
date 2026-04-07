@@ -73,10 +73,19 @@ thirdPromise
     cleanup();
   });
 
+const resolveFirst = () => {
+  if (!firstSettled) {
+    firstSettled = true;
+    document.removeEventListener('click', handleDocumentLeftClick);
+    clearTimeout(timeoutId);
+    resolveFirstPromise('First promise was resolved');
+  }
+};
+
 const resolveSecond = () => {
   if (!secondResolved) {
-    resolveSecondPromise('Second promise was resolved');
     secondResolved = true;
+    resolveSecondPromise('Second promise was resolved');
   }
 };
 
@@ -89,10 +98,7 @@ const resolveThird = () => {
 
 const handleDocumentLeftClick = (e) => {
   if (!firstSettled && e.button === 0) {
-    firstSettled = true;
-    document.removeEventListener('click', handleDocumentLeftClick);
-    clearTimeout(timeoutId);
-    resolveFirstPromise('First promise was resolved');
+    resolveFirst();
     resolveSecond();
     leftClick = true;
     resolveThird();
