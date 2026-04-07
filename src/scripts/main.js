@@ -17,14 +17,20 @@ const addMessage = (selector, text) => {
   document.body.appendChild(createElementMessage(selector, text));
 };
 
+let leftClick = false;
+let rightClick = false;
+let firstSettled = false;
+let secondResolved = false;
+let thirdResolved = false;
+
 let resolveFirstPromise;
 
 let timeoutId;
 const firstPromise = new Promise((resolve, reject) => {
-  timeoutId = setTimeout(
-    () => reject(new Error('First promise was rejected')),
-    3000,
-  );
+  timeoutId = setTimeout(() => {
+    firstSettled = true;
+    reject(new Error('First promise was rejected'));
+  }, 3000);
 
   resolveFirstPromise = resolve;
 });
@@ -43,21 +49,29 @@ const secondPromise = new Promise((resolve) => {
   resolveSecondPromise = resolve;
 });
 
-secondPromise.then((message) => {
-  addMessage(MESSAGE_CLASS, message);
-});
+secondPromise
+  .then((message) => {
+    addMessage(MESSAGE_CLASS, message);
+  })
+  .catch((error) => {
+    addMessage(ERROR_MESSAGE_CLASS, error.message);
+    cleanup();
+  });
 
 let resolveThirdPromise;
 const thirdPromise = new Promise((resolve) => {
   resolveThirdPromise = resolve;
 });
 
-thirdPromise.then((message) => {
-  addMessage(MESSAGE_CLASS, message);
-  cleanup();
-});
-
-let leftClick, rightClick, secondResolved, thirdResolved;
+thirdPromise
+  .then((message) => {
+    addMessage(MESSAGE_CLASS, message);
+    cleanup();
+  })
+  .catch((error) => {
+    addMessage(ERROR_MESSAGE_CLASS, error.message);
+    cleanup();
+  });
 
 const resolveSecond = () => {
   if (!secondResolved) {
@@ -74,7 +88,9 @@ const resolveThird = () => {
 };
 
 const handleDocumentLeftClick = (e) => {
-  if (e.button === 0) {
+  if (!firstSettled && e.button === 0) {
+    firstSettled = true;
+    document.removeEventListener('click', handleDocumentLeftClick);
     clearTimeout(timeoutId);
     resolveFirstPromise('First promise was resolved');
     resolveSecond();
