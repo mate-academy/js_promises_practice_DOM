@@ -1,61 +1,69 @@
 'use strict';
 
-const logo = document.querySelector('.logo');
+const createNotification = (message, statusMess) => {
+  const div = document.createElement('div');
+
+  div.className = `message ${statusMess}`;
+  div.dataset.qa = 'notification';
+  div.textContent = message;
+
+  document.body.append(div);
+};
 
 const firstPromise = new Promise((resolve, reject) => {
   const timer = setTimeout(() => {
-    reject(new Error('Timeout error'));
+    // eslint-disable-next-line prefer-promise-reject-errors
+    reject('First promise was rejected');
   }, 3000);
 
-  logo.addEventListener('click', () => {
-    clearTimeout(timer);
-    resolve();
-  });
+  document.addEventListener(
+    'click',
+    () => {
+      clearTimeout(timer);
+      resolve('First promise was resolved');
+    },
+    { once: true },
+  );
 });
 
 firstPromise
-  .then(() => {
-    const div = document.createElement('div');
-
-    div.className = 'message success';
-    div.dataset.qa = 'notification';
-    div.textContent = 'First promise was resolved';
-    document.body.append(div);
+  .then((message) => {
+    createNotification(message, 'success');
   })
-  .catch(() => {
-    const div = document.createElement('div');
-
-    div.className = 'message error';
-    div.dataset.qa = 'notification';
-    div.textContent = 'First promise was rejected';
-    document.body.append(div);
+  .catch((message) => {
+    createNotification(message, 'error');
   });
 
 const secondPromise = new Promise((resolve) => {
-  document.addEventListener('click', () => {
-    resolve();
-  });
+  const handleResolve = () => {
+    resolve('Second promise was resolved');
+  };
 
-  document.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-    resolve();
-  });
+  document.addEventListener('click', handleResolve, { once: true });
+
+  document.addEventListener(
+    'contextmenu',
+    (e) => {
+      e.preventDefault();
+      handleResolve();
+    },
+    { once: true },
+  );
 });
 
-secondPromise.then(() => {
-  const div = document.createElement('div');
-
-  div.className = 'message success';
-  div.dataset.qa = 'notification';
-  div.textContent = 'Second promise was resolved';
-  document.body.append(div);
-});
+secondPromise
+  .then((message) => {
+    createNotification(message, 'success');
+  })
+  .catch((message) => {
+    createNotification(message || 'Second promise was rejected', 'error');
+  });
 
 const leftClickPromise = new Promise((resolve) => {
   document.addEventListener(
     'click',
     () => {
-      resolve();
+      resolve('left click happened');
     },
     { once: true },
   );
@@ -66,7 +74,7 @@ const rightClickPromise = new Promise((resolve) => {
     'contextmenu',
     (e) => {
       e.preventDefault();
-      resolve();
+      resolve('right click happened');
     },
     { once: true },
   );
@@ -76,18 +84,8 @@ const thirdPromise = Promise.all([leftClickPromise, rightClickPromise]);
 
 thirdPromise
   .then(() => {
-    const div = document.createElement('div');
-
-    div.className = 'message success';
-    div.dataset.qa = 'notification';
-    div.textContent = 'Third promise was resolved';
-    document.body.append(div);
+    createNotification('Third promise was resolved', 'success');
   })
   .catch(() => {
-    const div = document.createElement('div');
-
-    div.className = 'message error';
-    div.dataset.qa = 'notification';
-    div.textContent = 'Third promise was rejected';
-    document.body.append(div);
+    createNotification('Third promise was rejected', 'error');
   });
