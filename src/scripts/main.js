@@ -35,14 +35,14 @@ const leftClickWait = new Promise(resolve => {
 });
 
 const rightClickWait = new Promise(resolve => {
-  document.addEventListener('contextmenu', (event) => {
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
     resolve();
   }, { once: true });
 });
 
 const thirdPromise = Promise.all([leftClickWait, rightClickWait])
   .then(() => 'Third promise was resolved');
-
 
 firstPromise
   .then(message => showNotification(message))
@@ -55,4 +55,3 @@ secondPromise
 thirdPromise
   .then(message => showNotification(message))
   .catch(error => showNotification(error.message, true));
-  
