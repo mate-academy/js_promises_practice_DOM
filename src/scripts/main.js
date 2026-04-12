@@ -2,17 +2,17 @@
 
 const firstPromise = new Promise((resolve, reject) => {
   const timautId = setTimeout(() => {
-    document.removeEventListener('click', clickHandle);
-    reject(new Error('First promise was rejected in 3 seconds if not clicked'));
+    document.removeEventListener('mousedown', clickHandle);
+    reject(new Error('First promise was rejected'));
   }, 3000);
 
   function clickHandle(e) {
     if (e.button === 0) {
       clearTimeout(timautId);
-      resolve('First promise was resolved on a left click in the document');
+      resolve('First promise was resolved');
     }
   }
-  document.addEventListener('click', clickHandle);
+  document.addEventListener('mousedown', clickHandle);
 });
 
 const secondPromise = new Promise((resolve) => {
@@ -26,7 +26,7 @@ const secondPromise = new Promise((resolve) => {
   document.addEventListener('mousedown', handler);
 });
 
-const thirrdPromise = new Promise((resolve) => {
+const thirdPromise = new Promise((resolve) => {
   let leftClicked = false;
   let rightClicked = false;
 
@@ -42,9 +42,7 @@ const thirrdPromise = new Promise((resolve) => {
     if (leftClicked && rightClicked) {
       document.removeEventListener('mousedown', checkClicks);
 
-      resolve(`
-        'Third promise was resolved only
-        after both left and right clicks happened'`);
+      resolve('Third promise was resolved');
     }
   };
 
@@ -68,6 +66,6 @@ secondPromise
   .then((msg) => showNotifikation(msg, false))
   .catch((err) => showNotifikation(err.message, true));
 
-thirrdPromise
+thirdPromise
   .then((msg) => showNotifikation(msg, false))
   .catch((err) => showNotifikation(err.message, true));
