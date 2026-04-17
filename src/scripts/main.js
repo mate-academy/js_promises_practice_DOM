@@ -12,10 +12,14 @@ function createElement(text, className) {
 const firstPromise = new Promise((resolve, reject) => {
   let isClick = false;
 
-  document.addEventListener('click', () => {
-    isClick = true;
-    resolve('First promise was resolved');
-  });
+  document.addEventListener(
+    'click',
+    () => {
+      isClick = true;
+      resolve('First promise was resolved');
+    },
+    { once: true },
+  );
 
   setTimeout(() => {
     if (!isClick) {
@@ -33,40 +37,64 @@ firstPromise
   });
 
 const secondPromise = new Promise((resolve) => {
-  document.addEventListener('click', () => {
-    resolve('Second promise was resolved');
-  });
+  document.addEventListener(
+    'click',
+    () => {
+      resolve('Second promise was resolved');
+    },
+    { once: true },
+  );
 
-  document.addEventListener('contextmenu', () => {
-    resolve('Second promise was resolved');
-  });
+  document.addEventListener(
+    'contextmenu',
+    () => {
+      resolve('Second promise was resolved');
+    },
+    { once: true },
+  );
 });
 
-secondPromise.then((message) => {
-  createElement(message, 'success');
-});
+secondPromise
+  .then((message) => {
+    createElement(message, 'success');
+  })
+  .catch((err) => {
+    createElement(err.message, 'error');
+  });
 
 const thirdPromise = new Promise((resolve) => {
   let isClick = false;
-  let iscontextMenu = false;
+  let isContextMen = false;
 
-  document.addEventListener('click', () => {
-    isClick = true;
+  document.addEventListener(
+    'click',
+    () => {
+      isClick = true;
 
-    if (isClick && iscontextMenu) {
-      resolve('Third promise was resolved');
-    }
-  });
+      if (isClick && isContextMen) {
+        resolve('Third promise was resolved');
+      }
+    },
+    { once: true },
+  );
 
-  document.addEventListener('contextmenu', () => {
-    iscontextMenu = true;
+  document.addEventListener(
+    'contextmenu',
+    () => {
+      isContextMen = true;
 
-    if (isClick && iscontextMenu) {
-      resolve('Third promise was resolved');
-    }
-  });
+      if (isClick && isContextMen) {
+        resolve('Third promise was resolved');
+      }
+    },
+    { once: true },
+  );
 });
 
-thirdPromise.then((message) => {
-  createElement(message, 'success');
-});
+thirdPromise
+  .then((message) => {
+    createElement(message, 'success');
+  })
+  .catch((err) => {
+    createElement(err.message, 'error');
+  });
