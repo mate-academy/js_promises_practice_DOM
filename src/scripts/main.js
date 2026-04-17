@@ -26,7 +26,6 @@ const firstPromise = new Promise((resolve, reject) => {
 
 firstPromise
   .then((data) => showNotification(data, 'success'))
-
   .catch((err) => showNotification(err.message, 'error'));
 
 const secondPromise = new Promise((resolve) => {
@@ -42,7 +41,9 @@ const secondPromise = new Promise((resolve) => {
   document.addEventListener('contextmenu', handler);
 });
 
-secondPromise.then((data) => showNotification(data, 'success'));
+secondPromise
+  .then((data) => showNotification(data, 'success'))
+  .catch((err) => showNotification(err.message, 'error'));
 
 const thirdPromise = new Promise((resolve) => {
   let left = false;
@@ -69,4 +70,6 @@ const thirdPromise = new Promise((resolve) => {
   document.addEventListener('contextmenu', check);
 });
 
-thirdPromise.then((data) => showNotification(data, 'success'));
+thirdPromise
+  .then((data) => showNotification(data, 'success'))
+  .catch((err) => showNotification(err.message, 'error'));
