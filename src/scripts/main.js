@@ -8,13 +8,15 @@ const showNotification = (text, isError = false) => {
 
   if (isError) {
     notification.classList.add('error');
+  } else {
+    notification.classList.add('succes');
   }
 
   notification.textContent = text;
   document.body.append(notification);
 };
 
-const promise1 = new Promise((resolve, reject) => {
+const firstPromise = new Promise((resolve, reject) => {
   const timer = setTimeout(() => {
     // eslint-disable-next-line prefer-promise-reject-errors
     reject('First promise was rejected');
@@ -29,18 +31,24 @@ const promise1 = new Promise((resolve, reject) => {
   });
 });
 
-const promise2 = new Promise((resolve) => {
+const secondPromise = new Promise((resolve) => {
   document.addEventListener('click', (e) => {
+    if (e.button !== 0) {
+      return;
+    }
     resolve('Second promise was resolved');
   });
 
   document.addEventListener('contextmenu', (e) => {
+    if (e.button !== 2) {
+      return;
+    }
     e.preventDefault();
     resolve('Second promise was resolved');
   });
 });
 
-const promise3 = new Promise((resolve) => {
+const thirdPromise = new Promise((resolve) => {
   let leftClicked = false;
   let rightClicked = false;
 
@@ -61,7 +69,7 @@ const promise3 = new Promise((resolve) => {
   });
 });
 
-promise1
+firstPromise
   .then((message) => {
     showNotification(message);
   })
@@ -69,14 +77,18 @@ promise1
     showNotification(error, true);
   });
 
-promise2
+secondPromise
   .then((message) => {
     showNotification(message);
   })
-  .catch(() => {});
+  .catch((error) => {
+    showNotification(error, true);
+  });
 
-promise3
+thirdPromise
   .then((message) => {
     showNotification(message);
   })
-  .catch(() => {});
+  .catch((error) => {
+    showNotification(error, true);
+  });
