@@ -9,7 +9,7 @@ const showNotification = (text, isError = false) => {
   if (isError) {
     notification.classList.add('error');
   } else {
-    notification.classList.add('succes');
+    notification.classList.add('success');
   }
 
   notification.textContent = text;
@@ -53,6 +53,9 @@ const thirdPromise = new Promise((resolve) => {
   let rightClicked = false;
 
   document.addEventListener('click', (e) => {
+    if (e.button !== 0) {
+      return;
+    }
     leftClicked = true;
 
     if (leftClicked === true && rightClicked === true) {
@@ -61,6 +64,9 @@ const thirdPromise = new Promise((resolve) => {
   });
 
   document.addEventListener('contextmenu', (e) => {
+    if (e.button !== 2) {
+      return;
+    }
     rightClicked = true;
 
     if (leftClicked && rightClicked) {
