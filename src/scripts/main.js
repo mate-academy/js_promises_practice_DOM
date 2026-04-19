@@ -1,5 +1,20 @@
 'use strict';
 
+const notification = document.createElement('div');
+
+notification.dataset.qa = 'notification';
+document.body.appendChild(notification);
+
+const showSuccess = (message) => {
+  notification.className = 'success';
+  notification.textContent = message;
+};
+
+const showError = (message) => {
+  notification.className = 'error';
+  notification.textContent = message;
+};
+
 let leftClicked = false;
 
 const firstPromise = new Promise((resolve, reject) => {
@@ -10,7 +25,7 @@ const firstPromise = new Promise((resolve, reject) => {
     }
   }, 3000);
 
-  document.addEventListener('click', (e) => {
+  document.addEventListener('mousedown', (e) => {
     if (e.button === 0) {
       leftClicked = true;
       clearTimeout(timer);
@@ -45,24 +60,6 @@ const thirdPromise = new Promise((resolve) => {
     }
   });
 });
-
-const showSuccess = (message) => {
-  const div = document.createElement('div');
-
-  div.dataset.qa = 'notification';
-  div.className = 'success';
-  div.textContent = message;
-  document.body.appendChild(div);
-};
-
-const showError = (message) => {
-  const div = document.createElement('div');
-
-  div.dataset.qa = 'notification';
-  div.className = 'error';
-  div.textContent = message;
-  document.body.appendChild(div);
-};
 
 firstPromise.then(showSuccess).catch(showError);
 secondPromise.then(showSuccess).catch(showError);
