@@ -5,7 +5,8 @@ let leftClicked = false;
 const firstPromise = new Promise((resolve, reject) => {
   const timer = setTimeout(() => {
     if (!leftClicked) {
-      reject(new Error('First promise was rejected'));
+      // eslint-disable-next-line prefer-promise-reject-errors
+      reject('First promise was rejected');
     }
   }, 3000);
 
@@ -13,7 +14,7 @@ const firstPromise = new Promise((resolve, reject) => {
     if (e.button === 0) {
       leftClicked = true;
       clearTimeout(timer);
-      resolve('First promised was resolved on a left click in the document');
+      resolve('First promised was resolved');
     }
   });
 });
@@ -64,5 +65,5 @@ const showError = (message) => {
 };
 
 firstPromise.then(showSuccess).catch(showError);
-secondPromise.then(showSuccess);
-thirdPromise.then(showSuccess);
+secondPromise.then(showSuccess).catch(showError);
+thirdPromise.then(showSuccess).catch(showError);
