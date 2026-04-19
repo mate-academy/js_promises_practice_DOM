@@ -14,7 +14,7 @@ const firstPromise = new Promise((resolve, reject) => {
     if (e.button === 0) {
       leftClicked = true;
       clearTimeout(timer);
-      resolve('First promised was resolved');
+      resolve('First promise was resolved');
     }
   });
 });
