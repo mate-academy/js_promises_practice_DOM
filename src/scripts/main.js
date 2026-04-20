@@ -35,31 +35,35 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 const secondPromise = new Promise((resolve) => {
-  document.addEventListener('click', (e) => {
+  document.addEventListener('mousedown', (e) => {
     if (e.button === 0 || e.button === 2) {
       resolve('Second promise was resolved');
     }
   });
 });
 
-let left = false;
-let right = false;
+const thirdPromise = Promise.all([firstPromise, secondPromise]).then(
+  () => 'Third promise was resolved',
+);
 
-const thirdPromise = new Promise((resolve) => {
-  document.addEventListener('click', (e) => {
-    if (e.button === 0) {
-      left = true;
-    }
+// let left = false;
+// let right = false;
 
-    if (e.button === 2) {
-      right = true;
-    }
+// const thirdPromise = new Promise((resolve) => {
+//   document.addEventListener('mousedown', (e) => {
+//     if (e.button === 0) {
+//       left = true;
+//     }
 
-    if (left && right) {
-      resolve('Third promise was resolved');
-    }
-  });
-});
+//     if (e.button === 2) {
+//       right = true;
+//     }
+
+//     if (left && right) {
+//       resolve('Third promise was resolved');
+//     }
+//   });
+// });
 
 firstPromise.then(showSuccess).catch(showError);
 secondPromise.then(showSuccess).catch(showError);
