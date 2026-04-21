@@ -48,7 +48,14 @@ secondPromise
     message.dataset.qa = 'notification';
     document.body.appendChild(message);
   })
-  .catch(() => {});
+  .catch((err) => {
+    const message = document.createElement('div');
+
+    message.className = 'error';
+    message.textContent = err && err.message ? err.message : String(err);
+    message.dataset.qa = 'notification';
+    document.body.appendChild(message);
+  });
 
 const thirdPromise = new Promise(function (resolve) {
   let hasLeftClick = false;
@@ -82,4 +89,11 @@ thirdPromise
     message.dataset.qa = 'notification';
     document.body.appendChild(message);
   })
-  .catch(() => {});
+  .catch((err) => {
+    const message = document.createElement('div');
+
+    message.className = 'error';
+    message.textContent = err && err.message ? err.message : String(err);
+    message.dataset.qa = 'notification';
+    document.body.appendChild(message);
+  });
