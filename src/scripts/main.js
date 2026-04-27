@@ -2,6 +2,7 @@
 
 function showNotification(message, type) {
   const div = document.createElement('div');
+
   div.dataset.qa = 'notification';
   div.className = type;
   div.textContent = message;
@@ -90,7 +91,9 @@ firstPromise
   .catch((err) => showNotification(err.message, 'error'));
 
 secondPromise
-  .then((msg) => showNotification(msg, 'success'));
+  .then((msg) => showNotification(msg, 'success'))
+  .catch((err) => showNotification(err.message, 'error'));
 
 thirdPromise
-  .then((msg) => showNotification(msg, 'success'));
+  .then((msg) => showNotification(msg, 'success'))
+  .catch((err) => showNotification(err.message, 'error'));
