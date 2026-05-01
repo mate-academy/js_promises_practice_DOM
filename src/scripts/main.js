@@ -4,7 +4,7 @@ const body = document.getElementsByTagName('body')[0];
 
 const firstPromise = new Promise((resolve, reject) => {
   setTimeout(() => {
-    reject(leftClickError);
+    reject(new Error('First promise was rejected'));
   }, 3000);
 
   document.addEventListener('click', (e) => {
@@ -23,11 +23,11 @@ function leftClickSuccess() {
   body.appendChild(div);
 }
 
-function leftClickError() {
+function leftClickError(msg) {
   const div = document.createElement('div');
 
   div.dataset.qa = 'notification';
-  div.innerText = 'First promise was rejected';
+  div.innerText = msg;
   div.className = 'error';
   body.appendChild(div);
 }
@@ -85,6 +85,6 @@ const thirdPromise = new Promise((resolve) => {
   });
 });
 
-firstPromise.then(leftClickSuccess).catch(leftClickError);
-secondPromise.then(anyClickSuccess);
-thirdPromise.then(bothClickSucces).catch('error');
+firstPromise.then(leftClickSuccess).catch((error) => leftClickError(error));
+secondPromise.then(anyClickSuccess).catch();
+thirdPromise.then(bothClickSucces).catch((error) => error);
