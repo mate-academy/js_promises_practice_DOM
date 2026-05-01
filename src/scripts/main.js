@@ -1,12 +1,10 @@
 'use strict';
 
-const { errors } = require("@linthtml/linthtml/messages");
-
 const body = document.getElementsByTagName('body')[0];
 
 const firstPromise = new Promise((resolve, reject) => {
   setTimeout(() => {
-    reject('First promise was rejected');
+    reject(leftClickError);
   }, 3000);
 
   document.addEventListener('click', (e) => {
