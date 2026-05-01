@@ -1,15 +1,17 @@
 'use strict';
 
+const { errors } = require("@linthtml/linthtml/messages");
+
 const body = document.getElementsByTagName('body')[0];
 
 const firstPromise = new Promise((resolve, reject) => {
   setTimeout(() => {
-    reject(leftClickError);
+    reject('First promise was rejected');
   }, 3000);
 
   document.addEventListener('click', (e) => {
     if (e.button === 0) {
-      resolve();
+      resolve('First promise was resolved');
     }
   });
 });
@@ -43,11 +45,11 @@ function anyClickSuccess() {
 
 const secondPromise = new Promise((resolve) => {
   document.addEventListener('click', (e) => {
-    resolve();
+    resolve('Second promise was resolved');
   });
 
   document.addEventListener('contextmenu', (e) => {
-    resolve();
+    resolve('Second promise was resolved');
   });
 });
 
@@ -66,7 +68,7 @@ const thirdPromise = new Promise((resolve) => {
 
   function checkResolve() {
     if (leftClicked && rightClicked) {
-      resolve();
+      resolve('Third promise was resolved');
     }
   }
 
@@ -87,4 +89,4 @@ const thirdPromise = new Promise((resolve) => {
 
 firstPromise.then(leftClickSuccess).catch(leftClickError);
 secondPromise.then(anyClickSuccess);
-thirdPromise.then(bothClickSucces);
+thirdPromise.then(bothClickSucces).catch('error');
