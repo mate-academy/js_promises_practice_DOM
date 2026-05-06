@@ -2,6 +2,9 @@
 
 let left = false;
 let right = false;
+let resolveThird;
+// eslint-disable-next-line no-unused-vars
+let rejectThird;
 
 // eslint-disable-next-line no-shadow
 document.addEventListener('mousedown', function (event) {
@@ -23,6 +26,7 @@ document.addEventListener('mousedown', function (event) {
 
     div.setAttribute('data-qa', 'notification');
     div.classList.add(`success`);
+    div.textContent = result;
     document.body.appendChild(div);
   });
 
@@ -32,15 +36,17 @@ document.addEventListener('mousedown', function (event) {
 
     div.setAttribute('data-qa', 'notification');
     div.classList.add(`error`);
+    div.textContent = error;
     document.body.appendChild(div);
   });
 });
 
 // eslint-disable-next-line no-shadow
 document.addEventListener('mousedown', (event) => {
+  event.preventDefault();
+
   const secondPromise = new Promise((resolve, reject) => {
     if (event.buttons === 1 || event.buttons === 2) {
-      event.preventDefault();
       resolve(`Second promise was resolved`);
     }
   });
@@ -50,6 +56,7 @@ document.addEventListener('mousedown', (event) => {
 
     div.setAttribute('data-qa', 'notification');
     div.classList.add(`success`);
+    div.textContent = result;
     document.body.appendChild(div);
   });
 
@@ -59,45 +66,52 @@ document.addEventListener('mousedown', (event) => {
 
     div.setAttribute('data-qa', 'notification');
     div.classList.add(`error`);
+    div.textContent = error;
     document.body.appendChild(div);
   });
 });
 
+const thirdPromise = new Promise((resolve, reject) => {
+  resolveThird = resolve;
+  rejectThird = reject;
+});
+
+thirdPromise.then((result) => {
+  const div = document.createElement('div');
+
+  div.setAttribute('data-qa', 'notification');
+  div.classList.add(`success`);
+  div.textContent = result;
+  document.body.appendChild(div);
+});
+
+// eslint-disable-next-line handle-callback-err
+thirdPromise.catch((error) => {
+  const div = document.createElement('div');
+
+  div.setAttribute('data-qa', 'notification');
+  div.classList.add(`error`);
+  div.textContent = error;
+  document.body.appendChild(div);
+});
+
 // eslint-disable-next-line no-shadow
 document.addEventListener('mousedown', (event) => {
-  const thirdPromise = new Promise((resolve, reject) => {
-    if (event.buttons === 1) {
-      // eslint-disable-next-line no-unused-vars
-      left = true;
-    }
+  if (event.buttons === 1) {
+    // eslint-disable-next-line no-unused-vars
+    left = true;
+  }
 
-    if (event.buttons === 2) {
-      // eslint-disable-next-line no-unused-vars
-      right = true;
-    }
+  if (event.buttons === 2) {
+    // eslint-disable-next-line no-unused-vars
+    right = true;
+  }
 
-    if (left === true && right === true) {
-      event.preventDefault();
-      resolve(`Third promise was resolved`);
-      left = false;
-      right = false;
-    }
-  });
-
-  thirdPromise.then((result) => {
-    const div = document.createElement('div');
-
-    div.setAttribute('data-qa', 'notification');
-    div.classList.add(`success`);
-    document.body.appendChild(div);
-  });
-
-  // eslint-disable-next-line handle-callback-err
-  thirdPromise.catch((error) => {
-    const div = document.createElement('div');
-
-    div.setAttribute('data-qa', 'notification');
-    div.classList.add(`error`);
-    document.body.appendChild(div);
-  });
+  if (left === true && right === true) {
+    event.preventDefault();
+    // eslint-disable-next-line no-undef
+    resolveThird(`Third promise was resolved`);
+    left = false;
+    right = false;
+  }
 });
