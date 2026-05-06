@@ -64,7 +64,7 @@ function errorHandler(notification) {
 
   message.classList.add('error');
   message.setAttribute('data-qa', 'notification');
-  message.textContent = notification;
+  message.textContent = notification.message || notification;
   document.body.appendChild(message);
 }
 
