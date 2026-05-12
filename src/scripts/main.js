@@ -7,7 +7,7 @@ let pKlick = false;
 
 function checkClicks() {
   if (lKlick === true && pKlick === true) {
-    resolveThird();
+    resolveThird('Third promise was resolved');
   }
 }
 
@@ -16,22 +16,22 @@ function isReject(num = 'First') {
 
   thisIsBad.dataset.qa = 'notification';
   thisIsBad.className = 'error';
-  thisIsBad.innerText = `${num} promise was rejected`;
+  thisIsBad.innerText = num;
   document.querySelector('body').append(thisIsBad);
 }
 
-function isResolved(num = 'some') {
+function isResolved(num) {
   const thisgood = document.createElement('div');
 
   thisgood.dataset.qa = 'notification';
   thisgood.className = 'success';
-  thisgood.textContent = `${num} promise was resolved`;
+  thisgood.textContent = num;
   document.body.appendChild(thisgood);
 }
 
 // #region 1 Promsise
 
-const promise1 = new Promise((resolve, reject) => {
+const firstPromise = new Promise((resolve, reject) => {
   const timerId = setTimeout(() => {
     reject(new Error('First promise was rejected'));
   }, 3000);
@@ -40,55 +40,59 @@ const promise1 = new Promise((resolve, reject) => {
     lKlick = true;
     checkClicks();
     clearTimeout(timerId);
-    resolve();
+    resolve('First promise was resolved');
   });
 });
 
-promise1
-  .then(() => {
-    isResolved('First');
+firstPromise
+  .then((message) => {
+    isResolved(message);
     lKlick = true;
   })
 
-  .catch(() => {
-    isReject();
+  .catch((error) => {
+    isReject(error.message);
   });
 
 // #endregion
 
 // #region 2 Promise
-const promise2 = new Promise((resolve, reject) => {
+const secondPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
     lKlick = true;
     checkClicks();
-    resolve();
+    resolve('Second promise was resolved');
   });
 
   document.addEventListener('contextmenu', (e) => {
     pKlick = true;
     e.preventDefault();
-    resolve();
+    resolve('Second promise was resolved');
     checkClicks();
   });
 });
 
-promise2
-  .then(() => {
-    isResolved('Second');
+secondPromise
+  .then((message) => {
+    isResolved(message);
   })
-  .catch(() => {});
+  .catch((error) => {
+    isReject(error.message);
+  });
 // #endregion
 
 // #region 3 Promise
 
-const promise3 = new Promise((resolve, reject) => {
+const thirdPromise = new Promise((resolve, reject) => {
   resolveThird = resolve;
 });
 
-promise3
-  .then(() => {
-    isResolved('Third');
+thirdPromise
+  .then((message) => {
+    isResolved(message);
   })
-  .catch(() => {});
+  .catch((error) => {
+    isReject(error.message);
+  });
 
 // // #endregion
