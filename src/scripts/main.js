@@ -16,7 +16,7 @@ function showNotification(message, isSuccess) {
 const firstPromise = new Promise((resolve, reject) => {
   let clicked = false;
 
-  const clickHandler = () => {
+  const clickHandler = (ev) => {
     clicked = true;
     resolve('First promise was resolved');
 
@@ -37,7 +37,9 @@ const firstPromise = new Promise((resolve, reject) => {
 const secondPromise = new Promise((resolve) => {
   const rightHandler = (ev) => {
     ev.preventDefault();
+
     resolve('Second promise was resolved');
+
     document.removeEventListener('contextmenu', rightHandler);
   };
 
@@ -74,12 +76,12 @@ const thirdPromise = new Promise((resolve) => {
 
 firstPromise
   .then((message) => showNotification(message, true))
-  .catch((message) => showNotification(message, false));
+  .catch((error) => showNotification(error.message, false));
 
 secondPromise
   .then((message) => showNotification(message, true))
-  .catch((message) => showNotification(message, false));
+  .catch((error) => showNotification(error.message, false));
 
 thirdPromise
   .then((message) => showNotification(message, true))
-  .catch((message) => showNotification(message, false));
+  .catch((error) => showNotification(error.message, false));
