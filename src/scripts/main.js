@@ -16,8 +16,10 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 const secondPromise = new Promise((resolve) => {
-  document.addEventListener('mousedown', () => {
-    resolve('Second promise was resolved');
+  document.addEventListener('mousedown', (e) => {
+    if (e.button === 0 || e.button === 2) {
+      resolve('Second promise was resolved');
+    }
   });
 });
 
