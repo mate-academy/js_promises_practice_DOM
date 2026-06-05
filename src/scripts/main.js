@@ -58,7 +58,9 @@ const secondPromise = new Promise((resolve) => {
   document.addEventListener('mousedown', onAnyClick);
 });
 
-secondPromise.then((msg) => notify('success', msg));
+secondPromise
+  .then((msg) => notify('success', msg))
+  .catch((err) => notify('error', err.message));
 
 // thirdPromise
 let hasLeft = false;
@@ -70,7 +72,9 @@ const thirdPromise = new Promise((resolve) => {
   thirdResolve = resolve;
 });
 
-thirdPromise.then((msg) => notify('success', msg));
+thirdPromise
+  .then((msg) => notify('success', msg))
+  .catch((err) => notify('error', err.message));
 
 document.addEventListener('mousedown', (e) => {
   if (e.button === 0) {
