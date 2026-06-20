@@ -27,7 +27,9 @@ const secondPromise = new Promise((resolve) => {
   });
 });
 
-secondPromise.then((message) => showMessage(message, 'success'));
+secondPromise
+  .then((message) => showMessage(message, 'success'))
+  .catch((err) => showMessage(err.message, 'error'));
 
 const thirdPromise = new Promise((resolve) => {
   let isLeftClicked = false;
@@ -51,7 +53,9 @@ const thirdPromise = new Promise((resolve) => {
   });
 });
 
-thirdPromise.then((message) => showMessage(message, 'success'));
+thirdPromise
+  .then((message) => showMessage(message, 'success'))
+  .catch((err) => showMessage(err.message, 'error'));
 
 function showMessage(text, className) {
   const newDiv = document.createElement('div');
