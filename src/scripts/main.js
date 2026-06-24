@@ -10,7 +10,7 @@ function showNotification(type, message) {
 }
 
 const firstPromise = new Promise((resolve, reject) => {
-  let isClicked = false; // Прапорець, щоб знати, чи встигли ми
+  let isClicked = false;
 
   const clickHandler = () => {
     if (!isClicked) {
@@ -23,14 +23,15 @@ const firstPromise = new Promise((resolve, reject) => {
 
   setTimeout(() => {
     if (!isClicked) {
-      reject(new Error('First promise was rejected'));
+      // eslint-disable-next-line prefer-promise-reject-errors
+      reject('First promise was rejected');
     }
   }, 3000);
 });
 
 firstPromise
   .then((msg) => showNotification('success', msg))
-  .catch((err) => showNotification('error', err.message));
+  .catch((err) => showNotification('error', err));
 
 const secondPromise = new Promise((resolve, reject) => {
   const anyClickHandler = () => {
@@ -41,9 +42,7 @@ const secondPromise = new Promise((resolve, reject) => {
   document.addEventListener('contextmenu', anyClickHandler);
 });
 
-secondPromise
-  .then((msg) => showNotification('success', msg))
-  .catch((err) => showNotification('error', err.message));
+secondPromise.then((msg) => showNotification('success', msg));
 
 const thirdPromise = new Promise((resolve, reject) => {
   let hasLeftClick = false;
@@ -68,4 +67,4 @@ const thirdPromise = new Promise((resolve, reject) => {
 
 thirdPromise
   .then((msg) => showNotification('success', msg))
-  .catch((err) => showNotification('error', err.message));
+  .catch((err) => showNotification('error', err));
