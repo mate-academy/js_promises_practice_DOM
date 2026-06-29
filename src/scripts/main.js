@@ -3,45 +3,52 @@
 document.addEventListener('DOMContentLoaded', () => {
   const firstPromise = new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
-      reject(new Error('First promise was rejected'));
+      // eslint-disable-next-line prefer-promise-reject-errors
+      reject('First promise was rejected');
     }, 3000);
 
-    document.addEventListener('mousedown', function handler(evt) {
-      if (evt.button === 0) {
-        clearTimeout(timer);
-        resolve('First promise was resolved');
-        document.removeEventListener('mousedown', handler);
-      }
+    document.addEventListener('click', function handler() {
+      clearTimeout(timer);
+      resolve('First promise was resolved');
+      document.removeEventListener('click', handler);
     });
   });
 
   const secondPromise = new Promise((resolve) => {
-    document.addEventListener('mousedown', function handler(evt) {
-      if (evt.button === 0 || evt.button === 2) {
-        resolve('Second promise was resolved');
-        document.removeEventListener('mousedown', handler);
-      }
-    });
+    function handler() {
+      resolve('Second promise was resolved');
+      document.removeEventListener('click', handler);
+      document.removeEventListener('contextmenu', handler);
+    }
+
+    document.addEventListener('click', handler);
+    document.addEventListener('contextmenu', handler);
   });
 
   const thirdPromise = new Promise((resolve) => {
     let leftClicked = false;
     let rightClicked = false;
 
-    document.addEventListener('mousedown', function handler(evt) {
-      if (evt.button === 0) {
-        leftClicked = true;
-      }
-
-      if (evt.button === 2) {
-        rightClicked = true;
-      }
-
+    function checkResolved() {
       if (leftClicked && rightClicked) {
         resolve('Third promise was resolved');
-        document.removeEventListener('mousedown', handler);
+        document.removeEventListener('click', leftHandler);
+        document.removeEventListener('contextmenu', rightHandler);
       }
-    });
+    }
+
+    function leftHandler() {
+      leftClicked = true;
+      checkResolved();
+    }
+
+    function rightHandler() {
+      rightClicked = true;
+      checkResolved();
+    }
+
+    document.addEventListener('click', leftHandler);
+    document.addEventListener('contextmenu', rightHandler);
   });
 
   [firstPromise, secondPromise, thirdPromise].forEach((promise) => {
@@ -59,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         notification.setAttribute('data-qa', 'notification');
         notification.classList.add('error');
-        notification.textContent = err.message;
+        notification.textContent = err;
         document.body.appendChild(notification);
       });
   });
