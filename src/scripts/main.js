@@ -30,6 +30,7 @@ const secondPromise = new Promise((resolve) => {
   };
 
   document.addEventListener('click', resolveSecondPromise, { once: true });
+
   document.addEventListener('contextmenu', resolveSecondPromise, {
     once: true,
   });
