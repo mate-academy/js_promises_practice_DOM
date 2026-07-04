@@ -25,27 +25,24 @@ body {
 
 [data-qa='notification'] {
   position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease-in-out;
-  color: #fff;
-}
+  right: 50px;
+  padding: 25px;
+  width: 260px;
 
-[data-qa='notification'] + [data-qa='notification'] {
-  margin-top: 50px;
-}
+  font-family: Verdana, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
 
-[data-qa='notification'] + [data-qa='notification'] + [data-qa='notification'] {
-  margin-top: 100px;
+  border-radius: 15px;
 }
 
 .success {
-  background-color: #4caf50;
+  top: 50px;
+  background-color: rgba(230, 230, 0, 0.5);
 }
 
 .error {
-  background-color: #fc4b3b;
+  top: 170px;
+  background-color: rgba(204, 51, 0, 0.5);
 }
