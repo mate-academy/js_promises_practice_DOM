@@ -14,13 +14,14 @@ const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener(
     'click',
     () => {
-      resolve('First promise was resolved on a left click in the document');
+      resolve('First promise was resolved');
     },
     { once: true },
   );
 
   setTimeout(() => {
-    reject(new Error('First promise was rejected in 3 seconds if not clicked'));
+    // eslint-disable-next-line prefer-promise-reject-errors
+    reject('First promise was rejected');
   }, 3000);
 });
 
@@ -61,12 +62,12 @@ const thirdPromise = new Promise((resolve) => {
 
 firstPromise
   .then((message) => showNotification(message, 'success'))
-  .catch((error) => showNotification(error.message, 'error'));
+  .catch((message) => showNotification(message, 'error'));
 
 secondPromise
   .then((message) => showNotification(message, 'success'))
-  .catch((error) => showNotification(error.message, 'error'));
+  .catch((message) => showNotification(message, 'error'));
 
 thirdPromise
   .then((message) => showNotification(message, 'success'))
-  .catch((error) => showNotification(error.message, 'error'));
+  .catch((message) => showNotification(message, 'error'));
