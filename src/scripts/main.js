@@ -26,7 +26,7 @@ function feedbackPromise() {
     if (leftClicked && rightClicked) {
       resolveThird(
         // eslint-disable-next-line max-len
-        'Third promise was resolved only after both left and right clicks happened',
+        'Third promise was resolved',
       );
     }
   };
@@ -52,7 +52,7 @@ function feedbackPromise() {
 
   setTimeout(() => {
     if (!leftClicked) {
-      rejectFirst('First promise was rejected in 3 seconds');
+      rejectFirst('First promise was rejected');
     }
   }, 3000);
 
