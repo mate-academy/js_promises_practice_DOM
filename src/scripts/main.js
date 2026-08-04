@@ -1,7 +1,6 @@
 'use strict';
 
 function feedbackPromise() {
-  const logo = document.querySelector('.logo');
   let leftClicked = false;
   let rightClicked = false;
 
@@ -32,16 +31,16 @@ function feedbackPromise() {
     }
   };
 
-  logo.addEventListener('click', () => {
+  document.addEventListener('click', () => {
     leftClicked = true;
 
-    resolveFirst('First promise was resolved on a left click in the document');
+    resolveFirst('First promise was resolved');
     resolveSecond('Second promise was resolved');
 
     checkThirdPromise();
   });
 
-  logo.addEventListener('contextmenu', (evt) => {
+  document.addEventListener('contextmenu', (evt) => {
     evt.preventDefault();
 
     rightClicked = true;
@@ -59,13 +58,15 @@ function feedbackPromise() {
 
   firstPromise
     .then((message) => showMessage(message, 'success'))
-    .catch((message) => showMessage(message, 'error'));
+    .catch(() => showMessage('First promise was rejected', 'error'));
 
   secondPromise
     .then((message) => showMessage(message, 'success'))
     .catch((message) => showMessage(message, 'error'));
 
-  thirdPromise.then((message) => showMessage(message, 'success'));
+  thirdPromise
+    .then((message) => showMessage(message, 'success'))
+    .catch(() => showMessage('Third promise was resolved', 'error'));
 }
 
 const showMessage = (text, state) => {
