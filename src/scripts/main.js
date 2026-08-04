@@ -1,6 +1,6 @@
 'use strict';
 
-function feedbackPromise() {
+function feedbackPromises() {
   let leftClicked = false;
   let rightClicked = false;
 
@@ -79,4 +79,4 @@ const showMessage = (text, state) => {
   document.body.append(message);
 };
 
-feedbackPromise();
+feedbackPromises();
