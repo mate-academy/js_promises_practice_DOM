@@ -2,7 +2,9 @@
 
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', (e) => {
-    resolve();
+    if (e.button === 0) {
+      resolve();
+    }
   });
 
   setTimeout(() => {
