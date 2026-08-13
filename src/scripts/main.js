@@ -6,13 +6,15 @@ const firstPromise = new Promise((resolve, reject) => {
   });
 
   setTimeout(() => {
-    reject(new Error());
+    reject(new Error('First promise was rejected'));
   }, 3000);
 });
 
 const secondPromise = new Promise((resolve) => {
   document.addEventListener('click', (e) => {
-    resolve();
+    if (e.button === 0) {
+      resolve();
+    }
   });
 
   document.addEventListener('contextmenu', (e) => {
@@ -66,22 +68,42 @@ firstPromise
     document.body.appendChild(errorMessage);
   });
 
-secondPromise.then(() => {
-  const successMessage = document.createElement('div');
+secondPromise
+  .then(() => {
+    const successMessage = document.createElement('div');
 
-  successMessage.dataset.qa = 'notification';
-  successMessage.classList.add('success');
-  successMessage.textContent = 'Second promise was resolved';
+    successMessage.dataset.qa = 'notification';
+    successMessage.classList.add('success');
+    successMessage.textContent = 'Second promise was resolved';
 
-  document.body.appendChild(successMessage);
-});
+    document.body.appendChild(successMessage);
+  })
+  .catch(() => {
+    const errorMessage = document.createElement('div');
 
-thirdPromise.then(() => {
-  const successMessage = document.createElement('div');
+    errorMessage.dataset.qa = 'notification';
+    errorMessage.classList.add('error');
+    errorMessage.textContent = 'Second promise was rejected';
 
-  successMessage.dataset.qa = 'notification';
-  successMessage.classList.add('success');
-  successMessage.textContent = 'Third promise was resolved';
+    document.body.appendChild(errorMessage);
+  });
 
-  document.body.appendChild(successMessage);
-});
+thirdPromise
+  .then(() => {
+    const successMessage = document.createElement('div');
+
+    successMessage.dataset.qa = 'notification';
+    successMessage.classList.add('success');
+    successMessage.textContent = 'Third promise was resolved';
+
+    document.body.appendChild(successMessage);
+  })
+  .catch(() => {
+    const errorMessage = document.createElement('div');
+
+    errorMessage.dataset.qa = 'notification';
+    errorMessage.classList.add('error');
+    errorMessage.textContent = 'Third promise was rejected';
+
+    document.body.appendChild(errorMessage);
+  });
