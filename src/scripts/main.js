@@ -58,20 +58,22 @@ firstPromise
 
     div.dataset.qa = 'notification';
     div.classList.add('error');
-    div.textContent = message;
+    div.textContent = 'First promise was rejected';
 
     document.body.append(div);
   });
 
-secondPromise.then((message) => {
-  const div = document.createElement('div');
+secondPromise
+  .then((message) => {
+    const div = document.createElement('div');
 
-  div.dataset.qa = 'notification';
-  div.classList.add('success');
-  div.textContent = message;
+    div.dataset.qa = 'notification';
+    div.classList.add('success');
+    div.textContent = message;
 
-  document.body.append(div);
-});
+    document.body.append(div);
+  })
+  .catch(() => {});
 
 thirdPromise
   .then((message) => {
