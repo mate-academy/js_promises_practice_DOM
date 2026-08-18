@@ -10,7 +10,7 @@ const showNotification = (message, type) => {
 
 const firstPromise = new Promise((resolve, reject) => {
   const timer = setTimeout(() => {
-    reject(new Error('First promise was rejected in 3 seconds'));
+    reject(new Error('First promise was rejected'));
   }, 3000);
 
   document.addEventListener('mousedown', (e) => {
