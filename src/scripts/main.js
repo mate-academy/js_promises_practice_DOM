@@ -16,9 +16,13 @@ const onSuccess = (message) => showNotification(message, 'success');
 const onError = (error) => showNotification(error.message, 'error');
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', () => {
-    resolve('First promise was resolved');
-  });
+  document.addEventListener(
+    'click',
+    () => {
+      resolve('First promise was resolved');
+    },
+    { once: true },
+  );
 
   setTimeout(() => {
     reject(new Error('First promise was rejected'));
@@ -28,8 +32,8 @@ const firstPromise = new Promise((resolve, reject) => {
 const secondPromise = new Promise((resolve) => {
   const resolveSecond = () => resolve('Second promise was resolved');
 
-  document.addEventListener('click', resolveSecond);
-  document.addEventListener('contextmenu', resolveSecond);
+  document.addEventListener('click', resolveSecond, { once: true });
+  document.addEventListener('contextmenu', resolveSecond, { once: true });
 });
 
 const thirdPromise = new Promise((resolve) => {
@@ -42,15 +46,23 @@ const thirdPromise = new Promise((resolve) => {
     }
   };
 
-  document.addEventListener('click', () => {
-    hasLeftClick = true;
-    resolveWhenBothHappened();
-  });
+  document.addEventListener(
+    'click',
+    () => {
+      hasLeftClick = true;
+      resolveWhenBothHappened();
+    },
+    { once: true },
+  );
 
-  document.addEventListener('contextmenu', () => {
-    hasRightClick = true;
-    resolveWhenBothHappened();
-  });
+  document.addEventListener(
+    'contextmenu',
+    () => {
+      hasRightClick = true;
+      resolveWhenBothHappened();
+    },
+    { once: true },
+  );
 });
 
 firstPromise.then(onSuccess).catch(onError);
