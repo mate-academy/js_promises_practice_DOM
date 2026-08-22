@@ -26,7 +26,7 @@ const firstPromise = new Promise((resolve, reject) => {
     if (!isSettled) {
       isSettled = true;
       document.removeEventListener('click', clickHandler);
-      resolve('First promise was resolved on a left click in the document');
+      resolve('First promise was resolved');
     }
   };
 
@@ -69,10 +69,7 @@ const thirdPromise = new Promise((resolve) => {
     if (leftClicked && rightClicked && !isSettled) {
       isSettled = true;
 
-      resolve(
-        'Third promise was resolved only after ' +
-          'both left and right clicks happened',
-      );
+      resolve('Third promise was resolved only after');
     }
   };
 
