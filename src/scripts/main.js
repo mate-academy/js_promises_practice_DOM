@@ -14,6 +14,7 @@ function handleError(error) {
 
   div.setAttribute('data-qa', 'notification');
   div.className = 'error';
+
   div.textContent = error instanceof Error ? error.message : error;
   document.body.appendChild(div);
 }
@@ -25,7 +26,7 @@ const firstPromise = new Promise((resolve, reject) => {
     if (!isSettled) {
       isSettled = true;
       document.removeEventListener('click', clickHandler);
-      resolve('First promise was resolved');
+      resolve('First promise was resolved on a left click in the document');
     }
   };
 
@@ -35,7 +36,10 @@ const firstPromise = new Promise((resolve, reject) => {
     if (!isSettled) {
       isSettled = true;
       document.removeEventListener('click', clickHandler);
-      reject(new Error('First promise was rejected'));
+
+      reject(
+        new Error('First promise was rejected in 3 seconds if not clicked'),
+      );
     }
   }, 3000);
 });
@@ -48,7 +52,7 @@ const secondPromise = new Promise((resolve, reject) => {
       isSettled = true;
       document.removeEventListener('click', resolveHandler);
       document.removeEventListener('contextmenu', resolveHandler);
-      resolve('Second promise was resolved!');
+      resolve('Second promise was resolved');
     }
   };
 
@@ -64,7 +68,11 @@ const thirdPromise = new Promise((resolve) => {
   const checkBothEvents = () => {
     if (leftClicked && rightClicked && !isSettled) {
       isSettled = true;
-      resolve('Third promise was resolved');
+
+      resolve(
+        'Third promise was resolved only after ' +
+          'both left and right clicks happened',
+      );
     }
   };
 
