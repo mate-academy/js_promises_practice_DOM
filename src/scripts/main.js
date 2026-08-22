@@ -25,7 +25,7 @@ const firstPromise = new Promise((resolve, reject) => {
     if (!isSettled) {
       isSettled = true;
       document.removeEventListener('click', clickHandler);
-      resolve('First prmise was resolved!');
+      resolve('First promise was resolved');
     }
   };
 
@@ -35,7 +35,7 @@ const firstPromise = new Promise((resolve, reject) => {
     if (!isSettled) {
       isSettled = true;
       document.removeEventListener('click', clickHandler);
-      reject(new Error('First promise was rejected!'));
+      reject(new Error('First promise was rejected'));
     }
   }, 3000);
 });
@@ -48,7 +48,7 @@ const secondPromise = new Promise((resolve, reject) => {
       isSettled = true;
       document.removeEventListener('click', resolveHandler);
       document.removeEventListener('contextmenu', resolveHandler);
-      resolve('Second prmise was resolved!');
+      resolve('Second promise was resolved!');
     }
   };
 
@@ -64,7 +64,7 @@ const thirdPromise = new Promise((resolve) => {
   const checkBothEvents = () => {
     if (leftClicked && rightClicked && !isSettled) {
       isSettled = true;
-      resolve('Third prmise was resolved!');
+      resolve('Third promise was resolved');
     }
   };
 
