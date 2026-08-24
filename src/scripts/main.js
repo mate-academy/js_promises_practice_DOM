@@ -2,48 +2,58 @@
 
 const bodyElement = document.querySelector('body');
 
-const promise1 = new Promise((resolve, reject) => {
+const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', (e) => {
-    resolve('First promise was resolved');
+    if (e.button === 0) {
+      resolve('First promise was resolved');
+    }
   });
 
   setTimeout(() => {
-    reject(new Error(`First promise was rejected`));
+    reject('First promise was rejected');
   }, 3000);
 });
 
-const promise2 = new Promise((resolve, reject) => {
+const secondPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', (e) => {
-    resolve('Second promise was resolved');
+    if (e.button === 0) {
+      resolve('Second promise was resolved');
+    }
   });
 
   document.addEventListener('contextmenu', (e) => {
-    resolve(`Second promise was resolved`);
+    if (e.button === 2) {
+      resolve('Second promise was resolved');
+    }
   });
 });
 
-const promise3 = new Promise((resolve, reject) => {
+const thirdPromise = new Promise((resolve, reject) => {
   let leftClicked = false;
   let rightClicked = false;
 
-  document.addEventListener('click', (e) => {
-    leftClicked = true;
-
+  const checkBoth = () => {
     if (leftClicked && rightClicked) {
-      resolve(`Third promise was resolved`);
+      resolve('Third promise was resolved');
     }
-  });
+  };
+
+  document.addEventListener('click', (e) => {
+    if (e.button === 0) {
+      leftClicked = true;
+      checkBoth();
+    }
+  }, { once: true });
 
   document.addEventListener('contextmenu', (e) => {
-    rightClicked = true;
-
-    if (leftClicked && rightClicked) {
-      resolve(`Third promise was resolved`);
+    if (e.button === 2) {
+      rightClicked = true;
+      checkBoth();
     }
-  });
+  }, { once: true });
 });
 
-promise1
+firstPromise
   .then((message) => {
     addNewNotification(message, 'success');
   })
@@ -51,11 +61,11 @@ promise1
     addNewNotification(message, 'error');
   });
 
-promise2.then((message) => {
+secondPromise.then((message) => {
   addNewNotification(message, 'success');
 });
 
-promise3
+thirdPromise
   .then((message) => {
     addNewNotification(message, 'success');
   })
