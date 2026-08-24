@@ -10,6 +10,7 @@ const firstPromise = new Promise((resolve, reject) => {
   });
 
   setTimeout(() => {
+    // eslint-disable-next-line prefer-promise-reject-errors
     reject('First promise was rejected');
   }, 3000);
 });
