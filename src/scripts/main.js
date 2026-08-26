@@ -43,15 +43,15 @@ const thirdPromise = new Promise((resolve) => {
 
 firstPromise
   .then((message) => createDiv(message, true))
+  .catch((error) => createDiv(error.message, false));
+
+secondPromise
+  .then((message) => createDiv(message, true))
   .catch((message) => createDiv(message, false));
 
-secondPromise.then((message) => {
-  createDiv(message, true);
-});
-
-thirdPromise.then((message) => {
-  createDiv(message, true);
-});
+thirdPromise
+  .then((message) => createDiv(message, true))
+  .catch((message) => createDiv(message, false));
 
 function createDiv(message, isSuccessfull) {
   const div = document.createElement('div');
