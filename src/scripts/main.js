@@ -52,24 +52,42 @@ firstPromise
 
     errorDiv.className = 'error';
     errorDiv.setAttribute('data-qa', 'notification');
-    errorDiv.textContent = error;
+    errorDiv.textContent = error.message;
     document.body.appendChild(errorDiv);
   });
 
-secondPromise.then((success) => {
-  const messageDiv = document.createElement('div');
+secondPromise
+  .then((success) => {
+    const messageDiv = document.createElement('div');
 
-  messageDiv.className = 'success';
-  messageDiv.setAttribute('data-qa', 'notification');
-  messageDiv.textContent = success;
-  document.body.appendChild(messageDiv);
-});
+    messageDiv.className = 'success';
+    messageDiv.setAttribute('data-qa', 'notification');
+    messageDiv.textContent = success;
+    document.body.appendChild(messageDiv);
+  })
+  .catch((error) => {
+    const errorDiv = document.createElement('div');
 
-thirdPromise.then((success) => {
-  const messageDiv = document.createElement('div');
+    errorDiv.className = 'error';
+    errorDiv.setAttribute('data-qa', 'notification');
+    errorDiv.textContent = error.message;
+    document.body.appendChild(errorDiv);
+  });
 
-  messageDiv.className = 'success';
-  messageDiv.setAttribute('data-qa', 'notification');
-  messageDiv.textContent = success;
-  document.body.appendChild(messageDiv);
-});
+thirdPromise
+  .then((success) => {
+    const messageDiv = document.createElement('div');
+
+    messageDiv.className = 'success';
+    messageDiv.setAttribute('data-qa', 'notification');
+    messageDiv.textContent = success;
+    document.body.appendChild(messageDiv);
+  })
+  .catch((error) => {
+    const errorDiv = document.createElement('div');
+
+    errorDiv.className = 'error';
+    errorDiv.setAttribute('data-qa', 'notification');
+    errorDiv.textContent = error.message;
+    document.body.appendChild(errorDiv);
+  });
