@@ -8,7 +8,7 @@ const firstPromise = new Promise((resolve, reject) => {
   });
 
   setTimeout(() => {
-    reject(new Error());
+    reject('First promise was rejected');
   }, 3000);
 });
 
