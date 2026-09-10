@@ -12,7 +12,7 @@ function showNotification(message, isSuccess) {
 let leftClicked = false;
 let rightClicked = false;
 
-const promise1 = new Promise((resolve, reject) => {
+const firstPromise = new Promise((resolve, reject) => {
   const timerId = setTimeout(() => {
     reject(new Error('First promise was rejected!'));
   }, 3000);
@@ -27,13 +27,12 @@ const promise1 = new Promise((resolve, reject) => {
   );
 });
 
-const promise2 = new Promise((resolve) => {
+const secondPromise = new Promise((resolve) => {
   document.addEventListener(
     'click',
     () => {
       resolve('Second promise was resolved');
     },
-    { once: true },
   );
 
   document.addEventListener(
@@ -42,11 +41,10 @@ const promise2 = new Promise((resolve) => {
       e.preventDefault();
       resolve('Second promise was resolved');
     },
-    { once: true },
   );
 });
 
-const promise3 = new Promise((resolve) => {
+const thirdPromise = new Promise((resolve) => {
   function checkBothClicked() {
     if (leftClicked && rightClicked) {
       resolve('Third promise was resolved');
@@ -65,7 +63,7 @@ const promise3 = new Promise((resolve) => {
   });
 });
 
-promise1
+firstPromise
   .then((message) => {
     showNotification(message, true);
   })
@@ -73,10 +71,10 @@ promise1
     showNotification(error.message, false);
   });
 
-promise2.then((message) => {
+secondPromise.then((message) => {
   showNotification(message, true);
 });
 
-promise3.then((message) => {
+thirdPromise.then((message) => {
   showNotification(message, true);
 });
