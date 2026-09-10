@@ -14,34 +14,28 @@ let rightClicked = false;
 
 const firstPromise = new Promise((resolve, reject) => {
   const timerId = setTimeout(() => {
-    reject(new Error('First promise was rejected!'));
+    reject(new Error('First promise was rejected'));
   }, 3000);
 
   document.addEventListener(
     'click',
     () => {
       clearTimeout(timerId);
-      resolve('First promise was resolved!');
+      resolve('First promise was resolved');
     },
     { once: true },
   );
 });
 
 const secondPromise = new Promise((resolve) => {
-  document.addEventListener(
-    'click',
-    () => {
-      resolve('Second promise was resolved');
-    },
-  );
+  document.addEventListener('click', () => {
+    resolve('Second promise was resolved');
+  });
 
-  document.addEventListener(
-    'contextmenu',
-    (e) => {
-      e.preventDefault();
-      resolve('Second promise was resolved');
-    },
-  );
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    resolve('Second promise was resolved');
+  });
 });
 
 const thirdPromise = new Promise((resolve) => {
@@ -71,10 +65,18 @@ firstPromise
     showNotification(error.message, false);
   });
 
-secondPromise.then((message) => {
-  showNotification(message, true);
-});
+secondPromise
+  .then((message) => {
+    showNotification(message, true);
+  })
+  .catch((error) => {
+    showNotification(error.message, false);
+  });
 
-thirdPromise.then((message) => {
-  showNotification(message, true);
-});
+thirdPromise
+  .then((message) => {
+    showNotification(message, true);
+  })
+  .catch((error) => {
+    showNotification(error.message, false);
+  });
