@@ -3,13 +3,13 @@
 const firstPromise = new Promise((resolve, reject) => {
   const timerId = setTimeout(() => {
     document.removeEventListener('click', handleLeftClick);
-    reject(new Error('First promise was rejected in 3 seconds'));
+    reject(new Error('First promise was rejected'));
   }, 3000);
 
   function handleLeftClick() {
     clearTimeout(timerId);
     document.removeEventListener('click', handleLeftClick);
-    resolve('First promise was resolved on a left click in the document');
+    resolve('First promise was resolved');
   }
 
   document.addEventListener('click', handleLeftClick);
@@ -31,7 +31,7 @@ const thirdPromise = new Promise((resolve) => {
   let hasRightClick = false;
 
   function checkBothClicks() {
-    if (hasLeftClick === true && hasRightClick === true) {
+    if (hasLeftClick && hasRightClick) {
       document.removeEventListener('click', handleLeft);
       document.removeEventListener('contextmenu', handleRight);
       resolve('Third promise was resolved');
