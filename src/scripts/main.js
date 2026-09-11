@@ -2,70 +2,66 @@
 
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
-    resolve();
+    resolve('First promise was resolved');
   });
 
   setTimeout(() => {
-    reject(new Error('Promise was rejected'));
+    reject(new Error('First promise was rejected'));
   }, 3000);
 });
 
 firstPromise
-  .then(() => {
-    showMessage('First', 'success');
+  .then((message) => {
+    showMessage(message, 'success');
   })
-  .catch(() => {
-    showMessage('First', 'error');
+  .catch((message) => {
+    showMessage(message, 'error');
   });
 
 const secondPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
-    resolve();
+    resolve('Second promise was resolved');
   });
 
   document.addEventListener('contextmenu', () => {
-    resolve();
+    resolve('Second promise was resolved');
   });
 });
 
 secondPromise
-  .then(() => {
-    showMessage('Second', 'success');
+  .then((message) => {
+    showMessage(message, 'success');
   })
-  .catch(() => {
-    showMessage('Second', 'error');
+  .catch((message) => {
+    showMessage(message, 'error');
   });
 
 const rightClick = new Promise((resolve, reject) => {
   document.addEventListener('contextmenu', () => {
-    resolve();
+    resolve('Third promise was resolved');
   });
 });
 
 const leftClick = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
-    resolve();
+    resolve('Third promise was resolved');
   });
 });
 
 const thirdPromise = Promise.all([rightClick, leftClick]);
 
 thirdPromise
-  .then(() => {
-    showMessage('Third', 'success');
+  .then(([message]) => {
+    showMessage(message, 'success');
   })
-  .catch(() => {
-    showMessage('Third', 'error');
+  .catch((message) => {
+    showMessage(message, 'error');
   });
 
-function showMessage(promise, statusType) {
+function showMessage(messageText, statusType) {
   const message = document.createElement('div');
 
-  if (statusType === 'success') {
-    message.textContent = `${promise} promise was resolved`;
-  } else {
-    message.textContent = `${promise} promise was rejected`;
-  }
+  message.textContent = messageText;
 
   message.setAttribute('data-qa', `notification`);
   message.classList.add(`${statusType}`);
