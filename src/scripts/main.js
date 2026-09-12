@@ -5,7 +5,10 @@ const firstPromise = new Promise((resolve, reject) => {
     resolve('First promise was resolved');
   });
 
-  setTimeout(() => reject(new Error('First promise was rejected')), 3000);
+  setTimeout(
+    () => reject(new Error('First promise was rejected').message),
+    3000,
+  );
 });
 
 const secondPromise = new Promise((resolve) => {
@@ -41,7 +44,7 @@ const resolvedCallback = (message) => {
 
   notification.dataset['qa'] = 'notification';
 
-  notification.classList = 'success';
+  notification.classList.add('success');
   notification.innerText = message;
   document.body.append(notification);
 };
@@ -50,7 +53,7 @@ const rejectedCallback = (message) => {
   const notification = document.createElement('div');
 
   notification.dataset['qa'] = 'notification';
-  notification.classList = 'error';
+  notification.classList.add('error');
   notification.innerText = message;
   document.body.append(notification);
 };
