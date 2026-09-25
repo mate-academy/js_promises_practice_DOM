@@ -31,7 +31,7 @@ firstPromise
 
     notification.setAttribute('data-qa', 'notification');
     notification.classList.add('error');
-    notification.textContent = error;
+    notification.textContent = error.message;
     document.body.appendChild(notification);
   });
 
@@ -46,18 +46,27 @@ const secondPromise = new Promise((resolve) => {
   document.addEventListener('mousedown', clickHandler);
 });
 
-secondPromise.then((message) => {
-  const existingN = document.querySelectorAll('[data-qa="notification"]');
+secondPromise
+  .then((message) => {
+    const existingN = document.querySelectorAll('[data-qa="notification"]');
 
-  existingN.forEach((n) => n.remove());
+    existingN.forEach((n) => n.remove());
 
-  const notification = document.createElement('div');
+    const notification = document.createElement('div');
 
-  notification.setAttribute('data-qa', 'notification');
-  notification.classList.add('success');
-  notification.textContent = message;
-  document.body.appendChild(notification);
-});
+    notification.setAttribute('data-qa', 'notification');
+    notification.classList.add('success');
+    notification.textContent = message;
+    document.body.appendChild(notification);
+  })
+  .catch((error) => {
+    const notification = document.createElement('div');
+
+    notification.setAttribute('data-qa', 'notification');
+    notification.classList.add('error');
+    notification.textContent = error;
+    document.body.appendChild(notification);
+  });
 
 const thirdPromise = new Promise((resolve) => {
   let leftClick = false;
@@ -81,15 +90,24 @@ const thirdPromise = new Promise((resolve) => {
   document.addEventListener('mousedown', clickHandler);
 });
 
-thirdPromise.then((message) => {
-  const existingN = document.querySelectorAll('[data-qa="notification"]');
+thirdPromise
+  .then((message) => {
+    const existingN = document.querySelectorAll('[data-qa="notification"]');
 
-  existingN.forEach((n) => n.remove());
+    existingN.forEach((n) => n.remove());
 
-  const notification = document.createElement('div');
+    const notification = document.createElement('div');
 
-  notification.setAttribute('data-qa', 'notification');
-  notification.classList.add('success');
-  notification.textContent = message;
-  document.body.appendChild(notification);
-});
+    notification.setAttribute('data-qa', 'notification');
+    notification.classList.add('success');
+    notification.textContent = message;
+    document.body.appendChild(notification);
+  })
+  .catch((error) => {
+    const notification = document.createElement('div');
+
+    notification.setAttribute('data-qa', 'notification');
+    notification.classList.add('error');
+    notification.textContent = error;
+    document.body.appendChild(notification);
+  });
