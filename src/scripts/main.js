@@ -9,7 +9,7 @@ function createMessage(text, isError = false) {
   );
 }
 
-const promise1 = new Promise((resolve, reject) => {
+const firstPromise = new Promise((resolve, reject) => {
   const clickHandler = () => {
     clearTimeout(timeoutId);
     resolve('First promise was resolved');
@@ -23,11 +23,11 @@ const promise1 = new Promise((resolve, reject) => {
   }, 3000);
 });
 
-promise1
+firstPromise
   .then((message) => createMessage(message))
   .catch((error) => createMessage(error.message, true));
 
-const promise2 = new Promise((resolve) => {
+const secondPromise = new Promise((resolve) => {
   const clickHandler = (e) => {
     if (e.type === 'contextmenu') {
       e.preventDefault();
@@ -43,11 +43,11 @@ const promise2 = new Promise((resolve) => {
   document.addEventListener('contextmenu', clickHandler);
 });
 
-promise2
+secondPromise
   .then((message) => createMessage(message))
   .catch((error) => createMessage(error.message, true));
 
-const promise3 = new Promise((resolve) => {
+const thirdPromise = new Promise((resolve) => {
   let isLeftClicked = false;
   let isRightClicked = false;
 
@@ -74,6 +74,6 @@ const promise3 = new Promise((resolve) => {
   document.addEventListener('contextmenu', handleRightClick, { once: true });
 });
 
-promise3
+thirdPromise
   .then((message) => createMessage(message))
   .catch((error) => createMessage(error.message, true));
