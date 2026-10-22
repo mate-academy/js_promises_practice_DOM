@@ -70,10 +70,18 @@ firstPromise
     addingPromiseMessage(message);
   });
 
-secondPromise.then((message) => {
-  addingPromiseMessage(message);
-});
+secondPromise
+  .then((message) => {
+    addingPromiseMessage(message);
+  })
+  .catch((message) => {
+    addingPromiseMessage(message);
+  });
 
-thirdPromise.then((message) => {
-  addingPromiseMessage(message);
-});
+thirdPromise
+  .then((message) => {
+    addingPromiseMessage(message);
+  })
+  .catch((message) => {
+    addingPromiseMessage(message);
+  });
