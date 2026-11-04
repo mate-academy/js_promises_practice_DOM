@@ -14,7 +14,9 @@ const onError = (message) => showNotification(message, 'error');
 
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', () => {
-    resolve('First promise was resolved');
+    if (event.button === 0) {
+      resolve('First promise was resolved');
+    }
   });
 
   setTimeout(() => {
@@ -24,7 +26,9 @@ const firstPromise = new Promise((resolve, reject) => {
 
 const secondPromise = new Promise((resolve) => {
   document.addEventListener('click', () => {
-    resolve('Second promise was resolved');
+    if (event.button === 0) {
+      resolve('Second promise was resolved');
+    }
   });
 
   document.addEventListener('contextmenu', () => {
@@ -43,8 +47,10 @@ const thirdPromise = new Promise((resolve) => {
   };
 
   document.addEventListener('click', () => {
-    leftClicked = true;
-    check();
+    if (event.button === 0) {
+      leftClicked = true;
+      check();
+    }
   });
 
   document.addEventListener('contextmenu', () => {
