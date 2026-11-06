@@ -5,29 +5,36 @@ let rightClicked = false;
 
 const firstPromise = new Promise((resolve, reject) => {
   document.addEventListener('click', (clickEvent) => {
+    clearTimeout(timerId);
     resolve('First promise was resolved');
   });
 
-  setTimeout(() => {
+  const timerId = setTimeout(() => {
     reject(new Error('First promise was rejected'));
   }, 3000);
 });
 
 const secondPromise = new Promise((resolve) => {
-  document.addEventListener('mousedown', (clickEvent) => {
-    if (clickEvent.button === 0 || clickEvent.button === 2) {
-      resolve('Second promise was resolved');
-    }
+  document.addEventListener('click', (clickEvent) => {
+    resolve('Second promise was resolved');
+  });
+
+  document.addEventListener('contextmenu', (contextEvent) => {
+    resolve('Second promise was resolved');
   });
 });
 
 const thirdPromise = new Promise((resolve) => {
-  document.addEventListener('mousedown', (clickEvent) => {
-    if (clickEvent.button === 0) {
-      leftClicked = true;
-    } else if (clickEvent.button === 2) {
-      rightClicked = true;
+  document.addEventListener('click', (clickEvent) => {
+    leftClicked = true;
+
+    if (leftClicked && rightClicked) {
+      resolve('Third promise was resolved');
     }
+  });
+
+  document.addEventListener('contextmenu', (contextEvent) => {
+    rightClicked = true;
 
     if (leftClicked && rightClicked) {
       resolve('Third promise was resolved');
