@@ -6,10 +6,12 @@ const firstPromise = new Promise((resolve, reject) => {
     reject(new Error('First promise was rejected'));
   }, 3000);
 
-  function handleClick() {
-    clearTimeout(timer);
-    document.removeEventListener('click', handleClick);
-    resolve('First promise was resolved');
+  function handleClick(e) {
+    if (e.button === 0) {
+      clearTimeout(timer);
+      document.removeEventListener('click', handleClick);
+      resolve('First promise was resolved');
+    }
   }
 
   document.addEventListener('click', handleClick);
