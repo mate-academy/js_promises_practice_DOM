@@ -52,15 +52,15 @@ function showNotification(message, type) {
 
 firstPromise.then(
   (message) => showNotification(message, 'success'),
-  (message) => showNotification(message, 'error'),
+  (error) => showNotification(error.message, 'error'),
 );
 
 secondPromise.then(
   (message) => showNotification(message, 'success'),
-  (message) => showNotification(message, 'error'),
+  (error) => showNotification(error.message, 'error'),
 );
 
 thirdPromise.then(
   (message) => showNotification(message, 'success'),
-  (message) => showNotification(message, 'error'),
+  (error) => showNotification(error.message, 'error'),
 );
