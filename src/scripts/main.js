@@ -20,8 +20,10 @@ function onError(text) {
 }
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('click', () => {
-    resolve('First promise was resolved');
+  document.addEventListener('click', (e) => {
+    if (e.button === 0) {
+      resolve('First promise was resolved');
+    }
   });
 
   setTimeout(() => {
@@ -29,13 +31,17 @@ const firstPromise = new Promise((resolve, reject) => {
   }, 3000);
 });
 
-firstPromise.then((text) => onSuccess(text)).catch((error) => onError(error));
+firstPromise
+  .then((text) => onSuccess(text))
+  .catch((error) => onError(error.message));
 
 const secondPromise = new Promise((resolve) => {
-  document.addEventListener('mousedown', (e) => {
-    if (e.button === 0 || e.button === 2) {
-      resolve('Second promise was resolved');
-    }
+  document.addEventListener('click', () => {
+    resolve('Second promise was resolved');
+  });
+
+  document.addEventListener('contextmenu', () => {
+    resolve('Second promise was resolved');
   });
 });
 
@@ -45,14 +51,18 @@ const thirdPromise = new Promise((resolve) => {
   let leftButtonClicked = false;
   let rightButtonClicked = false;
 
-  document.addEventListener('mousedown', (e) => {
+  document.addEventListener('click', (e) => {
     if (e.button === 0) {
       leftButtonClicked = true;
     }
 
-    if (e.button === 2) {
-      rightButtonClicked = true;
+    if (leftButtonClicked && rightButtonClicked) {
+      resolve('Third promise was resolved');
     }
+  });
+
+  document.addEventListener('contextmenu', () => {
+    rightButtonClicked = true;
 
     if (leftButtonClicked && rightButtonClicked) {
       resolve('Third promise was resolved');
