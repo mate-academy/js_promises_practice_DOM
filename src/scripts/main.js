@@ -1,7 +1,7 @@
 'use strict';
 
 const firstPromise = new Promise((resolve, reject) => {
-  document.addEventListener('mousedown', (e) => {
+  document.addEventListener('click', (e) => {
     if (e.button === 0) {
       resolve('First promise was resolved');
     }
@@ -13,24 +13,29 @@ const firstPromise = new Promise((resolve, reject) => {
 });
 
 const secondPromise = new Promise((resolve) => {
-  document.addEventListener('mousedown', (e) => {
-    if (e.button === 0 || e.button === 2) {
-      resolve('Second promise was resolved');
-    }
+  document.addEventListener('click', () => {
+    resolve('Second promise was resolved');
+  });
+
+  document.addEventListener('contextmenu', () => {
+    resolve('Second promise was resolved');
   });
 });
 const thirdPromise = new Promise((resolve) => {
   let leftClicked = false;
   let rightClicked = false;
 
-  document.addEventListener('mousedown', (e) => {
-    if (e.button === 0) {
-      leftClicked = true;
-    }
+  document.addEventListener('click', () => {
+    leftClicked = true;
 
-    if (e.button === 2) {
-      rightClicked = true;
+    if (leftClicked && rightClicked) {
+      resolve('Third promise was resolved');
     }
+  });
+
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    rightClicked = true;
 
     if (leftClicked && rightClicked) {
       resolve('Third promise was resolved');
@@ -50,24 +55,24 @@ function showNotification(message, type) {
 
 firstPromise
   .then((message) => {
-    showNotification(message, 'succes');
+    showNotification(message, 'success');
   })
   .catch((error) => {
-    showNotification(error, 'error');
+    showNotification(error.message, 'error');
   });
 
 secondPromise
   .then((message) => {
-    showNotification(message, 'succes');
+    showNotification(message, 'success');
   })
   .catch((error) => {
-    showNotification(error, 'error');
+    showNotification(error.message, 'error');
   });
 
 thirdPromise
   .then((message) => {
-    showNotification(message, 'succes');
+    showNotification(message, 'success');
   })
   .catch((error) => {
-    showNotification(error, 'error');
+    showNotification(error.message, 'error');
   });
