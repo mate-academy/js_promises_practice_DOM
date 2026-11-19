@@ -1,5 +1,4 @@
 'use strict';
-// Funkcja tworząca powiadomienie
 
 function showNotification(message, type) {
   const notification = document.createElement('div');
@@ -14,13 +13,13 @@ function showNotification(message, type) {
 // FIRST PROMISE
 const firstPromise = new Promise((resolve, reject) => {
   const timeout = setTimeout(() => {
-    reject(new Error('First promise was rejected in 3 seconds if not clicked'));
+    reject(new Error('First promise was rejected'));
   }, 3000);
 
   document.addEventListener('click', (e) => {
     if (e.button === 0) {
       clearTimeout(timeout);
-      resolve('First promise was resolved on a left click in the document');
+      resolve('First promise was resolved');
     }
   });
 });
@@ -41,7 +40,9 @@ const secondPromise = new Promise((resolve) => {
   document.addEventListener('contextmenu', handleClick);
 });
 
-secondPromise.then((message) => showNotification(message, 'success'));
+secondPromise
+  .then((message) => showNotification(message, 'success'))
+  .catch((error) => showNotification(error.message, 'error'));
 
 // THIRD PROMISE
 const thirdPromise = new Promise((resolve) => {
@@ -67,4 +68,6 @@ const thirdPromise = new Promise((resolve) => {
   });
 });
 
-thirdPromise.then((message) => showNotification(message, 'success'));
+thirdPromise
+  .then((message) => showNotification(message, 'success'))
+  .catch((error) => showNotification(error.message, 'error'));
