@@ -59,5 +59,5 @@ const thirdPromise = new Promise((resolve, reject) => {
 });
 
 firstPromise.then(onSuccess).catch(onError);
-secondPromise.then(onSuccess).catch();
-thirdPromise.then(onSuccess).catch();
+secondPromise.then(onSuccess).catch(onError);
+thirdPromise.then(onSuccess).catch(onError);
