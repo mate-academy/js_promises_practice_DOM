@@ -1,6 +1,7 @@
 'use strict';
 
 const body = document.querySelector('body');
+const actions = [0, 0];
 
 function onSuccess(message) {
   const div = document.createElement('div');
@@ -22,9 +23,11 @@ function onError(message) {
   body.append(div);
 }
 
-const promise1 = new Promise((resolve, reject) => {
-  document.addEventListener('click', () => {
-    resolve('First promise was resolved');
+const firstPromise = new Promise((resolve, reject) => {
+  document.addEventListener('click', (e) => {
+    if (e.button === 0) {
+      resolve('First promise was resolved');
+    }
   });
 
   setTimeout(() => {
@@ -33,29 +36,21 @@ const promise1 = new Promise((resolve, reject) => {
   }, 3000);
 });
 
-const promise2 = new Promise((resolve, reject) => {
-  document.addEventListener('click', () => {
-    resolve('Second promise was resolved');
-  });
-
-  document.addEventListener('contextmenu', () => {
-    resolve('Second promise was resolved');
+const secondPromise = new Promise((resolve, reject) => {
+  document.addEventListener('mousedown', (e) => {
+    if (e.button === 0 || e.button === 2) {
+      resolve('Second promise was resolved');
+    }
   });
 });
 
-const promise3 = new Promise((resolve, reject) => {
-  const actions = [0, 0];
-
-  document.addEventListener('click', () => {
-    actions[0] += 1;
-
-    if (actions[0] > 0 && actions[1] > 0) {
-      resolve('Third promise was resolved');
+const thirdPromise = new Promise((resolve, reject) => {
+  document.addEventListener('mousedown', (e) => {
+    if (e.button === 0) {
+      actions[0] += 1;
+    } else if (e.button === 2) {
+      actions[1] += 1;
     }
-  });
-
-  document.addEventListener('contextmenu', () => {
-    actions[1] += 1;
 
     if (actions[0] > 0 && actions[1] > 0) {
       resolve('Third promise was resolved');
@@ -63,6 +58,6 @@ const promise3 = new Promise((resolve, reject) => {
   });
 });
 
-promise1.then(onSuccess).catch(onError);
-promise2.then(onSuccess).catch();
-promise3.then(onSuccess).catch();
+firstPromise.then(onSuccess).catch(onError);
+secondPromise.then(onSuccess).catch();
+thirdPromise.then(onSuccess).catch();
